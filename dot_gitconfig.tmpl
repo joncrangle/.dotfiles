@@ -1,0 +1,69 @@
+# NOTE:
+#            /$$   /$$
+#           |__/  | $$
+#   /$$$$$$  /$$ /$$$$$$
+#  /$$__  $$| $$|_  $$_/
+# | $$  \ $$| $$  | $$
+# | $$  | $$| $$  | $$ /$$
+# |  $$$$$$$| $$  |  $$$$/
+#  \____  $$|__/   \___/
+#  /$$  \ $$
+# |  $$$$$$/
+#  \______/
+
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+
+[user]
+    name = {{ .name }}
+    email = {{ .email }}
+
+[github]
+    user = {{ .name }}
+
+[color]
+    ui = true
+
+[core]
+    editor = nvim
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only --features=interactive
+
+[include]
+    path = ~/.config/delta/tokyonight_night.gitconfig
+    path = ~/.config/delta/catppuccin.gitconfig
+
+[delta]
+    navigate = true    # use n and N to move between diff sections
+    light = false      # set to true if you're in a terminal w/ a light background color (e.g. the default macOS terminal)
+    side-by-side = false
+    line-numbers = true
+    features = catppuccin-mocha
+
+[merge]
+    conflictstyle = diff3
+    tool = diffview
+
+[mergetool]
+    prompt = false
+    keepBackup = false
+
+[mergetool "diffview"]
+    cmd = nvim -n -c "DiffviewOpen" "$MERGE"
+
+[diff]
+    colorMoved = default
+
+[pull]
+    rebase = true
+
+[rebase]
+	autoStash = true
+
+[init]
+    defaultBranch = master

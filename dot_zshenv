@@ -1,0 +1,62 @@
+# NOTE:
+#   (`-')   (`-').-> (`-').->
+#   ( OO).->( OO)_   (OO )__
+# ,(_/----.(_)--\_) ,--. ,'-'
+# |__,    |/    _ / |  | |  |
+#  (_/   / \_..`--. |  `-'  |
+#  .'  .'_ .-._)   \|  .-.  |
+# |       |\       /|  | |  |
+# `-------' `-----' `--' `--'
+# ################################
+# # EXPORT ENVIRONMENT VARIABLES #
+# ################################
+
+# XDG Base Directory Specification
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME=$XDG_CONFIG_HOME/.local/share
+export XDG_STATE_HOME=$XDG_CONFIG_HOME/.local/state
+export XDG_CACHE_HOME=$XDG_CONFIG_HOME/cache
+
+# ZSH
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+export HISTFILE="$ZDOTDIR/.zhistory"
+
+# Homebrew
+export HOMEBREW_DIR="/opt/homebrew"
+export HOMEBREW_ZSH="/opt/homebrew/bin/zsh"
+
+# Editor and Shell
+export EDITOR="nvim"
+export VISUAL="nvim"
+export SHELL="$HOMEBREW_ZSH"
+export STARSHIP_CONFIG=$XDG_CONFIG_HOME/starship/starship.toml
+
+# FZF
+export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_DEFAULT_OPTS=" \
+--color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 \
+--color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc \
+--color=marker:#f5e0dc,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8"
+export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -n 10'"
+
+# Bat
+export BAT_THEME="Catppuccin Mocha"
+
+# Go
+export GOPATH=$HOME/.go
+
+# Path
+path=(
+    $HOMEBREW_DIR/bin(N-/)
+    $HOME/bin(N-/)
+    $HOME/.local/bin(N-/)
+    $HOME/.bun/bin(N-/)
+    $HOME/.cargo/bin(N-/)
+    $HOME/.go/bin(N-/)
+    $HOME/go/bin(N-/)
+    $HOME/.yarn/bin(N-/)
+    $HOME/.config/yarn/global/node_modules/.bin(N-/)
+    $path
+)
+export PATH

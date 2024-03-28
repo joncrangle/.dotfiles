@@ -1,0 +1,55 @@
+# NOTE:
+#      _    _
+#     | |  | |       |
+#  ,  | |  | |     __|
+# / \_|/_) |/ \   /  |
+#  \/ | \_/|   |_/\_/|_/
+
+# Changing window focus
+ctrl - j : yabai -m window --focus south
+ctrl - k : yabai -m window --focus north
+ctrl - h : yabai -m window --focus west
+ctrl - l : yabai -m window --focus east
+
+# Modifying layout
+alt - return : yabai -m window --toggle zoom-fullscreen
+shift + alt - r : yabai -m space --rotate 270
+shift + alt - y : yabai -m space --mirror y-axis
+shift + alt - x : yabai -m space --mirror x-axis
+shift + alt - space : yabai -m window --toggle float --grid 4:4:1:1:2:2
+
+# Resizing
+alt - e : yabai -m space --balance
+alt - h : yabai -m window --resize left:-20:0
+alt - j : yabai -m window --resize bottom:0:20
+alt - k : yabai -m window --resize top:0:-20
+alt - l : yabai -m window --resize right:20:0
+
+# Swapping window
+shift + alt - j : yabai -m window --swap south
+shift + alt - k : yabai -m window --swap north
+shift + alt - h : yabai -m window --swap west
+shift + alt - l : yabai -m window --swap east
+
+# Move window and tile with what is already there
+ctrl + alt - j : yabai -m window --warp south
+ctrl + alt - k : yabai -m window --warp north
+ctrl + alt - h : yabai -m window --warp west
+ctrl + alt - l : yabai -m window --warp east
+
+# Moving window to workspace
+shift + alt - 1 : yabai -m window --space 1
+shift + alt - 2 : yabai -m window --space 2
+shift + alt - 3 : yabai -m window --space 3
+shift + alt - 4 : yabai -m window --space 4
+shift + alt - 5 : yabai -m window --space 5
+
+# Turning Yabai on and off
+ctrl + alt - q : yabai --stop-service
+ctrl + alt - s : yabai --start-service
+ctrl + alt - r : yabai --restart-service
+
+.blacklist [
+    "terminal"
+    "wezterm"
+]

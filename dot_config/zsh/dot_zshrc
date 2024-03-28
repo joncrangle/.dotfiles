@@ -1,0 +1,38 @@
+# NOTE:
+#   (`-')   (`-').-> (`-').->
+#   ( OO).->( OO)_   (OO )__
+# ,(_/----.(_)--\_) ,--. ,'-'
+# |__,    |/    _ / |  | |  |
+#  (_/   / \_..`--. |  `-'  |
+#  .'  .'_ .-._)   \|  .-.  |
+# |       |\       /|  | |  |
+# `-------' `-----' `--' `--'
+# ##############################
+# #      ZSH CONFIGURATION     #
+# ##############################
+
+HISTORY_IGNORE="(ls|cd|pwd|zsh|exit|cd ..)"
+HISTSIZE=10000
+SAVEHIST=10000
+LISTMAX=1000
+
+WORDCHARS='*?_-[]~&;!#$%^(){}<>|' # Delete word with C-w
+cdpath=("$HOME" .. $HOME/*(N-/) $HOME/.config)
+
+FPATH="opt/homebrew/share/zsh/site-functions:${FPATH}"
+
+source "$ZDOTDIR/options.zsh"
+source "$ZDOTDIR/aliases.zsh"
+source "$ZDOTDIR/keymaps.zsh"
+source "$ZDOTDIR/banner.zsh"
+source "$HOMEBREW_DIR/opt/antidote/share/antidote/antidote.zsh"
+
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -s "~/.bun/_bun" ] && source "~/.bun/_bun"
+eval "$(/opt/homebrew/bin/brew shellenv)"
+eval "$(thefuck --alias)"
+eval "$(fzf --zsh)"
+eval "$(starship init zsh)"
+
+antidote load

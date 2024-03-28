@@ -1,0 +1,14 @@
+mattmc3/zephyr path:plugins/completion
+zsh-users/zsh-completions path:src kind:fpath
+
+peterhurford/up.zsh     # use "up 2" to go up 2 directories instead of "cd../.."
+ajeetdsouza/zoxide      # quick directory jumping
+
+belak/zsh-utils path:history
+belak/zsh-utils path:utility
+belak/zsh-utils path:completion
+
+zdharma-continuum/fast-syntax-highlighting kind:defer
+
+zsh-users/zsh-autosuggestions
+zsh-users/zsh-history-substring-search

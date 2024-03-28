@@ -1,0 +1,20 @@
+{{- $email := promptStringOnce . "email" "Email address" -}}
+{{- $name := promptStringOnce . "name" "Username" -}}
+{{- $remoteAddress := promptStringOnce . "remoteAddress" "Remote address" -}}
+{{- $remoteUser := promptStringOnce . "remoteUser" "Remote username" -}}
+
+[git]
+    autoCommit = true
+    autoPush = true
+
+[data]
+    email = {{ $email | quote }}
+    name = {{ $name | quote }}
+    RemoteAddress = {{ $remoteAddress | quote }}
+    RemoteUser = {{ $remoteUser | quote }}
+
+encryption = "age"
+
+[age]
+    identity = "~/.config/key.txt"
+    recipient = "age1jgcaj9yy8nldpp2969kgxf97re59v6ydnk5ctz02z8anc4522pxswpcqf2"

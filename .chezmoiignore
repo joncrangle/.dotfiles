@@ -1,0 +1,25 @@
+README.md
+KEYMAPPING.md
+assets/
+cm
+key.txt
+
+{{ if ne .chezmoi.os "darwin" }}
+.zshenv
+Brewfile
+setup_mac.sh
+.config/.macos
+.config/ssh.sh
+.config/homebrew/
+.config/nvim/
+.config/odmpy/
+.config/sketchybar/
+.config/skhd/
+.config/wezterm/
+.config/yabai/
+.config/zsh/
+{{ else if ne .chezmoi.os "windows" }}
+AppData/
+.config/windows-terminal/
+setup_win.ps1
+{{ end }}
