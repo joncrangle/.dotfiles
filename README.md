@@ -90,11 +90,22 @@ iwr -useb https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_win.
 > Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
 > ```
 
-2. The Windows setup process will begin by asking you to download [PowerShell](https://apps.microsoft.com/detail/9mz1snwt0n5d?hl=en-US&gl=US) and [Windows Terminal](https://apps.microsoft.com/detail/9n0dx20hk701?hl=en-US&gl=US).
+2. The Windows setup process will begin by trying to install [PowerShell](https://apps.microsoft.com/detail/9mz1snwt0n5d?hl=en-US&gl=US), [Windows Terminal](https://apps.microsoft.com/detail/9n0dx20hk701?hl=en-US&gl=US) and [PowerToys](https://apps.microsoft.com/detail/xp89dcgq3k6vld?hl=en-US&gl=US).
 
 3. Setup will then proceed to install [Scoop](https://scoop.sh/), [chezmoi](https://chezmoi.io/), Git and terminal apps.
 
 4. After you authenticate with GitHub, it will install the dotfiles, configure PowerShell, and install apps.
+
+> [!TIP]
+> Some useful PowerToys settings that can be configured:
+> 1. Enable FancyZones
+> 2. File Explorer add-ons for previews
+> 3. Enable Keyboard Manager and remap `Ctrl` + `F` to `F4` within Outlook
+> 4. Enable Paste as Plain Text
+> 5. Enable PowerToys Run (adds Spotlight capability for Windows)
+> 6. Enable Quick Accent for a desired language (e.g. French or Spanish)
+>
+> Within Taskbar Settings, automatically hide the taskbar in Desktop mode.
 
 ## 🧭 Keymapping
 
