@@ -5,17 +5,24 @@
 #   '-..-'|   ||   |
 #   '-..-'|_.-''-._|
 
+try {
+    echo "Installing PowerShell, Windows Terminal and Windows PowerToys..."
+    winget install --id Microsoft.WindowsTerminal -e
+    winget install --id Microsoft.Powershell --source winget
+    winget install Microsoft.PowerToys --source winget
+} catch {
 # Prompt user to install PowerShell and Windows Terminal
-Write-Host "Please install PowerShell (https://apps.microsoft.com/detail/9mz1snwt0n5d?hl=en-US&gl=US) and Windows Terminal (https://apps.microsoft.com/detail/9n0dx20hk701?hl=en-US&gl=US)."
-Write-Host "Once installed, press Enter to continue, or press Escape to exit."
-do {
-    $key = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown").VirtualKeyCode
-} until ($key -eq 13 -or $key -eq 27)  # Enter key (13) or Escape key (27)
+    Write-Host "Please install PowerShell (https://apps.microsoft.com/detail/9mz1snwt0n5d?hl=en-US&gl=US), Windows Terminal (https://apps.microsoft.com/detail/9n0dx20hk701?hl=en-US&gl=US) and Windows PowerToys (https://apps.microsoft.com/detail/xp89dcgq3k6vld?hl=en-gb&gl=CA)."
+        Write-Host "Once installed, press Enter to continue, or press Escape to exit."
+        do {
+            $key = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown").VirtualKeyCode
+        } until ($key -eq 13 -or $key -eq 27)  # Enter key (13) or Escape key (27)
 
-if ($key -eq 27) {
-    # User pressed Escape, exit the script
-    Write-Host "Exiting the script."
-    exit
+    if ($key -eq 27) {
+# User pressed Escape, exit the script
+        Write-Host "Exiting the script."
+            exit
+    }
 }
 
 echo "Setting execution policy..."
