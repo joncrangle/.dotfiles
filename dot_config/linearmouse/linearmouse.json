@@ -1,0 +1,56 @@
+{
+  "$schema" : "https:\/\/schema.linearmouse.app\/0.9.5",
+  "schemes" : [
+    {
+      "scrolling" : {
+        "acceleration" : {
+          "vertical" : 1
+        },
+        "distance" : {
+          "vertical" : "auto"
+        },
+        "speed" : {
+          "vertical" : 8.66,
+          "horizontal" : 5.77
+        }
+      },
+      "pointer" : {
+        "acceleration" : 0.8932,
+        "speed" : 0.0913,
+        "disableAcceleration" : false
+      },
+      "if" : {
+        "device" : {
+          "category" : "trackpad",
+          "serialNumber" : "88-63-df-ef-97-fe",
+          "productID" : "0x30e",
+          "productName" : "Jonathan Crangle’s Trackpad",
+          "vendorID" : "0x5ac"
+        }
+      }
+    },
+    {
+      "pointer" : {
+        "disableAcceleration" : false,
+        "acceleration" : 1.5,
+        "speed" : 0.15
+      },
+      "scrolling" : {
+        "acceleration" : 2,
+        "reverse" : {
+          "vertical" : true
+        },
+        "distance" : "auto",
+        "speed" : 6
+      },
+      "if" : {
+        "device" : {
+          "category" : "mouse",
+          "vendorID" : "0x46d",
+          "productID" : "0xc52b",
+          "productName" : "USB Receiver"
+        }
+      }
+    }
+  ]
+}
