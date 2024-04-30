@@ -100,7 +100,8 @@ iwr -useb https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_win.
 > Some useful PowerToys settings that can be configured:
 > 1. Enable FancyZones
 > 2. File Explorer add-ons for previews
-> 3. Enable Keyboard Manager and remap `Ctrl` + `F` to `F4` within Outlook
+> 3. Enable Keyboard Manager and remap `Ctrl` + `F` to `F4` within `outlook`
+>    Remap `Ctrl` + `Shift` + `O` and `Ctrl` + `Shift` + `M` to camera and microphone toggle buttons in `ms-teams`
 > 4. Enable Paste as Plain Text
 > 5. Enable PowerToys Run (adds Spotlight capability for Windows)
 > 6. Enable Quick Accent for a desired language (e.g. French or Spanish)
