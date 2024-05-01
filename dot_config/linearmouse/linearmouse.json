@@ -1,56 +1,57 @@
 {
-  "$schema" : "https:\/\/schema.linearmouse.app\/0.9.5",
-  "schemes" : [
+  "$schema": "https://schema.linearmouse.app/0.9.5",
+  "schemes": [
     {
-      "scrolling" : {
-        "acceleration" : {
-          "vertical" : 1
+      "scrolling": {
+        "speed": {
+          "horizontal": 5.75,
+          "vertical": 8.65
         },
-        "distance" : {
-          "vertical" : "auto"
+        "acceleration": {
+          "vertical": 1
         },
-        "speed" : {
-          "vertical" : 8.66,
-          "horizontal" : 5.77
+        "distance": {
+          "vertical": "auto"
         }
       },
-      "pointer" : {
-        "acceleration" : 0.8932,
-        "speed" : 0.0913,
-        "disableAcceleration" : false
+      "pointer": {
+        "speed": 0.0925,
+        "disableAcceleration": false,
+        "acceleration": 0.9
       },
-      "if" : {
-        "device" : {
-          "category" : "trackpad",
-          "serialNumber" : "88-63-df-ef-97-fe",
-          "productID" : "0x30e",
-          "productName" : "Jonathan Crangle’s Trackpad",
-          "vendorID" : "0x5ac"
+      "if": {
+        "device": {
+          "productName": "Jonathan Crangle’s Trackpad",
+          "category": "trackpad",
+          "productID": "0x30e",
+          "vendorID": "0x5ac",
+          "serialNumber": "88-63-df-ef-97-fe"
         }
       }
     },
     {
-      "pointer" : {
-        "disableAcceleration" : false,
-        "acceleration" : 1.5,
-        "speed" : 0.15
+      "pointer": {
+        "speed": 0.15,
+        "disableAcceleration": false,
+        "acceleration": 1.5
       },
-      "scrolling" : {
-        "acceleration" : 2,
-        "reverse" : {
-          "vertical" : true
-        },
-        "distance" : "auto",
-        "speed" : 6
-      },
-      "if" : {
-        "device" : {
-          "category" : "mouse",
-          "vendorID" : "0x46d",
-          "productID" : "0xc52b",
-          "productName" : "USB Receiver"
+      "if": {
+        "device": {
+          "category": "mouse",
+          "vendorID": "0x46d",
+          "productID": "0xc52b",
+          "productName": "USB Receiver"
         }
+      },
+      "scrolling": {
+        "distance": "auto",
+        "reverse": {
+          "vertical": true
+        },
+        "acceleration": 2,
+        "speed": 6
       }
     }
   ]
 }
+
