@@ -212,9 +212,9 @@ Invoke-Expression (& { (zoxide init powershell | Out-String) })
 # Install Scoop apps
 echo "Installing Scoop apps..."
 $packages = @(
-    "7zip", "bat", "bruno", "curl", "delta", "docker", "eza", "fd", "ffmpeg", "go", "gzip",
-    "JetBrainsMono-NF", "jq", "krita", "lazygit", "lazydocker", "make", "mariadb", "Meslo-NF",
-    "neofetch", "neovim", "nodejs", "obsidian", "pnpm", "postgresql", "python", "ripgrep",
+    "7zip", "bat", "bruno", "curl", "delta", "docker", "eza", "fastfetch", "fd", "ffmpeg",
+    "go", "gzip", "JetBrainsMono-NF", "jq", "krita", "lazygit", "lazydocker", "make", "mariadb",
+    "Meslo-NF", "neovim", "nodejs", "obsidian", "pnpm", "postgresql", "python", "ripgrep",
     "tableplus", "tldr", "tree-sitter", "unzip", "vlc", "vcredist2022", "vscode",
     "wezterm-nightly", "wget", "yarn", "yq", "zig", "zoom"
 )
