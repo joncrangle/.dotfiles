@@ -1,12 +1,14 @@
 return {
   {
     'rcarriga/nvim-notify',
+    lazy = true,
     opts = {
       background_colour = '#000000',
     },
   },
   {
     'folke/noice.nvim',
+    lazy = true,
     event = 'VeryLazy',
     dependencies = {
       'MunifTanjim/nui.nvim',
