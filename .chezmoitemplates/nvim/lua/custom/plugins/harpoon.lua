@@ -2,6 +2,8 @@ return {
   {
     'theprimeagen/harpoon',
     branch = 'harpoon2',
+    lazy = true,
+    event = 'VeryLazy',
     dependencies = { 'nvim-lua/plenary.nvim' },
     config = function()
       local harpoon = require 'harpoon'

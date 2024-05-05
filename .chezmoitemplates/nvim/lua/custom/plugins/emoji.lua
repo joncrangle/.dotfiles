@@ -1,6 +1,8 @@
 return {
   {
     'allaman/emoji.nvim',
+    lazy = true,
+    event = 'InsertEnter',
     dependencies = {
       'hrsh7th/nvim-cmp',
     },

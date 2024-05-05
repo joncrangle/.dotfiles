@@ -9,12 +9,16 @@ return {
   },
   {
     'roobert/tailwindcss-colorizer-cmp.nvim',
+    lazy = true,
+    event = 'InsertEnter',
     opts = {
       color_square_width = 2,
     },
   },
   {
     'NvChad/nvim-colorizer.lua',
+    lazy = true,
+    event = 'BufReadPost',
     opts = {
       user_default_options = {
         tailwind = true,
