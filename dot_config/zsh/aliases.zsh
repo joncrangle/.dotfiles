@@ -122,13 +122,13 @@ pass() {
 	CHOICE=$(gum choose "short (12)" "medium (20)" "long (32)" "custom")
 
 	case "$CHOICE" in
-	"short")
+	"short (12)")
 		LENGTH=12
 		;;
-	"medium")
+	"medium (20)")
 		LENGTH=20
 		;;
-	"long")
+	"long (32)")
 		LENGTH=32
 		;;
 	"custom")
