@@ -10,6 +10,7 @@ return {
       ensure_installed = {
         'bash',
         'c',
+        'diff',
         'go',
         'html',
         'javascript',
