@@ -65,7 +65,7 @@ yabai -m config external_bar all:$(sketchybar --query bar | jq -r '.height'):0
 # Move some apps automatically to specific spaces
 yabai -m rule --add app="^Finder$" space=1
 yabai -m rule --add app="^Podcasts$" space=1
-yabai -m rule --add app="^Wezterm$" space=2
+yabai -m rule --add app="^WezTerm$" space=2
 yabai -m rule --add app="^Arc$" space=^3
 yabai -m rule --add app="^Obsidian$" space=4
 
