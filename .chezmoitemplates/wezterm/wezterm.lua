@@ -23,9 +23,6 @@ require('domains').setup(config)
 
 -- Graphics config
 config.front_end = 'WebGpu'
-config.front_end = 'OpenGL' -- current workaround for https://github.com/wez/wezterm/issues/4825
-config.enable_wayland = true
-config.webgpu_power_preference = 'HighPerformance'
 config.cursor_blink_ease_in = 'Constant'
 config.cursor_blink_ease_out = 'Constant'
 
