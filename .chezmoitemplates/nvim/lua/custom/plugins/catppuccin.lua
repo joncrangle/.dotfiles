@@ -10,6 +10,15 @@ return {
     opts = {
       flavour = 'mocha',
       transparent_background = true,
+      highlight_overrides = {
+        mocha = function (mocha)
+          return {
+            LineNrAbove = { fg = mocha.overlay1 },
+            LineNrBelow = { fg = mocha.overlay1 },
+            CursorLineNr = { fg = mocha.rosewater },
+          }
+        end
+      }
     },
   },
 }
