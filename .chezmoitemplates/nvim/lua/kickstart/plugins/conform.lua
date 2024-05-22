@@ -26,7 +26,7 @@ return {
       formatters_by_ft = {
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
-        astro = { { 'biome', 'prettierd', 'prettier' } },
+        astro = { { 'prettierd', 'prettier' } },
         bash = { 'shfmt' },
         css = { { 'prettierd', 'prettier' } },
         -- Conform can also run multiple formatters sequentially
