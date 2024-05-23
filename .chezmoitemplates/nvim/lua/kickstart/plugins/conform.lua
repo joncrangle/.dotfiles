@@ -30,7 +30,7 @@ return {
         bash = { 'shfmt' },
         css = { { 'prettierd', 'prettier' } },
         -- Conform can also run multiple formatters sequentially
-        go = { 'goimports', 'goimports-reviser', 'golines', 'gofmt' },
+        go = { 'goimports', 'goimports-reviser', 'golines', 'gofumpt' },
         html = { { 'prettierd', 'prettier' } },
         javascript = { { 'biome', 'prettierd', 'prettier' } },
         javascriptreact = { { 'biome', 'prettierd', 'prettier' } },

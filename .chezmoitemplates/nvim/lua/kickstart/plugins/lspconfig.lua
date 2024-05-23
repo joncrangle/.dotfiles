@@ -14,6 +14,8 @@ return {
       -- `neodev` configures Lua LSP for your Neovim config, runtime and plugins
       -- used for completion, annotations and signatures of Neovim apis
       { 'folke/neodev.nvim', opts = {} },
+
+      { 'b0o/schemastore.nvim', opts = nil },
     },
     config = function()
       -- Brief aside: **What is LSP?**
@@ -169,11 +171,58 @@ return {
         docker_compose_language_service = {},
         dockerls = {},
         eslint = {},
-        gopls = {},
+        gopls = {
+          gofumpt = true,
+          codelenses = {
+            gc_details = true,
+            generate = true,
+            regenerate_cgo = true,
+            run_govulncheck = true,
+            test = true,
+            tidy = true,
+            upgrade_dependency = true,
+            version = true,
+          },
+          hints = {
+            assignVariableTypes = true,
+            compositeLiteralFields = true,
+            compositeLiteralTypes = true,
+            constantValues = true,
+            functionTypeParameters = true,
+            parameterNames = true,
+            rangeVariableTypes = true,
+          },
+          analyses = {
+            fieldalignment = true,
+            nilness = true,
+            unusedparams = true,
+            unusedwrite = true,
+            useany = true,
+          },
+          usePlaceholders = true,
+          completeUnimported = true,
+          staticcheck = true,
+          directoryFilters = { '-.git', '-.vscode', '-.idea', '-.vscode-test', '-node_modules' },
+          semanticTokens = true,
+        },
         html = {},
         htmx = {},
         jqls = {},
-        jsonls = {},
+        jsonls = {
+          -- Lazy-load schemastore when needed
+          on_new_config = function(new_config)
+            new_config.settings.json.schemas = new_config.settings.json.schemas or {}
+            vim.list_extend(new_config.settings.json.schemas, require("schemastore").json.schemas())
+          end,
+          settings = {
+            json = {
+              format = {
+                enable = true,
+              },
+              validate = { enable = true },
+            },
+          },
+        },
         lua_ls = {
           -- cmd = {...},
           -- filetypes = { ...},
@@ -195,10 +244,78 @@ return {
         rust_analyzer = {},
         sqlls = {},
         svelte = {},
-        tailwindcss = {},
+        tailwindcss = {
+          filetypes_exclude = { 'markdown' },
+          filetypes_include = {},
+        },
         templ = {},
-        tsserver = {},
-        yamlls = {},
+        tsserver = {
+          ---@diagnostic disable-next-line: unused-local
+          on_attach = function (client, bufnr)
+            vim.keymap.set('n', '<leader>co', function()
+              vim.lsp.buf.code_action ({
+                apply = true,
+                context = {
+                  ---@diagnostic disable-next-line: assign-type-mismatch
+                  only = { 'source.organizeImports.ts' },
+                  diagnostics = {},
+                },
+              })
+            end, { buffer = bufnr, desc = 'Organize Imports' })
+
+            vim.keymap.set('n', '<leader>cR', function()
+              vim.lsp.buf.code_action ({
+                apply = true,
+                context = {
+                  ---@diagnostic disable-next-line: assign-type-mismatch
+                  only = { 'source.removeUnused.ts' },
+                  diagnostics = {},
+                },
+              })
+            end, { buffer = bufnr, desc = 'Remove Unused Imports' })
+          end,
+          settings = {
+            completions = {
+              completeFunctionCalls = true,
+            },
+          }
+        },
+        yamlls = {
+          -- Have to add this for yamlls to understand that we support line folding
+          capabilities = {
+            textDocument = {
+              foldingRange = {
+                dynamicRegistration = false,
+                lineFoldingOnly = true,
+              },
+            },
+          },
+          -- lazy-load schemastore when needed
+          on_new_config = function(new_config)
+            new_config.settings.yaml.schemas = vim.tbl_deep_extend(
+              "force",
+              new_config.settings.yaml.schemas or {},
+              require("schemastore").yaml.schemas()
+            )
+          end,
+          settings = {
+            redhat = { telemetry = { enabled = false } },
+            yaml = {
+              keyOrdering = false,
+              format = {
+                enable = true,
+              },
+              validate = true,
+              schemaStore = {
+                -- Must disable built-in schemaStore support to use
+                -- schemas from SchemaStore.nvim plugin
+                enable = false,
+                -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+                url = "",
+              },
+            },
+          },
+        },
         zls = {},
       }
 
@@ -216,9 +333,13 @@ return {
       vim.list_extend(ensure_installed, {
         'biome',
         'black',
+        'delve',
         'goimports',
         'goimports-reviser',
+        'gofumpt',
         'golines',
+        'gomodifytags',
+        'impl',
         'isort',
         'markdownlint',
         'prettier',
@@ -245,3 +366,4 @@ return {
   },
 }
 -- vim: ts=2 sts=2 sw=2 et
+
