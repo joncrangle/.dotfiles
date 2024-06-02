@@ -50,6 +50,7 @@ config.window_padding = { left = 6, right = 6, top = 6, bottom = 0 }
 if wezterm.target_triple:find 'windows' then
   config.default_prog = { 'pwsh.exe', '-NoLogo' }
   config.window_decorations = 'RESIZE|TITLE'
+  config.font_size = 13
   wezterm.on('gui-startup', function(cmd)
     local screen = wezterm.gui.screens().active
     ---@diagnostic disable-next-line: unused-local
@@ -63,6 +64,7 @@ if wezterm.target_triple:find 'windows' then
 else
   config.default_prog = { '/opt/homebrew/bin/zsh', '-l' }
   config.window_decorations = 'RESIZE'
+  config.font_size = 16
 end
 
 -- Sessions
@@ -75,7 +77,6 @@ wezterm.on('restore_session', function(window)
 end)
 
 -- Fonts
-config.font_size = 13
 config.font = wezterm.font_with_fallback {
   { family = 'IosevkaTerm Nerd Font', weight = 'Regular' },
   { family = 'MesloLGS NF', weight = 'Regular' },
