@@ -50,7 +50,7 @@ config.window_padding = { left = 6, right = 6, top = 6, bottom = 0 }
 if wezterm.target_triple:find 'windows' then
   config.default_prog = { 'pwsh.exe', '-NoLogo' }
   config.window_decorations = 'RESIZE|TITLE'
-  config.font_size = 13
+  config.font_size = 12
   wezterm.on('gui-startup', function(cmd)
     local screen = wezterm.gui.screens().active
     ---@diagnostic disable-next-line: unused-local
