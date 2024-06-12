@@ -11,8 +11,9 @@ Brewfile
 setup_mac.sh
 .config/.macos
 .config/ssh.sh
+.config/bat/
 .config/homebrew/
-.config/lnearmouse/
+.config/linearmouse/
 .config/nvim/
 .config/odmpy/
 .config/sketchybar/
