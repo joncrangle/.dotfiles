@@ -36,8 +36,8 @@ function M.setup(config)
     -- Tabs
     { mods = M.mod, key = 't', action = act.SpawnTab 'CurrentPaneDomain' },
     { mods = 'SUPER', key = 't', action = act.SpawnTab 'CurrentPaneDomain' },
-    { mods = M.mod, key = 'w', action = act.CloseCurrentTab { confirm = true } },
-    { mods = 'SUPER', key = 'w', action = act.CloseCurrentTab { confirm = true } },
+    { mods = M.mod, key = 'w', action = act.CloseCurrentTab { confirm = false } },
+    { mods = 'SUPER', key = 'w', action = act.CloseCurrentTab { confirm = false } },
     -- Move Tabs
     { mods = M.mod, key = '>', action = act.MoveTabRelative(1) },
     { mods = M.mod, key = '<', action = act.MoveTabRelative(-1) },
@@ -50,8 +50,8 @@ function M.setup(config)
     { mods = M.mod, key = '_', action = act.SplitVertical { domain = 'CurrentPaneDomain' } },
     -- Activate Panes
     -- NOTE: 'CTRL' + h/j/k/l is setup by smart_splits plugin
-    { mods = 'ALT', key = 'Backspace', action = act.CloseCurrentPane { confirm = true } },
-    { mods = 'CTRL', key = 'Backspace', action = act.CloseCurrentPane { confirm = true } },
+    { mods = 'ALT', key = 'Backspace', action = act.CloseCurrentPane { confirm = false } },
+    { mods = 'CTRL', key = 'Backspace', action = act.CloseCurrentPane { confirm = false } },
     { mods = M.mod, key = 'R', action = wezterm.action.RotatePanes 'Clockwise' },
     -- Resize Panes
     -- NOTE: 'ALT' + h/j/k/l is setup by smart_splits plugin
