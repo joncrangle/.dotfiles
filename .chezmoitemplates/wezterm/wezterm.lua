@@ -43,7 +43,7 @@ config.scrollback_lines = 5000
 config.underline_thickness = 3
 config.underline_position = -6
 config.window_background_opacity = 0.92
-config.window_close_confirmation = 'AlwaysPrompt'
+config.window_close_confirmation = 'NeverPrompt'
 config.window_padding = { left = 6, right = 6, top = 6, bottom = 0 }
 
 -- Windows and MacOS
