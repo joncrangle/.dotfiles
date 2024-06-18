@@ -169,6 +169,9 @@ window_rules:
   - command: "move to workspace 4"
     match_process_name: "msedge"
 
+  - command: "move to workspace 4"
+    match_process_name: "Obsidian"
+
 binding_modes:
   - name: "resize"
     keybindings:
