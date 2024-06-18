@@ -261,6 +261,9 @@ keybindings:
   - command: "exec wezterm-gui"
     binding: "Alt+Enter"
 
+  - command: "exec chrome"
+    binding: "Alt+Shift+Enter"
+
   # Focus the workspace that last had focus.
   - command: "focus workspace recent"
     binding: "Alt+Y"
