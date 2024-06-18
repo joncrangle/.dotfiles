@@ -145,6 +145,7 @@ Remove-Item -Path Alias:lazy -ErrorAction SilentlyContinue
 Remove-Item -Path Alias:lg -ErrorAction SilentlyContinue
 Remove-Item -Path Alias:lzg -ErrorAction SilentlyContinue
 Remove-Item -Path Alias:lzd -ErrorAction SilentlyContinue
+Remove-Item -Path Alias:scoop-upgrade -ErrorAction SilentlyContinue
 
 function ListWithIcons {
     eza --icons
@@ -160,6 +161,11 @@ function ListAllWithIcons {
 
 function ListTreeWithIcons {
     eza -T --icons
+}
+
+function ScoopUpgrade {
+    scoop update -a
+    scoop cleanup -a
 }
 
 # Define aliases
@@ -180,6 +186,7 @@ New-Alias -Name lazy -Value lazygit
 New-Alias -Name lg -Value lazygit
 New-Alias -Name lzg -Value lazygit
 New-Alias -Name lzd -Value lazydocker
+New-Alias -Name scoop-upgrade -Value ScoopUpgrade
 
 Write-Host "`e[38;5;80m         ___                                           `e[0m"
 Write-Host "`e[38;5;80m     . -^   \`--,                                      `e[0m"
@@ -213,10 +220,10 @@ Invoke-Expression (& { (zoxide init powershell | Out-String) })
 echo "Installing Scoop apps..."
 $packages = @(
     "7zip", "bat", "biome", "bruno", "curl", "delta", "docker", "eza", "fastfetch", "fd",
-    "ffmpeg", "glow", "go", "gzip", "JetBrainsMono-NF", "jq", "krita", "lazygit", "lazydocker",
-    "make", "mariadb", "Meslo-NF", "neovim", "nodejs", "obsidian", "pnpm", "postgresql",
-    "python", "ripgrep", "tableplus", "tldr", "tree-sitter", "unzip", "vlc", "vcredist2022",
-    "vscode", "wezterm-nightly", "wget", "yarn", "yq", "zig", "zoom"
+    "ffmpeg", "glazewm", "glow", "go", "gzip", "JetBrainsMono-NF", "jq", "krita", "lazygit", 
+    "lazydocker", "make", "mariadb", "Meslo-NF", "neovim", "nodejs", "obsidian", "pnpm",
+    "postgresql", "python", "ripgrep", "tableplus", "tldr", "tree-sitter", "unzip", "vlc",
+    "vcredist2022", "vscode", "wezterm-nightly", "wget", "yarn", "yq", "zig", "zoom"
 )
 
 foreach ($package in $packages) {

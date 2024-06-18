@@ -37,6 +37,7 @@ alias x="exit"
 
 ########## Functions ##########
 brew-upgrade() {
+	brew upgrade --cask wezterm-nightly --no-quarantine --greedy-latest
 	brew update
 	brew upgrade
 	brew cleanup
