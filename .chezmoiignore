@@ -24,5 +24,6 @@ setup_mac.sh
 {{ else if ne .chezmoi.os "windows" }}
 AppData/
 .config/windows-terminal/
+.glaze-wm/
 setup_win.ps1
 {{ end }}

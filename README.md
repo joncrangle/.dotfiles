@@ -11,6 +11,7 @@ Features include:
 
 - [chezmoi](https://chezmoi.io/) to manage dotfiles across systems
 - [Yabai](https://github.com/koekeishiya/yabai), [skhd](https://github.com/koekeishiya/skhd), [SketchyBar](https://github.com/FelixKratz/SketchyBar) and [JankyBorders](https://github.com/FelixKratz/JankyBorders) on MacOS
+- [GlazeWM](https://github.com/glzr-io/glazewm) on Windows
 - [WezTerm](https://wezfurlong.org/wezterm/) a cross-platform terminal emulator
 - [Neovim](https://neovim.io/) a cross-platform editor
 - [Catppuccin](https://github.com/catppuccin) theme
