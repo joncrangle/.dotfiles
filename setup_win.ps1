@@ -145,7 +145,6 @@ Remove-Item -Path Alias:lazy -ErrorAction SilentlyContinue
 Remove-Item -Path Alias:lg -ErrorAction SilentlyContinue
 Remove-Item -Path Alias:lzg -ErrorAction SilentlyContinue
 Remove-Item -Path Alias:lzd -ErrorAction SilentlyContinue
-Remove-Item -Path Alias:scoop-upgrade -ErrorAction SilentlyContinue
 
 function ListWithIcons {
     eza --icons
@@ -163,7 +162,7 @@ function ListTreeWithIcons {
     eza -T --icons
 }
 
-function ScoopUpgrade {
+function scoop-upgrade {
     scoop update -a
     scoop cleanup -a
 }
@@ -186,7 +185,6 @@ New-Alias -Name lazy -Value lazygit
 New-Alias -Name lg -Value lazygit
 New-Alias -Name lzg -Value lazygit
 New-Alias -Name lzd -Value lazydocker
-New-Alias -Name scoop-upgrade -Value ScoopUpgrade
 
 Write-Host "`e[38;5;80m         ___                                           `e[0m"
 Write-Host "`e[38;5;80m     . -^   \`--,                                      `e[0m"
