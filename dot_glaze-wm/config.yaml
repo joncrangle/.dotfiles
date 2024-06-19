@@ -109,7 +109,7 @@ bar:
       label_low: "🔊{volume_level}%"
       label_medium: "🔊{volume_level}%"
       label_high: "🔊{volume_level}%"
-      label_mute: "🔊{volume_level}%"
+      label_mute: "🔇{volume_level}%"
   
     - type: "battery"
       label_draining: "{battery_level}% 🔋 remaining"
