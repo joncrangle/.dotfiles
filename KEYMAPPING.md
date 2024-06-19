@@ -128,3 +128,26 @@ wezterm connect tnas
 | Stop Yabai Service                           | `Ctrl` + `Alt` + `q`                          |
 | Start Yabai Service                          | `Ctrl` + `Alt` + `s`                          |
 | Restart Yabai Service                        | `Ctrl` + `Alt` + `r`                          |
+| Launch WezTerm                               | `⌘` + `Enter`                                 |
+| Launch Arc                                   | `⌘` + `Shift` + `Enter`                       |
+
+## 🔷 GlazeWM
+
+| **Function**                                 | **Shortcut**                                  |
+| -------------------------------------------  | --------------------------------------------- |
+| Activate Left / Down / Up / Right            | `Alt` + `h`, `j`, `k`, `l`                    |
+| Switch to Workspace 1 - 9                    | `Alt` + `1 - 9`                               |
+| Move Window to Workspace 1 - 9               | `Alt` + `Shift` + `1 - 9`                     |
+| Move Workspace to Left / Down / Up / Right   | `Alt` + `a`, `s`, `d`, `f`                    |
+| Toggle Full Screen                           | `Alt` + `x`                                   |
+| Change toggle direction                      | `Alt` + `v`                                   |
+| Focus recent workspace                       | `Alt` + `y`                                   |
+| Toggle Float                                 | `Alt` + `Shift` + `Space`                     |
+| Close Window                                 | `Alt` + `Shift` + `q`                         |
+| Minimize Window                              | `Alt` + `m`                                   |
+| Resize: Left / Down / Up / Right             | `Alt` + `r`, then `h`, `j`, `k`, `l`          |
+| Swap Left / Down / Up / Right                | `Alt` + `Shift` + `h`, `j`, `k`, `l`          |
+| Stop GlazeWM                                 | `Alt` + `Shift` + `e`                         |
+| Restart GlazeWM                              | `Alt` + `Shift` + `r`                         |
+| Launch WezTerm                               | `Alt` + `Enter`                               |
+| Launch Chrome                                | `Alt` + `Shift` + `Enter`                     |
