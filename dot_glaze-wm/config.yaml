@@ -125,10 +125,15 @@ bar:
 
 workspaces:
   - name: "1"
+    keep_alive: true
   - name: "2"
+    keep_alive: true
   - name: "3"
+    keep_alive: true
   - name: "4"
+    keep_alive: true
   - name: "5"
+    keep_alive: true
   - name: "6"
   - name: "7"
   - name: "8"
