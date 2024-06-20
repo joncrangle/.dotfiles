@@ -52,7 +52,7 @@ function M.setup(config)
     -- NOTE: 'CTRL' + h/j/k/l is setup by smart_splits plugin
     { mods = 'ALT', key = 'Backspace', action = act.CloseCurrentPane { confirm = false } },
     { mods = 'CTRL', key = 'Backspace', action = act.CloseCurrentPane { confirm = false } },
-    { mods = M.mod, key = 'R', action = wezterm.action.RotatePanes 'Clockwise' },
+    { mods = M.mod, key = 'r', action = wezterm.action.RotatePanes 'Clockwise' },
     -- Resize Panes
     -- NOTE: 'ALT' + h/j/k/l is setup by smart_splits plugin
     { mods = 'ALT', key = 'LeftArrow', action = act.AdjustPaneSize { 'Left', 3 } },
@@ -60,15 +60,15 @@ function M.setup(config)
     { mods = 'ALT', key = 'UpArrow', action = act.AdjustPaneSize { 'Up', 3 } },
     { mods = 'ALT', key = 'RightArrow', action = act.AdjustPaneSize { 'Right', 3 } },
     { mods = 'ALT', key = 'm', action = act.TogglePaneZoomState },
-    { mods = M.mod, key = 'S', action = wezterm.action.PaneSelect { mode = 'SwapWithActive' } },
+    { mods = M.mod, key = 's', action = wezterm.action.PaneSelect({}) },
     -- Clipboard
-    { mods = M.mod, key = 'C', action = act.CopyTo 'Clipboard' },
-    { mods = 'SUPER', key = 'C', action = act.CopyTo 'Clipboard' },
-    { mods = M.mod, key = 'Space', action = act.QuickSelect },
-    { mods = M.mod, key = 'X', action = act.ActivateCopyMode },
+    { mods = M.mod, key = 'c', action = act.CopyTo 'Clipboard' },
+    { mods = 'SUPER', key = 'c', action = act.CopyTo 'Clipboard' },
+    { mods = M.mod, key = ':', action = act.QuickSelect },
+    { mods = M.mod, key = 'x', action = act.ActivateCopyMode },
     { mods = M.mod, key = 'f', action = act.Search 'CurrentSelectionOrEmptyString' },
-    { mods = M.mod, key = 'V', action = act.PasteFrom 'Clipboard' },
-    { mods = 'SUPER', key = 'V', action = act.PasteFrom 'Clipboard' },
+    { mods = M.mod, key = 'v', action = act.PasteFrom 'Clipboard' },
+    { mods = 'SUPER', key = 'v', action = act.PasteFrom 'Clipboard' },
     { mods = M.mod, key = 'p', action = act.ActivateCommandPalette },
     { mods = M.mod, key = 'd', action = act.ShowDebugOverlay },
   }

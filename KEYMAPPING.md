@@ -93,8 +93,8 @@ wezterm connect tnas
 | Activate Left / Down / Up / Right     | `Ctrl`            | `Ctrl`          | `h`, `j` / `k` / `l`                                                      |
 | Resize Left / Down / Up / Right       | `Alt`             | `Alt`           | `h`, `j` / `k` / `l`<br>`LeftArrow`, `DownArrow`, `UpArrow`, `RightArrow` |
 | Zoom (Maximize) Pane                  | `Alt`             | `Alt`           | `m`                                                                       |
-| Rotate Panes                          | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `R`                                                                       |
-| Swap Panes                            | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `S`                                                                       |
+| Rotate Panes                          | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `r`                                                                       |
+| Swap Panes                            | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `s`                                                                       |
 | **Tabs**                              |                   |                 |                                                                           |
 | New Tab                               | `Ctrl` + `Shift`  | `⌘`             | `t`                                                                       |
 | Close Tab                             | `Ctrl` + `Shift`  | `⌘`             | `w`                                                                       |
@@ -104,11 +104,11 @@ wezterm connect tnas
 | **Clipboard**                         |                   |                 |                                                                           |
 | Copy                                  | `Ctrl` + `Shift`  | `⌘`             | `c`                                                                       |
 | Paste                                 | `Ctrl` + `Shift`  | `⌘`             | `v`                                                                       |
-| Quick Select                          | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `Space`                                                                   |
-| Copy Mode                             | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `X`                                                                       |
-| Search                                | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `F`                                                                       |
-| Command Palette                       | `Ctrl` + `Shift`v | `⌘` + `Shift`   | `P`                                                                       |
-| Debug Overlay                         | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `D`                                                                       |
+| Quick Select                          | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `:`                                                                       |
+| Copy Mode                             | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `x`                                                                       |
+| Search                                | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `f`                                                                       |
+| Command Palette                       | `Ctrl` + `Shift`v | `⌘` + `Shift`   | `p`                                                                       |
+| Debug Overlay                         | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `d`                                                                       |
 
 ## 🪁 Yabai and Skhd
 

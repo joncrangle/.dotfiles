@@ -51,6 +51,7 @@ if wezterm.target_triple:find 'windows' then
   config.default_prog = { 'pwsh.exe', '-NoLogo' }
   config.window_decorations = 'RESIZE|TITLE'
   config.font_size = 12
+  config.command_palette_font_size = 12
   wezterm.on('gui-startup', function(cmd)
     local screen = wezterm.gui.screens().active
     ---@diagnostic disable-next-line: unused-local
@@ -65,6 +66,7 @@ else
   config.default_prog = { '/opt/homebrew/bin/zsh', '-l' }
   config.window_decorations = 'RESIZE'
   config.font_size = 16
+  config.command_palette_font_size = 16
 end
 
 -- Sessions
