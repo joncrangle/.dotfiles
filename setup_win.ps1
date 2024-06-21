@@ -6,7 +6,7 @@
 #   '-..-'|_.-''-._|
 
 try {
-    echo "Installing PowerShell, Windows Terminal and Windows PowerToys..."
+    Write-Host "Installing PowerShell, Windows Terminal and Windows PowerToys..."
     winget install --id Microsoft.WindowsTerminal -e
     winget install --id Microsoft.Powershell --source winget
     winget install Microsoft.PowerToys --source winget
@@ -25,23 +25,23 @@ try {
     }
 }
 
-echo "Setting execution policy..."
+Write-Host "Setting execution policy..."
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
-echo "Installing Scoop..."
+Write-Host "Installing Scoop..."
 $scoopDir = "$env:USERPROFILE\scoop"
 if (!(Test-Path $scoopDir)) {
-    echo "Installing Scoop..."
+    Write-Host "Installing Scoop..."
     try {
         Invoke-RestMethod -Uri "https://get.scoop.sh" -ErrorAction Stop | Invoke-Expression
     } catch {
         Write-Host "An error occurred while installing Scoop."
     }
 } else {
-    echo "Scoop is already installed."
+    Write-Host "Scoop is already installed."
 }
 
-echo "Installing terminal apps..."
+Write-Host "Installing terminal apps..."
 $appsToInstall = @(
     "age", "chezmoi", "fzf", "gh", "IosevkaTerm-NF", "Maple-Mono-NF",
     "psfzf", "psreadline", "starship", "terminal-icons", "zoxide"
@@ -60,7 +60,7 @@ try {
     Write-Host "An error occurred while installing one or more terminal apps."
 }
 
-echo "Configuring Git..."
+Write-Host "Configuring Git..."
 try {
     git config --global credential.helper manager
     $regFilePath = Join-Path -Path $env:USERPROFILE -ChildPath 'scoop\apps\git\current\install-file-associations.reg'
@@ -79,10 +79,10 @@ try {
 # Prompt user to run gh auth login
 Read-Host "Please run 'gh auth login' to authenticate with GitHub. Press Enter to continue after you have completed the authentication."
 
-echo "Moving dotfiles..."
+Write-Host "Moving dotfiles..."
 chezmoi init --apply https://github.com/joncrangle/.dotfiles.git
 
-echo "Configuring Windows Terminal..."
+Write-Host "Configuring Windows Terminal..."
 try {
     $windowsTerminalDir = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
     $settingsJson = "$env:USERPROFILE\.config\windows-terminal\settings.json"
@@ -91,7 +91,7 @@ try {
     Write-Host "An error occurred while configuring Windows Terminal."
 }
 
-echo "Configuring PowerShell..."
+Write-Host "Configuring PowerShell..."
 try {
     if (-not (Test-Path $PROFILE)) {
         New-Item -Path $PROFILE -ItemType File -Force
@@ -215,7 +215,7 @@ Invoke-Expression (& { (zoxide init powershell | Out-String) })
 
 
 # Install Scoop apps
-echo "Installing Scoop apps..."
+Write-Host "Installing Scoop apps..."
 $packages = @(
     "7zip", "bat", "biome", "bruno", "curl", "delta", "docker", "eza", "fastfetch", "fd",
     "ffmpeg", "glazewm", "glow", "go", "gzip", "JetBrainsMono-NF", "jq", "krita", "lazygit", 
@@ -232,5 +232,39 @@ foreach ($package in $packages) {
     }
 }
 
-echo "Configuration complete. Please restart the terminal."
+# Add apps to Windows startup
+$links = @(
+    @{ Path = "C:\Program Files\Google\Chrome\Application\chrome.exe"; Name = "Google Chrome" },
+    @{ Path = "C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE"; Name = "Microsoft Outlook" },
+    @{ Path = "$env:USERPROFILE\scoop\shims\wezterm-gui.exe"; Name = "WezTerm" }
+)
+
+# Path to the Startup folder
+$startupFolderPath = [System.IO.Path]::Combine($env:APPDATA, "Microsoft\Windows\Start Menu\Programs\Startup")
+
+# Function to create a shortcut
+Write-Host "Creating startup shortcuts..."
+function Create-Shortcut {
+    param (
+        [string]$targetPath,
+        [string]$shortcutName
+    )
+
+    $shell = New-Object -ComObject WScript.Shell
+    $shortcutPath = [System.IO.Path]::Combine($startupFolderPath, "$shortcutName.lnk")
+    $shortcut = $shell.CreateShortcut($shortcutPath)
+    $shortcut.TargetPath = $targetPath
+    $shortcut.Save()
+}
+
+# Loop through each program and create a shortcut
+foreach ($link in $links) {
+    try {
+        Create-Shortcut -targetPath $program.Path -shortcutName $program.Name
+    } catch {
+        Write-Host "Failed to create shortcut for $($program.Name): $_"
+    }
+}
+
+Write-Host "Configuration complete. Please restart the terminal."
 . $PROFILE
