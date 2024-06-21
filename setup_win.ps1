@@ -146,6 +146,32 @@ Remove-Item -Path Alias:lg -ErrorAction SilentlyContinue
 Remove-Item -Path Alias:lzg -ErrorAction SilentlyContinue
 Remove-Item -Path Alias:lzd -ErrorAction SilentlyContinue
 
+function Copy-Line {
+    # Ensure rg, fzf, and bat are available
+    $rgPath = Get-Command rg -ErrorAction SilentlyContinue
+    $fzfPath = Get-Command fzf -ErrorAction SilentlyContinue
+    $batPath = Get-Command bat -ErrorAction SilentlyContinue
+
+    if (-not $rgPath) { Write-Host "rg (ripgrep) is not installed."; return }
+    if (-not $fzfPath) { Write-Host "fzf is not installed."; return }
+    if (-not $batPath) { Write-Host "bat is not installed."; return }
+
+    # Run rg and pipe to fzf
+    $selected = rg --line-number . | fzf --delimiter ':' --preview 'bat --color=always --highlight-line {2} {1}'
+
+    # Extract the line content
+    if ($selected) {
+        $parts = $selected -split ':'
+        $lineContent = $parts[2..($parts.Length - 1)] -join ':'
+        $lineContent = $lineContent.Trim()
+
+        # Copy to clipboard
+        $lineContent | clip
+
+        Write-Host "Selected line copied to clipboard."
+    }
+}
+
 function ListWithIcons {
     eza --icons
 }
@@ -162,10 +188,51 @@ function ListTreeWithIcons {
     eza -T --icons
 }
 
+function Open-At-Line {
+    # Ensure rg, fzf, bat, and nvim are available
+    $rgPath = Get-Command rg -ErrorAction SilentlyContinue
+    $fzfPath = Get-Command fzf -ErrorAction SilentlyContinue
+    $batPath = Get-Command bat -ErrorAction SilentlyContinue
+    $nvimPath = Get-Command nvim -ErrorAction SilentlyContinue
+
+    if (-not $rgPath) { Write-Host "rg (ripgrep) is not installed."; return }
+    if (-not $fzfPath) { Write-Host "fzf is not installed."; return }
+    if (-not $batPath) { Write-Host "bat is not installed."; return }
+    if (-not $nvimPath) { Write-Host "nvim (Neovim) is not installed."; return }
+
+    # Run rg and pipe to fzf
+    $selected = rg --line-number . | fzf --delimiter ':' --preview 'bat --color=always --highlight-line {2} {1}'
+
+    # Extract the line number and file path
+    if ($selected) {
+        $parts = $selected -split ':'
+        $lineNumber = $parts[1]
+        $filePath = $parts[0]
+        
+        # Open the file at the specified line number with nvim
+        nvim "+$lineNumber" $filePath
+    }
+}
+
 function scoop-upgrade {
     scoop update -a
     scoop cleanup -a
 }
+
+function Take {
+    param (
+        [string]$path
+    )
+
+    # Create the directory if it does not exist
+    if (-Not (Test-Path -Path $path)) {
+        New-Item -ItemType Directory -Path $path | Out-Null
+    }
+
+    # Change to the new directory
+    Set-Location -Path $path
+}
+
 
 # Define aliases
 New-Alias -Name cm -Value chezmoi
