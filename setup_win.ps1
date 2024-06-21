@@ -236,7 +236,7 @@ foreach ($package in $packages) {
 $links = @(
     @{ Path = "C:\Program Files\Google\Chrome\Application\chrome.exe"; Name = "Google Chrome" },
     @{ Path = "C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE"; Name = "Microsoft Outlook" },
-    @{ Path = "$env:USERPROFILE\scoop\shims\wezterm-gui.exe"; Name = "WezTerm" }
+    @{ Path = "$env:USERPROFILE\scoop\apps\wezterm-nightly\current\wezterm-gui.exe"; Name = "WezTerm" }
 )
 
 # Path to the Startup folder
