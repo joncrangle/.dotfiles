@@ -55,7 +55,7 @@ gaps:
   inner_gap: "6px"
 
   # Gap between windows and the screen edge.
-  outer_gap: "1px"
+  outer_gap: "3px"
 
 # Highlight active/inactive windows with a colored border.
 # ** Exclusive to Windows 11 due to API limitations.
