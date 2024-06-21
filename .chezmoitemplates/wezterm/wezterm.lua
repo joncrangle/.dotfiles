@@ -44,12 +44,12 @@ config.underline_thickness = 3
 config.underline_position = -6
 config.window_background_opacity = 0.92
 config.window_close_confirmation = 'AlwaysPrompt'
+config.window_decorations = 'RESIZE'
 config.window_padding = { left = 6, right = 6, top = 6, bottom = 0 }
 
 -- Windows and MacOS
 if wezterm.target_triple:find 'windows' then
   config.default_prog = { 'pwsh.exe', '-NoLogo' }
-  config.window_decorations = 'RESIZE|TITLE'
   config.font_size = 12
   config.command_palette_font_size = 12
   wezterm.on('gui-startup', function(cmd)
@@ -64,7 +64,6 @@ if wezterm.target_triple:find 'windows' then
   end)
 else
   config.default_prog = { '/opt/homebrew/bin/zsh', '-l' }
-  config.window_decorations = 'RESIZE'
   config.font_size = 16
   config.command_palette_font_size = 16
 end
