@@ -1,6 +1,6 @@
 # 🧭 Keymapping
 
-## 🦆 Neovim
+## ✏️ Neovim
 
 | **Function**                                                                                         | **Shortcut**                                             |
 | ---------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
@@ -109,6 +109,65 @@ wezterm connect tnas
 | Search                                | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `f`                                                                       |
 | Command Palette                       | `Ctrl` + `Shift`v | `⌘` + `Shift`   | `p`                                                                       |
 | Debug Overlay                         | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `d`                                                                       |
+
+## 🦆 Yazi
+
+| **Function**                                               | **Shortcut**                        |
+| ---------------------------------------------------------  | ----------------------------------- |
+| **Navigation**                                             |                                     |
+| Navigation with Vim keybinds                               | e.g. `h`, `j`, `k`, `l` and motions |
+| **Selection**                                              |                                     |
+| Toggle selection of hovered file/directory                 | `Space`                             |
+| Enter visual mode / visual unset mode                      | `v` / `V`                           |
+| Select all files                                           | `Ctrl` + `a`                        |
+| Inverse selection of all files                             | `Ctrl` + `r`                        |
+| Cancel selection                                           | `Esc`                               |
+| **File/directory operations**                              |                                     |
+| Open the selected files                                    | `o` or `Enter`                      |
+| Open the selected files interactively                      | `O` or `Ctrl` + `Enter`             |
+| Yank the selected files (copy)                             | `y`                                 |
+| Yank the selected files (cut)                              | `x`                                 |
+| Paste the yanked files                                     | `p`                                 |
+| Paste the yanked files (overwrite if destination exists)   | `P`                                 |
+| Cancel the yank state (unyank)                             | `Y` or `X`                          |
+| Create a symbolic link to the yanked files (absolute path) | `-`                                 |
+| Create a symbolic link to the yanked files (relative path) | `_`                                 |
+| Move the files to the trash                                | `d`                                 |
+| Permanently delete the files                               | `D`                                 |
+| Create a file or directory (ends with "/" for directories) | `a`                                 |
+| Rename a file or directory                                 | `r`                                 |
+| Run a shell command                                        | `;`                                 |
+| Run a shell command (block UI until command finishes)      | `:`                                 |
+| Toggle the visibility of hidden files                      | `.`                                 |
+| Jump to a directory using zoxide                           | `z`                                 |
+| Jump to a directory, or reveal a file using fzf            | `Z`                                 |
+| **Copying paths**                                          |                                     |
+| Copy absolute path                                         | `c` + `c`                           |
+| Copy absolute path of the parent directory                 | `c` + `d`                           |
+| Copy the name of a file                                    | `c` + `f`                           |
+| Copy the name of a file without extension                  | `c` + `n`                           |
+| **Filtering/searching files/directories**                  |                                     |
+| Filter the files/directories in CWD                        | `f`                                 |
+| Forward find file/directory in CWD                         | `/`                                 |
+| Backward find file/directory in CWD                        | `?`                                 |
+| Jump to next occurence                                     | `n`                                 |
+| Jump to previous occurence                                 | `N`                                 |
+| Search files by name using fd                              | `s`                                 |
+| Search files by name using fzf                             | `S`                                 |
+| Cancel the ongoing search                                  | `Ctrl` + `s`                        |
+| **Sorting**                                                |                                     |
+| Sort by modified time                                      | `,` + `m`                           |
+| Sort by modified time (reverse)                            | `,` + `M`                           |
+| Sort by creation time                                      | `,` + `c`                           |
+| Sort by creation time (reverse)                            | `,` + `C`                           |
+| Sort by extension                                          | `,` + `e`                           |
+| Sort by extension (reverse)                                | `,` + `E`                           |
+| Sort alphabetically                                        | `,` + `a`                           |
+| Sort alphabetically (reverse)                              | `,` + `A`                           |
+| Sort naturally                                             | `,` + `n`                           |
+| Sort naturally (reverse)                                   | `,` + `N`                           |
+| Sort by size                                               | `,` + `s`                           |
+| Sort by size (reverse)                                     | `,` + `S`                           |
 
 ## 🪁 Yabai and Skhd
 

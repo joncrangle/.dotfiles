@@ -12,6 +12,7 @@ Features include:
 - [chezmoi](https://chezmoi.io/) to manage dotfiles across systems
 - [Yabai](https://github.com/koekeishiya/yabai), [skhd](https://github.com/koekeishiya/skhd), [SketchyBar](https://github.com/FelixKratz/SketchyBar) and [JankyBorders](https://github.com/FelixKratz/JankyBorders) on MacOS
 - [GlazeWM](https://github.com/glzr-io/glazewm) on Windows
+- [Yazi](https://github.com/sxyazi/yazi) terminal file manager
 - [WezTerm](https://wezfurlong.org/wezterm/) a cross-platform terminal emulator
 - [Neovim](https://neovim.io/) a cross-platform editor
 - [Catppuccin](https://github.com/catppuccin) theme
@@ -99,6 +100,7 @@ iwr -useb https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_win.
 
 > [!TIP]
 > Some useful PowerToys settings that can be configured:
+>
 > 1. Enable FancyZones
 > 2. File Explorer add-ons for previews
 > 3. Enable Keyboard Manager and remap `Ctrl` + `F` to `F4` within `outlook`

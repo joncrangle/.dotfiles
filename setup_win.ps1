@@ -79,6 +79,33 @@ try {
 # Prompt user to run gh auth login
 Read-Host "Please run 'gh auth login' to authenticate with GitHub. Press Enter to continue after you have completed the authentication."
 
+Write-Host "Configuring environment variables..."
+function Set-UserEnvironmentVariables {
+    param (
+        [array]$variables
+    )
+
+    foreach ($variable in $variables) {
+        $variableName = $variable.Name
+        $variablePath = $variable.Path
+        $variableValue = [System.IO.Path]::Combine($env:USERPROFILE, $variablePath)
+
+        [Environment]::SetEnvironmentVariable($variableName, $variableValue, [EnvironmentVariableTarget]::User)
+    }
+}
+
+# TODO: Create user environment variables: [Environment]::SetEnvironmentVariable($variableName, $variableValue, [EnvironmentVariableTarget]::User)
+# Convert yazi config to chezmoi template: windows C:\Users\USERNAME\AppData\Roaming\yazi\config\
+# https://www.chezmoi.io/user-guide/templating/#using-chezmoitemplates
+# use templ var to fill in path to bat theme in `yazi/theme.toml`
+$envVars = @(
+    @{ Name = "YAZI_FILE_ONE"; Path = "scoop\apps\git\current\usr\bin\file.exe" },
+    #@{ Name = "VARIABLE2"; Path = "relative path from home dir" },
+    #@{ Name = "VARIABLE3"; Path = "relative path from home dir" },
+)
+
+Set-UserEnvironmentVariables -variables $envVars
+
 Write-Host "Moving dotfiles..."
 chezmoi init --apply https://github.com/joncrangle/.dotfiles.git
 
@@ -233,6 +260,16 @@ function take {
     Set-Location -Path $path
 }
 
+function yy {
+    $tmp = [System.IO.Path]::GetTempFileName()
+    yazi $args --cwd-file="$tmp"
+    $cwd = Get-Content -Path $tmp
+    if (-not [String]::IsNullOrEmpty($cwd) -and $cwd -ne $PWD.Path) {
+        Set-Location -LiteralPath $cwd
+    }
+    Remove-Item -Path $tmp
+}
+
 # Define aliases
 New-Alias -Name cm -Value chezmoi
 New-Alias -Name wez -Value wezterm
@@ -279,15 +316,15 @@ Invoke-Expression (& { (zoxide init powershell | Out-String) })
     Write-Host "An error occurred while configuring PowerShell."
 }
 
-
 # Install Scoop apps
 Write-Host "Installing Scoop apps..."
 $packages = @(
     "7zip", "bat", "biome", "bruno", "curl", "delta", "docker", "eza", "fastfetch", "fd",
     "ffmpeg", "glazewm", "glow", "go", "gzip", "JetBrainsMono-NF", "jq", "krita", "lazygit", 
-    "lazydocker", "make", "mariadb", "Meslo-NF", "neovim", "nodejs", "obsidian", "pnpm",
-    "postgresql", "python", "ripgrep", "tableplus", "tldr", "tree-sitter", "unzip", "vlc",
-    "vcredist2022", "vscode", "wezterm-nightly", "wget", "yarn", "yq", "zig", "zoom"
+    "lazydocker", "make", "mariadb", "Meslo-NF", "neovim", "nodejs", "obsidian", "poppler",
+    "pnpm", "postgresql", "python", "ripgrep", "tableplus", "tldr", "tree-sitter", "unar",
+    "unzip", "vlc", "vcredist2022", "vscode", "wezterm-nightly", "wget", "yarn", "yazi",
+    "yq", "zig", "zoom"
 )
 
 foreach ($package in $packages) {
