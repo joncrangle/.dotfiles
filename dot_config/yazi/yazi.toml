@@ -1,0 +1,13 @@
+[opener]
+edit = [
+	{ run = 'nvim "$@"', block = true },
+]
+play = [
+	{ run = 'iina "$@"', orphan = true, for = "macos" },
+	{ run = 'vlc "$@"', orphan = true, for = "windows" },
+]
+
+[plugin]
+prepend_previewers = [
+  { name = "*.md", run = "glow" },
+]

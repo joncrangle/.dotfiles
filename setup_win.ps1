@@ -146,7 +146,7 @@ Remove-Item -Path Alias:lg -ErrorAction SilentlyContinue
 Remove-Item -Path Alias:lzg -ErrorAction SilentlyContinue
 Remove-Item -Path Alias:lzd -ErrorAction SilentlyContinue
 
-function Copy-Line {
+function copy-line {
     # Ensure rg, fzf, and bat are available
     $rgPath = Get-Command rg -ErrorAction SilentlyContinue
     $fzfPath = Get-Command fzf -ErrorAction SilentlyContinue
@@ -188,7 +188,7 @@ function ListTreeWithIcons {
     eza -T --icons
 }
 
-function Open-At-Line {
+function open-at-line {
     # Ensure rg, fzf, bat, and nvim are available
     $rgPath = Get-Command rg -ErrorAction SilentlyContinue
     $fzfPath = Get-Command fzf -ErrorAction SilentlyContinue
@@ -219,7 +219,7 @@ function scoop-upgrade {
     scoop cleanup -a
 }
 
-function Take {
+function take {
     param (
         [string]$path
     )
@@ -232,7 +232,6 @@ function Take {
     # Change to the new directory
     Set-Location -Path $path
 }
-
 
 # Define aliases
 New-Alias -Name cm -Value chezmoi
