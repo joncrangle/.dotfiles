@@ -96,8 +96,8 @@ function Set-UserEnvironmentVariables {
 
 $envVars = @(
     @{ Name = "YAZI_FILE_ONE"; Path = "scoop\apps\git\current\usr\bin\file.exe" },
-    #@{ Name = "VARIABLE2"; Path = "relative path from home dir" },
-    #@{ Name = "VARIABLE3"; Path = "relative path from home dir" },
+    @{ Name = "XDG_CONFIG_HOME"; Path = "AppData\Local" },
+    @{ Name = "XDG_DATA_HOME"; Path = "AppData\Local" },
 )
 
 Set-UserEnvironmentVariables -variables $envVars
