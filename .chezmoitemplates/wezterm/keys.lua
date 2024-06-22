@@ -5,6 +5,7 @@ local M = {}
 
 M.mod = wezterm.target_triple:find 'windows' and 'SHIFT|CTRL' or 'SHIFT|SUPER'
 M.super = wezterm.target_triple:find 'windows' and 'SHIFT|CTRL' or 'SUPER'
+M.v = wezterm.target_triple:find 'windows' and 'CTRL' or 'SUPER'
 
 M.smart_split = wezterm.action_callback(function(window, pane)
   local dim = pane:get_dimensions()
@@ -62,13 +63,11 @@ function M.setup(config)
     { mods = 'ALT', key = 'm', action = act.TogglePaneZoomState },
     { mods = M.mod, key = 's', action = wezterm.action.PaneSelect({}) },
     -- Clipboard
-    { mods = M.mod, key = 'c', action = act.CopyTo 'Clipboard' },
-    { mods = 'SUPER', key = 'c', action = act.CopyTo 'Clipboard' },
+    { mods = M.v, key = 'c', action = act.CopyTo 'Clipboard' },
     { mods = M.mod, key = ':', action = act.QuickSelect },
     { mods = M.mod, key = 'x', action = act.ActivateCopyMode },
     { mods = M.mod, key = 'f', action = act.Search 'CurrentSelectionOrEmptyString' },
-    { mods = M.mod, key = 'v', action = act.PasteFrom 'Clipboard' },
-    { mods = 'SUPER', key = 'v', action = act.PasteFrom 'Clipboard' },
+    { mods = M.v, key = 'v', action = act.PasteFrom 'Clipboard' },
     { mods = M.mod, key = 'p', action = act.ActivateCommandPalette },
     { mods = M.mod, key = 'd', action = act.ShowDebugOverlay },
   }
