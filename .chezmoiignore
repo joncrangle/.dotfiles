@@ -20,6 +20,7 @@ setup_mac.sh
 .config/skhd/
 .config/wezterm/
 .config/yabai/
+.config/yazi/
 .config/zsh/
 {{ else if ne .chezmoi.os "windows" }}
 AppData/

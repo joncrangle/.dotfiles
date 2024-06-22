@@ -94,10 +94,6 @@ function Set-UserEnvironmentVariables {
     }
 }
 
-# TODO: Create user environment variables: [Environment]::SetEnvironmentVariable($variableName, $variableValue, [EnvironmentVariableTarget]::User)
-# Convert yazi config to chezmoi template: windows C:\Users\USERNAME\AppData\Roaming\yazi\config\
-# https://www.chezmoi.io/user-guide/templating/#using-chezmoitemplates
-# use templ var to fill in path to bat theme in `yazi/theme.toml`
 $envVars = @(
     @{ Name = "YAZI_FILE_ONE"; Path = "scoop\apps\git\current\usr\bin\file.exe" },
     #@{ Name = "VARIABLE2"; Path = "relative path from home dir" },

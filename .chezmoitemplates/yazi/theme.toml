@@ -29,7 +29,11 @@ border_symbol = "│"
 border_style  = { fg = "#7f849c" }
 
 # Highlighting
-syntect_theme = "~/.config/bat/themes/Catppuccin-mocha.tmTheme"
+{{- if eq .chezmoi.os "darwin" }}
+syntect_theme = "~/.config/bat/themes/Catppuccin Mocha.tmTheme"
+{{- else if eq .chezmoi.os "windows" }}
+syntect_theme = "{{ .chezmoi.homeDir }}/AppData/Roaming/bat/themes/Catppuccin Mocha.tmTheme"
+{{ end }}
 
 [status]
 separator_open  = ""
