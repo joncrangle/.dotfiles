@@ -36,6 +36,7 @@ setup_mac.sh
 
 {{ if ne .chezmoi.os "linux" }}
 setup_arch.sh
+.config/paru/paru.conf
 {{ end }}
 
 {{ if eq .chezmoi.os "linux" }}
