@@ -51,6 +51,7 @@ read -p "Please run 'gh auth login' to authenticate with GitHub. Press Enter to 
 
 # Migrate dotfiles using chezmoi
 echo "Migrating dotfiles..."
+read -p "Please put key.txt in ~/.config/. Press Enter to continue"
 chezmoi init --apply git@github.com:joncrangle/.dotfiles.git
 
 # Install Brewfile from .config/homebrew
@@ -76,3 +77,5 @@ fi
 
 echo "Setup completed successfully."
 echo "Please restart your computer for changes to take effect."
+echo ""
+sleep 3
