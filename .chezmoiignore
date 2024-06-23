@@ -5,26 +5,39 @@ assets/
 cm
 key.txt
 
-{{ if ne .chezmoi.os "darwin" }}
-.zshenv
-Brewfile
-setup_mac.sh
-.config/.macos
-.config/ssh.sh
-.config/bat/
-.config/homebrew/
-.config/linearmouse/
-.config/nvim/
-.config/odmpy/
-.config/sketchybar/
-.config/skhd/
-.config/wezterm/
-.config/yabai/
-.config/yazi/
-.config/zsh/
-{{ else if ne .chezmoi.os "windows" }}
+{{ if ne .chezmoi.os "windows" }}
 AppData/
 .config/windows-terminal/
 .glaze-wm/
 setup_win.ps1
+{{ end }}
+
+{{ if and (ne .chezmoi.os "darwin") (ne .chezmoi.os "linux") }}
+.zshenv
+.config/bat/
+.config/nvim/
+.config/wezterm/
+.config/yazi/
+.config/zsh/
+{{ end }}
+
+{{ if ne .chezmoi.os "darwin" }}
+Brewfile
+setup_mac.sh
+.config/.macos
+.config/ssh.sh
+.config/homebrew/
+.config/linearmouse/
+.config/odmpy/
+.config/sketchybar/
+.config/skhd/
+.config/yabai/
+{{ end }}
+
+{{ if ne .chezmoi.os "linux" }}
+setup_arch.sh
+{{ end }}
+
+{{ if eq .chezmoi.os "linux" }}
+.ssh/config
 {{ end }}
