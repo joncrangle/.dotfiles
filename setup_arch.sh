@@ -210,7 +210,7 @@ if gum confirm "Do you want to generate a new SSH key for GitHub?"; then
     ssh-keygen -t ed25519 -C "94425204+joncrangle@users.noreply.github.com" -f ~/.ssh/id_ed25519
     eval "$(ssh-agent -s)"
     touch ~/.ssh/config
-    echo "Host *\n AddKeysToAgent yes\n UseKeychain yes\n IdentityFile ~/.ssh/id_ed25519" | tee ~/.ssh/config
+    echo "Host *\n AddKeysToAgent yes\n IdentityFile ~/.ssh/id_ed25519" | tee ~/.ssh/config
     ssh-add ~/.ssh/id_ed25519
 elif [ $? -eq 130 ]; then
     exit
@@ -230,21 +230,23 @@ echo ":: Migrating dotfiles..."
 read -p ":: Please put key.txt in ~/.config/. Press Enter to continue"
 chezmoi init --apply git@github.com:joncrangle/.dotfiles.git
 
-# TODO: Determine qt packages required and a calculator app
 packages=(
     "bat"
     "bibata-cursor-theme-bin"
     "bluez"
+    "bluez-utils"
     "brave-bin"
     "brightnessctl"
     "btop"
+    "bun-bin"
     "cliphist"
     "docker"
     "docker-compose"
+    "dropbox"
     "eza" 
     "fastfetch"
     "fd"
-    "ffmpeg"
+    "ffmpeg-libfdk_aac"
     "ffmpegthumbnailer"
     "fuzzel-git"
     "fzf"
@@ -256,8 +258,6 @@ packages=(
     "grim"
     "gtk4"
     "gum"
-    "guvcview" #?
-    "gvfs" #?
     "hypridle"
     "hyprland"
     "hyprlock"
@@ -269,23 +269,18 @@ packages=(
     "krita"
     "lazydocker"
     "lazygit"
-    "libadwaita" #?
     "lua"
     "luajit"
     "make"
-    "man-pages" #?
-    "mousepad" #?
     "mpv" 
-    "nautilus" #?
     "neovim"
-    "network-manager-applet" #?
+    "network-manager-applet"
     "networkmanager"
-    "nm-connection-editor" #?
-    "node"
+    "nodejs"
     "noto-fonts" 
     "noto-fonts-emoji"
-    "obsidian" #?
-    "openssh"
+    "npm"
+    "obsidian"
     "otf-font-awesome" 
     "papirus-icon-theme"
     "pavucontrol" 
@@ -296,6 +291,7 @@ packages=(
     "power-profiles-daemon"
     "python"
     "python-pip"
+    "qalculate-gtk"
     "qt5ct"
     "qt6ct"
     "qt5-wayland"
@@ -323,7 +319,6 @@ packages=(
     "ttf-maple"
     "ttf-meslo-nerd-font-powerlevel10k"
     "tumbler"
-    "unar"
     "unarchiver"
     "unrar"
     "unzip"
@@ -342,7 +337,7 @@ packages=(
     "zig"
     "zip"
     "waybar"
-    "wire-plumber"
+    "wireplumber"
     "wl-clipboard"
     "wpa_supplicant"
     "zoxide"
