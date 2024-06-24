@@ -12,6 +12,12 @@
     name = {{ $name | quote }}
     RemoteAddress = {{ $remoteAddress | quote }}
     RemoteUser = {{ $remoteUser | quote }}
+    {{ if eq .chezmoi.os "linux" }}
+    {{- $keyboard := promptStringOnce . "keyboard" "Enter 'laptop' or 'desktop' ..." -}}
+    keyboard = {{ $keyboard | quote }}
+    {{ else }}
+    keyboard = "desktop"
+    {{ end }}
 
 encryption = "age"
 

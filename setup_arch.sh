@@ -348,8 +348,6 @@ echo ":: Installing packages..."
 _installPackagesParu "${packages[@]}";
 echo
 
-# TODO: Initial install - change hypr config terminal to use wezterm
-
 # TODO: Keyboard settings? https://gitlab.com/stephan-raabe/dotfiles/-/blob/main/.install/keyboard.sh
 
 # Check for ttf-ms-fonts

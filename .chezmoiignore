@@ -36,5 +36,6 @@ setup_mac.sh
 
 {{ if ne .chezmoi.os "linux" }}
 setup_arch.sh
-.config/paru/paru.conf
+.config/hypr
+.config/paru
 {{ end }}
