@@ -239,6 +239,7 @@ packages=(
     "brightnessctl"
     "btop"
     "bun-bin"
+    "catppuccin-cursors-mocha"
     "cliphist"
     "docker"
     "docker-compose"
@@ -340,6 +341,7 @@ packages=(
     "waybar"
     "wireplumber"
     "wl-clipboard"
+    "wlogout"
     "wpa_supplicant"
     "zoxide"
     "zsh"
@@ -348,6 +350,7 @@ packages=(
 
 echo ":: Installing packages..."
 _installPackagesParu "${packages[@]}";
+bat cache --build
 echo
 
 # Check for ttf-ms-fonts
