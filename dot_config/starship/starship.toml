@@ -62,6 +62,7 @@ style = "bg:subtext1 fg:mantle"
 format = "[$symbol]($style)"
 
 [os.symbols]
+Arch = "  "
 Linux = "  "
 Macos = "  "
 Windows = "  "
