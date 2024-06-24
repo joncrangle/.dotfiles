@@ -111,6 +111,41 @@ iwr -useb https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_win.
 >
 > Within Taskbar Settings, automatically hide the taskbar in Desktop mode.
 
+## 🐧 Arch Linux
+
+TODO:
+- [ ] Hyprland config
+- [ ] wlogout config
+- [ ] waybar config
+- [ ] hyprpaper config
+- [ ] hypridle config
+- [ ] fuzzel config
+- [ ] swaync config
+- [ ] gtk and kde catppuccin theme
+- [ ] sddm config
+- [ ] thunar config
+- [ ] fastfetch config
+- [ ] zathura config
+
+Install Arch using `archinstall`. Then connect to wifi and run the setup script:
+
+````
+nmcli device wifi list
+nmcli device wifi connect SSID password PASSWORD
+bash <(curl -s https://github.com/joncrangle/.dotfiles/main/setup_arch.sh)
+````
+
+### Paru commands
+
+Install a package
+`paru -S <package>`
+
+Clean package cache
+`paru -Scd`
+
+Remove orphaned packages
+`paru -Qdtq | paru -Rns`
+
 ## 🧭 Keymapping
 
 See [Keymapping](KEYMAPPING.md).

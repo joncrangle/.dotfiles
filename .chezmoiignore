@@ -38,5 +38,6 @@ setup_mac.sh
 setup_arch.sh
 .config/hypr
 .config/paru
+.config/swappy
 .config/wlogout
 {{ end }}
