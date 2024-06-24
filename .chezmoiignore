@@ -32,7 +32,6 @@ setup_mac.sh
 .config/sketchybar/
 .config/skhd/
 .config/yabai/
-.ssh/config
 {{ end }}
 
 {{ if ne .chezmoi.os "linux" }}
