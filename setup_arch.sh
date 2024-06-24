@@ -271,6 +271,7 @@ packages=(
     "lazygit"
     "lua"
     "luajit"
+    "luarocks"
     "make"
     "mpv" 
     "neovim"
