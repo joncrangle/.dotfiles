@@ -6,9 +6,19 @@ local M = {}
 function M.setup(config)
   config.ssh_domains = {
     {
+      name = 'arch',
+      remote_address = '{{ .ArchAddress }}',
+      username = '{{ .ArchUser }}',
+    },
+    {
+      name = 'mac',
+      remote_address = '{{ .MacAddress }}',
+      username = '{{ .MacUser }}',
+    },
+    {
       name = 'tnas',
-      remote_address = '{{ .RemoteAddress }}',
-      username = '{{ .RemoteUser }}',
+      remote_address = '{{ .TnasAddress }}',
+      username = '{{ .TnasUser }}',
       multiplexing = 'None',
     },
   }

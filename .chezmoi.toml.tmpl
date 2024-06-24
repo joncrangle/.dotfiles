@@ -1,7 +1,11 @@
 {{- $email := promptStringOnce . "email" "Email address" -}}
 {{- $name := promptStringOnce . "name" "Username" -}}
-{{- $remoteAddress := promptStringOnce . "remoteAddress" "Remote address" -}}
-{{- $remoteUser := promptStringOnce . "remoteUser" "Remote username" -}}
+{{- $macAddress := promptStringOnce . "macAddress" "Mac IP address" -}}
+{{- $macUser := promptStringOnce . "macUser" "Mac username" -}}
+{{- $tnasAddress := promptStringOnce . "tnasAddress" "TNAS IP address" -}}
+{{- $tnasUser := promptStringOnce . "tnasUser" "TNAS username" -}}
+{{- $archAddress := promptStringOnce . "archAddress" "Arch IP address" -}}
+{{- $archUser := promptStringOnce . "archUser" "Arch username" -}}
 
 [git]
     autoCommit = true
@@ -10,8 +14,12 @@
 [data]
     email = {{ $email | quote }}
     name = {{ $name | quote }}
-    RemoteAddress = {{ $remoteAddress | quote }}
-    RemoteUser = {{ $remoteUser | quote }}
+    MacAddress = {{ $macAddress | quote }}
+    MacUser = {{ $macUser | quote }}
+    TnasAddress = {{ $tnasAddress | quote }}
+    TnasUser = {{ $tnasUser | quote }}
+    ArchAddress = {{ $archAddress | quote }}
+    ArchUser = {{ $archUser | quote }}
     {{ if eq .chezmoi.os "linux" }}
     {{- $keyboard := promptStringOnce . "keyboard" "Enter 'laptop' or 'desktop' ..." -}}
     keyboard = {{ $keyboard | quote }}
