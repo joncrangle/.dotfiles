@@ -342,13 +342,12 @@ packages=(
     "wpa_supplicant"
     "zoxide"
     "zsh"
+    "zsh-antidote"
 );
 
 echo ":: Installing packages..."
 _installPackagesParu "${packages[@]}";
 echo
-
-# TODO: Keyboard settings? https://gitlab.com/stephan-raabe/dotfiles/-/blob/main/.install/keyboard.sh
 
 # Check for ttf-ms-fonts
 if [[ $(_isInstalledPacman "ttf-ms-fonts") == 0 ]]; then

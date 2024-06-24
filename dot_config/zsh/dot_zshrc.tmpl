@@ -19,18 +19,27 @@ LISTMAX=1000
 WORDCHARS='*?_-[]~&;!#$%^(){}<>|' # Delete word with C-w
 cdpath=("$HOME" .. $HOME/*(N-/) $HOME/.config)
 
+{{ if eq .chezmoi.os "linux" }}
+FPATH="/usr/share/zsh/site-functions:${FPATH}"
+{{ else }}
 FPATH="opt/homebrew/share/zsh/site-functions:${FPATH}"
+{{ end }}
 
 source "$ZDOTDIR/options.zsh"
 source "$ZDOTDIR/aliases.zsh"
 source "$ZDOTDIR/keymaps.zsh"
 source "$ZDOTDIR/banner.zsh"
+{{ if eq .chezmoi.os "linux" }}
+source "/usr/share/zsh-antidote/antidote.zsh"
+{{ else }}
 source "$HOMEBREW_DIR/opt/antidote/share/antidote/antidote.zsh"
-
+{{ end }}
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -s "~/.bun/_bun" ] && source "~/.bun/_bun"
+{{ if eq .chezmoi.os "darwin" }}
 eval "$(/opt/homebrew/bin/brew shellenv)"
+{{ end }}
 eval "$(thefuck --alias)"
 eval "$(fzf --zsh)"
 eval "$(starship init zsh)"
