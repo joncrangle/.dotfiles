@@ -299,7 +299,8 @@ packages=(
     "qt5-wayland"
     "qt6-wayland"
     "ripgrep"
-    "sddm"
+    "sddm-git"
+    "sddm-theme-catppuccin"
     "slurp"
     "smartmontools"
     "starship"
@@ -316,6 +317,7 @@ packages=(
     "ttf-fira-sans" 
     "ttf-font-awesome"
     "ttf-iosevka"
+    "ttf-iosevka-term"
     "ttf-jetbrains-mono-nerd"
     "ttf-liberation"
     "ttf-maple"
@@ -325,9 +327,14 @@ packages=(
     "unrar"
     "unzip"
     "vlc" 
+    "waybar"
     "wezterm-git"
     "wf-recorder"
     "wget"
+    "wireplumber"
+    "wl-clipboard"
+    "wlogout"
+    "wpa_supplicant"
     "xdg-desktop-portal"
     "xdg-desktop-portal-hyprland"
     "xdg-user-dirs"
@@ -338,11 +345,6 @@ packages=(
     "zathura"
     "zig"
     "zip"
-    "waybar"
-    "wireplumber"
-    "wl-clipboard"
-    "wlogout"
-    "wpa_supplicant"
     "zoxide"
     "zsh"
     "zsh-antidote"
@@ -351,6 +353,8 @@ packages=(
 echo ":: Installing packages..."
 _installPackagesParu "${packages[@]}";
 bat cache --build
+sudo mkdir -p /etc/sddm.conf.d
+sudo ln -s ~/.config/sddm/sddm.conf /etc/sddm.conf.d/sddm.conf
 echo
 
 # Check for ttf-ms-fonts
@@ -363,9 +367,23 @@ fi
 
 # Enable services
 echo ":: Enabling services..."
-sudo systemctl enable sddm.service
-sudo systemctl unmask power-profiles-daemon.service
-sudo systemctl enable power-profiles-daemon.service
+
+# Check for running sddm.service
+if [ -f /etc/systemd/system/display-manager.service ]; then
+    echo ":: Display Manager is already enabled."
+else
+    sudo systemctl enable sddm.service
+    echo ":: sddm.service enabled successfully."    
+fi
+
+# Check for running power-profiles-daemon.service
+if [[ $(systemctl list-units --all -t service --full --no-legend "power-profiles-daemon.service" | sed 's/^\s*//g' | cut -f1 -d' ') == "power-profiles-daemon.service" ]];then
+    echo ":: power-profiles-daemon.service already running."
+else
+    sudo systemctl unmask power-profiles-daemon.service
+    sudo systemctl enable power-profiles-daemon.service
+    echo ":: power-profiles-daemon.service activated successfully."    
+fi
 
 # Check for running NetworkManager.service
 if [[ $(systemctl list-units --all -t service --full --no-legend "NetworkManager.service" | sed 's/^\s*//g' | cut -f1 -d' ') == "NetworkManager.service" ]];then

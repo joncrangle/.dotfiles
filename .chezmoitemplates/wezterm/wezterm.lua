@@ -44,7 +44,6 @@ config.underline_thickness = 3
 config.underline_position = -6
 config.window_background_opacity = 0.92
 config.window_close_confirmation = 'AlwaysPrompt'
-config.window_decorations = 'RESIZE'
 config.window_padding = { left = 6, right = 6, top = 6, bottom = 0 }
 
 -- Windows and MacOS
@@ -52,6 +51,12 @@ if wezterm.target_triple:find 'windows' then
   config.default_prog = { 'pwsh.exe', '-NoLogo' }
   config.font_size = 12
   config.command_palette_font_size = 12
+  config.window_decorations = 'RESIZE'
+  -- Fonts
+  config.font = wezterm.font_with_fallback {
+    { family = 'IosevkaTerm Nerd Font', weight = 'Regular' },
+    { family = 'MesloLGS NF', weight = 'Regular' },
+  }
   wezterm.on('gui-startup', function(cmd)
     local screen = wezterm.gui.screens().active
     ---@diagnostic disable-next-line: unused-local
@@ -62,8 +67,26 @@ if wezterm.target_triple:find 'windows' then
     gui:set_inner_size(width, height)
     gui:set_position((screen.width - width) / 2, (screen.height - height) / 2)
   end)
+elseif wezterm.target_triple:find 'linux' then
+  config.term = "wezterm"
+  config.window_decorations = 'NONE'
+  config.enable_wayland = true
+  config.webgpu_power_preference = "HighPerformance"
+  -- Fonts
+  config.font = wezterm.font_with_fallback {
+    { family = 'Iosevka Term', weight = 'Regular' },
+    { family = 'MesloLGS NF', weight = 'Regular' },
+  }
+  config.font_size = 14
+  config.command_palette_font_size = 14
 else
   config.default_prog = { '/opt/homebrew/bin/zsh', '-l' }
+  config.window_decorations = 'NONE'
+  -- Fonts
+  config.font = wezterm.font_with_fallback {
+    { family = 'IosevkaTerm Nerd Font', weight = 'Regular' },
+    { family = 'MesloLGS NF', weight = 'Regular' },
+  }
   config.font_size = 16
   config.command_palette_font_size = 16
 end
@@ -77,11 +100,6 @@ wezterm.on('restore_session', function(window)
   session_manager.restore_state(window)
 end)
 
--- Fonts
-config.font = wezterm.font_with_fallback {
-  { family = 'IosevkaTerm Nerd Font', weight = 'Regular' },
-  { family = 'MesloLGS NF', weight = 'Regular' },
-}
 config.bold_brightens_ansi_colors = true
 config.font_rules = {
   {
