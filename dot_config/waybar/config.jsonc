@@ -1,0 +1,25 @@
+{
+"include": "~/.config/waybar/modules",
+"layer": "top",
+"position": "bottom",
+
+"modules-left": [
+        "idle_inhibitor",
+        "hyprland/workspaces#rw",
+	],
+
+"modules-center": [
+	"clock",
+        "custom/weather",
+	],
+
+"modules-right": [
+	"custom/menu",
+	"tray",
+	"mpris",
+        "custom/power_profile",
+	"backlight",
+	"pulseaudio",
+	"battery#1",
+	"custom/swaync"],
+}
