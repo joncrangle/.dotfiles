@@ -9,17 +9,35 @@ This `.dotfiles` repository contains my macOS and Windows system configurations.
 
 Features include:
 
-- [chezmoi](https://chezmoi.io/) to manage dotfiles across systems
-- [Yabai](https://github.com/koekeishiya/yabai), [skhd](https://github.com/koekeishiya/skhd), [SketchyBar](https://github.com/FelixKratz/SketchyBar) and [JankyBorders](https://github.com/FelixKratz/JankyBorders) on MacOS
-- [GlazeWM](https://github.com/glzr-io/glazewm) on Windows
-- [Yazi](https://github.com/sxyazi/yazi) terminal file manager
-- [WezTerm](https://wezfurlong.org/wezterm/) a cross-platform terminal emulator
-- [Neovim](https://neovim.io/) a cross-platform editor
+**Common**
 - [Catppuccin](https://github.com/catppuccin) theme
+- [chezmoi](https://chezmoi.io/) to manage dotfiles across systems
+- [Neovim](https://neovim.io/) a cross-platform editor
 - [Starship](https://starship.rs/) prompt
-- Package management with [Homebrew](https://brew.sh/) on macOS and [Scoop](https://scoop.sh/) on Windows
+- [WezTerm](https://wezfurlong.org/wezterm/) a cross-platform terminal emulator
+- [Yazi](https://github.com/sxyazi/yazi) terminal file manager
 - A configured `zsh` shell on macOS and `PowerShell` on Windows with autocompletion, history, and syntax highlighting
 - Fuzzy finding with [fzf](https://github.com/junegunn/fzf)
+
+**MacOS**
+- [Yabai](https://github.com/koekeishiya/yabai) window manager
+- [skhd](https://github.com/koekeishiya/skhd) keyboard shortcuts
+- [SketchyBar](https://github.com/FelixKratz/SketchyBar) panel
+- [JankyBorders](https://github.com/FelixKratz/JankyBorders) border styling
+- [Raycast](https://www.raycast.com/) launcher
+- [Homebrew](https://brew.sh/) package management
+
+**Windows**
+- [GlazeWM](https://github.com/glzr-io/glazewm) window manager
+- Microsoft PowerToys for launcher, keyboard shortcuts and various extras
+- [Scoop](https://scoop.sh/) package management
+
+**Arch Linux**
+- [Hyprland](https://hyprland.org/) window manager
+- [Waybar](https://github.com/Alexays/Waybar) panel
+- [Fuzzel](https://codeberg.org/dnkl/fuzzel) launcher
+- [swaync](https://github.com/ErikReider/SwayNotificationCenter) notification center
+- [Paru](https://github.com/Morganamilo/paru) package management
 
 > [!WARNING]
 > Change the git username, email, and ssh keygen email in `setup_mac.sh` and `setup_win.ps1` to your own.
