@@ -119,6 +119,7 @@ TODO:
 - [ ] waybar config
 - [ ] hyprpaper config
 - [ ] hypridle config
+- [ ] hyprlock config
 - [ ] fuzzel config
 - [ ] swaync config
 - [ ] gtk and kde catppuccin theme

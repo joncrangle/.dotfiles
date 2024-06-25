@@ -36,6 +36,7 @@ setup_mac.sh
 
 {{ if ne .chezmoi.os "linux" }}
 setup_arch.sh
+.config/fuzzel
 .config/hypr
 .config/paru
 .config/sddm
