@@ -15,6 +15,7 @@ setup_win.ps1
 {{ if and (ne .chezmoi.os "darwin") (ne .chezmoi.os "linux") }}
 .zshenv
 .config/bat/
+.config/fastfetch/
 .config/nvim/
 .config/wezterm/
 .config/yazi/
@@ -36,12 +37,12 @@ setup_mac.sh
 
 {{ if ne .chezmoi.os "linux" }}
 setup_arch.sh
-.config/fuzzel
-.config/hypr
-.config/paru
-.config/sddm
-.config/swappy
-.config/swaync
-.config/waybar
-.config/wlogout
+.config/fuzzel/
+.config/hypr/
+.config/paru/
+.config/sddm/
+.config/swappy/
+.config/swaync/
+.config/waybar/
+.config/wlogout/
 {{ end }}
