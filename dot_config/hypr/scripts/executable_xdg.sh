@@ -25,6 +25,3 @@ sleep 2
 # start xdg-desktop-portal
 /usr/lib/xdg-desktop-portal &
 sleep 1
-
-killall hyprpaper
-sleep 1

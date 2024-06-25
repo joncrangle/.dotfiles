@@ -10,7 +10,7 @@ input {
     numlock_by_default = true
     mouse_refocus = false
     
-    follow_mouse = 1
+    follow_mouse = 0
     touchpad {
         {{ if eq .keyboard "desktop" }}
         natural_scroll = false
@@ -21,7 +21,7 @@ input {
         disable_while_typing = true
         {{ end }}
     }
-    sensitivity = 0 # -1.0 - 1.0, 0 means no modification.
+    sensitivity = 0.2 # -1.0 - 1.0, 0 means no modification.
 }
 
 gestures {
