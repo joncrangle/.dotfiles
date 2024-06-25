@@ -41,5 +41,7 @@ setup_arch.sh
 .config/paru
 .config/sddm
 .config/swappy
+.config/swaync
+.config/waybar
 .config/wlogout
 {{ end }}
