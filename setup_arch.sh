@@ -355,7 +355,7 @@ _installPackagesParu "${packages[@]}";
 bat cache --build
 sudo mkdir -p /etc/sddm.conf.d
 sudo ln -s ~/.config/sddm/sddm.conf /etc/sddm.conf.d/sddm.conf
-sudo sed -i 's|^Background="backgrounds/wall.jpg"|Background="~\/.config\/hypr\/wallpapers\/cat-sounds.png"|g' /usr/share/sddm/themes/catppuccin-mocha/theme.conf
+sudo sed -i 's|^Background="backgrounds/wall.jpg"|Background="~\/.config\/hypr\/wallpapers\/cat-sound.png"|g' /usr/share/sddm/themes/catppuccin-mocha/theme.conf
 echo
 
 # Check for ttf-ms-fonts
