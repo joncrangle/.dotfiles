@@ -3,9 +3,7 @@
 * {
     font-family: "Iosevka Term", "Nerd Font Symbols Font";
     font-weight: bold;
-	min-height: 0;
-    /* set font-size to 100% if font scaling is set to 1.00 using nwg-look */
-    font-size: 97%;
+    min-height: 0;
     font-feature-settings: '"ss06"';
     padding: 1px;
 }
@@ -13,8 +11,7 @@
 window#waybar {
     background: transparent;
     border-radius: 0px;
-    color: @mauve;
-
+    color: @red;
 }
 
 window#waybar.hidden {
@@ -31,97 +28,85 @@ window#waybar.empty #window {
     background-color: transparent;
 }
 
-
 tooltip {
-    background: @base;
+    background: @surface0;
     border-radius: 5px;
     border-width: 1px;
     border-style: solid;
-    border-color: @rosewater;
+    border-color: @mauve;
     color: @text;
 }
 
 /*-----module groups----*/
 .modules-right {
-    background-color: @base;
-    border-bottom:1px solid @rosewater;
+    background-color: @surface0;
     border-radius:10px;
-	padding-top: 2px;
-	padding-bottom: 0px;
-	padding-right: 4px;
-	padding-left: 4px;
-
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 4px;
+    padding-left: 4px;
 }
 
 .modules-center {
-    background-color: @base;
+    background-color: @surface0;
     border-radius:10px;
-    border-bottom:1px solid @rosewater;
-	padding-top: 2px;
-	padding-bottom: 4px;
-	padding-right: 4px;
-	padding-left: 4px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 4px;
+    padding-left: 4px;
 }
 
 .modules-left {
-    background-color: @base;
+    background-color: @surface0;
     border-radius:10px;
-    border-bottom: 1px solid @rosewater;
-	padding-top: 2px;
-	padding-bottom: 3px;
-	padding-right: 4px;
-	padding-left: 4px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 4px;
+    padding-left: 4px;
 }
 
+/*-----modules----*/
 #workspaces {
     margin: 1px 1px 1px 1px;
     padding: 0px 1px;
     border-radius: 10px;
-    border:1px solid @red;
+    border:1px solid @mauve;
     font-weight: bold;
     font-style: normal;
     opacity:0.8;
 }
+
 #workspaces button {
-    color: @rosewater;
+    color: @mauve;
     box-shadow: none;
-	text-shadow: none;
+    text-shadow: none;
     padding: 2px;
-    border-radius: 30px;
     padding-left: 2px;
     padding-right: 2px;
-    /*animation: gradient_f 20s ease-in infinite;
-    transition: all 0.5s cubic-bezier(.55,-0.68,.48,1.682);*/
 }
 
 #workspaces button.active {
-    color: @green;
-    border-radius: 50%;
-    background-color: @base;
-    border-radius: 15px 15px 15px 15px;
-    padding-left: 2px;
-    padding-right: 2px;
-    color: @yellow;
+    color: @crust;
+    background-color: @mauve;
 }
 
 #workspaces button.focused {
-    color: @rosewater;
+    color: @crust;
+    background-color: @green;
 }
 
 #workspaces button.urgent {
     color: @crust;
-    border-radius: 10px;
+    background-color: @red;
 }
 
 #workspaces button:hover {
-    color: @yellow;
-    border-radius: 10px;
- 	padding-left: 2px;
-    padding-right: 2px;
+    color: @mantle;
+    background-color: @lavender;
 }
 
 #clock#1 {
-    color: @yellow;
+    color: @mauve;
 }
 
 #backlight,
@@ -354,3 +339,4 @@ tooltip {
 #tray > .needs-attention {
     -gtk-icon-effect: highlight;
 }
+
