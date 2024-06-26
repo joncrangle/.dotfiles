@@ -87,22 +87,22 @@ tooltip {
 
 #workspaces button.active {
     color: @crust;
-    background-color: @mauve;
+    background: @mauve;
 }
 
 #workspaces button.focused {
     color: @crust;
-    background-color: @green;
+    background: @green;
 }
 
 #workspaces button.urgent {
     color: @crust;
-    background-color: @red;
+    background: @red;
 }
 
 #workspaces button:hover {
     color: @mantle;
-    background-color: @lavender;
+    background: @green;
 }
 
 #clock#1 {

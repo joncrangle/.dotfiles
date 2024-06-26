@@ -162,7 +162,7 @@
 		"title<.*facebook.*>": " ",
 		"title<.*Picture-in-Picture.*>": " ",
 		"class<firefox>": " ",
-		"class<brave>": "󰖟 ",
+		"class<brave-browser>": "󰖟 ",
 		"class<.*qutebrowser.*>": "󰖟 ",
 		"class<.*term.*>": " ",
 		"class<kitty>": " ",
