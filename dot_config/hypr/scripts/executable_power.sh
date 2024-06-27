@@ -6,38 +6,72 @@
 # |_|   \___/ \_/\_/ \___|_|   
 #                              
 
-if [[ "$1" == "exit" ]]; then
+exit_hyprland() {
     echo ":: Exit"
     sleep 0.5
-    killall -9 Hyprland sleep 2
-fi
+    killall -9 Hyprland
+    sleep 2
+}
 
-if [[ "$1" == "lock" ]]; then
+lock_screen() {
     echo ":: Lock"
     sleep 0.5
     hyprlock    
-fi
+}
 
-if [[ "$1" == "reboot" ]]; then
+reboot_system() {
     echo ":: Reboot"
     sleep 0.5
     systemctl reboot
-fi
+}
 
-if [[ "$1" == "shutdown" ]]; then
+shutdown_system() {
     echo ":: Shutdown"
     sleep 0.5
     systemctl poweroff
-fi
+}
 
-if [[ "$1" == "suspend" ]]; then
+suspend_system() {
     echo ":: Suspend"
     sleep 0.5
     systemctl suspend    
-fi
+}
 
-if [[ "$1" == "hibernate" ]]; then
+hibernate_system() {
     echo ":: Hibernate"
-    sleep 1; 
+    sleep 1
     systemctl hibernate    
+}
+
+# Check the first argument and call the corresponding function
+if [[ "$1" == "exit" ]]; then
+    exit_hyprland
+elif [[ "$1" == "lock" ]]; then
+    lock_screen
+elif [[ "$1" == "reboot" ]]; then
+    reboot_system
+elif [[ "$1" == "shutdown" ]]; then
+    shutdown_system
+elif [[ "$1" == "suspend" ]]; then
+    suspend_system
+elif [[ "$1" == "hibernate" ]]; then
+    hibernate_system
+else
+    # Interactive menu
+    SELECTION="$(printf "1 - Exit\n2 - Lock\n3 - Reboot\n4 - Shutdown\n5 - Suspend\n6 - Hibernate" | fuzzel --dmenu -l 7 -p "Power Menu: ")"
+    
+    case $SELECTION in
+        *"Exit")
+            exit_hyprland;;
+        *"Lock")
+            lock_screen;;
+        *"Reboot")
+            reboot_system;;
+        *"Shutdown")
+            shutdown_system;;
+        *"Suspend")
+            suspend_system;;
+        *"Hibernate")
+            hibernate_system;;
+    esac
 fi
