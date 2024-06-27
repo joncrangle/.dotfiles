@@ -37,6 +37,7 @@ setup_mac.sh
 
 {{ if ne .chezmoi.os "linux" }}
 setup_arch.sh
+.config/gtk-3.0/
 .config/fuzzel/
 .config/hypr/
 .config/paru/
@@ -45,4 +46,5 @@ setup_arch.sh
 .config/swaync/
 .config/waybar/
 .config/wlogout/
+.config/xsettingsd/
 {{ end }}
