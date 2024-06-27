@@ -9,18 +9,15 @@
 # ----------------------------------------------------- 
 
 # ----------------------------------------------------- 
-# Get keybindings location based on variation
-# ----------------------------------------------------- 
-config_file=$(cat ~/.config/hypr/conf/keybinding.conf)
-config_file=${config_file/source = ~/}
-config_file=${config_file/source=~/}
-
-# ----------------------------------------------------- 
 # Path to keybindings config file
 # ----------------------------------------------------- 
-config_file="/home/$USER$config_file"
+config_file="/home/$USER/.config/hypr/conf/keybindings.conf"
 echo "Reading from: $config_file"
 
+if [[ ! -f "$config_file" ]]; then
+    echo "File not found: $config_file"
+    exit 1
+fi
 keybinds=""
 
 # Detect Start String
@@ -28,7 +25,7 @@ while read -r line
 do
     if [[ "$line" == "bind"* ]]; then
 
-        line="$(echo "$line" | sed 's/$mainMod/SUPER/g')"
+        line="$(echo "$line" | sed 's/\$mainMod/SUPER/g')"
         line="$(echo "$line" | sed 's/bind = //g')"
         line="$(echo "$line" | sed 's/bindm = //g')"
 
@@ -41,11 +38,10 @@ do
         read -a kbarr <<<"$kb_str" 
 
         item="${kbarr[0]}  + ${kbarr[1]}"$'\r'"${cm_str:1}"
-        keybinds=$keybinds$item$'\n'
+        keybinds+="$item"$'\n'
     fi 
 done < "$config_file"
 
 sleep 0.2
-# TODO: Update for fuzzel
-# rofi -dmenu -i -markup -eh 2 -replace -p "Keybinds" -config ~/dotfiles/rofi/config-compact.rasi <<< "$keybinds"
-fuzzel -dmenu -i -markup -eh 2 -replace -p "Keybinds" <<< "$keybinds"
+fuzzel --dmenu -i -p "Keybinds > " <<< "$keybinds"
+
