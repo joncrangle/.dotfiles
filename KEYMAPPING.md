@@ -210,3 +210,35 @@ wezterm connect tnas
 | Restart GlazeWM                              | `Alt` + `Shift` + `r`                         |
 | Launch WezTerm                               | `Alt` + `Enter`                               |
 | Launch Chrome                                | `Alt` + `Shift` + `Enter`                     |
+
+## 💧 Hyprland
+
+| **Function**                                | **Shortcut**                           |
+| ------------------------------------------- | ---------------------------------------|
+| **Applications**                            |                                        |
+| Launch terminal                             | `Super` + `Return`                     |
+| Launch browser                              | `Super` + `b`                          |
+| Launch file manager                         | `Super` + `e`                          |
+| Launch colour picker                        | `Super` + `c`                          |
+| **Workspaces / Windows**                    |                                        |
+| Switch to Workspace 1 - 9                   | `Super` + `1 - 9`                      |
+| Move Window to Workspace 1 - 9              | `Super` + `Shift` + `1 - 9`            |
+| Move Workspace to Left / Down / Up / Right  | `Super` + `Shift` + `h`, `j`, `k`, `l` |
+| Kill active window                          | `Super` + `q`                          |
+| Set active window to fullscreen             | `Super` + `f`                          |
+| Toggle floating                             | `Super` + `Shift` + `t`                |
+| Toggle split                                | `Super` + `s`                          |
+| Toggle window group                         | `Super` + `g`                          |
+| Tab between windows in group                | `Super` + `Tab`                        |
+| Resize                                      | `Super` + `r`, then `h`, `j`, `k`, `l` |
+| **Actions**                                 |                                        |
+| Logout                                      | `Super` + `Ctrl` + `q`                 |
+| Lock screen                                 | `Super` + `Ctrl` + `l`                 |
+| Open notification center                    | `Super` + `Shift` + `n`                |
+| Open application launcher                   | `Super` + `Space`                      |
+| Open emoji picker                           | `Super` + `;`                          |
+| Show keybindings                            | `Super` + `/`                          |
+| Reload Hyprland config                      | `Super` + `Shift` + `r`                |
+| Reload Waybar config                        | `Super` + `Shift` + `b`                |
+| Smart paste                                 | `Super` + `Shift` + `v`                |
+| Screenshot / Capture portion of screen      | `Print` / `Super` + `Print`            |
