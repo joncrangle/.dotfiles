@@ -232,6 +232,7 @@ chezmoi init --apply git@github.com:joncrangle/.dotfiles.git
 
 packages=(
     "bat"
+    "bemoji"
     "bibata-cursor-theme-bin"
     "blueman"
     "bluez"
