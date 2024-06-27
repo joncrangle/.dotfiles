@@ -231,6 +231,7 @@ read -p ":: Please put key.txt in ~/.config/. Press Enter to continue"
 chezmoi init --apply git@github.com:joncrangle/.dotfiles.git
 
 packages=(
+    "audacity"
     "bat"
     "bemoji"
     "bibata-cursor-theme-bin"
@@ -244,6 +245,7 @@ packages=(
     "catppuccin-cursors-mocha"
     "catppuccin-gtk-theme-mocha"
     "cliphist"
+    "cmus"
     "docker"
     "docker-compose"
     "dropbox"
@@ -255,12 +257,14 @@ packages=(
     "fuzzel-git"
     "fzf"
     "gcc"
+    "gimp"
     "git-delta"
     "glow"
     "gnu-free-fonts"
     "go"
     "grim"
     "gum"
+    "handbrake"
     "hypridle"
     "hyprland"
     "hyprlock"
@@ -271,6 +275,7 @@ packages=(
     "krita"
     "lazydocker"
     "lazygit"
+    "libreoffice"
     "lua"
     "luajit"
     "luarocks"
@@ -305,6 +310,8 @@ packages=(
     "sddm-theme-catppuccin"
     "slurp"
     "smartmontools"
+    "spotifyd"
+    "spotify-player"
     "starship"
     "swappy"
     "swaync"
@@ -405,6 +412,14 @@ else
     sudo systemctl enable bluetooth.service
     sudo systemctl start bluetooth.service
     echo ":: bluetooth.service activated successfully."    
+fi
+
+# Check for running spotifyd.service
+if [[ $(systemctl list-units --all -t service --full --no-legend "spotifyd.service" | sed 's/^\s*//g' | cut -f1 -d' ') == "spotifyd.service" ]];then
+    echo ":: spotifyd.service already running."
+else
+    systemctl --user enable spotifyd.service --now
+    echo ":: spotifyd.service activated successfully."    
 fi
 
 xdg-user-dirs-update

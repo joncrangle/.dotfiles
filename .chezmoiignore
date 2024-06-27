@@ -42,6 +42,8 @@ setup_arch.sh
 .config/hypr/
 .config/paru/
 .config/sddm/
+.config/spotifyd/
+.config/spotify-player/
 .config/swappy/
 .config/swaync/
 .config/waybar/
