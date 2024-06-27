@@ -132,19 +132,12 @@ iwr -useb https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_win.
 ## 🐧 Arch Linux
 
 TODO:
-- [ ] Hyprland config
-- [ ] wlogout config
 - [ ] waybar config
-- [ ] hyprpaper config
+- [ ] Hyprland config
 - [ ] hypridle config
-- [ ] hyprlock config
-- [ ] fuzzel config
-- [ ] swaync config
-- [ ] gtk and kde catppuccin theme
-- [ ] sddm config
-- [ ] thunar config
 - [ ] fastfetch config
 - [ ] zathura config
+- [ ] updates `KEYMAPPING.md` with `hyprland` keybindings
 
 Install Arch using `archinstall`. Then connect to wifi and run the setup script:
 
