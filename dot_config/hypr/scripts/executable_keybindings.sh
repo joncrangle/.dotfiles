@@ -43,5 +43,5 @@ do
 done < "$config_file"
 
 sleep 0.2
-fuzzel --dmenu -i -p "Keybinds > " <<< "$keybinds"
+fuzzel -d -i -p "Keybinds > " <<< "$keybinds"
 
