@@ -131,13 +131,25 @@ iwr -useb https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_win.
 
 ## 🐧 Arch Linux
 
-Install Arch using `archinstall`. Then connect to wifi and run the setup script:
+Install Arch using `archinstall` with a Minimal profile. To connect to wifi, use `iwctl`:
 
-````
+```bash
+iwctl
+device list
+station wlan0 scan
+station wlan0 get-networks
+station wlan0 connect SSID
+exit
+archinstall
+```
+
+Once installed, connect to wifi and run the setup script:
+
+```bash
 nmcli device wifi list
 nmcli device wifi connect SSID password PASSWORD
 bash <(curl -s https://github.com/joncrangle/.dotfiles/main/setup_arch.sh)
-````
+```
 
 ### Paru commands
 
