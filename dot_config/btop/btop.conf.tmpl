@@ -12,8 +12,12 @@
 
 #* Name of a btop++/bpytop/bashtop formatted ".theme" file, "Default" and "TTY" for builtin themes.
 #* Themes should be placed in "../share/btop/themes" relative to binary or "$HOME/.config/btop/themes"
-{{ $themePath := printf "%s/.config/btop/themes/catppuccin_mocha.theme" .chezmoi.homeDir -}}
-color_theme = "{{- $themePath -}}"
+color_theme = {{ if eq .chezmoi.os "windows" -}}
+{{- $toBackslashes := (regexReplaceAll "/" .chezmoi.homeDir "\\") -}}
+"{{ printf "%s\\scoop\\apps\\btop\\current\\themes\\catppuccin_mocha.theme" $toBackslashes }}"
+{{- else -}}
+"{{ printf "%s/.config/btop/themes/catppuccin_mocha.theme" .chezmoi.homeDir }}"
+{{- end }}
 
 #* If the theme set background should be shown, set to False if you want terminal background transparency.
 theme_background = False
@@ -102,11 +106,19 @@ proc_aggregate = False
 
 #* Sets the CPU stat shown in upper half of the CPU graph, "total" is always available.
 #* Select from a list of detected attributes from the options menu.
-cpu_graph_upper = "Auto"
+cpu_graph_upper = {{ if eq .chezmoi.os "windows" -}}
+"{{  "total" }}"
+{{- else -}}
+"{{  "Auto" }}"
+{{- end }}
 
 #* Sets the CPU stat shown in lower half of the CPU graph, "total" is always available.
 #* Select from a list of detected attributes from the options menu.
-cpu_graph_lower = "Auto"
+cpu_graph_lower = {{ if eq .chezmoi.os "windows" -}}
+"{{  "total" }}"
+{{- else -}}
+"{{  "Auto" }}"
+{{- end }}
 
 #* Toggles if the lower CPU graph should be inverted.
 cpu_invert_lower = True

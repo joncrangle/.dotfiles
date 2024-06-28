@@ -367,5 +367,8 @@ foreach ($link in $links) {
     }
 }
 
+Copy-Item -Path "$env:USERPROFILE\.config\btop\btop.conf" -Destination "$env:USERPROFILE\scoop\persist\btop\btop.conf" -Force
+Copy-Item -Path "$env:USERPROFILE\.config\btop\themes\catppuccin_mocha.theme" -Destination "$env:USERPROFILE\scoop\persist\btop\themes\catppuccin_mocha.theme" -Force
+
 Write-Host "Configuration complete. Please restart the terminal."
 . $PROFILE
