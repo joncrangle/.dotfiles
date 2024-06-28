@@ -154,6 +154,12 @@ window_rules:
   - command: "set floating"
     match_class_name: "#32770"
 
+  - command: "set floating"
+    match_title: "Calculator|Settings|File Explorer"
+
+  - command: "set floating"
+    match_process_name: "vlc"
+
   # Do not manage picture-in-picture windows for browsers. Note that the default is for
   # English; change `match_title` to the window's title if you use another language.
   - command: "ignore"

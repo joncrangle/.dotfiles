@@ -1,13 +1,20 @@
+"$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
+
+[manager]
+show_hidden = true
+
 [opener]
 edit = [
-	{ run = 'nvim "$@"', block = true },
+	{ exec = 'nvim "$@"', block = true, desc = "nvim", for = "unix" },
+	{ exec = 'nvim "%*"', block = true, desc = "nvim", for = "windows" }
 ]
 play = [
 	{ run = 'iina "$@"', orphan = true, for = "macos" },
-	{ run = 'vlc "$@"', orphan = true, for = "windows" },
+	{ run = 'vlc "%1"', orphan = true, for = "windows" },
+	{ run = 'mpv "$@"', orphan = true, for = "linux" },
 ]
 
 [plugin]
 prepend_previewers = [
-  { name = "*.md", run = "glow" },
+	{ name = "*.md", run = "glow" },
 ]
