@@ -50,4 +50,5 @@ setup_arch.sh
 .config/waybar/
 .config/wlogout/
 .config/xsettingsd/
+.config/zathura/
 {{ end }}

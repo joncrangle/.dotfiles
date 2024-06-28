@@ -131,10 +131,6 @@ iwr -useb https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_win.
 
 ## 🐧 Arch Linux
 
-TODO:
-- [ ] fastfetch config
-- [ ] zathura config
-
 Install Arch using `archinstall`. Then connect to wifi and run the setup script:
 
 ````

@@ -1,0 +1,15 @@
+# enable clipboard
+set selection-clipboard clipboard
+
+# enable incremental search
+set incremental-search true
+
+# auto-adjust width
+set adjust-open "width"
+
+# hide gui elements
+set guioptions ""
+
+map <C-p> print
+
+include catppuccin-mocha
