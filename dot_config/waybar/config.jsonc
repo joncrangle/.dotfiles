@@ -12,9 +12,11 @@
 	],
 
 	"modules-right": [
-		"group/network",
-		"backlight",
+		"mpris",
+		"bluetooth",
+		"network",
 		"group/audio",
+		"backlight",
 		"battery",
 		"custom/swaync"
 	],
@@ -93,34 +95,31 @@
 	},
 	
 	// Right
-	"backlight": {
-		"interval": 2,
-		"align": 0,
-		"rotate": 0,
-		"format": "{icon}",
-		"format-icons": ["󰃞", "󰃟", "󰃠"],
-		"tooltip-format": "backlight {percent}%",
-		"icon-size": 10,
-		"on-click": "",
-		"on-click-middle": "",
-		"on-click-right": "",
-		"on-update": "",
-		"on-scroll-up": "brightnessctl set +5%",
-		"on-scroll-down": "brightnessctl set -5%",
-		"smooth-scrolling-threshold": 1
-	},
-
-	"group/network": {
-		"orientation": "horizontal",
-		"modules": [
-			"bluetooth",
-			"network"
-		]
-	},
-
-	"tray": {
-		"icon-size": 14,
-		"spacing": 8
+	"mpris": {
+		"format": "{player_icon}",
+		"format-paused": "{status_icon}",
+		"on-click": "playerctl play-pause",
+		"on-click-middle": "playerctl previous",
+		"on-click-right": "playerctl next",
+		"scroll-step": 5.0,
+		"smooth-scrolling-threshold": 1,
+		"player-icons": {
+			"brave": "",
+			"chromium": "",
+			"default": "",
+			"firefox": "",
+			"kdeconnect": "",
+			"mopidy": "",
+			"mpv": "󰐹",
+			"spotify": "",
+			"vlc": "󰕼"
+		},
+		"status-icons": {
+			"paused": "󰐎",
+			"playing": "",
+			"stopped": ""
+		},
+		"max-length": 30
 	},
 
 	"bluetooth": {
@@ -153,7 +152,6 @@
 		"modules": [
 			"pulseaudio",
 			"pulseaudio#microphone",
-			"mpris"
 		]
 	},
 
@@ -192,31 +190,21 @@
 		"scroll-step": 5
 	},
 
-	"mpris": {
-		"interval": 10,
-		"format": "{player_icon} ",
-		"format-paused": "{status_icon}",
-		"on-click": "playerctl play-pause",
-		"on-click-middle": "playerctl previous",
-		"on-click-right": "playerctl next",
-		"scroll-step": 5.0,
-		"smooth-scrolling-threshold": 1,
-		"player-icons": {
-			"chromium": "",
-			"default": "",
-			"firefox": "",
-			"kdeconnect": "",
-			"mopidy": "",
-			"mpv": "󰐹",
-			"spotify": "",
-			"vlc": "󰕼"
-		},
-		"status-icons": {
-			"paused": "󰐎",
-			"playing": "",
-			"stopped": ""
-		},
-		"max-length": 30
+	"backlight": {
+		"interval": 2,
+		"align": 0,
+		"rotate": 0,
+		"format": "{icon}",
+		"format-icons": ["󰃞", "󰃟", "󰃠"],
+		"tooltip-format": "backlight {percent}%",
+		"icon-size": 10,
+		"on-click": "",
+		"on-click-middle": "",
+		"on-click-right": "",
+		"on-update": "",
+		"on-scroll-up": "brightnessctl set +5%",
+		"on-scroll-down": "brightnessctl set -5%",
+		"smooth-scrolling-threshold": 1
 	},
 
 	"battery": {
@@ -263,5 +251,3 @@
 		"escape": true
 	}
 }
-
-

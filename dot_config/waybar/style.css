@@ -1,342 +1,122 @@
 @import "mocha.css";
 
 * {
+    border: none;
     font-family: "Iosevka Term", "Nerd Font Symbols Font";
+    font-size: 14px;
     font-weight: bold;
-    min-height: 0;
     font-feature-settings: '"ss06"';
-    padding: 1px;
+    min-height: 30px;
 }
 
 window#waybar {
     background: transparent;
-    border-radius: 0px;
-    color: @red;
-}
-
-window#waybar.hidden {
-    opacity: 0;
-}
-
-window#waybar.empty {
-    background-color: transparent;
-}
-
-window#waybar.empty #window {
-    padding: 0px;
-    border: 0px;
-    background-color: transparent;
 }
 
 tooltip {
     background: @surface0;
     border-radius: 5px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: @mauve;
     color: @text;
 }
 
-/*-----module groups----*/
-.modules-right {
-    background-color: @surface0;
-    border-radius:10px;
-    padding-top: 2px;
-    padding-bottom: 2px;
-    padding-right: 4px;
-    padding-left: 4px;
-}
-
-.modules-center {
-    background-color: @surface0;
-    border-radius:10px;
-    padding-top: 2px;
-    padding-bottom: 2px;
-    padding-right: 4px;
-    padding-left: 4px;
-}
-
-.modules-left {
-    background-color: @surface0;
-    border-radius:10px;
-    padding-top: 2px;
-    padding-bottom: 2px;
-    padding-right: 4px;
-    padding-left: 4px;
-}
-
-/*-----modules----*/
-#workspaces {
-    margin: 1px 1px 1px 1px;
-    padding: 0px 1px;
+#custom-arch, #workspaces, #clock {
     border-radius: 10px;
-    border:1px solid @mauve;
-    font-weight: bold;
-    font-style: normal;
-    opacity:0.8;
+    background-color: @surface0;
+    margin: 14px 14px 0 0;
+    padding: 1px 10px 0 10px;
+}
+
+#custom-arch {
+    font-size: 18px;
+    margin-left: 14px;
+    color: @blue;
 }
 
 #workspaces button {
+    background: @surface0;
     color: @mauve;
-    box-shadow: none;
-    text-shadow: none;
-    padding: 2px;
-    padding-left: 2px;
-    padding-right: 2px;
 }
 
 #workspaces button.active {
-    color: @crust;
     background: @mauve;
+    color: @mantle;
 }
 
 #workspaces button.focused {
-    color: @crust;
     background: @green;
+    color: @mantle;
 }
 
 #workspaces button.urgent {
-    color: @crust;
     background: @red;
+    color: @mantle;
 }
 
 #workspaces button:hover {
+    background: @peach;
     color: @mantle;
-    background: @green;
-}
-
-#clock#1 {
-    color: @mauve;
-}
-
-#backlight,
-#backlight-slider,
-#battery,
-#bluetooth,
-#clock,
-#cpu,
-#disk,
-#idle_inhibitor,
-#keyboard-state,
-#memory,
-#mode,
-#mpris,
-#network,
-#pulseaudio,
-#pulseaudio-slider,
-#taskbar,
-#temperature,
-#tray,
-#window,
-#wireplumber,
-#workspaces,
-#custom-backlight,
-#custom-cava_mviz,
-#custom-cycle_wall,
-#custom-keybinds,
-#custom-keyboard,
-#custom-light_dark,
-#custom-lock,
-#custom-menu,
-#custom-power_vertical,
-#custom-power_profile,
-#custom-power,
-#custom-swaync,
-#custom-updater,
-#custom-weather,
-#custom-weather.clearNight,
-#custom-weather.cloudyFoggyDay,
-#custom-weather.cloudyFoggyNight,
-#custom-weather.default,
-#custom-weather.rainyDay,
-#custom-weather.rainyNight,
-#custom-weather.severe,
-#custom-weather.showyIcyDay,
-#custom-weather.snowyIcyNight,
-#custom-weather.sunnyDay {
-    color: @yellow;
-	padding-top: 3px;
-	padding-bottom: 3px;
-	padding-right: 6px;
-	padding-left: 6px;
-}
-
-#temperature.critical {
-    background-color: @red;
-}
-
-@keyframes blink {
-    to {
-        color: #000000;
-    }
-}
-
-#taskbar button.active {
-    background-color: @surface0;
-    padding-left: 2px;
-    padding-right: 2px;
-}
-
-#taskbar button:hover {
-    padding-left: 2px;
-    padding-right: 2px;
-}
-
-#battery.critical:not(.charging) {
-    color: @red;
-    animation-name: blink;
-    animation-duration: 0.5s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-}
-
-#pulseaudio-slider slider {
-    min-width: 0px;
-    min-height: 0px;
-    opacity: 0;
-    background-image: none;
-    border: none;
-    box-shadow: none;
-}
-
-#pulseaudio-slider trough {
-    min-width: 80px;
-    min-height: 5px;
-    border-radius: 5px;
-    background-color: @mantle;
-}
-
-#pulseaudio-slider highlight {
-    min-height: 10px;
-    border-radius: 5px;
-    background-color: @maroon;
-}
-
-#backlight-slider slider {
-    min-width: 0px;
-    min-height: 0px;
-    opacity: 0;
-    background-image: none;
-    border: none;
-    box-shadow: none;
-}
-
-#backlight-slider trough {
-    min-width: 80px;
-    min-height: 10px;
-    border-radius: 5px;
-    background-color: @mantle;
-}
-
-#backlight-slider highlight {
-    min-width: 10px;
-    border-radius: 5px;
-    background-color: @maroon;
-}
-#pulseaudio-slider,
-#pulseaudio {
-	color: @yellow;
-}
-
-#pulseaudio.muted {
-    color: @maroon;
-}
-
-
-#cpu,
-#memory,
-#disk,
-#temperature,
-#lock {
-        color: @peach;
-}
-
-#temperature.critical {
-    background-color: @red;
-}
-#battery.critical:not(.charging) {
-    color: @red;
-    animation-name: blink;
-    animation-duration: 0.5s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-}
-#battery.charging {
-	color: @yellow;
-}
-#pulseaudio-slider slider {
-	min-width: 0px;
-	min-height: 0px;
-	opacity: 0;
-	background-image: none;
-	border: none;
-	box-shadow: none;
-}
-
-#pulseaudio-slider trough {
-	min-width: 80px;
-	min-height: 5px;
-	border-radius: 5px;
-}
-
-#pulseaudio-slider highlight {
-	min-height: 10px;
-	border-radius: 5px;
-}
-#backlight-slider slider {
-	min-width: 0px;
-	min-height: 0px;
-	opacity: 0;
-	background-image: none;
-	border: none;
-	box-shadow: none;
-}
-
-#backlight-slider trough {
-	min-width: 80px;
-	min-height: 10px;
-	border-radius: 5px;
-}
-
-#backlight-slider highlight {
-	min-width: 10px;
-	border-radius: 5px;
 }
 
 #clock {
-	color: @mauve;
-}
-#custom-updates {
     color: @peach;
 }
-#swaync{
-    color: @yellow;}
 
-#custom-menu {
+#backlight,
+#battery,
+#bluetooth,
+#mpris,
+#network,
+#audio,
+#custom-swaync {
+    border-radius: 10px;
+    background-color: @surface0;
+    margin: 14px 14px 0 0;
+    padding: 1px 14px 0 10px;
+}
+
+#mpris {
+    min-width: 14px;
+}
+
+#bluetooth, #backlight {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    padding-right: 5px;
+    margin-right: 0;
+}
+
+#network, #custom-swaync {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    padding-left: 5px;
+    margin-left: 0;
+}
+
+#mpris, #bluetooth, #network, #audio, #backlight, #battery, #custom-swaync {
+    color: @lavender;
+}
+
+#pulseaudio {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+#battery {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+#battery.critical:not(.charging) {
     color: @red;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 }
-
-#window{
-    color: @maroon;
-}
-
-#mpris{
-    color: @text;
-}
-
-#custom-power_profile {
-    font-size: 16px;
-    margin-bottom: 2px;
-    color: @teal;
-}
-
-#tray > .passive {
-    -gtk-icon-effect: dim;
-}
-
-#tray > .needs-attention {
-    -gtk-icon-effect: highlight;
-}
-
