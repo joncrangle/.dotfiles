@@ -1,5 +1,6 @@
 #!/bin/bash
 clear
+sudo -v
 # script inspiration source: [Stephan Raabe dotfiles](https://gitlab.com/stephan-raabe/dotfiles)
 #  NOTE:
 #                                  ▄
@@ -26,32 +27,30 @@ clear
 # Utility functions
 # ------------------------------------------------------
 _isInstalledPacman() {
-    package="$1";
-    check="$(sudo pacman -Qs --color always "${package}" | grep "local" | grep "${package} ")";
-    if [ -n "${check}" ] ; then
-        echo 0; #'0' means 'true' in Bash
-        return; #true
-    fi;
-    echo 1; #'1' means 'false' in Bash
-    return; #false
+    package="$1"
+    pacman -Q --color never "${package}" &> /dev/null
+    if [ $? -eq 0 ]; then
+        echo 0  # '0' means 'true' in Bash
+    else
+        echo 1  # '1' means 'false' in Bash
+    fi
 }
 
 _isInstalledParu() {
-    package="$1";
-    check="$(paru -Qs --color always "${package}" | grep "local" | grep "\." | grep "${package} ")";
-    if [ -n "${check}" ] ; then
-        echo 0; #'0' means 'true' in Bash
-        return; #true
-    fi;
-    echo 1; #'1' means 'false' in Bash
-    return; #false
+    package="$1"
+    paru -Q --color never "${package}" &> /dev/null
+    if [ $? -eq 0 ]; then
+        echo 0  # '0' means 'true' in Bash
+    else
+        echo 1  # '1' means 'false' in Bash
+    fi
 }
 
 # Install required packages
 _installPackagesPacman() {
     toInstall=();
     for pkg; do
-        if [[ $(_isInstalledPacman "${pkg}") == 0 ]]; then
+        if [[ $(_isInstalledPacman "${pkg}") -eq 0 ]]; then
             echo "${pkg} is already installed.";
             continue;
         fi;
@@ -68,7 +67,7 @@ _installPackagesPacman() {
 _installPackagesParu() {
     toInstall=();
     for pkg; do
-        if [[ $(_isInstalledParu "${pkg}") == 0 ]]; then
+        if [[ $(_isInstalledParu "${pkg}") -eq 0 ]]; then
             echo ":: ${pkg} is already installed.";
             continue;
         fi;
@@ -81,7 +80,7 @@ _installPackagesParu() {
     fi;
 
     # printf "AUR packags not installed:\n%s\n" "${toInstall[@]}";
-    paru --noconfirm -S "${toInstall[@]}";
+    paru --noconfirm --needed --noprovides -S "${toInstall[@]}";
 }
 
 _commandExists() {
@@ -114,7 +113,7 @@ BLUE='\033[0;34m'   #'0;34' is Blue
 NONE='\033[0m'      # NO COLOR
 
 # Header
-echo -e "${BLUE}"
+echo -e "${GREEN}"
 cat <<"EOF"
  ___           _        _ _           
 |_ _|_ __  ___| |_ __ _| | | ___ _ __ 
@@ -192,6 +191,8 @@ else
     git clone https://aur.archlinux.org/paru.git
     cd paru
     makepkg -si
+    cd ..
+    rm -rf paru
     echo ":: paru has been installed successfully."
     paru
 fi
@@ -245,7 +246,6 @@ packages=(
     "eza" 
     "fastfetch"
     "fd"
-    "ffmpeg-libfdk_aac"
     "ffmpegthumbnailer"
     "fuzzel-git"
     "fzf"
@@ -292,6 +292,7 @@ packages=(
     "polkit-kde-agent"
     "poppler"
     "power-profiles-daemon"
+    "pulseaudio"
     "python"
     "python-pip"
     "qalculate-gtk"
@@ -357,6 +358,7 @@ packages=(
 
 echo ":: Installing packages..."
 _installPackagesParu "${packages[@]}";
+paru -S ffmpeg-libfdk_aac
 bat cache --build
 sudo mkdir -p /etc/sddm.conf.d
 sudo ln -s ~/.config/sddm/sddm.conf /etc/sddm.conf.d/sddm.conf

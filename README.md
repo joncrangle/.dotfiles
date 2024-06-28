@@ -1,7 +1,9 @@
 # .dotfiles
 
 ![Terminal](./assets/terminal.png)
-![Desktop](./assets/desktop.png)
+![Mac Desktop](./assets/desktop_mac.png)
+![Windows Desktop](./assets/desktop_win.png)
+![Linux Desktop](./assets/desktop_linux.png)
 
 ## 📘 Overview
 
@@ -148,7 +150,7 @@ Once installed, connect to wifi and run the setup script:
 ```bash
 nmcli device wifi list
 nmcli device wifi connect SSID password PASSWORD
-bash <(curl -s https://github.com/joncrangle/.dotfiles/main/setup_arch.sh)
+bash <(curl -s https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_arch.sh)
 ```
 
 ### Paru commands
