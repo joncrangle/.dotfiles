@@ -3,7 +3,7 @@
 	"layer": "top",
 	"position": "top",
 	"modules-left": [
-		"custom/launcher",
+		"custom/arch",
 		"hyprland/workspaces"
 	],
 
@@ -12,20 +12,17 @@
 	],
 
 	"modules-right": [
-		"tray",
-		"group/laptop",
+		"backlight",
 		"group/audio",
-		"group/motherboard",
-		"mpris",
-		"idle_inhibitor",
-		"custom/power",
+		"group/network",
+		"battery",
 		"custom/swaync"
 	],
 
 	// Left
 	"custom/launcher": {
 		"format": " ",
-		"on-click": "pkill fuzzel || fuzzel"
+		"on-click": "~/.config/hypr/scripts/power.sh"
 	},
 
 	"hyprland/workspaces": {
@@ -76,7 +73,7 @@
 	// Middle
 	"clock": {
 		"interval": 1,
-		"format": "  {:%I:%M %p   %a. %d %b.}  ",
+		"format": "  {:%I:%M %p    %a. %d %b.}",
 		"tooltip-format": "<tt><small>{calendar}</small></tt>",
 		"calendar": {
 			"mode"          : "month",
@@ -101,36 +98,6 @@
 	},
 
 	// Right
-	"tray": {
-		"icon-size": 16,
-		"spacing": 5
-	},
-
-	"group/laptop": {
-		"orientation": "horizontal",
-		"modules": [
-			"backlight",
-			"battery"
-		]
-	},
-
-	"group/motherboard": {
-		"orientation": "horizontal",
-		"modules": [
-			"cpu",
-			"memory",
-			"disk"
-		]
-	},
-
-	"group/audio": {
-		"orientation": "horizontal",
-		"modules": [
-			"pulseaudio",
-			"pulseaudio#microphone"
-		]
-	},
-
 	"backlight": {
 		"interval": 2,
 		"align": 0,
@@ -148,27 +115,13 @@
 		"smooth-scrolling-threshold": 1
 	},
 
-	"battery": {
-		"interval": 1,
-		"align": 0,
-		"rotate": 0,
-		"full-at": 100,
-		"design-capacity": false,
-		"states": {
-			"good": 100,
-			"warning": 30,
-			"critical": 15
-		},
-		"format": "{icon}",
-		"format-charging": "",
-		"format-plugged": "󱘖",
-		"format-full": "{icon}",
-		"format-alt": "{icon}",
-		"format-icons": [	"󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
-		"format-time": "{H}h {M}min",
-		"tooltip": true,
-		//"tooltip-format": "{timeTo} {power}w"
-		"tooltip-format": "{capacity}%"
+	"group/audio": {
+		"orientation": "horizontal",
+		"modules": [
+			"pulseaudio",
+			"pulseaudio#microphone",
+			"mpris"
+		]
 	},
 
 	"pulseaudio": {
@@ -206,27 +159,6 @@
 		"scroll-step": 5
 	},
 
-	"cpu": {
-		"format": "󰍛 {usage}%",
-		"interval": 1,
-		"on-click": "wezterm -e btop"
-	},
-
-	"memory": {
-		"interval": 1,
-		"format": "󰾆 {percentage}%",
-		"tooltip": true,
-		"on-click": "wezterm -e btop"
-	},
-
-	"disk": {
-		"interval": 1,
-		"path": "/",
-		"format": " {percentage_used}%",
-		"tooltip-format": "{used} used out of {total} on {path} ({percentage_used}%)",
-		"on-click": "wezterm -e yazi"
-	},
-
 	"mpris": {
 		"interval": 10,
 		"format": "{player_icon} ",
@@ -254,19 +186,58 @@
 		"max-length": 30
 	},
 
-	"idle_inhibitor": {
-		"format": "{icon}",
-		"format-icons": {
-			"activated": " ",
-			"deactivated": " "
-		}
+	"group/network": {
+		"orientation": "horizontal",
+		"modules": [
+			"bluetooth",
+			"network"
+		]
 	},
 
-	"custom/power": {
-		"format": "",
-		"interval": 86400,
-		"tooltip": false,
-		"on-click": "~/.config/hypr/scripts/power.sh"
+	"bluetooth": {
+		"format": "",
+		"format-disabled": "󰂳",
+		"format-connected": "󰂱 {num_connections}",
+		"tooltip-format": " {device_alias}",
+		"tooltip-format-connected": "{device_enumerate}",
+		"tooltip-format-enumerate-connected": " {device_alias} 󰂄{device_battery_percentage}%",
+		"tooltip": true,
+		"on-click": "blueman-manager"
+	},
+
+	"network": {
+		"format": "{ifname}",
+		"format-wifi": "{icon}",
+		"format-ethernet": "󰌘",
+		"format-disconnected": "󰌙",
+		"tooltip-format": "Network: <big><b>{essid}</b></big>\nSignal strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>\nIP: <b>{ipaddr}/{cidr}</b>\nGateway: <b>{gwaddr}</b>\nNetmask: <b>{netmask}</b>",
+		"format-linked": "󰈁 {ifname} (No IP)",
+		"tooltip-format-disconnected": "󰌙 Disconnected",
+		"max-length": 50,
+		"format-icons": ["󰤯","󰤟","󰤢","󰤥","󰤨"]
+	},
+
+	"battery": {
+		"interval": 1,
+		"align": 0,
+		"rotate": 0,
+		"full-at": 100,
+		"design-capacity": false,
+		"states": {
+			"good": 100,
+			"warning": 30,
+			"critical": 15
+		},
+		"format": "{icon}",
+		"format-charging": "",
+		"format-plugged": "󱘖",
+		"format-full": "{icon}",
+		"format-alt": "{icon}",
+		"format-icons": [	"󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+		"format-time": "{H}h {M}min",
+		"tooltip": true,
+		//"tooltip-format": "{timeTo} {power}w"
+		"tooltip-format": "{capacity}%"
 	},
 
 	"custom/swaync": {
@@ -290,4 +261,3 @@
 		"escape": true
 	}
 }
-

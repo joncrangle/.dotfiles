@@ -40,6 +40,7 @@ setup_arch.sh
 .config/gtk-3.0/
 .config/fuzzel/
 .config/hypr/
+.config/networkmanager-dmenu/
 .config/paru/
 .config/sddm/
 .config/spotifyd/

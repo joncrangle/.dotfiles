@@ -21,13 +21,6 @@ clear
 #                  ▄██████▀▀▀              ▀▀██████▄
 #                 ▄███▀▀                       ▀▀███▄
 #                ▄▀▀                               ▀▀▄
-#
-# TODO:
-# - Hyprland config and catppuccin theme
-# - Hyprland keyboard and shortcuts
-# - Hyprpapr config and wallpaper selection
-# - Hypridle config
-# - SDDM config and catppuccin theme
 
 # ------------------------------------------------------
 # Utility functions
@@ -284,6 +277,7 @@ packages=(
     "neovim"
     "network-manager-applet"
     "networkmanager"
+    "networkmanager-dmenu-git"
     "nodejs"
     "noto-fonts" 
     "noto-fonts-emoji"
@@ -355,6 +349,7 @@ packages=(
     "zathura"
     "zig"
     "zip"
+    "zoom"
     "zoxide"
     "zsh"
     "zsh-antidote"
