@@ -218,7 +218,8 @@ wezterm connect tnas
 | **Applications**                            |                                        |
 | Launch terminal                             | `Super` + `Return`                     |
 | Launch browser                              | `Super` + `b`                          |
-| Launch file manager                         | `Super` + `e`                          |
+| Launch Thunar file manager                  | `Super` + `e`                          |
+| Launch Yazi file manager                    | `Super` + `y`                          |
 | Launch colour picker                        | `Super` + `c`                          |
 | **Workspaces / Windows**                    |                                        |
 | Switch to Workspace 1 - 9                   | `Super` + `1 - 9`                      |
