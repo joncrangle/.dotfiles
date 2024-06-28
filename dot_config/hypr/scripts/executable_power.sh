@@ -58,7 +58,7 @@ elif [[ "$1" == "hibernate" ]]; then
     hibernate_system
 else
     # Interactive menu
-    SELECTION="$(printf "1 - Exit\n2 - Lock\n3 - Reboot\n4 - Shutdown\n5 - Suspend\n6 - Hibernate" | fuzzel -d -l 7 -p "Power Menu: ")"
+    SELECTION="$(printf "1 - Exit\n2 - Lock\n3 - Reboot\n4 - Shutdown\n5 - Suspend\n6 - Hibernate" | fuzzel -d -a "top-left" -l 6 -p "Power Menu: ")"
     
     case $SELECTION in
         *"Exit")
