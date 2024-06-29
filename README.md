@@ -42,7 +42,7 @@ Features include:
 - [Paru](https://github.com/Morganamilo/paru) package management
 
 > [!WARNING]
-> Change the git username, email, and ssh keygen email in `setup_mac.sh` and `setup_win.ps1` to your own.
+> Change the git username, email, and ssh keygen email in `setup_arch.sh`, `setup_mac.sh` and `setup_win.ps1` to your own.
 > Change `banner.zsh` and the banner in `setup_win.ps1` to your own banner image.
 > If you have existing ssh keys, ensure to copy them to the $HOME/.ssh directory.
 
