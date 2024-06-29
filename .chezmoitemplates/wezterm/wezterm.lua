@@ -46,7 +46,7 @@ config.window_background_opacity = 0.92
 config.window_close_confirmation = 'AlwaysPrompt'
 config.window_padding = { left = 6, right = 6, top = 6, bottom = 0 }
 
--- Windows and MacOS
+-- Windows, MacOS and Linux
 if wezterm.target_triple:find 'windows' then
   config.default_prog = { 'pwsh.exe', '-NoLogo' }
   config.font_size = 12
@@ -81,7 +81,7 @@ elseif wezterm.target_triple:find 'linux' then
   config.command_palette_font_size = 14
 else
   config.default_prog = { '/opt/homebrew/bin/zsh', '-l' }
-  config.window_decorations = 'NONE'
+  config.window_decorations = 'RESIZE'
   -- Fonts
   config.font = wezterm.font_with_fallback {
     { family = 'IosevkaTerm Nerd Font', weight = 'Regular' },
