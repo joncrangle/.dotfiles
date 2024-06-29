@@ -7,7 +7,7 @@
 
 ## 📘 Overview
 
-This `.dotfiles` repository contains my macOS and Windows system configurations.
+This `.dotfiles` repository contains my macOS, Arch Linux and Windows system configurations.
 
 Features include:
 
