@@ -56,7 +56,7 @@ Features include:
     - Turn off system. Hold power button until "Loading startup options" appears. Click "Options" then click "Continue"
     - In the menu bar, choose `Utilities`, then `Terminal`
 
-    ```bash
+    ```zsh
     # If you're on Apple Silicon macOS 13.x.x
     # Requires Filesystem Protections, Debugging Restrictions and NVRAM Protection to be disabled
     # (printed warning can be safely ignored)
@@ -65,7 +65,7 @@ Features include:
 
     - Reboot. For Apple Silicon, need to enable non-Apple-signed arm64e binaries.
 
-    ```bash
+    ```zsh
     # Open a terminal and run the below command, then reboot
     sudo nvram boot-args=-arm64e_preview_abi
     ```
@@ -78,14 +78,14 @@ Features include:
 
 5. Download and run the [setup_mac.sh](https://github.com/joncrangle/.dotfiles/raw/main/setup_mac.sh) shell script.
 
-```bash
+```zsh
 curl -L https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_mac.sh | sh
 ```
 
 > [!TIP]
 > If needed, make the script executable with
 >
-> ```bash
+> ```zsh
 > chmod +x setup_mac.sh
 > ```
 
@@ -101,14 +101,14 @@ curl -L https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_mac.sh
 
 1. Download and run the [setup_win.ps1](https://github.com/joncrangle/.dotfiles/raw/main/setup_win.ps1) PowerShell script.
 
-```powershell
+```pwsh
 iwr -useb https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_win.ps1 | iex
 ```
 
 > [!TIP]
 > You might need to change the execution policy to `RemoteSigned` before running the script.
 >
-> ```powershell
+> ```pwsh
 > Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
 > ```
 
