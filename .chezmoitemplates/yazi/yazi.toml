@@ -5,8 +5,11 @@ show_hidden = true
 
 [opener]
 edit = [
-	{ exec = 'nvim "$@"', block = true, desc = "nvim", for = "unix" },
-	{ exec = 'nvim "%*"', block = true, desc = "nvim", for = "windows" }
+	{ run = 'nvim "$@"', block = true, desc = "nvim", for = "unix" },
+	{ run = 'nvim "%*"', block = true, desc = "nvim", for = "windows" }
+]
+open = [
+	{ run = 'feh -Z "$@"', block = true, desc = "feh", for = "unix" }
 ]
 play = [
 	{ run = 'iina "$@"', orphan = true, for = "macos" },

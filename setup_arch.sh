@@ -246,6 +246,7 @@ packages=(
     "eza" 
     "fastfetch"
     "fd"
+    "feh"
     "ffmpegthumbnailer"
     "fuzzel-git"
     "fzf"

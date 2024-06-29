@@ -69,7 +69,8 @@
 			"class<.*telegram.*>": " ",
 			"class<libreoffice-writer>": " ",
 			"class<libreoffice-startcenter>": "󰏆 ",
-			"class<blueman.*>": " "
+			"class<blueman.*>": " ",
+			"class<.*pavucontrol.*>": " "
 		}
 	},
 

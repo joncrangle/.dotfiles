@@ -169,6 +169,14 @@ Remove-Item -Path Alias:lg -ErrorAction SilentlyContinue
 Remove-Item -Path Alias:lzg -ErrorAction SilentlyContinue
 Remove-Item -Path Alias:lzd -ErrorAction SilentlyContinue
 
+function cme {
+    Set-Location "$env:USERPROFILE\.local\share\chezmoi"
+}
+
+function cmu {
+    chezmoi update && chezmoi apply
+}
+
 function copy-line {
     # Ensure rg, fzf, and bat are available
     $rgPath = Get-Command rg -ErrorAction SilentlyContinue
