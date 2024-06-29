@@ -24,7 +24,7 @@
 	// Left
 	"custom/arch": {
 		"format": " ",
-		"on-click": "~/.config/hypr/scripts/power.sh"
+		"on-click": "~/.config/hypr/scripts/power.sh top-left"
 	},
 
 	"hyprland/workspaces": {

@@ -52,8 +52,13 @@ export GOPATH=$HOME/.go
 
 # Path
 path=(
-    {{ if eq .chezmoi.os "darwin" }}$HOMEBREW_DIR/bin(N-/){{- end -}}
-    {{- if eq .chezmoi.os "linux" -}}/usr/bin(N-/){{ end }}
+    {{ if eq .chezmoi.os "darwin" }}
+    $HOMEBREW_DIR/bin(N-/)
+    {{- end -}}
+    {{- if eq .chezmoi.os "linux" -}}
+    /usr/bin(N-/)
+    $HOME/.config/hypr/scripts(N-/)
+    {{ end }}
     $HOME/bin(N-/)
     $HOME/.local/bin(N-/)
     $HOME/.bun/bin(N-/)
