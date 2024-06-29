@@ -361,6 +361,7 @@ echo ":: Installing packages..."
 _installPackagesParu "${packages[@]}";
 paru -S ffmpeg-libfdk_aac
 bat cache --build
+nwg-look -a
 sudo mkdir -p /etc/sddm.conf.d
 sudo ln -s ~/.config/sddm/sddm.conf /etc/sddm.conf.d/sddm.conf
 sudo sed -i 's|^Background="backgrounds/wall.jpg"|Background="~\/.config\/hypr\/wallpapers\/cat-sound.png"|g' /usr/share/sddm/themes/catppuccin-mocha/theme.conf
