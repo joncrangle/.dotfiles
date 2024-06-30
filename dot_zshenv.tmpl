@@ -58,7 +58,7 @@ path=(
     {{- if eq .chezmoi.os "linux" -}}
     /usr/bin(N-/)
     $HOME/.config/hypr/scripts(N-/)
-    {{- end -}}
+    {{ end }}
     $HOME/bin(N-/)
     $HOME/.local/bin(N-/)
     $HOME/.bun/bin(N-/)

@@ -97,8 +97,7 @@
 	
 	// Right
 	"mpris": {
-		"format": "{player_icon}",
-		"format-paused": "{status_icon}",
+		"format": "{player_icon}  {status_icon}",
 		"on-click": "playerctl play-pause",
 		"on-click-middle": "playerctl previous",
 		"on-click-right": "playerctl next",
@@ -116,6 +115,7 @@
 			"vlc": "󰕼"
 		},
 		"status-icons": {
+			"default": "",
 			"paused": "󰐎",
 			"playing": "",
 			"stopped": ""
@@ -152,7 +152,7 @@
 		"orientation": "horizontal",
 		"modules": [
 			"pulseaudio",
-			"pulseaudio#microphone",
+			"pulseaudio#microphone"
 		]
 	},
 
