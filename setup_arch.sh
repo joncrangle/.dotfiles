@@ -358,11 +358,17 @@ packages=(
 echo ":: Installing packages..."
 _installPackagesParu "${packages[@]}";
 paru -S ffmpeg-libfdk_aac
+echo
+
+echo ":: Setting up theme..."
 bat cache --build
 nwg-look -a
 sudo mkdir -p /etc/sddm.conf.d
 sudo ln -s ~/.config/sddm/sddm.conf /etc/sddm.conf.d/sddm.conf
-sudo sed -i 's|^Background="backgrounds/wall.jpg"|Background="~\/.config\/hypr\/wallpapers\/cat-sound.png"|g' /usr/share/sddm/themes/catppuccin-mocha/theme.conf
+sudo cp ~/.config/hypr/wallpapers/cat-sound.png /usr/share/sddm/themes/catppuccin-mocha/backgrounds/cat-sound.png
+sudo sed -i 's|^CustomBackground="false"|CustomBackground="true"|g' /usr/share/sddm/themes/catppuccin-mocha/theme.conf
+sudo sed -i 's|^LoginBackground="false"|LoginBackground="true"|g' /usr/share/sddm/themes/catppuccin-mocha/theme.conf
+sudo sed -i 's|^wall.jpg"|cat-sound.png"|g' /usr/share/sddm/themes/catppuccin-mocha/theme.conf
 echo
 
 # Check for ttf-ms-fonts
