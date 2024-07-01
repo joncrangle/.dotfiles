@@ -297,8 +297,6 @@ packages=(
     "python"
     "python-pip"
     "qalculate-gtk"
-    "qt5ct"
-    "qt6ct"
     "qt5-wayland"
     "qt6-wayland"
     "ripgrep"
