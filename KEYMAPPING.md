@@ -231,7 +231,7 @@ wezterm connect tnas
 | Toggle split                                | `Super` + `s`                          |
 | Toggle window group                         | `Super` + `g`                          |
 | Tab between windows in group                | `Super` + `Tab`                        |
-| Resize                                      | `Super` + `r`, then `h`, `j`, `k`, `l` |
+| Resize                                      | `Alt` + `r`, then `h`, `j`, `k`, `l` |
 | **Actions**                                 |                                        |
 | Logout                                      | `Super` + `Ctrl` + `q`                 |
 | Lock screen                                 | `Super` + `Ctrl` + `l`                 |
