@@ -18,7 +18,7 @@ Features include:
 - [Starship](https://starship.rs/) prompt
 - [WezTerm](https://wezfurlong.org/wezterm/) a cross-platform terminal emulator
 - [Yazi](https://github.com/sxyazi/yazi) terminal file manager
-- A configured `zsh` shell on macOS and `PowerShell` on Windows with autocompletion, history, and syntax highlighting
+- A configured `zsh` shell for macOS and Linux, and `PowerShell` for Windows with autocompletion, history, and syntax highlighting
 - Fuzzy finding with [fzf](https://github.com/junegunn/fzf)
 
 **MacOS**
@@ -39,7 +39,7 @@ Features include:
 - [Waybar](https://github.com/Alexays/Waybar) panel
 - [Fuzzel](https://codeberg.org/dnkl/fuzzel) launcher
 - [swaync](https://github.com/ErikReider/SwayNotificationCenter) notification center
-- [Paru](https://github.com/Morganamilo/paru) package management
+- [Paru](https://github.com/Morganamilo/paru) AUR helper (package management)
 
 > [!WARNING]
 > Change the git username, email, and ssh keygen email in `setup_arch.sh`, `setup_mac.sh` and `setup_win.ps1` to your own.
