@@ -59,10 +59,10 @@ elif [[ "$1" == "hibernate" ]]; then
 else
     # Interactive menu
     if [[ "$1" == "top-left" ]]; then
-    SELECTION="$(printf "1 - Exit\n2 - Lock\n3 - Reboot\n4 - Shutdown\n5 - Suspend\n6 - Hibernate" | fuzzel -d -a "top-left" -l 6 -p "Power Menu: ")"
+        SELECTION="$(printf "1 - Exit\n2 - Lock\n3 - Reboot\n4 - Shutdown\n5 - Suspend\n6 - Hibernate" | fuzzel -d -a "top-left" -l 6 -p "Power Menu: ")"
     else
-    echo ":: Menu" >> ~/log # For debugging
-    SELECTION="$(printf "1 - Exit\n2 - Lock\n3 - Reboot\n4 - Shutdown\n5 - Suspend\n6 - Hibernate" | fuzzel -d -l 6 -p "Power Menu: ")"
+        sleep 1
+        SELECTION="$(printf "1 - Exit\n2 - Lock\n3 - Reboot\n4 - Shutdown\n5 - Suspend\n6 - Hibernate" | fuzzel -d -l 6 -p "Power Menu: ")"
     fi
 
     case $SELECTION in
