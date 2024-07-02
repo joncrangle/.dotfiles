@@ -326,9 +326,9 @@ $packages = @(
     "7zip", "bat", "biome", "bruno", "curl", "delta", "docker", "eza", "fastfetch", "fd",
     "ffmpeg", "glazewm", "glow", "go", "gzip", "JetBrainsMono-NF", "jq", "krita", "lazygit", 
     "lazydocker", "make", "mariadb", "Meslo-NF", "neovim", "nodejs", "obsidian", "poppler",
-    "pnpm", "postgresql", "python", "ripgrep", "tableplus", "tldr", "tree-sitter", "unar",
-    "unzip", "uv", "vlc", "vcredist2022", "vscode", "wezterm-nightly", "wget", "yarn", "yazi",
-    "yq", "zig", "zoom"
+    "pnpm", "postgresql", "python", "ripgrep", "rustup", "tableplus", "tldr", "tree-sitter",
+    "unar", "unzip", "uv", "vlc", "vcredist2022", "vscode", "wezterm-nightly", "wget", "yarn",
+    "yazi", "yq", "zig", "zoom"
 )
 
 foreach ($package in $packages) {
