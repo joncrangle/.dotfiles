@@ -424,6 +424,15 @@ else
     echo ":: bluetooth.service activated successfully."    
 fi
 
+# Check for running docker.service
+if [[ $(systemctl list-units --all -t service --full --no-legend "docker.service" | sed 's/^\s*//g' | cut -f1 -d' ') == "docker.service" ]];then
+    echo ":: docker.service already running."
+else
+    systemctl --user enable docker.service
+    systemctl --user start docker.service
+    echo ":: docker.service activated successfully."    
+fi
+
 # Check for running spotifyd.service
 if [[ $(systemctl list-units --all -t service --full --no-legend "spotifyd.service" | sed 's/^\s*//g' | cut -f1 -d' ') == "spotifyd.service" ]];then
     echo ":: spotifyd.service already running."
