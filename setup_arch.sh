@@ -309,6 +309,7 @@ packages=(
     "starship"
     "swappy"
     "swaync"
+    "system-config-printer"
     "thefuck"
     "thunar"
     "thunar-archive-plugin"
