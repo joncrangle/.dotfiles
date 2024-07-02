@@ -362,18 +362,24 @@ paru -S ffmpeg-libfdk_aac
 echo
 
 echo ":: Setting up theme..."
-bat cache --build
-nwg-look -a
-sudo mkdir -p /etc/sddm.conf.d
-sudo ln -s ~/.config/sddm/sddm.conf /etc/sddm.conf.d/sddm.conf
-sudo cp ~/.config/hypr/wallpapers/cat-sound.png /usr/share/sddm/themes/catppuccin-mocha/backgrounds/cat-sound.png
-sudo sed -i 's|^CustomBackground="false"|CustomBackground="true"|g' /usr/share/sddm/themes/catppuccin-mocha/theme.conf
-sudo sed -i 's|^LoginBackground="false"|LoginBackground="true"|g' /usr/share/sddm/themes/catppuccin-mocha/theme.conf
-sudo sed -i 's|^wall.jpg"|cat-sound.png"|g' /usr/share/sddm/themes/catppuccin-mocha/theme.conf
+if [[ $(_isInstalledParu "bat") -eq 0 ]]; then
+    bat cache --build
+fi
+if [[ $(_isInstalledParu "nwg-look") -eq 0 ]]; then
+    nwg-look -a
+fi
+if [[ $(_isInstalledParu "sddm") -eq 0 ]]; then
+    sudo mkdir -p /etc/sddm.conf.d
+    sudo ln -s ~/.config/sddm/sddm.conf /etc/sddm.conf.d/sddm.conf
+    sudo cp ~/.config/hypr/wallpapers/cat-sound.png /usr/share/sddm/themes/catppuccin-mocha/backgrounds/cat-sound.png
+    sudo sed -i 's|^CustomBackground="false"|CustomBackground="true"|g' /usr/share/sddm/themes/catppuccin-mocha/theme.conf
+    sudo sed -i 's|^LoginBackground="false"|LoginBackground="true"|g' /usr/share/sddm/themes/catppuccin-mocha/theme.conf
+    sudo sed -i 's|^wall.jpg"|cat-sound.png"|g' /usr/share/sddm/themes/catppuccin-mocha/theme.conf
+fi
 echo
 
 # Check for ttf-ms-fonts
-if [[ $(_isInstalledPacman "ttf-ms-fonts") == 0 ]]; then
+if [[ $(_isInstalledParu "ttf-ms-fonts") == 0 ]]; then
     echo "The script has detected ttf-ms-fonts. This can cause conflicts with icons in Waybar."
     if gum confirm "Do you want to uninstall ttf-ms-fonts?" ;then
         sudo pacman --noconfirm -R ttf-ms-fonts
@@ -426,8 +432,12 @@ else
     echo ":: spotifyd.service activated successfully."    
 fi
 
-xdg-user-dirs-update
-chsh -s /bin/zsh
+if [[ $(_isInstalledParu "xdg-user-dirs") -eq 0 ]]; then
+    xdg-user-dirs-update
+fi
+if [[ $(_isInstalledParu "zsh") -eq 0 ]]; then
+    chsh -s /bin/zsh
+fi
 echo
 
 echo ":: Setup complete."

@@ -248,7 +248,7 @@ return {
         marksman = {},
         mdx_analyzer = {},
         prismals = {},
-        ruff = { enabled = true },
+        ruff = {},
         rust_analyzer = {},
         sqlls = {},
         svelte = {},
