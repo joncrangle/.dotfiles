@@ -17,7 +17,7 @@ function M.setup(config)
     },
     {
       name = 'tnas',
-      remote_address = '{{ .TnasAddress }}',
+      remote_address = '{{ .TnasAddress }}:9222',
       username = '{{ .TnasUser }}',
       multiplexing = 'None',
     },
