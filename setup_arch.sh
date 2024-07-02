@@ -295,7 +295,7 @@ packages=(
     "power-profiles-daemon"
     "pulseaudio"
     "python"
-    "python-pip"
+    "python-uv"
     "qalculate-gtk"
     "qt5-wayland"
     "qt6-wayland"

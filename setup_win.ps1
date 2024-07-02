@@ -327,7 +327,7 @@ $packages = @(
     "ffmpeg", "glazewm", "glow", "go", "gzip", "JetBrainsMono-NF", "jq", "krita", "lazygit", 
     "lazydocker", "make", "mariadb", "Meslo-NF", "neovim", "nodejs", "obsidian", "poppler",
     "pnpm", "postgresql", "python", "ripgrep", "tableplus", "tldr", "tree-sitter", "unar",
-    "unzip", "vlc", "vcredist2022", "vscode", "wezterm-nightly", "wget", "yarn", "yazi",
+    "unzip", "uv", "vlc", "vcredist2022", "vscode", "wezterm-nightly", "wget", "yarn", "yazi",
     "yq", "zig", "zoom"
 )
 
