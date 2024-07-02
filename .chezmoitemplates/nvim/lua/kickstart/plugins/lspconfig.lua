@@ -161,6 +161,18 @@ return {
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
         astro = {},
+        basedpyright = {
+          enabled = true,
+          settings = {
+            disableOrganizeImports = true,
+            basedpyright = {
+              analysis = {
+                ignore = { "*" },
+                -- typeCheckingMode = "off",
+              },
+            },
+          },
+        },
         bashls = {},
         clangd = {},
         cssls = {},
@@ -236,7 +248,7 @@ return {
         marksman = {},
         mdx_analyzer = {},
         prismals = {},
-        pyright = {},
+        ruff = { enabled = true },
         rust_analyzer = {},
         sqlls = {},
         svelte = {},
@@ -328,7 +340,6 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'biome',
-        'black',
         'delve',
         'goimports',
         'goimports-reviser',
@@ -336,7 +347,6 @@ return {
         'golines',
         'gomodifytags',
         'impl',
-        'isort',
         'markdownlint',
         'prettier',
         'prettierd',
@@ -362,4 +372,3 @@ return {
   },
 }
 -- vim: ts=2 sts=2 sw=2 et
-

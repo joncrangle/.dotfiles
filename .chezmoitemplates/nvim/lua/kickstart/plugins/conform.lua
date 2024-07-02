@@ -37,7 +37,7 @@ return {
         json = { { 'biome', 'prettierd', 'prettier' } },
         lua = { 'stylua' },
         markdown = { 'markdownlint' },
-        python = { 'isort', 'black' },
+        python = { 'ruff_format' },
         sh = { 'shfmt' },
         svelte = { { 'biome', 'prettierd', 'prettier' } },
         templ = { 'templ' },
