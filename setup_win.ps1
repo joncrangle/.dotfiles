@@ -325,8 +325,8 @@ Write-Host "Installing Scoop apps..."
 $packages = @(
     "7zip", "bat", "biome", "bruno", "curl", "delta", "docker", "eza", "fastfetch", "fd",
     "ffmpeg", "glazewm", "glow", "go", "gzip", "JetBrainsMono-NF", "jq", "krita", "lazygit", 
-    "lazydocker", "lua", "luarocks", "make", "mariadb", "Meslo-NF", "neovim", "nodejs",
-    "obsidian", "poppler", "pnpm", "postgresql", "python", "ripgrep", "rustup", "tableplus",
+    "lazydocker", "lua", "luarocks", "make", "mariadb", "Meslo-NF", "mingw", "neovim", "nodejs",
+    "obsidian", "poppler", "pnpm", "postgresql", "python", "ripgrep", "rustup-gnu", "tableplus",
     "tldr", "tree-sitter", "unar", "unzip", "uv", "vlc", "vcredist2022", "vscode",
     "wezterm-nightly", "wget", "yarn", "yazi", "yq", "zig", "zoom"
 )
@@ -373,6 +373,18 @@ foreach ($link in $links) {
     } catch {
         Write-Host "Failed to create shortcut for $($program.Name): $_"
     }
+}
+
+try {
+    $regFilePath = "$env:USERPROFILE\scoop\apps\python\current\install-pep-514.reg"
+    if (Test-Path $regFilePath) {
+        # Import the registry file
+        reg import $regFilePath
+    } else {
+        Write-Error "Registry file for python not found: $regFilePath"
+    }
+} catch {
+    Write-Error "An error occurred: $_"
 }
 
 Copy-Item -Path "$env:USERPROFILE\.config\btop\btop.conf" -Destination "$env:USERPROFILE\scoop\persist\btop\btop.conf" -Force
