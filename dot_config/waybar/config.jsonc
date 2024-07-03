@@ -159,7 +159,7 @@
 	},
 
 	"pulseaudio": {
-		"format": "{icon}",
+		"format": "{icon} {volume}%",
 		"format-bluetooth": "{icon} 󰂰 {volume}%",
 		"format-muted": "󰖁",
 		"format-icons": {
@@ -169,8 +169,7 @@
 			"phone": "󰏲",
 			"portable": "󰏲",
 			"car": "󰄋",
-			"default": ["󰕿", "󰖀", "󰕾"],
-			"ignored-sinks": ["Easy Effects Sink"]
+			"default": ["󰕿", "󰖀", "󰕾"]
 		},
 		"scroll-step": 5.0,
 		"on-click": "pamixer -t",
@@ -178,7 +177,7 @@
 		"on-scroll-up": "pamixer -i 5",
 		"on-scroll-down": "pamixer -d 5",
 		"smooth-scrolling-threshold": 1,
-		"tooltip-format": "{volume}%"
+		"tooltip-format": "{desc}"
 	},
 
 	"pulseaudio#microphone": {
@@ -189,8 +188,8 @@
 		"on-click-right": "pavucontrol -t 4",
 		"on-scroll-up": "pamixer --default-source -i 5",
 		"on-scroll-down": "pamixer --default-source -d 5",
-		"tooltip-format":"{source_volume}%",
-		"scroll-step": 5
+		"tooltip-format":"Internal Microphone",
+		"scroll-step": 5.0
 	},
 
 	"backlight": {

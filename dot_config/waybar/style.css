@@ -61,12 +61,12 @@ tooltip {
     color: @peach;
 }
 
+#audio,
 #backlight,
 #battery,
 #bluetooth,
 #mpris,
 #network,
-#audio,
 #custom-swaync {
     border-radius: 10px;
     background-color: @surface0;
@@ -110,6 +110,13 @@ tooltip {
     padding-right: 5px;
     margin-left: 0;
     margin-right: 0;
+}
+
+@keyframes blink {
+    to {
+        background-color: @rosewater;
+        color: @red;
+    }
 }
 
 #battery.critical:not(.charging) {

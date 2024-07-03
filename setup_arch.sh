@@ -286,6 +286,7 @@ packages=(
     "nwg-look"
     "obsidian"
     "otf-font-awesome" 
+    "pamixer"
     "papirus-icon-theme"
     "pavucontrol" 
     "playerctl"
