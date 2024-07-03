@@ -193,43 +193,25 @@
 	},
 
 	"backlight": {
-		"interval": 2,
-		"align": 0,
-		"rotate": 0,
-		"format": "{icon}",
+		"format": "{icon} {percent}%",
 		"format-icons": ["󰃞", "󰃟", "󰃠"],
 		"tooltip-format": "backlight {percent}%",
-		"icon-size": 10,
-		"on-click": "",
-		"on-click-middle": "",
-		"on-click-right": "",
-		"on-update": "",
-		"on-scroll-up": "brightnessctl set +5%",
-		"on-scroll-down": "brightnessctl set -5%",
-		"smooth-scrolling-threshold": 1
+		"on-scroll-up": "brightnessctl set 5%+",
+		"on-scroll-down": "brightnessctl set 5%-"
 	},
 
 	"battery": {
-		"interval": 1,
-		"align": 0,
-		"rotate": 0,
-		"full-at": 100,
-		"design-capacity": false,
 		"states": {
-			"good": 100,
+			"good": 90,
 			"warning": 30,
 			"critical": 15
 		},
-		"format": "{icon}",
-		"format-charging": "",
-		"format-plugged": "󱘖",
-		"format-full": "{icon}",
-		"format-alt": "{icon}",
+		"format": "{icon} {capacity}%",
+		"format-charging": " {capacity}%",
+		"format-plugged": "󱘖 {capacity}%",
+		"format-alt": "{time} {icon}",
 		"format-icons": [	"󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
-		"format-time": "{H}h {M}min",
-		"tooltip": true,
-		//"tooltip-format": "{timeTo} {power}w"
-		"tooltip-format": "{capacity}%"
+		"format-time": "{H}h {M}min"
 	},
 
 	"custom/swaync": {
