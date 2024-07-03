@@ -24,6 +24,7 @@
 	// Left
 	"custom/arch": {
 		"format": " ",
+		"tooltip": false,
 		"on-click": "~/.config/hypr/scripts/power.sh top-left"
 	},
 
@@ -112,10 +113,10 @@
 			"mopidy": "",
 			"mpv": "󰐹",
 			"spotify": "",
+			"spotifyd": "",
 			"vlc": "󰕼"
 		},
 		"status-icons": {
-			"default": "",
 			"paused": "󰐎",
 			"playing": "",
 			"stopped": ""
@@ -128,6 +129,7 @@
 		"format-disabled": "󰂳",
 		"format-connected": "󰂱 {num_connections}",
 		"tooltip-format": " {device_alias}",
+		"tooltip-format-on": " No devices connected",
 		"tooltip-format-connected": "{device_enumerate}",
 		"tooltip-format-enumerate-connected": " {device_alias} 󰂄{device_battery_percentage}%",
 		"tooltip": true,

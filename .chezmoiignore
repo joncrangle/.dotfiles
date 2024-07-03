@@ -41,8 +41,10 @@ setup_arch.sh
 .config/gtk-3.0/
 .config/fuzzel/
 .config/hypr/
+.config/Kvantum/
 .config/networkmanager-dmenu/
 .config/paru/
+.config/qt6ct/
 .config/sddm/
 .config/spotifyd/
 .config/spotify-player/

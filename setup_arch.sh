@@ -433,14 +433,6 @@ else
     echo ":: docker.service activated successfully."    
 fi
 
-# Check for running spotifyd.service
-if [[ $(systemctl list-units --all -t service --full --no-legend "spotifyd.service" | sed 's/^\s*//g' | cut -f1 -d' ') == "spotifyd.service" ]];then
-    echo ":: spotifyd.service already running."
-else
-    systemctl --user enable spotifyd.service --now
-    echo ":: spotifyd.service activated successfully."    
-fi
-
 if [[ $(_isInstalledParu "xdg-user-dirs") -eq 0 ]]; then
     xdg-user-dirs-update
 fi
