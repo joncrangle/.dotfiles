@@ -19,7 +19,6 @@ require('tabs').setup(config)
 require('mouse').setup(config)
 require('links').setup(config)
 require('keys').setup(config)
-require('domains').setup(config)
 
 -- Graphics config
 config.front_end = 'WebGpu'
@@ -28,6 +27,7 @@ config.cursor_blink_ease_out = 'Constant'
 
 --  Colour scheme and UI
 config.adjust_window_size_when_changing_font_size = false
+config.bold_brightens_ansi_colors = true
 config.color_scheme = 'Catppuccin Mocha'
 config.command_palette_bg_color = 'rgba(26, 27, 38, 0.92)'
 config.command_palette_fg_color = '#a9b1d6'
@@ -47,60 +47,32 @@ config.window_close_confirmation = 'AlwaysPrompt'
 config.window_padding = { left = 6, right = 6, top = 6, bottom = 0 }
 
 -- Windows, MacOS and Linux
+local primary_font = 'IosevkaTerm Nerd Font'
 if wezterm.target_triple:find 'windows' then
   config.default_prog = { 'pwsh.exe', '-NoLogo' }
+  config.window_decorations = 'RESIZE'
   config.font_size = 12
   config.command_palette_font_size = 12
-  config.window_decorations = 'RESIZE'
-  -- Fonts
-  config.font = wezterm.font_with_fallback {
-    { family = 'IosevkaTerm Nerd Font', weight = 'Regular' },
-    { family = 'MesloLGS NF', weight = 'Regular' },
-  }
-  wezterm.on('gui-startup', function(cmd)
-    local screen = wezterm.gui.screens().active
-    ---@diagnostic disable-next-line: unused-local
-    local tab, pane, window = wezterm.mux.spawn_window(cmd or {})
-    local gui = window:gui_window()
-    local width = 0.7 * screen.width
-    local height = 0.7 * screen.height
-    gui:set_inner_size(width, height)
-    gui:set_position((screen.width - width) / 2, (screen.height - height) / 2)
-  end)
 elseif wezterm.target_triple:find 'linux' then
   config.term = "wezterm"
   config.window_decorations = 'NONE'
   config.enable_wayland = true
   config.webgpu_power_preference = "HighPerformance"
-  -- Fonts
-  config.font = wezterm.font_with_fallback {
-    { family = 'Iosevka Term', weight = 'Regular' },
-    { family = 'MesloLGS NF', weight = 'Regular' },
-  }
   config.font_size = 14
   config.command_palette_font_size = 14
+  primary_font = 'IosevkaTerm'
 else
   config.default_prog = { '/opt/homebrew/bin/zsh', '-l' }
   config.window_decorations = 'RESIZE'
-  -- Fonts
-  config.font = wezterm.font_with_fallback {
-    { family = 'IosevkaTerm Nerd Font', weight = 'Regular' },
-    { family = 'MesloLGS NF', weight = 'Regular' },
-  }
   config.font_size = 16
   config.command_palette_font_size = 16
 end
 
--- Sessions
-local session_manager = require 'sessions'
-wezterm.on('save_session', function(window)
-  session_manager.save_state(window)
-end)
-wezterm.on('restore_session', function(window)
-  session_manager.restore_state(window)
-end)
-
-config.bold_brightens_ansi_colors = true
+-- Fonts
+config.font = wezterm.font_with_fallback {
+  { family = primary_font, weight = 'Regular' },
+  { family = 'MesloLGS NF', weight = 'Regular' },
+}
 config.font_rules = {
   {
     intensity = 'Bold',
@@ -119,6 +91,18 @@ config.font_rules = {
   },
 }
 config.harfbuzz_features = { 'ss06' }
+
+-- Sessions
+local session_manager = require 'sessions'
+wezterm.on('save_session', function(window)
+  session_manager.save_state(window)
+end)
+wezterm.on('restore_session', function(window)
+  session_manager.restore_state(window)
+end)
+
+-- SSH domains
+config.ssh_domains = wezterm.default_ssh_domains()
 
 smart_splits.apply_to_config(config)
 
