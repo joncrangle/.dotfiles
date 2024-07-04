@@ -44,6 +44,7 @@ setup_arch.sh
 .config/Kvantum/
 .config/networkmanager-dmenu/
 .config/paru/
+.config/qt5ct/
 .config/qt6ct/
 .config/sddm/
 .config/spotifyd/
