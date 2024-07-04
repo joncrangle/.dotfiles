@@ -153,6 +153,43 @@ nmcli device wifi connect SSID password PASSWORD
 bash <(curl -s https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_arch.sh)
 ```
 
+> [!TIP]
+> KDE Plasma and Hyprland configs can clash. A workaround is to initiate sessions with different `XDG_CONFIG_HOME` variables.
+>
+> This script uses the `.kdeconfig` directory for KDE Plasma, and the `.config` directory for Hyprland.
+>
+> *Requires sudo permissions* 
+>
+> 1. Create a `launch.sh` script in `/usr/share/wayland-sessions` and make it executable with `chmod +x launch.sh`:
+>
+> ```bash
+> #!/bin/bash
+> if [ -z "$1" ]; then
+> 	echo "Usage: $0 <config_directory> <command>"
+> 	exit 1
+> fi
+>
+> export XDG_CONFIG_HOME="$HOME/$1"
+>
+> shift
+>
+> exec "$@"
+> ```
+>
+> 2. Edit `plasma.desktop` in `/usr/share/wayland-sessions`:
+>
+> ```bash
+> # Comment out existing Exec and TryExec lines and add:
+> Exec=/usr/share/wayland-sessions/launch.sh .kdeconfig /usr/lib/plasma-dbus-run-session-if-needed /usr/bin/startplasma-wayland
+>```
+>
+> 3. Edit `hyprland.desktop` in `/usr/share/wayland-sessions`:
+>
+> ```bash
+> # Comment out existing Exec line and add:
+> Exec=/usr/share/wayland-sessions/launch.sh .config Hyprland
+> ```
+
 ### Paru commands
 
 Install a package
