@@ -1,13 +1,13 @@
 return {
   'folke/trouble.nvim',
   lazy = true,
-  dependencies = { 'nvim-tree/nvim-web-devicons' },
+  opts = true,
+  cmd = 'Trouble',
+  dependencies = { 'echasnovski/mini.nvim' },
   keys = {
     {
       '<leader>x',
-      function()
-        require('trouble').toggle()
-      end,
+      "<cmd>Trouble diagnostics toggle<cr>",
       desc = 'Toggle Trouble',
     },
   },

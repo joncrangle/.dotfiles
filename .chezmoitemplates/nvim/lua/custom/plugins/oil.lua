@@ -1,7 +1,7 @@
 return {
   'stevearc/oil.nvim',
   lazy = true,
-  dependencies = { 'nvim-tree/nvim-web-devicons' },
+  dependencies = { 'echasnovski/mini.icons' },
   opts = {
     default_file_explorer = true,
     skip_confirm_for_simple_edits = true,

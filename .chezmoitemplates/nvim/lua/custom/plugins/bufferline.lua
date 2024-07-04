@@ -4,7 +4,7 @@ return {
   lazy = true,
   event = 'VeryLazy',
   dependencies = {
-    'nvim-tree/nvim-web-devicons',
+    'echasnovski/mini.icons',
     'catppuccin',
   },
   config = function()
