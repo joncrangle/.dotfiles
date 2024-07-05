@@ -77,6 +77,8 @@ function M.setup(config)
     local colors = config.resolved_palette
     local active_bg = colors.tab_bar.active_tab.bg_color
     local inactive_bg = colors.tab_bar.inactive_tab.bg_color
+    local hover_bg = colors.tab_bar.new_tab_hover.bg_color
+    local hover_fg = colors.tab_bar.new_tab_hover.fg_color
 
     local tab_idx = 1
     for i, t in ipairs(tabs) do
@@ -103,16 +105,25 @@ function M.setup(config)
       arrow_fg = inactive_bg
     end
 
-    local ret = tab.is_active and {
-      { Attribute = { Intensity = 'Bold' } },
-    } or {}
-    ret[#ret + 1] = { Text = ' ' }
-    ret[#ret + 1] = { Text = arrow }
-    ret[#ret + 1] = { Text = ' ' }
-    ret[#ret + 1] = { Text = tostring(tab_idx) }
-    ret[#ret + 1] = { Text = title }
-    ret[#ret + 1] = { Foreground = { Color = arrow_fg } }
-    ret[#ret + 1] = { Background = { Color = arrow_bg } }
+    local ret = {}
+
+    if tab.is_active then
+      table.insert(ret, { Attribute = { Intensity = 'Bold' } })
+    end
+
+    if hover then
+      table.insert(ret, { Background = { Color = hover_bg } })
+      table.insert(ret, { Foreground = { Color = hover_fg } })
+    end
+
+    table.insert(ret, { Text = ' ' })
+    table.insert(ret, { Text = arrow })
+    table.insert(ret, { Text = ' ' })
+    table.insert(ret, { Text = tostring(tab_idx) })
+    table.insert(ret, { Text = title })
+    table.insert(ret, { Background = { Color = arrow_bg } })
+    table.insert(ret, { Foreground = { Color = arrow_fg } })
+
     return ret
   end)
 end
