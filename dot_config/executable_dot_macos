@@ -13,6 +13,9 @@
 
 # Close any open System Preferences panes, to prevent them from overriding
 # settings we’re about to change
+#
+# Another useful resource:
+# https://macos-defaults.com/
 osascript -e 'tell application "System Preferences" to quit'
 
 # Ask for the administrator password upfront
@@ -393,6 +396,13 @@ defaults write com.apple.dock mineffect -string "scale"
 
 # Minimize windows into their application’s icon
 defaults write com.apple.dock minimize-to-application -bool true
+
+# Position the Dock
+# Possible values:
+#  left
+#  bottom
+#  right
+defaults write com.apple.dock "orientation" -string "right"
 
 # Enable spring loading for all Dock items
 # defaults write com.apple.dock enable-spring-load-actions-on-all-items -bool true
