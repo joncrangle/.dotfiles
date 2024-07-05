@@ -65,7 +65,9 @@ function M.setup(config)
     { mods = M.mod, key = ':', action = act.QuickSelect },
     { mods = M.mod, key = 'x', action = act.ActivateCopyMode },
     { mods = M.mod, key = 'f', action = act.Search 'CurrentSelectionOrEmptyString' },
-    { mods = M.v, key = 'v', action = act.PasteFrom 'Clipboard' },
+    -- Interferes with visual block mode in nvim
+    -- { mods = M.v, key = 'v', action = act.PasteFrom 'Clipboard' },
+    { mods = M.super, key = 'v', action = act.PasteFrom 'Clipboard' },
     { mods = M.mod, key = 'p', action = act.ActivateCommandPalette },
     { mods = M.mod, key = 'd', action = act.ShowDebugOverlay },
   }
