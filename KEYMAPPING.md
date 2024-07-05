@@ -202,7 +202,7 @@ wezterm connect tnas
 | Focus recent workspace                       | `Alt` + `y`                                   |
 | Toggle Float                                 | `Alt` + `Shift` + `Space`                     |
 | Close Window                                 | `Alt` + `Shift` + `q`                         |
-| Minimize Window                              | `Alt` + `m`                                   |
+| Minimize Window                              | `Alt` + `Shift` + `m`                         |
 | Resize: Left / Down / Up / Right             | `Alt` + `r`, then `h`, `j`, `k`, `l`          |
 | Swap Left / Down / Up / Right                | `Alt` + `Shift` + `h`, `j`, `k`, `l`          |
 | Stop GlazeWM                                 | `Alt` + `Shift` + `e`                         |
