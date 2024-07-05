@@ -21,12 +21,11 @@ function M.setup(config)
   config.keys = {
     -- Window
     { mods = 'ALT', key = 'Enter', action = act.ToggleFullScreen },
-    { mods = M.mod, key = 'm', action = act.Hide },
     { mods = 'SUPER', key = 'q', action = act.QuitApplication },
     { mods = 'SHIFT|CTRL', key = 'q', action = act.QuitApplication },
     -- Sessions
-    { mods = M.super, key = ']', action = act.EmitEvent 'save_session' },
-    { mods = M.super, key = '[', action = act.EmitEvent 'restore_session' },
+    { mods = M.super, key = 's', action = act { EmitEvent = 'save_session' } },
+    { mods = M.super, key = 'o', action = act { EmitEvent = 'restore_session' } },
     -- Scrollback
     { mods = M.mod, key = 'k', action = act.ScrollByPage(-0.5) },
     { mods = M.mod, key = 'j', action = act.ScrollByPage(0.5) },
@@ -61,7 +60,6 @@ function M.setup(config)
     { mods = 'ALT', key = 'UpArrow', action = act.AdjustPaneSize { 'Up', 3 } },
     { mods = 'ALT', key = 'RightArrow', action = act.AdjustPaneSize { 'Right', 3 } },
     { mods = 'ALT', key = 'm', action = act.TogglePaneZoomState },
-    { mods = M.mod, key = 's', action = wezterm.action.PaneSelect({}) },
     -- Clipboard
     { mods = M.v, key = 'c', action = act.CopyTo 'Clipboard' },
     { mods = M.mod, key = ':', action = act.QuickSelect },

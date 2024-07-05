@@ -10,7 +10,6 @@
 -- https://wezfurlong.org/wezterm/
 
 local wezterm = require 'wezterm'
-local smart_splits = wezterm.plugin.require 'https://github.com/mrjones2014/smart-splits.nvim'
 local config = wezterm.config_builder()
 wezterm.log_info 'reloading'
 
@@ -19,6 +18,8 @@ require('tabs').setup(config)
 require('mouse').setup(config)
 require('links').setup(config)
 require('keys').setup(config)
+local session_manager = require 'sessions'
+local smart_splits = wezterm.plugin.require 'https://github.com/mrjones2014/smart-splits.nvim'
 
 -- Graphics config
 config.front_end = 'WebGpu'
@@ -54,10 +55,10 @@ if wezterm.target_triple:find 'windows' then
   config.font_size = 12
   config.command_palette_font_size = 12
 elseif wezterm.target_triple:find 'linux' then
-  config.term = "wezterm"
+  config.term = 'wezterm'
   config.window_decorations = 'NONE'
   config.enable_wayland = true
-  config.webgpu_power_preference = "HighPerformance"
+  config.webgpu_power_preference = 'HighPerformance'
   config.font_size = 14
   config.command_palette_font_size = 14
   primary_font = 'IosevkaTerm'
@@ -92,8 +93,10 @@ config.font_rules = {
 }
 config.harfbuzz_features = { 'ss06' }
 
+-- SSH domains
+config.ssh_domains = wezterm.default_ssh_domains()
+
 -- Sessions
-local session_manager = require 'sessions'
 wezterm.on('save_session', function(window)
   session_manager.save_state(window)
 end)
@@ -101,9 +104,7 @@ wezterm.on('restore_session', function(window)
   session_manager.restore_state(window)
 end)
 
--- SSH domains
-config.ssh_domains = wezterm.default_ssh_domains()
-
+-- Smart Splits
 smart_splits.apply_to_config(config)
 
 return config
