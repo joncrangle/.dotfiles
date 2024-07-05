@@ -2,8 +2,8 @@
 local wezterm = require 'wezterm'
 
 local M = {}
-M.arrow_solid = ''
-M.arrow_thin = ''
+M.arrow_solid = wezterm.nerdfonts.cod_triangle_right
+M.arrow_thin = wezterm.nerdfonts.cod_chevron_right
 M.icons = {
   ['C:\\WINDOWS\\system32\\cmd.exe'] = wezterm.nerdfonts.md_console_line,
   ['Topgrade'] = wezterm.nerdfonts.md_rocket_launch,
@@ -57,7 +57,7 @@ function M.title(tab, max_width)
     end
   end
   if is_zoomed then
-    title = ' ' .. title
+    title = wezterm.nerdfonts.fa_bars .. ' ' .. title
   end
 
   title = wezterm.truncate_right(title, max_width - 3)
