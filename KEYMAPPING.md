@@ -77,14 +77,14 @@ wezterm connect tnas
 ```
 
 | **Function**                          | **Modifier**      |                 | **Key**                                                                      |
-| ------------------------------------- | ----------------- | --------------- | ------------------------------------- ---------  --------------------------- |
+| ------------------------------------- | ----------------- | --------------- | ---------------------------------------------------------------------------- |
 |                                       | **Windows**       | **Mac**         |                                                                              |
 | Toggle Full Screen                    | `Alt`             | `Alt`           | `Enter`                                                                      |
-| Scroll Up / Down                      | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `k` / `j`                                                                   |
+| Scroll Up / Down                      | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `k` / `j`                                                                    |
 | Font Size Increase / Decrease / Reset | `Ctrl` + `Shift`  | `Super`         | `+` / `-` /  `0`                                                             |
 | **Sessions**                          |                   |                 |                                                                              |
-| Save Session                          | `Ctrl` + `Shift`  | `⌘`             | `s`                                                                          |
-| Restore Session                       | `Ctrl` + `Shift`  | `⌘`             | `o`                                                                          |
+| Save Session                          | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `s`                                                                          |
+| Restore Session                       | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `o`                                                                          |
 | **Splitting**                         |                   |                 |                                                                              |
 | Smart Split                           | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `Enter`                                                                      |
 | Split Vertically                      | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `\|`                                                                         |
@@ -98,8 +98,8 @@ wezterm connect tnas
 | New Tab                               | `Ctrl` + `Shift`  | `⌘`             | `t`                                                                          |
 | Close Tab                             | `Ctrl` + `Shift`  | `⌘`             | `w`                                                                          |
 | Select Tab                            | `Ctrl`            | `Ctrl`          | `#`                                                                          |
-| Tab Previous / Tab Next               | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `h` / `l`                                                                 |
-| Move Tab Left / Right                 | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `<` / `>`                                                                 |
+| Tab Previous / Tab Next               | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `h` / `l`                                                                    |
+| Move Tab Left / Right                 | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `<` / `>`                                                                    |
 | **Clipboard**                         |                   |                 |                                                                              |
 | Copy                                  | `Ctrl` + `Shift`  | `⌘`             | `c`                                                                          |
 | Paste                                 | `Ctrl` + `Shift`  | `⌘`             | `v`                                                                          |

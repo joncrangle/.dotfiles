@@ -24,8 +24,8 @@ function M.setup(config)
     { mods = 'SUPER', key = 'q', action = act.QuitApplication },
     { mods = 'SHIFT|CTRL', key = 'q', action = act.QuitApplication },
     -- Sessions
-    { mods = M.super, key = 's', action = act { EmitEvent = 'save_session' } },
-    { mods = M.super, key = 'o', action = act { EmitEvent = 'restore_session' } },
+    { mods = M.mod, key = 's', action = act { EmitEvent = 'save_session' } },
+    { mods = M.mod, key = 'o', action = act { EmitEvent = 'restore_session' } },
     -- Scrollback
     { mods = M.mod, key = 'k', action = act.ScrollByPage(-0.5) },
     { mods = M.mod, key = 'j', action = act.ScrollByPage(0.5) },
