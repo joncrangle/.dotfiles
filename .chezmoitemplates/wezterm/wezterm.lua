@@ -30,8 +30,12 @@ config.cursor_blink_ease_out = 'Constant'
 config.adjust_window_size_when_changing_font_size = false
 config.bold_brightens_ansi_colors = true
 config.color_scheme = 'Catppuccin Mocha'
-config.command_palette_bg_color = 'rgba(26, 27, 38, 0.92)'
-config.command_palette_fg_color = '#a9b1d6'
+local modal_bg_color = 'rgba(26, 27, 38, 0.92)'
+local modal_fg_color = '#a9b1d6'
+config.command_palette_bg_color = modal_bg_color
+config.command_palette_fg_color = modal_fg_color
+config.char_select_bg_color = modal_bg_color
+config.char_select_fg_color = modal_fg_color
 config.cursor_thickness = 2
 config.default_cursor_style = 'BlinkingBar'
 config.force_reverse_video_cursor = true
@@ -54,6 +58,7 @@ if wezterm.target_triple:find 'windows' then
   config.window_decorations = 'RESIZE'
   config.font_size = 12
   config.command_palette_font_size = 12
+  config.char_select_font_size = 12
 elseif wezterm.target_triple:find 'linux' then
   config.term = 'wezterm'
   config.window_decorations = 'NONE'
@@ -61,12 +66,14 @@ elseif wezterm.target_triple:find 'linux' then
   config.webgpu_power_preference = 'HighPerformance'
   config.font_size = 14
   config.command_palette_font_size = 14
+  config.char_select_font_size = 14
   primary_font = 'IosevkaTerm'
 else
   config.default_prog = { '/opt/homebrew/bin/zsh', '-l' }
   config.window_decorations = 'RESIZE'
   config.font_size = 16
   config.command_palette_font_size = 16
+  config.char_select_font_size = 16
 end
 
 -- Fonts
