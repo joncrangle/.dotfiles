@@ -4,7 +4,7 @@ return {
   lazy = true,
   event = 'VeryLazy',
   dependencies = {
-    'echasnovski/mini.icons',
+    'echasnovski/mini.nvim',
     'catppuccin',
   },
   config = function()

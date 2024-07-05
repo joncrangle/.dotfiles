@@ -1,7 +1,7 @@
 return {
   'OXY2DEV/markview.nvim',
   dependencies = {
-    'echasnovski/mini.icons',
+    'echasnovski/mini.nvim',
   },
   ft = { 'markdown' },
   opts = true,

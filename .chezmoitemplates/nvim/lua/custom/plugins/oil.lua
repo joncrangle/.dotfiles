@@ -1,7 +1,7 @@
 return {
   'stevearc/oil.nvim',
   lazy = true,
-  dependencies = { 'echasnovski/mini.icons' },
+  dependencies = { 'echasnovski/mini.nvim' },
   opts = {
     default_file_explorer = true,
     skip_confirm_for_simple_edits = true,
@@ -14,7 +14,7 @@ return {
       end,
     },
     win_options = {
-      wrap = true;
+      wrap = true,
     },
   },
   keys = {

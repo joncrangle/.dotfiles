@@ -3,7 +3,7 @@ return {
     'nvim-lualine/lualine.nvim',
     lazy = true,
     event = 'VeryLazy',
-    dependencies = { 'echasnovski/mini.icons' },
+    dependencies = { 'echasnovski/mini.nvim' },
     opts = {
       options = {
         theme = 'catppuccin',
