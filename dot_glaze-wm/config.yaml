@@ -110,7 +110,7 @@ bar:
       label_medium: "🔊{volume_level}%"
       label_high: "🔊{volume_level}%"
       label_mute: "🔇{volume_level}%"
-  
+
     - type: "battery"
       label_draining: "{battery_level}% 🔋 remaining"
       label_power_saver: "{battery_level}% 🔁 (power saver)"
@@ -315,10 +315,6 @@ keybindings:
     binding: "Alt+A"
   - command: "move workspace right"
     binding: "Alt+F"
-  - command: "move workspace up"
-    binding: "Alt+D"
-  - command: "move workspace down"
-    binding: "Alt+S"
 
   # Move focused window to a workspace defined in `workspaces` config.
   - commands: ["move to workspace 1", "focus workspace 1"]
