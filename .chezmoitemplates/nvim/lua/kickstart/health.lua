@@ -44,9 +44,11 @@ return {
     You do not need to install, unless you want to use those languages!]]
 
     local uv = vim.uv or vim.loop
+    ---@diagnostic disable-next-line: undefined-field
     vim.health.info('System Information: ' .. vim.inspect(uv.os_uname()))
 
     check_version()
     check_external_reqs()
   end,
 }
+-- vim: ts=2 sts=2 sw=2 et
