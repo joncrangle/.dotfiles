@@ -12,6 +12,7 @@ This `.dotfiles` repository contains my macOS, Arch Linux and Windows system con
 Features include:
 
 **Common**
+
 - [Catppuccin](https://github.com/catppuccin) theme
 - [chezmoi](https://chezmoi.io/) to manage dotfiles across systems
 - [Neovim](https://neovim.io/) a cross-platform editor
@@ -22,6 +23,7 @@ Features include:
 - Fuzzy finding with [fzf](https://github.com/junegunn/fzf)
 
 **MacOS**
+
 - [Yabai](https://github.com/koekeishiya/yabai) window manager
 - [skhd](https://github.com/koekeishiya/skhd) keyboard shortcuts
 - [SketchyBar](https://github.com/FelixKratz/SketchyBar) panel
@@ -30,11 +32,13 @@ Features include:
 - [Homebrew](https://brew.sh/) package management
 
 **Windows**
+
 - [GlazeWM](https://github.com/glzr-io/glazewm) window manager
 - Microsoft PowerToys for launcher, keyboard shortcuts and various extras
 - [Scoop](https://scoop.sh/) package management
 
 **Arch Linux**
+
 - [Hyprland](https://hyprland.org/) window manager
 - [Waybar](https://github.com/Alexays/Waybar) panel
 - [Fuzzel](https://codeberg.org/dnkl/fuzzel) launcher
@@ -158,15 +162,15 @@ bash <(curl -s https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup
 >
 > This script uses the `.kdeconfig` directory for KDE Plasma, and the `.config` directory for Hyprland.
 >
-> *Requires sudo permissions* 
+> *Requires sudo permissions*
 >
 > 1. Create a `launch.sh` script in `/usr/share/wayland-sessions` and make it executable with `chmod +x launch.sh`:
 >
 > ```bash
 > #!/bin/bash
 > if [ -z "$1" ]; then
-> 	echo "Usage: $0 <config_directory> <command>"
-> 	exit 1
+>      echo "Usage: $0 <config_directory> <command>"
+>      exit 1
 > fi
 >
 > export XDG_CONFIG_HOME="$HOME/$1"
