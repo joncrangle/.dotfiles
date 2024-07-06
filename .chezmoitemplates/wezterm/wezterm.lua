@@ -20,6 +20,7 @@ require('links').setup(config)
 require('keys').setup(config)
 local session_manager = require 'sessions'
 local smart_splits = wezterm.plugin.require 'https://github.com/mrjones2014/smart-splits.nvim'
+local workspace_switcher = wezterm.plugin.require 'https://github.com/MLFlexer/smart_workspace_switcher.wezterm'
 
 -- Graphics config
 config.front_end = 'WebGpu'
@@ -109,6 +110,28 @@ wezterm.on('save_session', function(window)
 end)
 wezterm.on('restore_session', function(window)
   session_manager.restore_state(window)
+end)
+
+--Workspaces
+workspace_switcher.apply_to_config(config)
+---@diagnostic disable-next-line: unused-local
+wezterm.on('augment-command-palette', function(window, pane)
+  return {
+    {
+      brief = 'Window | Workspace: Rename Workspace',
+      icon = 'md_briefcase_edit',
+
+      action = wezterm.action.PromptInputLine {
+        description = 'Enter new name for wokspace',
+        ---@diagnostic disable-next-line: unused-local, redefined-local
+        action = wezterm.action_callback(function(window, pane, line)
+          if line then
+            wezterm.mux.rename_workspace(wezterm.mux.get_active_workspace(), line)
+          end
+        end),
+      },
+    },
+  }
 end)
 
 -- Smart Splits

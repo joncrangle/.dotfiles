@@ -85,6 +85,8 @@ wezterm connect tnas
 | **Sessions**                          |                   |                 |                                                                              |
 | Save Session                          | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `s`                                                                          |
 | Restore Session                       | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `o`                                                                          |
+| **Workspaces**                        |                   |                 |                                                                              |
+| Switch Workspace                      | `Alt`             | `Alt`           | `s`                                                                          |
 | **Splitting**                         |                   |                 |                                                                              |
 | Smart Split                           | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `Enter`                                                                      |
 | Split Vertically                      | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `\|`                                                                         |
@@ -196,7 +198,7 @@ wezterm connect tnas
 | Activate Left / Down / Up / Right            | `Alt` + `h`, `j`, `k`, `l`                    |
 | Switch to Workspace 1 - 9                    | `Alt` + `1 - 9`                               |
 | Move Window to Workspace 1 - 9               | `Alt` + `Shift` + `1 - 9`                     |
-| Move Workspace to Left / Down / Up / Right   | `Alt` + `a`, `s`, `d`, `f`                    |
+| Move Workspace to Left / Right               | `Alt` + `a`, `f`                              |
 | Toggle Full Screen                           | `Alt` + `x`                                   |
 | Change toggle direction                      | `Alt` + `v`                                   |
 | Focus recent workspace                       | `Alt` + `y`                                   |

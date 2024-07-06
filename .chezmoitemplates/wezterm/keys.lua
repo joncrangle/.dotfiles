@@ -1,6 +1,6 @@
 local wezterm = require 'wezterm'
-
 local act = wezterm.action
+
 local M = {}
 
 M.mod = wezterm.target_triple:find 'windows' and 'SHIFT|CTRL' or 'SHIFT|SUPER'
@@ -26,6 +26,8 @@ function M.setup(config)
     -- Sessions
     { mods = M.mod, key = 's', action = act { EmitEvent = 'save_session' } },
     { mods = M.mod, key = 'o', action = act { EmitEvent = 'restore_session' } },
+    -- Workspaces
+    -- NOTE: 'ALT' + 's' is setup by workplace_switcher plugin
     -- Scrollback
     { mods = M.mod, key = 'k', action = act.ScrollByPage(-0.5) },
     { mods = M.mod, key = 'j', action = act.ScrollByPage(0.5) },
@@ -49,12 +51,12 @@ function M.setup(config)
     { mods = M.mod, key = '|', action = act.SplitHorizontal { domain = 'CurrentPaneDomain' } },
     { mods = M.mod, key = '_', action = act.SplitVertical { domain = 'CurrentPaneDomain' } },
     -- Activate Panes
-    -- NOTE: 'CTRL' + h/j/k/l is setup by smart_splits plugin
+    -- NOTE: 'CTRL' + 'h/j/k/l' is setup by smart_splits plugin
     { mods = 'ALT', key = 'Backspace', action = act.CloseCurrentPane { confirm = false } },
     { mods = 'CTRL', key = 'Backspace', action = act.CloseCurrentPane { confirm = false } },
     { mods = M.mod, key = 'r', action = wezterm.action.RotatePanes 'Clockwise' },
     -- Resize Panes
-    -- NOTE: 'ALT' + h/j/k/l is setup by smart_splits plugin
+    -- NOTE: 'ALT' + 'h/j/k/l' is setup by smart_splits plugin
     { mods = 'ALT', key = 'LeftArrow', action = act.AdjustPaneSize { 'Left', 3 } },
     { mods = 'ALT', key = 'DownArrow', action = act.AdjustPaneSize { 'Down', 3 } },
     { mods = 'ALT', key = 'UpArrow', action = act.AdjustPaneSize { 'Up', 3 } },
