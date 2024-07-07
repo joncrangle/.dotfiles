@@ -1,46 +1,46 @@
 #!/bin/bash
-#  ____                        
-# |  _ \ _____      _____ _ __ 
+#  ____
+# |  _ \ _____      _____ _ __
 # | |_) / _ \ \ /\ / / _ \ '__|
-# |  __/ (_) \ V  V /  __/ |   
-# |_|   \___/ \_/\_/ \___|_|   
-#                              
+# |  __/ (_) \ V  V /  __/ |
+# |_|   \___/ \_/\_/ \___|_|
+#
 
 exit_hyprland() {
     echo ":: Exit"
     sleep 0.5
-    killall -9 Hyprland
+    pkill Hyprland || loginctl terminate-user $USER
     sleep 2
 }
 
 lock_screen() {
     echo ":: Lock"
     sleep 0.5
-    hyprlock    
+    loginctl lock-session
 }
 
 reboot_system() {
     echo ":: Reboot"
     sleep 0.5
-    systemctl reboot
+    systemctl reboot || loginctl reboot
 }
 
 shutdown_system() {
     echo ":: Shutdown"
     sleep 0.5
-    systemctl poweroff
+    systemctl poweroff || loginctl poweroff
 }
 
 suspend_system() {
     echo ":: Suspend"
     sleep 0.5
-    systemctl suspend    
+    systemctl suspend || loginctl suspend
 }
 
 hibernate_system() {
     echo ":: Hibernate"
     sleep 1
-    systemctl hibernate    
+    systemctl hibernate || loginctl hibernate
 }
 
 # Check the first argument and call the corresponding function
@@ -66,17 +66,23 @@ else
     fi
 
     case $SELECTION in
-        *"Exit")
-            exit_hyprland;;
-        *"Lock")
-            lock_screen;;
-        *"Reboot")
-            reboot_system;;
-        *"Shutdown")
-            shutdown_system;;
-        *"Suspend")
-            suspend_system;;
-        *"Hibernate")
-            hibernate_system;;
+    *"Exit")
+        exit_hyprland
+        ;;
+    *"Lock")
+        lock_screen
+        ;;
+    *"Reboot")
+        reboot_system
+        ;;
+    *"Shutdown")
+        shutdown_system
+        ;;
+    *"Suspend")
+        suspend_system
+        ;;
+    *"Hibernate")
+        hibernate_system
+        ;;
     esac
 fi
