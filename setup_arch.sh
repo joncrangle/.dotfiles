@@ -28,64 +28,64 @@ sudo -v
 # ------------------------------------------------------
 _isInstalledPacman() {
     package="$1"
-    pacman -Q --color never "${package}" &> /dev/null
+    pacman -Q --color never "${package}" &>/dev/null
     if [ $? -eq 0 ]; then
-        echo 0  # '0' means 'true' in Bash
+        echo 0 # '0' means 'true' in Bash
     else
-        echo 1  # '1' means 'false' in Bash
+        echo 1 # '1' means 'false' in Bash
     fi
 }
 
 _isInstalledParu() {
     package="$1"
-    paru -Q --color never "${package}" &> /dev/null
+    paru -Q --color never "${package}" &>/dev/null
     if [ $? -eq 0 ]; then
-        echo 0  # '0' means 'true' in Bash
+        echo 0 # '0' means 'true' in Bash
     else
-        echo 1  # '1' means 'false' in Bash
+        echo 1 # '1' means 'false' in Bash
     fi
 }
 
 # Install required packages
 _installPackagesPacman() {
-    toInstall=();
+    toInstall=()
     for pkg; do
         if [[ $(_isInstalledPacman "${pkg}") -eq 0 ]]; then
-            echo "${pkg} is already installed.";
-            continue;
-        fi;
-        toInstall+=("${pkg}");
-    done;
-    if [[ "${toInstall[@]}" == "" ]] ; then
+            echo "${pkg} is already installed."
+            continue
+        fi
+        toInstall+=("${pkg}")
+    done
+    if [[ "${toInstall[@]}" == "" ]]; then
         # echo "All pacman packages are already installed.";
-        return;
-    fi;
-    printf "Package not installed:\n%s\n" "${toInstall[@]}";
-    sudo pacman --noconfirm -S "${toInstall[@]}";
+        return
+    fi
+    printf "Package not installed:\n%s\n" "${toInstall[@]}"
+    sudo pacman --noconfirm -S "${toInstall[@]}"
 }
 
 _installPackagesParu() {
-    toInstall=();
+    toInstall=()
     for pkg; do
         if [[ $(_isInstalledParu "${pkg}") -eq 0 ]]; then
-            echo ":: ${pkg} is already installed.";
-            continue;
-        fi;
-        toInstall+=("${pkg}");
-    done;
+            echo ":: ${pkg} is already installed."
+            continue
+        fi
+        toInstall+=("${pkg}")
+    done
 
-    if [[ "${toInstall[@]}" == "" ]] ; then
+    if [[ "${toInstall[@]}" == "" ]]; then
         # echo "All packages are already installed.";
-        return;
-    fi;
+        return
+    fi
 
     # printf "AUR packags not installed:\n%s\n" "${toInstall[@]}";
-    paru --noconfirm --needed --noprovides -S "${toInstall[@]}";
+    paru --noconfirm --needed --noprovides -S "${toInstall[@]}"
 }
 
 _commandExists() {
-    package="$1";
-    if ! type $package > /dev/null 2>&1; then
+    package="$1"
+    if ! type $package >/dev/null 2>&1; then
         echo ":: ERROR: $package doesn't exists. Please install it with paru -S $2"
     else
         echo ":: OK: $package command found."
@@ -106,9 +106,9 @@ dependencies=(
 )
 
 # Some colors
-RED='\033[0;31m'   #'0;31' is Red
-GREEN='\033[0;32m'   #'0;32' is Green
-YELLOW='\033[1;32m'   #'1;32' is Yellow
+RED='\033[0;31m'    #'0;31' is Red
+GREEN='\033[0;32m'  #'0;32' is Green
+YELLOW='\033[1;32m' #'1;32' is Yellow
 BLUE='\033[0;34m'   #'0;34' is Blue
 NONE='\033[0m'      # NO COLOR
 
@@ -128,15 +128,17 @@ echo -e "${NONE}"
 while true; do
     read -p "DO YOU WANT TO START THE INSTALLATION NOW? (Yy/Nn): " yn
     case $yn in
-        [Yy]* )
-            echo ":: Installation started."
-            echo
-        break;;
-        [Nn]* ) 
-            echo ":: Installation canceled."
-            exit;
-        break;;
-        * ) echo ":: Please answer yes or no.";;
+    [Yy]*)
+        echo ":: Installation started."
+        echo
+        break
+        ;;
+    [Nn]*)
+        echo ":: Installation canceled."
+        exit
+        break
+        ;;
+    *) echo ":: Please answer yes or no." ;;
     esac
 done
 
@@ -146,7 +148,7 @@ echo
 
 # Install required packages
 echo ":: Checking that required packages are installed..."
-_installPackagesPacman "${dependencies[@]}";
+_installPackagesPacman "${dependencies[@]}"
 echo
 
 # Install Rust
@@ -169,22 +171,20 @@ if [[ $line == \#* ]]; then
 fi
 
 # Activate Color in pacman.conf
-if grep -Fxq "#Color" /etc/pacman.conf
-then
+if grep -Fxq "#Color" /etc/pacman.conf; then
     sudo sed -i 's/^#Color/Color/' /etc/pacman.conf
     echo ":: Color activated in pacman.conf"
 else
     echo ":: Color is already activated in pacman.conf"
 fi
-if grep -Fxq "# Color" /etc/pacman.conf
-then
+if grep -Fxq "# Color" /etc/pacman.conf; then
     sudo sed -i 's/^# Color/Color/' /etc/pacman.conf
     echo ":: Color activated in pacman.conf"
 fi
 echo
 
 # Install paru
-if sudo pacman -Qs paru > /dev/null ; then
+if sudo pacman -Qs paru >/dev/null; then
     echo ":: paru is already installed!"
 else
     echo ":: paru is not installed. Starting the installation!"
@@ -243,10 +243,11 @@ packages=(
     "docker"
     "docker-compose"
     "dropbox"
-    "eza" 
+    "eza"
     "fastfetch"
     "fd"
     "feh"
+    "ffmpeg"
     "ffmpegthumbnailer"
     "fuzzel-git"
     "fzf"
@@ -274,21 +275,21 @@ packages=(
     "luajit"
     "luarocks"
     "make"
-    "mpv" 
+    "mpv"
     "neovim"
     "network-manager-applet"
     "networkmanager"
     "networkmanager-dmenu-git"
     "nodejs"
-    "noto-fonts" 
+    "noto-fonts"
     "noto-fonts-emoji"
     "npm"
     "nwg-look"
     "obsidian"
-    "otf-font-awesome" 
+    "otf-font-awesome"
     "pamixer"
     "papirus-icon-theme"
-    "pavucontrol" 
+    "pavucontrol"
     "playerctl"
     "pnpm"
     "polkit-kde-agent"
@@ -318,7 +319,7 @@ packages=(
     "ttf-cascadia-code-nerd"
     "ttf-droid"
     "ttf-fira-code"
-    "ttf-fira-sans" 
+    "ttf-fira-sans"
     "ttf-font-awesome"
     "ttf-iosevka"
     "ttf-iosevka-term"
@@ -326,13 +327,13 @@ packages=(
     "ttf-liberation"
     "ttf-maple"
     "ttf-meslo-nerd-font-powerlevel10k"
-    "ttf-nerd-fonts-symbols"
+    "ttf-nerd-fonts-symbols-mono"
     "tumbler"
     "udiskie"
     "unarchiver"
     "unrar"
     "unzip"
-    "vlc" 
+    "vlc"
     "waybar"
     "wezterm-git"
     "wf-recorder"
@@ -355,11 +356,10 @@ packages=(
     "zoxide"
     "zsh"
     "zsh-antidote"
-);
+)
 
 echo ":: Installing packages..."
-_installPackagesParu "${packages[@]}";
-paru -S ffmpeg-libfdk_aac
+_installPackagesParu "${packages[@]}"
 echo
 
 echo ":: Setting up theme..."
@@ -382,7 +382,7 @@ echo
 # Check for ttf-ms-fonts
 if [[ $(_isInstalledParu "ttf-ms-fonts") == 0 ]]; then
     echo "The script has detected ttf-ms-fonts. This can cause conflicts with icons in Waybar."
-    if gum confirm "Do you want to uninstall ttf-ms-fonts?" ;then
+    if gum confirm "Do you want to uninstall ttf-ms-fonts?"; then
         sudo pacman --noconfirm -R ttf-ms-fonts
     fi
 fi
@@ -395,43 +395,43 @@ if [ -f /etc/systemd/system/display-manager.service ]; then
     echo ":: Display Manager is already enabled."
 else
     sudo systemctl enable sddm.service
-    echo ":: sddm.service enabled successfully."    
+    echo ":: sddm.service enabled successfully."
 fi
 
 # Check for running power-profiles-daemon.service
-if [[ $(systemctl list-units --all -t service --full --no-legend "power-profiles-daemon.service" | sed 's/^\s*//g' | cut -f1 -d' ') == "power-profiles-daemon.service" ]];then
+if [[ $(systemctl list-units --all -t service --full --no-legend "power-profiles-daemon.service" | sed 's/^\s*//g' | cut -f1 -d' ') == "power-profiles-daemon.service" ]]; then
     echo ":: power-profiles-daemon.service already running."
 else
     sudo systemctl unmask power-profiles-daemon.service
     sudo systemctl enable power-profiles-daemon.service
-    echo ":: power-profiles-daemon.service activated successfully."    
+    echo ":: power-profiles-daemon.service activated successfully."
 fi
 
 # Check for running NetworkManager.service
-if [[ $(systemctl list-units --all -t service --full --no-legend "NetworkManager.service" | sed 's/^\s*//g' | cut -f1 -d' ') == "NetworkManager.service" ]];then
+if [[ $(systemctl list-units --all -t service --full --no-legend "NetworkManager.service" | sed 's/^\s*//g' | cut -f1 -d' ') == "NetworkManager.service" ]]; then
     echo ":: NetworkManager.service already running."
 else
     sudo systemctl enable NetworkManager.service
     sudo systemctl start NetworkManager.service
-    echo ":: NetworkManager.service activated successfully."    
+    echo ":: NetworkManager.service activated successfully."
 fi
 
 # Check for running bluetooth.service
-if [[ $(systemctl list-units --all -t service --full --no-legend "bluetooth.service" | sed 's/^\s*//g' | cut -f1 -d' ') == "bluetooth.service" ]];then
+if [[ $(systemctl list-units --all -t service --full --no-legend "bluetooth.service" | sed 's/^\s*//g' | cut -f1 -d' ') == "bluetooth.service" ]]; then
     echo ":: bluetooth.service already running."
 else
     sudo systemctl enable bluetooth.service
     sudo systemctl start bluetooth.service
-    echo ":: bluetooth.service activated successfully."    
+    echo ":: bluetooth.service activated successfully."
 fi
 
 # Check for running docker.service
-if [[ $(systemctl list-units --all -t service --full --no-legend "docker.service" | sed 's/^\s*//g' | cut -f1 -d' ') == "docker.service" ]];then
+if [[ $(systemctl list-units --all -t service --full --no-legend "docker.service" | sed 's/^\s*//g' | cut -f1 -d' ') == "docker.service" ]]; then
     echo ":: docker.service already running."
 else
     systemctl --user enable docker.service
     systemctl --user start docker.service
-    echo ":: docker.service activated successfully."    
+    echo ":: docker.service activated successfully."
 fi
 
 if [[ $(_isInstalledParu "xdg-user-dirs") -eq 0 ]]; then
@@ -445,7 +445,7 @@ echo
 echo ":: Setup complete."
 echo "A reboot of your system is recommended."
 echo
-if gum confirm "Do you want to reboot your system now?" ;then
+if gum confirm "Do you want to reboot your system now?"; then
     gum spin --spinner dot --title "Rebooting now..." -- sleep 3
     systemctl reboot
 elif [ $? -eq 130 ]; then

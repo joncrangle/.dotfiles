@@ -1,64 +1,66 @@
 @import "mocha.css";
 
 * {
-    border: none;
-    font-family: "Iosevka Term", "Nerd Font Symbols Font";
-    font-size: 14px;
-    font-weight: bold;
-    font-feature-settings: '"ss06"';
-    min-height: 30px;
+  border: none;
+  font-family: "Iosevka Term", "Symbols Nerd Font Mono";
+  font-size: 14px;
+  font-weight: bold;
+  font-feature-settings: '"ss06"';
+  min-height: 30px;
 }
 
 window#waybar {
-    background: transparent;
+  background: transparent;
 }
 
 tooltip {
-    background: @surface0;
-    border-radius: 5px;
-    color: @text;
+  background: @surface0;
+  border-radius: 5px;
+  color: @text;
 }
 
-#custom-arch, #workspaces, #clock {
-    border-radius: 10px;
-    background-color: @surface0;
-    margin: 14px 14px 0 0;
-    padding: 1px 10px 0 10px;
+#custom-arch,
+#workspaces,
+#clock {
+  border-radius: 10px;
+  background-color: @surface0;
+  margin: 14px 14px 0 0;
+  padding: 1px 10px 0 10px;
 }
 
 #custom-arch {
-    font-size: 18px;
-    margin-left: 14px;
-    color: @blue;
+  font-size: 18px;
+  margin-left: 14px;
+  color: @blue;
 }
 
 #workspaces button {
-    background: @surface0;
-    color: @mauve;
+  background: @surface0;
+  color: @mauve;
 }
 
 #workspaces button.active {
-    background: @mauve;
-    color: @mantle;
+  background: @mauve;
+  color: @mantle;
 }
 
 #workspaces button.focused {
-    background: @green;
-    color: @mantle;
+  background: @green;
+  color: @mantle;
 }
 
 #workspaces button.urgent {
-    background: @red;
-    color: @mantle;
+  background: @red;
+  color: @mantle;
 }
 
 #workspaces button:hover {
-    background: @peach;
-    color: @mantle;
+  background: @peach;
+  color: @mantle;
 }
 
 #clock {
-    color: @peach;
+  color: @peach;
 }
 
 #audio,
@@ -68,62 +70,70 @@ tooltip {
 #mpris,
 #network,
 #custom-swaync {
-    border-radius: 10px;
-    background-color: @surface0;
-    margin: 14px 14px 0 0;
-    padding: 1px 14px 0 10px;
+  border-radius: 10px;
+  background-color: @surface0;
+  margin: 14px 14px 0 0;
+  padding: 1px 14px 0 10px;
 }
 
 #mpris {
-    min-width: 14px;
+  min-width: 14px;
 }
 
-#bluetooth, #backlight {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    padding-right: 5px;
-    margin-right: 0;
+#bluetooth,
+#backlight {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  padding-right: 5px;
+  margin-right: 0;
 }
 
-#network, #custom-swaync {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    padding-left: 5px;
-    margin-left: 0;
+#network,
+#custom-swaync {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  padding-left: 5px;
+  margin-left: 0;
 }
 
-#mpris, #bluetooth, #network, #audio, #backlight, #battery, #custom-swaync {
-    color: @lavender;
+#mpris,
+#bluetooth,
+#network,
+#audio,
+#backlight,
+#battery,
+#custom-swaync {
+  color: @lavender;
 }
 
 #pulseaudio {
-    margin-right: 5px;
-    margin-left: 5px;
+  margin-right: 5px;
+  margin-left: 5px;
 }
 
 #battery {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    padding-left: 5px;
-    padding-right: 5px;
-    margin-left: 0;
-    margin-right: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 @keyframes blink {
-    to {
-        background-color: @rosewater;
-        color: @red;
-    }
+  to {
+    background-color: @rosewater;
+    color: @red;
+  }
 }
 
 #battery.critical:not(.charging) {
-    color: @red;
-    animation-name: blink;
-    animation-duration: 0.5s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
+  color: @red;
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
