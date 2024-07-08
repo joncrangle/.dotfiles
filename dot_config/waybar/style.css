@@ -55,7 +55,7 @@ tooltip {
 }
 
 #workspaces button:hover {
-  background: @peach;
+  background: @blue;
   color: @mantle;
 }
 
