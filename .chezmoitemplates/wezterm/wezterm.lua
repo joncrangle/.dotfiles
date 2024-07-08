@@ -68,7 +68,7 @@ elseif wezterm.target_triple:find 'linux' then
   config.font_size = 14
   config.command_palette_font_size = 14
   config.char_select_font_size = 14
-  primary_font = 'IosevkaTerm'
+  primary_font = 'Iosevka Term'
 else
   config.default_prog = { '/opt/homebrew/bin/zsh', '-l' }
   config.window_decorations = 'RESIZE'
@@ -81,6 +81,7 @@ end
 config.font = wezterm.font_with_fallback {
   { family = primary_font, weight = 'Regular' },
   { family = 'MesloLGS NF', weight = 'Regular' },
+  { family = 'Symbols Nerd Font Mono', weight = 'Regular' },
 }
 config.font_rules = {
   {
