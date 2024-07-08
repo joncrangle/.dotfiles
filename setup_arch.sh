@@ -243,6 +243,7 @@ packages=(
     "docker"
     "docker-compose"
     "dropbox"
+    "exiv2"
     "eza"
     "fastfetch"
     "fd"
