@@ -48,6 +48,7 @@ config.inactive_pane_hsb = {
 config.scrollback_lines = 5000
 config.underline_thickness = 3
 config.underline_position = -6
+config.warn_about_missing_glyphs = false
 config.window_background_opacity = 0.92
 config.window_close_confirmation = 'AlwaysPrompt'
 config.window_padding = { left = 6, right = 6, top = 6, bottom = 0 }
