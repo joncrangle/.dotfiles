@@ -232,7 +232,7 @@ wezterm connect tnas
 | Toggle split                                | `Super` + `s`                          |
 | Toggle window group                         | `Super` + `g`                          |
 | Tab between windows in group                | `Super` + `Tab`                        |
-| Resize                                      | `Alt` + `r`, then `h`, `j`, `k`, `l` |
+| Resize                                      | `Alt` + `r`, then `h`, `j`, `k`, `l`   |
 | **Actions**                                 |                                        |
 | Logout                                      | `Super` + `Ctrl` + `q`                 |
 | Lock screen                                 | `Super` + `Ctrl` + `l`                 |
@@ -243,4 +243,4 @@ wezterm connect tnas
 | Reload Hyprland config                      | `Super` + `Shift` + `r`                |
 | Reload Waybar config                        | `Super` + `Shift` + `b`                |
 | Smart paste                                 | `Super` + `Shift` + `v`                |
-| Screenshot / Capture portion of screen      | `Print` / `Super` + `Print`            |
+| Screenshot / Capture portion of screen      | `Print` / `Shift` + `Print`            |
