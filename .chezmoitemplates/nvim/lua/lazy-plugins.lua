@@ -91,5 +91,9 @@ require('lazy').setup({
       },
     },
   },
+  -- Enable hererocks in case Lua 5.1 isn't in PATH
+  rocks = {
+    hererocks = true,
+  },
 })
 -- vim: ts=2 sts=2 sw=2 et
