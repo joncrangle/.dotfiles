@@ -226,6 +226,7 @@ chezmoi init --apply git@github.com:joncrangle/.dotfiles.git
 
 packages=(
     "audacity"
+    "aylurs-gtk-shell-git"
     "bat"
     "bemoji"
     "bibata-cursor-theme-bin"
