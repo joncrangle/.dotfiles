@@ -124,7 +124,7 @@ wezterm.on('augment-command-palette', function(window, pane)
       icon = 'md_briefcase_edit',
 
       action = wezterm.action.PromptInputLine {
-        description = 'Enter new name for wokspace',
+        description = 'Enter new name for workspace',
         ---@diagnostic disable-next-line: unused-local, redefined-local
         action = wezterm.action_callback(function(window, pane, line)
           if line then
