@@ -293,6 +293,7 @@ packages=(
     "papirus-icon-theme"
     "pavucontrol"
     "playerctl"
+    "plexamp-appimage"
     "pnpm"
     "polkit-kde-agent"
     "poppler"
