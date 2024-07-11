@@ -3,15 +3,12 @@ return {
     '3rd/image.nvim',
     -- Disable for Windows until image.nvim support is added
     enabled = function()
-      if vim.fn.has 'win32' == 1 then
-        return false
-      else
-        return true
-      end
+      return vim.fn.has 'win32' ~= 1
     end,
     dependencies = {
       'leafo/magick',
     },
+    ft = { 'markdown' },
     opts = {
       integrations = {
         markdown = {
