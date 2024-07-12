@@ -325,6 +325,7 @@ packages=(
     "ttf-fira-sans"
     "ttf-font-awesome"
     "ttf-iosevka"
+    "ttc-iosevka-aile"
     "ttf-iosevka-term"
     "ttf-jetbrains-mono-nerd"
     "ttf-liberation"
