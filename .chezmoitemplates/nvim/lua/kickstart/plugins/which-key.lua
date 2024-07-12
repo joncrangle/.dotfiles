@@ -22,7 +22,7 @@ return {
 
       -- Document existing key chains
       require('which-key').register {
-        ['<leader>#'] = { name = 'Harpoon2 list item [1-5]' },
+        ['<leader>#'] = { name = 'Harpoon2 List Item [1-5]' },
         ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
         ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
         ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
@@ -31,6 +31,7 @@ return {
         ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
         ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
         ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+        ['<leader>q'] = { name = 'Persistent Sessions', _ = 'which_key_ignore' },
       }
       -- Ignore Harpoon2 list items
       for i = 1, 5 do
