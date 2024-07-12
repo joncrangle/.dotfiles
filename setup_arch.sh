@@ -347,6 +347,7 @@ packages=(
     "wpa_supplicant"
     "xdg-desktop-portal"
     "xdg-desktop-portal-hyprland"
+    "xdg-terminal-exec"
     "xdg-user-dirs"
     "xdg-utils"
     "yazi-git"
