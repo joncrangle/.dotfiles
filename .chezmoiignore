@@ -38,6 +38,7 @@ setup_mac.sh
 {{ if ne .chezmoi.os "linux" }}
 .gtkrc-2.0
 setup_arch.sh
+.config/xdg-terminals.list
 .config/gtk-3.0/
 .config/fuzzel/
 .config/hypr/
