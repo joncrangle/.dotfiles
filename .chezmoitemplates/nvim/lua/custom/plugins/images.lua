@@ -1,12 +1,14 @@
+local enabled = function()
+  return vim.fn.has 'win32' ~= 1
+end
+
 return {
   {
     '3rd/image.nvim',
     -- Disable for Windows until image.nvim support is added
-    enabled = function()
-      return vim.fn.has 'win32' ~= 1
-    end,
+    enabled = enabled,
     dependencies = {
-      'leafo/magick',
+      { 'leafo/magick', lazy = true, enabled = enabled, ft = { 'markdown' } },
     },
     ft = { 'markdown' },
     opts = {
