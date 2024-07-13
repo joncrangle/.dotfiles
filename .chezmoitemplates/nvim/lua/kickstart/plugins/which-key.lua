@@ -17,11 +17,11 @@ return {
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
-    config = function() -- This is the function that runs, AFTER loading
-      require('which-key').setup()
-
-      -- Document existing key chains
-      require('which-key').add {
+    opts = {
+      preset = 'modern',
+    },
+    keys = function()
+      local key_bindings = {
         { '<leader>#', group = 'Harpoon2 List Item [1-5]' },
         { '<leader>c', group = '[C]ode', hidden = true },
         { '<leader>d', group = '[D]ocument', hidden = true },
@@ -33,13 +33,14 @@ return {
         { '<leader>w', group = '[W]orkspace', hidden = true },
         { '<leader>q', group = 'Persistent Sessions', hidden = true },
       }
-      -- Ignore Harpoon2 list items
+
+      -- Add Harpoon2 list items
       for i = 1, 5 do
-        require('which-key').add {
-          { '<leader>' .. i, hidden = true },
-          { '<leader>#' .. i, hidden = true },
-        }
+        table.insert(key_bindings, { '<leader>' .. i, hidden = true })
+        table.insert(key_bindings, { '<leader>#' .. i, hidden = true })
       end
+
+      return key_bindings
     end,
   },
 }
