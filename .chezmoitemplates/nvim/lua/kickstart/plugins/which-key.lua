@@ -21,23 +21,23 @@ return {
       require('which-key').setup()
 
       -- Document existing key chains
-      require('which-key').register {
-        ['<leader>#'] = { name = 'Harpoon2 List Item [1-5]' },
-        ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-        ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-        ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
-        ['<leader>n'] = { name = '[N]oice', _ = 'which_key_ignore' },
-        ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-        ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-        ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
-        ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-        ['<leader>q'] = { name = 'Persistent Sessions', _ = 'which_key_ignore' },
+      require('which-key').add {
+        { '<leader>#', group = 'Harpoon2 List Item [1-5]' },
+        { '<leader>c', group = '[C]ode', hidden = true },
+        { '<leader>d', group = '[D]ocument', hidden = true },
+        { '<leader>g', group = '[G]it', hidden = true },
+        { '<leader>n', group = '[N]oice', hidden = true },
+        { '<leader>r', group = '[R]ename', hidden = true },
+        { '<leader>s', group = '[S]earch', hidden = true },
+        { '<leader>t', group = '[T]oggle', hidden = true },
+        { '<leader>w', group = '[W]orkspace', hidden = true },
+        { '<leader>q', group = 'Persistent Sessions', hidden = true },
       }
       -- Ignore Harpoon2 list items
       for i = 1, 5 do
-        require('which-key').register {
-          ['<leader>' .. i] = 'which_key_ignore',
-          ['<leader>#' .. i] = 'which_key_ignore',
+        require('which-key').add {
+          { '<leader>' .. i, hidden = true },
+          { '<leader>#' .. i, hidden = true },
         }
       end
     end,
