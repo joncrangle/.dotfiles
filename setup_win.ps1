@@ -339,6 +339,9 @@ foreach ($package in $packages) {
     }
 }
 
+ya pack -i
+ya pack -u
+
 # Add apps to Windows startup
 $links = @(
     @{ Path = "C:\Users\CrangleJon\scoop\apps\glazewm\current\GlazeWM.exe"; Name = "GlazeWM" },

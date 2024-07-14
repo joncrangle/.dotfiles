@@ -413,6 +413,13 @@ EOF
 fi
 echo
 
+# Install yazi plugins
+if [[ $(_isInstalledParu "yazi-git") == 0 ]]; then
+    echo ":: Installing yazi plugins..."
+    ya pack -i
+    ya pack -u
+fi
+
 # Check for ttf-ms-fonts
 if [[ $(_isInstalledParu "ttf-ms-fonts") == 0 ]]; then
     echo "The script has detected ttf-ms-fonts. This can cause conflicts with icons in Waybar."

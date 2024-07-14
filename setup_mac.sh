@@ -57,6 +57,8 @@ chezmoi init --apply git@github.com:joncrangle/.dotfiles.git
 # Install Brewfile from .config/homebrew
 echo "Installing Brewfile..."
 brew bundle --file=$HOME/.config/homebrew/Brewfile
+ya pack -i
+ya pack -u
 
 # Start yabai, skhd, sketchybar and borders
 osascript -e 'tell application "System Events" to set autohide menu bar of dock preferences to true'
