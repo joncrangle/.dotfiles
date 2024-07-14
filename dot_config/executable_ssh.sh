@@ -30,7 +30,7 @@ ssh-keygen -t ed25519 -C "$email" -f ~/.ssh/id_ed25519
 eval "$(ssh-agent -s)"
 
 touch ~/.ssh/config
-echo "Host *\n AddKeysToAgent yes\n UseKeychain yes\n IdentityFile ~/.ssh/id_ed25519" | tee ~/.ssh/config
+echo "Host *\n AddKeysToAgent yes\n UseKeychain yes\n IdentityFile ~/.ssh/id_ed25519" | tee ~/.ssh/config >/dev/null
 
 ssh-add --apple-use-keychain ~/.ssh/id_ed25519
 
