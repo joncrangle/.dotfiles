@@ -204,7 +204,7 @@ if gum confirm "Do you want to generate a new SSH key for GitHub?"; then
     ssh-keygen -t ed25519 -C "94425204+joncrangle@users.noreply.github.com" -f ~/.ssh/id_ed25519
     eval "$(ssh-agent -s)"
     touch ~/.ssh/config
-    echo "Host *\n AddKeysToAgent yes\n IdentityFile ~/.ssh/id_ed25519" | tee ~/.ssh/config
+    echo "Host *\n AddKeysToAgent yes\n IdentityFile ~/.ssh/id_ed25519" | tee ~/.ssh/config >/dev/null
     ssh-add ~/.ssh/id_ed25519
 elif [ $? -eq 130 ]; then
     exit
@@ -382,6 +382,47 @@ if [[ $(_isInstalledParu "sddm") -eq 0 ]]; then
     sudo sed -i 's|^CustomBackground="false"|CustomBackground="true"|g' /usr/share/sddm/themes/catppuccin-mocha/theme.conf
     sudo sed -i 's|^LoginBackground="false"|LoginBackground="true"|g' /usr/share/sddm/themes/catppuccin-mocha/theme.conf
     sudo sed -i 's|^wall.jpg"|cat-sound.png"|g' /usr/share/sddm/themes/catppuccin-mocha/theme.conf
+    sudo mkdir -p /var/lib/sddm/.config/hypr
+    sudo tee /var/lib/sddm/.config/hypr/hyprland.conf >/dev/null <<EOF
+monitor=,preferred,auto,1,mirror,DP-1
+env = XDG_SESSION_TYPE,wayland
+env = XDG_SESSION_DESKTOP,Hyprland
+env = XDG_CURRENT_DESKTOP,Hyprland
+env = CLUTTER_BACKEND,wayland
+env = QT_QPA_PLATFORM,wayland
+env = QT_QPA_PLATFORMTHEME,qt5ct
+env = QT_WAYLAND_DISABLE_WINDOWDECORATION,1
+env = QT_AUTO_SCREEN_SCALE_FACTOR,1
+env = MOZ_ENABLE_WAYLAND,1
+env = GDK_SCALE,1
+env = APPIMAGELAUNCHER_DISABLE,1
+env = XCURSOR_SIZE,24
+
+input {
+    kb_layout = us
+    kb_variant =
+    kb_model =
+    kb_options =
+    repeat_rate = 35
+    repeat_delay = 250
+    numlock_by_default = true
+    mouse_refocus = false
+    follow_mouse = 0
+    touchpad {
+        natural_scroll = true
+        middle_button_emulation = true
+        clickfinger_behavior = true
+        disable_while_typing = true
+    }
+    sensitivity = 0.2 # -1.0 - 1.0, 0 means no modification.
+}
+
+misc {
+    disable_hyprland_logo = true
+    disable_splash_rendering = true
+    focus_on_activate = true
+}
+EOF
 fi
 echo
 
