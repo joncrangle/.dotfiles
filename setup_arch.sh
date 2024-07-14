@@ -397,26 +397,11 @@ env = MOZ_ENABLE_WAYLAND,1
 env = GDK_SCALE,1
 env = APPIMAGELAUNCHER_DISABLE,1
 env = XCURSOR_SIZE,24
-
 input {
-    kb_layout = us
-    kb_variant =
-    kb_model =
-    kb_options =
     repeat_rate = 35
     repeat_delay = 250
-    numlock_by_default = true
-    mouse_refocus = false
-    follow_mouse = 0
-    touchpad {
-        natural_scroll = true
-        middle_button_emulation = true
-        clickfinger_behavior = true
-        disable_while_typing = true
-    }
-    sensitivity = 0.2 # -1.0 - 1.0, 0 means no modification.
+    sensitivity = 0.2
 }
-
 misc {
     disable_hyprland_logo = true
     disable_splash_rendering = true
