@@ -296,7 +296,7 @@ packages=(
     "playerctl"
     "plexamp-appimage"
     "pnpm"
-    "polkit-kde-agent"
+    "polkit-gnome"
     "poppler"
     "power-profiles-daemon"
     "pulseaudio"
@@ -372,9 +372,11 @@ echo ":: Setting up theme..."
 if [[ $(_isInstalledParu "bat") -eq 0 ]]; then
     bat cache --build
 fi
+
 if [[ $(_isInstalledParu "nwg-look") -eq 0 ]]; then
     nwg-look -a
 fi
+
 if [[ $(_isInstalledParu "sddm") -eq 0 ]]; then
     sudo mkdir -p /etc/sddm.conf.d
     sudo ln -s ~/.config/sddm/sddm.conf /etc/sddm.conf.d/sddm.conf
@@ -464,6 +466,12 @@ else
     systemctl --user enable docker.service
     systemctl --user start docker.service
     echo ":: docker.service activated successfully."
+fi
+
+# Add ssh-key to ssh-agent
+if [[ -f ~/.ssh/id_ed25519 ]]; then
+    eval "$(ssh-agent -s)"
+    ssh-add ~/.ssh/id_ed25519
 fi
 
 if [[ $(_isInstalledParu "xdg-user-dirs") -eq 0 ]]; then
