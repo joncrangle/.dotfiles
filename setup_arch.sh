@@ -470,6 +470,22 @@ fi
 
 # Add ssh-key to ssh-agent
 if [[ -f ~/.ssh/id_ed25519 ]]; then
+    sudo tee ~/.config/systemd/user/ssh-agent.service >/dev/null <<EOF
+
+[Unit]
+Description=SSH key agent
+ 
+[Service]
+Type=simple
+Environment=SSH_AUTH_SOCK=%t/ssh-agent.socket
+# DISPLAY required for ssh-askpass to work
+Environment=DISPLAY=:0
+ExecStart=/usr/bin/ssh-agent -D -a $SSH_AUTH_SOCK
+ 
+[Install]
+WantedBy=default.target
+EOF
+    systemctl enable --user ssh-agent.service
     eval "$(ssh-agent -s)"
     ssh-add ~/.ssh/id_ed25519
 fi
