@@ -34,7 +34,7 @@ return {
         lua = { 'stylua' },
         markdown = { 'markdownlint' },
         python = { 'ruff_format' },
-        sh = { 'shfmt' },
+        sh = { 'shfmt', 'shellharden' },
         svelte = { { 'biome', 'prettierd', 'prettier' } },
         templ = { 'templ' },
         toml = { { 'prettierd', 'prettier' } },

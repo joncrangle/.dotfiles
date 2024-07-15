@@ -25,7 +25,7 @@ if ! command -v brew &>/dev/null; then
 	brew install gh
 	brew install git
 	brew install zsh
-	chsh -s $(which zsh)
+	chsh -s "$(which zsh)"
 fi
 
 # Ask if user wants to generate Github SSH key
@@ -56,15 +56,15 @@ chezmoi init --apply git@github.com:joncrangle/.dotfiles.git
 
 # Install Brewfile from .config/homebrew
 echo "Installing Brewfile..."
-brew bundle --file=$HOME/.config/homebrew/Brewfile
+brew bundle --file="$HOME"/.config/homebrew/Brewfile
 ya pack -i
 ya pack -u
 
 # Start yabai, skhd, sketchybar and borders
 osascript -e 'tell application "System Events" to set autohide menu bar of dock preferences to true'
-curl -L https://github.com/kvndrsslr/sketchybar-app-font/releases/download/v2.0.5/sketchybar-app-font.ttf -o $HOME/Library/Fonts/sketchybar-app-font.ttf
+curl -L https://github.com/kvndrsslr/sketchybar-app-font/releases/download/v2.0.5/sketchybar-app-font.ttf -o "$HOME"/Library/Fonts/sketchybar-app-font.ttf
 (git clone https://github.com/FelixKratz/SbarLua.git /tmp/SbarLua && cd /tmp/SbarLua/ && make install && rm -rf /tmp/SbarLua/)
-echo "$(whoami) ALL=(root) NOPASSWD: sha256:$(shasum -a 256 $(which yabai) | cut -d " " -f 1) $(which yabai) --load-sa" | sudo tee /private/etc/sudoers.d/yabai
+echo "$(whoami) ALL=(root) NOPASSWD: sha256:$(shasum -a 256 "$(which yabai)" | cut -d " " -f 1) $(which yabai) --load-sa" | sudo tee /private/etc/sudoers.d/yabai
 brew services start sketchybar
 skhd --start-service
 yabai --start-service

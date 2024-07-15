@@ -167,7 +167,7 @@ return {
             disableOrganizeImports = true,
             basedpyright = {
               analysis = {
-                ignore = { "*" },
+                ignore = { '*' },
                 -- typeCheckingMode = "off",
               },
             },
@@ -220,7 +220,7 @@ return {
           -- Lazy-load schemastore when needed
           on_new_config = function(new_config)
             new_config.settings.json.schemas = new_config.settings.json.schemas or {}
-            vim.list_extend(new_config.settings.json.schemas, require("schemastore").json.schemas())
+            vim.list_extend(new_config.settings.json.schemas, require('schemastore').json.schemas())
           end,
           settings = {
             json = {
@@ -259,34 +259,34 @@ return {
         templ = {},
         tsserver = {
           ---@diagnostic disable-next-line: unused-local
-          on_attach = function (client, bufnr)
+          on_attach = function(client, bufnr)
             vim.keymap.set('n', '<leader>co', function()
-              vim.lsp.buf.code_action ({
+              vim.lsp.buf.code_action {
                 apply = true,
                 context = {
                   ---@diagnostic disable-next-line: assign-type-mismatch
                   only = { 'source.organizeImports.ts' },
                   diagnostics = {},
                 },
-              })
+              }
             end, { buffer = bufnr, desc = 'Organize Imports' })
 
             vim.keymap.set('n', '<leader>cR', function()
-              vim.lsp.buf.code_action ({
+              vim.lsp.buf.code_action {
                 apply = true,
                 context = {
                   ---@diagnostic disable-next-line: assign-type-mismatch
                   only = { 'source.removeUnused.ts' },
                   diagnostics = {},
                 },
-              })
+              }
             end, { buffer = bufnr, desc = 'Remove Unused Imports' })
           end,
           settings = {
             completions = {
               completeFunctionCalls = true,
             },
-          }
+          },
         },
         yamlls = {
           -- Have to add this for yamlls to understand that we support line folding
@@ -300,11 +300,7 @@ return {
           },
           -- lazy-load schemastore when needed
           on_new_config = function(new_config)
-            new_config.settings.yaml.schemas = vim.tbl_deep_extend(
-              "force",
-              new_config.settings.yaml.schemas or {},
-              require("schemastore").yaml.schemas()
-            )
+            new_config.settings.yaml.schemas = vim.tbl_deep_extend('force', new_config.settings.yaml.schemas or {}, require('schemastore').yaml.schemas())
           end,
           settings = {
             redhat = { telemetry = { enabled = false } },
@@ -319,7 +315,7 @@ return {
                 -- schemas from SchemaStore.nvim plugin
                 enable = false,
                 -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
-                url = "",
+                url = '',
               },
             },
           },
@@ -350,6 +346,7 @@ return {
         'markdownlint',
         'prettier',
         'prettierd',
+        'shellharden',
         'shfmt',
         'stylua',
         'templ',

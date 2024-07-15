@@ -28,7 +28,7 @@ sudo -v
 # ------------------------------------------------------
 _isInstalledPacman() {
     package="$1"
-    pacman -Q --color never "${package}" &>/dev/null
+    pacman -Q --color never "$package" &>/dev/null
     if [ $? -eq 0 ]; then
         echo 0 # '0' means 'true' in Bash
     else
@@ -38,7 +38,7 @@ _isInstalledPacman() {
 
 _isInstalledParu() {
     package="$1"
-    paru -Q --color never "${package}" &>/dev/null
+    paru -Q --color never "$package" &>/dev/null
     if [ $? -eq 0 ]; then
         echo 0 # '0' means 'true' in Bash
     else
@@ -50,11 +50,11 @@ _isInstalledParu() {
 _installPackagesPacman() {
     toInstall=()
     for pkg; do
-        if [[ $(_isInstalledPacman "${pkg}") -eq 0 ]]; then
+        if [[ $(_isInstalledPacman "$pkg") -eq 0 ]]; then
             echo "${pkg} is already installed."
             continue
         fi
-        toInstall+=("${pkg}")
+        toInstall+=("$pkg")
     done
     if [[ "${toInstall[@]}" == "" ]]; then
         # echo "All pacman packages are already installed.";
@@ -67,11 +67,11 @@ _installPackagesPacman() {
 _installPackagesParu() {
     toInstall=()
     for pkg; do
-        if [[ $(_isInstalledParu "${pkg}") -eq 0 ]]; then
+        if [[ $(_isInstalledParu "$pkg") -eq 0 ]]; then
             echo ":: ${pkg} is already installed."
             continue
         fi
-        toInstall+=("${pkg}")
+        toInstall+=("$pkg")
     done
 
     if [[ "${toInstall[@]}" == "" ]]; then
@@ -85,7 +85,7 @@ _installPackagesParu() {
 
 _commandExists() {
     package="$1"
-    if ! type $package >/dev/null 2>&1; then
+    if ! type "$package" >/dev/null 2>&1; then
         echo ":: ERROR: $package doesn't exists. Please install it with paru -S $2"
     else
         echo ":: OK: $package command found."
@@ -113,7 +113,7 @@ BLUE='\033[0;34m'   #'0;34' is Blue
 NONE='\033[0m'      # NO COLOR
 
 # Header
-echo -e "${GREEN}"
+echo -e "$GREEN"
 cat <<"EOF"
  ___           _        _ _           
 |_ _|_ __  ___| |_ __ _| | | ___ _ __ 
@@ -124,7 +124,7 @@ cat <<"EOF"
 EOF
 echo "for Arch Hyprland Dotfiles"
 echo
-echo -e "${NONE}"
+echo -e "$NONE"
 while true; do
     read -p "DO YOU WANT TO START THE INSTALLATION NOW? (Yy/Nn): " yn
     case $yn in
@@ -166,7 +166,7 @@ gum spin --spinner dot --title "Starting the installation now..." -- sleep 3
 line=$(grep "ParallelDownloads = 5" /etc/pacman.conf)
 if [[ $line == \#* ]]; then
     echo ":: Modifying pacman.conf to enable parallel downloads."
-    new_line=$(echo $line | sed 's/^#//')
+    new_line=$(echo "$line" | sed 's/^#//')
     sudo sed -i "s/$line/$new_line/g" /etc/pacman.conf
 fi
 
