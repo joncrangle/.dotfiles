@@ -221,7 +221,7 @@ wezterm connect tnas
 | Launch browser                              | `Super` + `b`                          |
 | Launch Thunar file manager                  | `Super` + `e`                          |
 | Launch Yazi file manager                    | `Super` + `y`                          |
-| Launch colour picker                        | `Super` + `c`                          |
+| Launch color picker                         | `Super` + `Shift` + `c`                |
 | **Workspaces / Windows**                    |                                        |
 | Switch to Workspace 1 - 9                   | `Super` + `1 - 9`                      |
 | Move Window to Workspace 1 - 9              | `Super` + `Shift` + `1 - 9`            |
