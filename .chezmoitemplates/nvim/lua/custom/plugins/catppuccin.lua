@@ -10,15 +10,21 @@ return {
     opts = {
       flavour = 'mocha',
       transparent_background = true,
+      integrations = {
+        mini = {
+          enabled = true,
+          indentscope_color = 'lavender',
+        },
+      },
       highlight_overrides = {
-        mocha = function (mocha)
+        mocha = function(mocha)
           return {
             LineNrAbove = { fg = mocha.overlay1 },
             LineNrBelow = { fg = mocha.overlay1 },
             CursorLineNr = { fg = mocha.rosewater },
           }
-        end
-      }
+        end,
+      },
     },
   },
 }
