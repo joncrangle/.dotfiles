@@ -215,6 +215,9 @@ return {
         },
         html = {},
         htmx = {},
+        hyprls = {
+          filetypes = { 'hyprlang' },
+        },
         jqls = {},
         jsonls = {
           -- Lazy-load schemastore when needed

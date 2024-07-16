@@ -7,12 +7,25 @@ return {
     },
     build = ':TSUpdate',
     opts = {
+      vim.filetype.add {
+        filename = {
+          ['vifmrc'] = 'vim',
+        },
+        pattern = {
+          ['.*/waybar/config'] = 'jsonc',
+          ['.*/hypr/.+%.conf'] = 'hyprlang',
+          ['%.env%.[%w_.-]+'] = 'sh',
+        },
+      },
+
       ensure_installed = {
         'bash',
         'c',
         'diff',
+        'git_config',
         'go',
         'html',
+        'hyprlang',
         'javascript',
         'lua',
         'luadoc',
