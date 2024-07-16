@@ -316,6 +316,7 @@ packages=(
     "starship"
     "swappy"
     "swaync"
+    "swww-git"
     "system-config-printer"
     "thefuck"
     "thunar"
@@ -374,6 +375,11 @@ if [[ $(_isInstalledParu "bat") -eq 0 ]]; then
     bat cache --build
 fi
 
+if [[ -f ~/.config/hypr/wallpapers/cat-sound.png ]]; then
+    cp ~/.config/hypr/wallpapers/cat-sound.png ~/.config/background
+    chmod a+r ~/.config/background
+fi
+
 if [[ $(_isInstalledParu "nwg-look") -eq 0 ]]; then
     nwg-look -a
 fi
@@ -381,10 +387,11 @@ fi
 if [[ $(_isInstalledParu "sddm") -eq 0 ]]; then
     sudo mkdir -p /etc/sddm.conf.d
     sudo ln -s ~/.config/sddm/sddm.conf /etc/sddm.conf.d/sddm.conf
-    sudo cp ~/.config/hypr/wallpapers/cat-sound.png /usr/share/sddm/themes/catppuccin-mocha/backgrounds/cat-sound.png
+    sudo rm /usr/share/sddm/themes/catppuccin-mocha/backgrounds/background
+    sudo ln -s ~/.config/background /usr/share/sddm/themes/catppuccin-mocha/backgrounds/background
     sudo sed -i 's|^CustomBackground="false"|CustomBackground="true"|g' /usr/share/sddm/themes/catppuccin-mocha/theme.conf
     sudo sed -i 's|^LoginBackground="false"|LoginBackground="true"|g' /usr/share/sddm/themes/catppuccin-mocha/theme.conf
-    sudo sed -i 's|^wall.jpg"|cat-sound.png"|g' /usr/share/sddm/themes/catppuccin-mocha/theme.conf
+    sudo sed -i 's|^wall.jpg"|background"|g' /usr/share/sddm/themes/catppuccin-mocha/theme.conf
     sudo mkdir -p /var/lib/sddm/.config/hypr
     sudo tee /var/lib/sddm/.config/hypr/hyprland.conf >/dev/null <<EOF
 monitor=,preferred,auto,1,mirror,DP-1
