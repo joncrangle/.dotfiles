@@ -110,7 +110,7 @@ return {
         },
         ---@diagnostic disable-next-line: missing-fields
         formatting = {
-          format = require('tailwindcss-colorizer-cmp').formatter,
+          format = require('nvim-highlight-colors').format,
         },
       }
 
