@@ -3,6 +3,8 @@ return {
     'Exafunction/codeium.vim',
     lazy = true,
     event = 'BufEnter',
+    cmd = 'Codeium',
+    build = ':Codeium Auth',
     config = function()
       vim.g.codeium_disable_bindings = true
       vim.g.codeium_enabled = true
