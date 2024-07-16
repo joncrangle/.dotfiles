@@ -243,4 +243,5 @@ wezterm connect tnas
 | Reload Hyprland config                      | `Super` + `Shift` + `r`                |
 | Reload Waybar config                        | `Super` + `Shift` + `b`                |
 | Smart paste                                 | `Super` + `Shift` + `v`                |
-| Screenshot / Capture portion of screen      | `Print` / `Shift` + `Print`            |
+| Screenshot                                  | `Print`                                |
+| Capture Window / Capture Region             | `Super` + `Print` / `Shift` + `Print`  |

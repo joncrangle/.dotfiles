@@ -267,6 +267,7 @@ packages=(
     "hyprlock-git"
     "hyprpaper"
     "hyprpicker-git"
+    "hyprshot"
     "imagemagick"
     "imv"
     "jq"
