@@ -407,6 +407,7 @@ env = MOZ_ENABLE_WAYLAND,1
 env = GDK_SCALE,1
 env = APPIMAGELAUNCHER_DISABLE,1
 env = XCURSOR_SIZE,24
+exec-once = hyprctl setcursor catppuccin-mocha-mauve-cursors 24
 input {
     repeat_rate = 35
     repeat_delay = 250
