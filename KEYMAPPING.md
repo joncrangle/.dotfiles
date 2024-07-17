@@ -234,8 +234,8 @@ wezterm connect tnas
 | Tab between windows in group                | `Super` + `Tab`                        |
 | Resize                                      | `Alt` + `r`, then `h`, `j`, `k`, `l`   |
 | **Actions**                                 |                                        |
-| Logout                                      | `Super` + `Ctrl` + `q`                 |
-| Lock screen                                 | `Super` + `Ctrl` + `l`                 |
+| Logout                                      | `Super` + `Shift` + `q`                |
+| Lock screen                                 | `Super` + `Shift` + `l`                |
 | Open notification center                    | `Super` + `Shift` + `n`                |
 | Open application launcher                   | `Super` + `Space`                      |
 | Open emoji picker                           | `Super` + `;`                          |
