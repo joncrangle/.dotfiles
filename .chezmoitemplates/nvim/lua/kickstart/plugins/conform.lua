@@ -1,5 +1,5 @@
 return {
-  { -- Autoformat
+  {
     'stevearc/conform.nvim',
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
@@ -20,27 +20,24 @@ return {
         lsp_format = 'fallback',
       },
       formatters_by_ft = {
-        -- You can use a sub-list to tell conform to run *until* a formatter
-        -- is found.
-        astro = { { 'prettierd', 'prettier' } },
+        astro = { 'prettierd', 'prettier', stop_after_first = true },
         bash = { 'shfmt' },
-        css = { { 'prettierd', 'prettier' } },
-        -- Conform can also run multiple formatters sequentially
+        css = { 'prettierd', 'prettier', stop_after_first = true },
         go = { 'goimports', 'goimports-reviser', 'golines', 'gofumpt' },
-        html = { { 'prettierd', 'prettier' } },
-        javascript = { { 'biome', 'prettierd', 'prettier' } },
-        javascriptreact = { { 'biome', 'prettierd', 'prettier' } },
-        json = { { 'biome', 'prettierd', 'prettier' } },
+        html = { 'prettierd', 'prettier', stop_after_first = true },
+        javascript = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
+        javascriptreact = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
+        json = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
         lua = { 'stylua' },
         markdown = { 'markdownlint' },
         python = { 'ruff_format' },
         sh = { 'shfmt', 'shellharden' },
-        svelte = { { 'biome', 'prettierd', 'prettier' } },
+        svelte = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
         templ = { 'templ' },
-        toml = { { 'prettierd', 'prettier' } },
-        typescript = { { 'biome', 'prettierd', 'prettier' } },
-        typescriptreact = { { 'biome', 'prettierd', 'prettier' } },
-        yaml = { { 'prettierd', 'prettier' } },
+        toml = { 'prettierd', 'prettier', stop_after_first = true },
+        typescript = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
+        typescriptreact = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
+        yaml = { 'prettierd', 'prettier', stop_after_first = true },
         zsh = { 'shfmt' },
       },
     },
