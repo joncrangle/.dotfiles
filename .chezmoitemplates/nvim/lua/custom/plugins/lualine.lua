@@ -1,8 +1,6 @@
 return {
   {
     'nvim-lualine/lualine.nvim',
-    lazy = true,
-    event = { 'BufReadPre', 'BufNewFile' },
     dependencies = { 'echasnovski/mini.nvim' },
     opts = {
       options = {
