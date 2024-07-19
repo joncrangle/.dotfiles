@@ -1,8 +1,7 @@
 return {
   {
     'ThePrimeagen/vim-be-good',
-    lazy = true,
-    event = 'VeryLazy',
+    cmd = 'VimBeGood',
   },
 }
 -- vim: ts=2 sts=2 sw=2 et

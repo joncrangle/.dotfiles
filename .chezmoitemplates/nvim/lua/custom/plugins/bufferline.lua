@@ -2,7 +2,7 @@ return {
   'akinsho/bufferline.nvim',
   version = '*',
   lazy = true,
-  event = 'VeryLazy',
+  event = { 'BufReadPost', 'BufNewFile' },
   dependencies = {
     'echasnovski/mini.nvim',
     'catppuccin',

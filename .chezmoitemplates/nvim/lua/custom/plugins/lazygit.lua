@@ -2,7 +2,7 @@ return {
   {
     'kdheepak/lazygit.nvim',
     lazy = true,
-    event = 'VeryLazy',
+    cmd = 'LazyGit',
     dependencies = {
       'nvim-telescope/telescope.nvim',
       'nvim-lua/plenary.nvim',

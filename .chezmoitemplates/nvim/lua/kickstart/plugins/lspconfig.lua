@@ -1,9 +1,10 @@
 return {
   { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
+    event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
-      { 'williamboman/mason.nvim', config = true },
+      { 'williamboman/mason.nvim', cmd = 'Mason', config = true },
       'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
@@ -13,9 +14,9 @@ return {
 
       -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
       -- used for completion, annotations and signatures of Neovim apis
-      { 'folke/lazydev.nvim', ft = 'lua', opts = {} },
+      'folke/lazydev.nvim',
 
-      { 'b0o/schemastore.nvim', opts = nil },
+      { 'b0o/schemastore.nvim', lazy = true, opts = nil },
     },
     config = function()
       -- Brief aside: **What is LSP?**

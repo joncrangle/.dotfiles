@@ -3,6 +3,7 @@ return {
   {
     'folke/lazydev.nvim',
     ft = 'lua',
+    cmd = 'LazyDev',
     opts = {
       { path = 'wezterm-types', mods = { 'wezterm' } },
     },

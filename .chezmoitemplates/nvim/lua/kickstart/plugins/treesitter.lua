@@ -6,6 +6,8 @@ return {
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
     build = ':TSUpdate',
+    event = { 'BufReadPre', 'BufNewFile' },
+    cmd = { 'TSInstall', 'TSInstallInfo', 'TSBufEnable', 'TSBufDisable', 'TSEnable', 'TSDisable', 'TSModuleInfo' },
     opts = {
       vim.filetype.add {
         filename = {
@@ -30,6 +32,7 @@ return {
         'lua',
         'luadoc',
         'markdown',
+        'markdown_inline',
         'query',
         'typescript',
         'vim',

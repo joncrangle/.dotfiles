@@ -17,10 +17,21 @@ return {
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.surround').setup()
+
+      require('mini.diff').setup {
+        view = {
+          style = 'sign',
+          signs = {
+            add = '▎',
+            change = '▎',
+            delete = '',
+          },
+        },
+        vim.keymap.set('n', '<leader>go', '<cmd>lua MiniDiff.toggle_overlay(0)<cr>', { desc = 'Toggle [G]it mini.diff [O]verlay' }),
+      }
 
       require('mini.pairs').setup {
-        event = 'VeryLazy',
+        event = { 'BufReadPre', 'BufNewFile' },
         opts = {
           modes = { insert = true, command = true, terminal = false },
           -- skip autopair when next character is one of these

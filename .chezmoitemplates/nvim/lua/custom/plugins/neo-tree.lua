@@ -1,6 +1,6 @@
 return {
   'nvim-neo-tree/neo-tree.nvim',
-  lazy = true,
+  cmd = 'Neotree',
   dependencies = {
     'nvim-lua/plenary.nvim',
     'echasnovski/mini.nvim',
