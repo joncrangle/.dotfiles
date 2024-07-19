@@ -1,5 +1,5 @@
 return {
-  { 'justinsgithub/wezterm-types', lazy = true },
+  { 'justinsgithub/wezterm-types', lazy = true, ft = 'lua' },
   {
     'folke/lazydev.nvim',
     ft = 'lua',
