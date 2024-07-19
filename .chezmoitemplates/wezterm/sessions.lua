@@ -104,11 +104,14 @@ local function recreate_workspace(window, workspace_data)
 
   -- Check if the foreground process is a shell
   if
-    foreground_process:find 'sh'
-    or foreground_process:find 'cmd.exe'
-    or foreground_process:find 'powershell.exe'
-    or foreground_process:find 'pwsh.exe'
-    or foreground_process:find 'nu'
+    foreground_process
+    and (
+      foreground_process:find 'sh'
+      or foreground_process:find 'cmd.exe'
+      or foreground_process:find 'powershell.exe'
+      or foreground_process:find 'pwsh.exe'
+      or foreground_process:find 'nu'
+    )
   then
     -- Safe to close
     initial_pane:send_text 'exit\r'
