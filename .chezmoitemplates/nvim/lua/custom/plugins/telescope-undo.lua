@@ -8,13 +8,6 @@ return {
         dependencies = { 'nvim-lua/plenary.nvim' },
       },
     },
-    keys = {
-      {
-        '<leader>u',
-        '<cmd>Telescope undo<cr>',
-        desc = '[U]ndo history',
-      },
-    },
     opts = {
       extensions = {
         undo = {},

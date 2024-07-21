@@ -20,18 +20,20 @@ return {
     opts = {
       preset = 'modern',
     },
-    keys = function()
+    config = function()
       local key_bindings = {
-        { '<leader>#', group = 'Harpoon2 List Item [1-5]' },
-        { '<leader>c', group = '[C]ode', hidden = true },
-        { '<leader>d', group = '[D]ocument', hidden = true },
-        { '<leader>g', group = '[G]it', hidden = true },
-        { '<leader>n', group = '[N]oice', hidden = true },
-        { '<leader>r', group = '[R]ename', hidden = true },
-        { '<leader>s', group = '[S]earch', hidden = true },
-        { '<leader>t', group = '[T]oggle', hidden = true },
-        { '<leader>w', group = '[W]orkspace', hidden = true },
-        { '<leader>q', group = 'Persistent Sessions', hidden = true },
+        { '<leader>#', desc = 'Harpoon2 list item [1-5]', icon = { icon = '󱡀', color = 'orange' } },
+        { '<leader>c', group = '[C]ode', icon = { icon = ' ', color = 'green' } },
+        { '<leader>d', group = '[D]ocument', icon = { icon = '󰈙', color = 'green' } },
+        { '<leader>g', group = '[G]it', icon = { icon = '', color = 'green' } },
+        { '<leader>n', group = '[N]oice', icon = { icon = '󰈸', color = 'orange' } },
+        { '<leader>r', group = '[R]ename', icon = { icon = '󰑕', color = 'orange' } },
+        { '<leader>s', group = '[S]earch', icon = { icon = '', color = 'green' } },
+        { '<leader>t', group = '[T]oggle', icon = { icon = '', color = 'orange' } },
+        { '<leader>w', group = '[W]orkspace', icon = { icon = '', color = 'yellow' } },
+        { '<leader>q', group = 'Persistent Sessions', icon = { icon = '', color = 'yellow' } },
+        { '<leader>u', '<cmd>Telescope undo<cr>', desc = '[U]ndo history', icon = { icon = '', color = 'green' } },
+        { '<leader>z', '<cmd>Telescope zoxide list<cr>', desc = '[Z]oxide list', icon = { icon = ' ', color = 'orange' } },
       }
 
       -- Add Harpoon2 list items
@@ -40,7 +42,7 @@ return {
         table.insert(key_bindings, { '<leader>#' .. i, hidden = true })
       end
 
-      return key_bindings
+      require('which-key').add(key_bindings)
     end,
   },
 }
