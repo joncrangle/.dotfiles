@@ -235,7 +235,7 @@ wezterm connect tnas
 | Resize                                      | `Alt` + `r`, then `h`, `j`, `k`, `l`   |
 | **Actions**                                 |                                        |
 | Logout                                      | `Super` + `Shift` + `q`                |
-| Lock screen                                 | `Ctrl` + `Shift` + `l`                 |
+| Lock screen                                 | `Super` + `Ctrl` + `l`                 |
 | Open notification center                    | `Super` + `Shift` + `n`                |
 | Open application launcher                   | `Super` + `Space`                      |
 | Open emoji picker                           | `Super` + `;`                          |
