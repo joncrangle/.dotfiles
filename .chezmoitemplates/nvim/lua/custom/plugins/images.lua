@@ -14,9 +14,9 @@ return {
     opts = {
       integrations = {
         markdown = {
-          enabled = false,
+          enabled = true,
           clear_in_insert_mode = true,
-          only_render_image_at_cursor = false,
+          only_render_image_at_cursor = true,
         },
         neorg = {
           enabled = false,
