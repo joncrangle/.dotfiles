@@ -25,6 +25,7 @@ return {
         { '<leader>#', desc = 'Harpoon2 list item [1-5]', icon = { icon = '󱡀', color = 'orange' } },
         { '<leader>c', group = '[C]ode', icon = { icon = ' ', color = 'green' } },
         { '<leader>d', group = '[D]ocument', icon = { icon = '󰈙', color = 'green' } },
+        { '<leader>de', '<cmd>Telescope symbols<cr>', desc = '[D]ocument [E]moji picker', icon = { icon = '😀', color = 'green' } },
         { '<leader>g', group = '[G]it', icon = { icon = '', color = 'green' } },
         { '<leader>n', group = '[N]oice', icon = { icon = '󰈸', color = 'orange' } },
         { '<leader>r', group = '[R]ename', icon = { icon = '󰑕', color = 'orange' } },
