@@ -1,4 +1,6 @@
 return {
+  { 'nvim-telescope/telescope-symbols.nvim', lazy = true, cmd = 'Telescope symbols', dependencies = { 'nvim-telescope/telescope.nvim' } },
+  { 'jvgrootveld/telescope-zoxide', lazy = true, cmd = 'Telescope zoxide list', dependencies = { 'nvim-telescope/telescope.nvim' } },
   {
     'debugloop/telescope-undo.nvim',
     lazy = true,
