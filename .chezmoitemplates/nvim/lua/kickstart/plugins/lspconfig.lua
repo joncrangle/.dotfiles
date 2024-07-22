@@ -126,7 +126,7 @@ return {
             })
           end
 
-          -- The following autocommand is used to enable inlay hints in your
+          -- The following command is used to toggle inlay hints in your
           -- code, if the language server you are using supports them
           --
           -- This may be unwanted, since they displace some of your code
