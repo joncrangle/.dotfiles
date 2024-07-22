@@ -2,7 +2,7 @@ return {
   {
     'Exafunction/codeium.vim',
     lazy = true,
-    event = 'BufEnter',
+    event = 'InsertEnter',
     cmd = 'Codeium',
     build = ':Codeium Auth',
     config = function()
