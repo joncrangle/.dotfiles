@@ -38,6 +38,15 @@ alias wget="wget -c"
 alias x="exit"
 
 ########## Functions ##########
+sudo_nvim() {
+	sudoedit "$@"
+}
+
+alias 'sudo nvim'=sudo_nvim
+alias 'sudo vim'=sudo_nvim
+alias 'sudo vi'=sudo_nvim
+alias 'sudo v'=sudo_nvim
+
 brew-upgrade() {
 	brew upgrade --cask wezterm-nightly --no-quarantine --greedy-latest
 	brew update
