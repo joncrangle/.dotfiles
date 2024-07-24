@@ -14,7 +14,8 @@ return {
 
       -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
       -- used for completion, annotations and signatures of Neovim apis
-      'folke/lazydev.nvim',
+      -- 'folke/lazydev.nvim',
+      -- NOTE: commented out because I import it as a custom plugin
 
       { 'b0o/schemastore.nvim', lazy = true, opts = nil },
     },
