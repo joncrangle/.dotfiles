@@ -1,7 +1,7 @@
 return {
   'm4xshen/hardtime.nvim',
   dependencies = { 'MunifTanjim/nui.nvim', 'nvim-lua/plenary.nvim' },
-  event = 'BufEnter',
+  event = { 'BufReadPost', 'BufNewFile' },
   opts = true,
   enabled = true,
   keys = {
