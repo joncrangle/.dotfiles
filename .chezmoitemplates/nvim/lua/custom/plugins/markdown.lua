@@ -28,7 +28,7 @@ return {
     keys = {
       {
         '<leader>tm',
-        '<cmd>RenderMarkdownToggle<cr>',
+        '<cmd>RenderMarkdown toggle<cr>',
         ft = 'markdown',
         desc = '[T]oggle [M]arkdown',
       },
