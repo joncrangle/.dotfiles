@@ -1,7 +1,7 @@
 return {
   'sindrets/diffview.nvim',
-  lazy = true,
-  config = true,
+  cmd = { 'DiffviewOpen', 'DiffviewClose' },
+  opts = true,
   keys = {
     {
       '<leader>gd',

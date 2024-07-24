@@ -2,9 +2,9 @@ return {
   {
     'catppuccin/nvim',
     name = 'catppuccin',
+    lazy = true,
     priority = 1000,
     init = function()
-      ---@diagnostic disable-next-line: undefined-global
       vim.cmd.colorscheme 'catppuccin-mocha'
     end,
     opts = {

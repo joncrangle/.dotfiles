@@ -369,5 +369,13 @@ return {
       }
     end,
   },
+  {
+    'zeioth/garbage-day.nvim',
+    dependencies = 'neovim/nvim-lspconfig',
+    event = 'LspAttach',
+    opts = {
+      notifications = true,
+    },
+  },
 }
 -- vim: ts=2 sts=2 sw=2 et
