@@ -2,7 +2,7 @@ return {
   {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'echasnovski/mini.nvim' },
-    event = 'VeryLazy',
+    event = { 'BufReadPost', 'BufNewFile' },
     init = function()
       vim.g.lualine_laststatus = vim.o.laststatus
       if vim.fn.argc(-1) > 0 then
