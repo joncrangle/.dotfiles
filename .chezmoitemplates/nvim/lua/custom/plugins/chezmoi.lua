@@ -12,7 +12,6 @@ return {
     init = function()
       -- run chezmoi edit on file enter
       vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
-
         pattern = {
           (vim.fn.has 'win32' == 1 and os.getenv 'USERPROFILE' .. '/AppData/Local/chezmoi/*' or os.getenv 'HOME' .. '/.local/share/chezmoi/*'),
         },
