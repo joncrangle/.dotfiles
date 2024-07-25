@@ -122,4 +122,4 @@
 		bold yellow => syntax "#544f4e"
 	# Should match the name of the bat theme
 	syntax-theme = "Catppuccin Mocha"
-
+# vim: ft=gitconfig
