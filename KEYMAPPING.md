@@ -17,6 +17,7 @@
 | Goto Line                                                                                            | `:[num]<cr>`                                             |
 | Goto Definition, Reference, Implementation                                                           | `gd`, `gr`, `gI`                                         |
 | LSP Hover Documentation                                                                              | `K`                                                      |
+| Scroll LSP Hover Documentation                                                                       | `<Ctrl` + `f` / `b`                                      |
 | **Editing**                                                                                          |                                                          |
 | Undo / Undo Tree                                                                                     | `u` / `<leader>u`                                        |
 | Redo                                                                                                 | `Ctrl` + `r`                                             |
@@ -42,10 +43,10 @@
 | Repeat Search in Same / Opposite Direction                                                           | `n`, `N`                                                 |
 | Search Files, Recent Files, Open Files, Grep, Diagnostics, Help, Keymaps, Neovim Files, Zoxide, etc. | `<leader>s` + `f`, `.`, `/`, `g`, `d`, `h`, `k`, `z` `n` |
 | Add Buffer to Harpoon                                                                                | `<leader>a`                                              |
-| Open Harpoon Quick Menu / Telescope Menu                                                             | `<leader>h` / `Ctrl` + `e`                               |
+| Open Harpoon Quick Menu                                                                              | `<leader>h`                                              |
 | Harpoon Quick Navigate                                                                               | `<leader>` + `1`, `2`, `3`, `4`, `5`                     |
-| Open in `oil.nvim`                                                                                   | `<leader>` + `-`                                         |
-| Open in `telescope-file-browser.nvim`                                                                | `Ctrl` + `f`                                             |
+| Open in `oil.nvim`                                                                                   | `\`                                                      |
+| Open in `neo-tree.nvim`                                                                              | `<leader>` + `-`                                         |
 | Open, Split Windows...                                                                               | `Ctrl` + `w` + `[char]`                                  |
 | Close Split                                                                                          | `Ctrl` + `w` +`q`                                        |
 | Navigate Splits                                                                                      | `Ctrl` + `h`, `j`, `k`, `l`                              |
