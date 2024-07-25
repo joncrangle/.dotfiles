@@ -13,9 +13,9 @@ return {
   },
   keys = {
     {
-      '<C-f>',
+      '<leader>-',
       '<cmd>Neotree toggle<cr>',
-      desc = '[F]ile explorer',
+      desc = 'Neo-tree file explorer',
     },
   },
 }

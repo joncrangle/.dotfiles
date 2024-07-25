@@ -19,7 +19,7 @@ return {
   },
   keys = {
     {
-      '<leader>-',
+      '\\',
       '<cmd>Oil<cr>',
       desc = 'Open parent directory in oil.nvim',
     },
