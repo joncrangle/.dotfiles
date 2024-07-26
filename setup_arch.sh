@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 clear
 sudo -v
 # script inspiration source: [Stephan Raabe dotfiles](https://gitlab.com/stephan-raabe/dotfiles)

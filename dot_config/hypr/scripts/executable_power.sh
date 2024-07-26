@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #  ____
 # |  _ \ _____      _____ _ __
 # | |_) / _ \ \ /\ / / _ \ '__|
@@ -9,7 +9,7 @@
 exit_hyprland() {
     echo ":: Exit"
     sleep 0.5
-    pkill Hyprland || loginctl terminate-user $USER
+    pkill Hyprland || loginctl terminate-user "$USER"
     sleep 2
 }
 

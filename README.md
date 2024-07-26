@@ -167,7 +167,7 @@ bash <(curl -s https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup
 > 1. Create a `launch.sh` script in `/usr/share/wayland-sessions` and make it executable with `chmod +x launch.sh`:
 >
 > ```bash
-> #!/bin/bash
+> #!/bin/sh
 > if [ -z "$1" ]; then
 >      echo "Usage: $0 <config_directory> <command>"
 >      exit 1
