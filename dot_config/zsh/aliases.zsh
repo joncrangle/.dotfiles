@@ -55,7 +55,13 @@ brew-upgrade() {
 }
 
 copy-line() {
-	rg --line-number . | fzf --delimiter ':' --preview 'bat --color=always --highlight-line {2} {1}' | awk -F ':' '{print $3}' | sed 's/^\s+//' | pbcopy
+	if command -v pbcopy >/dev/null; then
+		rg --line-number . | fzf --delimiter ':' --preview 'bat --color=always --highlight-line {2} {1}' | awk -F ':' '{print $3}' | sed 's/^\s+//' | pbcopy
+	elif command -v wl-copy >/dev/null; then
+		rg --line-number . | fzf --delimiter ':' --preview 'bat --color=always --highlight-line {2} {1}' | awk -F ':' '{print $3}' | sed 's/^\s+//' | wl-copy
+	else
+		echo "pbcopy or wl-copy command not found. Unable to copy to clipboard."
+	fi
 }
 
 extract() {
@@ -153,8 +159,11 @@ pass() {
 	if command -v pbcopy >/dev/null; then
 		echo -n "$PASSWORD" | pbcopy
 		echo -e "$PASSWORD\nCopied to clipboard"
+	elif command -v wl-copy >/dev/null; then
+		echo -n "$PASSWORD" | wl-copy
+		echo -e "$PASSWORD\nCopied to clipboard"
 	else
-		echo "pbcopy command not found. Unable to copy to clipboard."
+		echo "pbcopy or wl-copy command not found. Unable to copy to clipboard."
 	fi
 }
 
@@ -165,9 +174,13 @@ password() {
 	}
 
 	copy_to_clipboard() {
-		command -v pbcopy >/dev/null && {
+		if command - v pbcopy >/dev/null; then
 			echo -n "$1" | pbcopy
-		}
+		elif command -v wl-copy >/dev/null; then
+			echo -n "$1" | wl-copy
+		else
+			echo "pbcopy or wl-copy command not found. Unable to copy to clipboard."
+		fi
 	}
 
 	usage() {
