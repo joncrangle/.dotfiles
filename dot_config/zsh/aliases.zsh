@@ -48,7 +48,7 @@ alias 'sudo vi'=sudo_nvim
 alias 'sudo v'=sudo_nvim
 
 brew-upgrade() {
-	brew upgrade --cask wezterm-nightly --no-quarantine --greedy-latest
+	brew upgrade --cask wezterm@nightly --no-quarantine --greedy-latest
 	brew update
 	brew upgrade
 	brew cleanup
