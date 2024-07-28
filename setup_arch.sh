@@ -414,19 +414,21 @@ misc {
 EOF
     sudo tee /var/lib/sddm/.config/hypr/hypridle.conf >/dev/null <<EOF
 general {
-    lock_cmd = pidof hyprlock || hyprlock
-    before_sleep_cmd = loginctl lock-session
     after_sleep_cmd = hyprctl dispatch dpms on
 }
+# screen brightness
+listener {
+    timeout = 150 # 2.5 minutes
+    on-timeout = brightnessctl -s set 10
+    on-resume = brightnessctl -r
+}
+# dpms
 listener {
     timeout = 600 # 10 minutes
-    on-timeout = loginctl lock-session
-}
-listener {
-    timeout = 660 # 11 minutes
     on-timeout = hyprctl dispatch dpms off
     on-resume = hyprctl dispatch dpms on
 }
+# Suspend
 listener {
     timeout = 1800 # 30 minutes
     on-timeout = systemctl suspend
