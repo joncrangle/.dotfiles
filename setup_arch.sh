@@ -367,8 +367,8 @@ if [[ $(_isInstalledParu "bat") -eq 0 ]]; then
     bat cache --build
 fi
 
-if [[ -f ~/.config/hypr/wallpapers/cat-sound.png ]]; then
-    cp ~/.config/hypr/wallpapers/cat-sound.png ~/.config/background
+if [[ -f ~/.config/hypr/wallpapers/catppuccin-city.jpg ]]; then
+    cp ~/.config/hypr/wallpapers/catppuccin-city.jpg ~/.config/background
     chmod a+r ~/.config/background
 fi
 
