@@ -146,7 +146,7 @@ done
 sudo pacman -Sy
 echo
 
-# Install required packages
+#y Install required packages
 echo ":: Checking that required packages are installed..."
 _installPackagesPacman "${dependencies[@]}"
 echo
@@ -300,7 +300,6 @@ packages=(
     "python"
     "python-uv"
     "qalculate-gtk"
-    "qt5-wayland"
     "qt6-wayland"
     "ripgrep"
     "sddm-git"
@@ -309,7 +308,6 @@ packages=(
     "smartmontools"
     "spotify"
     "starship"
-    "swappy"
     "swww-git"
     "system-config-printer"
     "thefuck"

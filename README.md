@@ -40,9 +40,7 @@ Features include:
 **Arch Linux**
 
 - [Hyprland](https://hyprland.org/) window manager
-- [Waybar](https://github.com/Alexays/Waybar) panel
-- [Fuzzel](https://codeberg.org/dnkl/fuzzel) launcher
-- [swaync](https://github.com/ErikReider/SwayNotificationCenter) notification center
+- [Aylur's GTK Shell](https://github.com/Aylur/ags) for bar, launcher and notifications
 - [Paru](https://github.com/Morganamilo/paru) AUR helper (package management)
 
 > [!WARNING]
