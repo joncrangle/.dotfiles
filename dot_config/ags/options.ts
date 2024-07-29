@@ -120,7 +120,7 @@ const options = mkOptions(OPTIONS, {
 		battery: {
 			bar: opt<"hidden" | "regular" | "whole">("regular"),
 			charging: opt("#a6e3a1"),
-			percentage: opt(true),
+			percentage: opt(false),
 			blocks: opt(7),
 			width: opt(50),
 			low: opt(30),
