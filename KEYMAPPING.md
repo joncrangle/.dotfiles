@@ -247,4 +247,4 @@ wezterm connect tnas
 | Smart paste                                 | `Super` + `Shift` + `v`                |
 | Screenshot                                  | `Print`                                |
 | Capture Window / Capture Region             | `Super` + `Print` / `Shift` + `Print`  |
-| Start screen recording                      | `Super` + `R`                          |
+| Start screen recording                      | `Super` + `r`                          |
