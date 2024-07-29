@@ -7,15 +7,18 @@ import { BluetoothToggle, BluetoothDevices } from "./widgets/Bluetooth";
 import { DND } from "./widgets/DND";
 import { MicMute } from "./widgets/MicMute";
 import { Media } from "./widgets/Media";
+import Cava from "./widgets/Cava";
 import PopupWindow from "widget/PopupWindow";
 import options from "options";
+import { sh } from "lib/utils";
 
 const { bar, quicksettings } = options;
-const media = (await Service.import("mpris")).bind("players");
+const media = await Service.import("mpris");
 const layout = Utils.derive(
 	[bar.position, quicksettings.position],
 	(bar, qs) => `${bar}-${qs}` as const,
 );
+const smooth = false;
 
 const Row = (
 	toggles: Array<() => Gtk.Widget> = [],
@@ -52,8 +55,26 @@ const Settings = () =>
 			Row([NetworkToggle, BluetoothToggle], [WifiSelection, BluetoothDevices]),
 			Row([MicMute, DND]),
 			Widget.Box({
-				visible: media.as((l) => l.length > 0),
+				visible: media.bind("players").as((l) => l.length > 0),
 				child: Media(),
+			}),
+			Widget.Box({
+				visible: media.bind("players").as((l) => l.length > 0),
+				class_name: "visualizer",
+				vertical: true,
+			}).hook(media, (self) => {
+				if (!media.bind("players").as((l) => l.length > 0)) return;
+				sh("pkill cava");
+				const limit = options.bar.media.length.value;
+				const width = 10;
+				const height = 62;
+				const size = quicksettings.width.value;
+				self.child = Cava({
+					smooth,
+					width,
+					height,
+					bars: (size < limit ? size : limit) * width,
+				});
 			}),
 		],
 	});
