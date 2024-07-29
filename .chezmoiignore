@@ -4,6 +4,7 @@ KEYMAPPING.md
 assets/
 cm
 key.txt
+.config/.archive/
 
 {{ if ne .chezmoi.os "windows" }}
 AppData/
@@ -40,21 +41,15 @@ setup_mac.sh
 setup_arch.sh
 .config/brave-flags.conf
 .config/xdg-terminals.list
+.config/ags/
 .config/gtk-3.0/
-.config/fuzzel/
+.config/gtk-4.0/
 .config/hypr/
 .config/Kvantum/
-.config/networkmanager-dmenu/
 .config/paru/
 .config/qt5ct/
 .config/qt6ct/
 .config/sddm/
-.config/spotifyd/
-.config/spotify-player/
-.config/swappy/
-.config/swaync/
-.config/waybar/
-.config/wlogout/
 .config/xsettingsd/
 .config/zathura/
 {{ end }}
