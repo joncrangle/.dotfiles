@@ -238,6 +238,7 @@ packages=(
     "bun-bin"
     "catppuccin-cursors-mocha"
     "catppuccin-gtk-theme-mocha"
+    "cava"
     "cliphist"
     "cmus"
     "docker"

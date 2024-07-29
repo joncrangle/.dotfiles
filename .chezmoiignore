@@ -42,6 +42,7 @@ setup_arch.sh
 .config/brave-flags.conf
 .config/xdg-terminals.list
 .config/ags/
+.config/cava/
 .config/gtk-3.0/
 .config/gtk-4.0/
 .config/hypr/
