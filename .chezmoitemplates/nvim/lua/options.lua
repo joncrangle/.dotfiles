@@ -79,6 +79,7 @@ vim.opt.expandtab = true
 vim.opt.smartindent = true
 
 -- Don't highlight search results, but highlight incremental search
-vim.opt.hlsearch = true
+--  See `:help hlsearch`
+vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.opt.incsearch = true
 -- vim: ts=2 sts=2 sw=2 et
