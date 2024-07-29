@@ -223,6 +223,7 @@ wezterm connect tnas
 | Launch Thunar file manager                  | `Super` + `e`                          |
 | Launch Yazi file manager                    | `Super` + `y`                          |
 | Launch color picker                         | `Super` + `Shift` + `c`                |
+| Launch calculator                           | `Super` + `=`                          |
 | **Workspaces / Windows**                    |                                        |
 | Switch to Workspace 1 - 9                   | `Super` + `1 - 9`                      |
 | Move Window to Workspace 1 - 9              | `Super` + `Shift` + `1 - 9`            |
@@ -246,3 +247,4 @@ wezterm connect tnas
 | Smart paste                                 | `Super` + `Shift` + `v`                |
 | Screenshot                                  | `Print`                                |
 | Capture Window / Capture Region             | `Super` + `Print` / `Shift` + `Print`  |
+| Start screen recording                      | `Super` + `R`                          |
