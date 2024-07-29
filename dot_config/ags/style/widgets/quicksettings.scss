@@ -174,4 +174,9 @@ window#quicksettings .quicksettings {
       @include media;
     }
   }
+
+  .visualizer .cava {
+    min-width: 100px;
+    color: $primary-bg;
+  }
 }
