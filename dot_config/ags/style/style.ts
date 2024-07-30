@@ -107,7 +107,6 @@ const variables = () => [
 
 	$("font-size", `${options.font.size}pt`),
 	$("font-name", options.font.name),
-	$("font-features", options.font.fontFeatures),
 
 	// etc
 	$("charging-bg", options.bar.battery.charging),
