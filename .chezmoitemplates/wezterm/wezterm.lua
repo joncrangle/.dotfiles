@@ -18,9 +18,6 @@ require('tabs').setup(config)
 require('mouse').setup(config)
 require('links').setup(config)
 require('keys').setup(config)
-local session_manager = require 'sessions'
-local smart_splits = wezterm.plugin.require 'https://github.com/mrjones2014/smart-splits.nvim'
-local workspace_switcher = wezterm.plugin.require 'https://github.com/MLFlexer/smart_workspace_switcher.wezterm'
 
 -- Graphics config
 config.front_end = 'WebGpu'
@@ -107,28 +104,75 @@ config.harfbuzz_features = { 'ss06' }
 config.ssh_domains = wezterm.default_ssh_domains()
 
 -- Sessions
-wezterm.on('save_session', function(window)
-  session_manager.save_state(window)
-end)
-wezterm.on('restore_session', function(window)
-  session_manager.restore_state(window)
-end)
+local resurrect = wezterm.plugin.require 'https://github.com/MLFlexer/resurrect.wezterm'
+-- resurrect.init_directories() -- you can delete this line once the directories have been created
+resurrect.periodic_save()
 
 --Workspaces
+local colors = wezterm.get_builtin_color_schemes()['Catppuccin Mocha']
+local workspace_switcher = wezterm.plugin.require 'https://github.com/MLFlexer/smart_workspace_switcher.wezterm'
+local workspace_state = require(resurrect.get_require_path() .. '.plugin.resurrect.workspace_state')
 workspace_switcher.apply_to_config(config)
+workspace_switcher.set_workspace_formatter(function(label)
+  return wezterm.format {
+    { Attribute = { Italic = true } },
+    { Foreground = { Color = colors.ansi[3] } },
+    { Background = { Color = colors.background } },
+    { Text = '󱂬 : ' .. label },
+  }
+end)
+
+local function basename(s)
+  return string.gsub(s, '(.*[/\\])(.*)', '%2')
+end
+
+---@diagnostic disable-next-line: unused-local
+wezterm.on('smart_workspace_switcher.workspace_switcher.created', function(window, path, label)
+  window:gui_window():set_right_status(wezterm.format {
+    { Attribute = { Intensity = 'Bold' } },
+    { Foreground = { Color = colors.ansi[5] } },
+    { Text = basename(path) .. '  ' },
+  })
+  workspace_state.restore_workspace(resurrect.load_state(label, 'workspace'), {
+    window = window,
+    relative = true,
+    restore_text = true,
+    on_pane_restore = (require(resurrect.get_require_path() .. '.plugin.resurrect.tab_state')).default_on_pane_restore,
+  })
+end)
+
+---@diagnostic disable-next-line: unused-local
+wezterm.on('smart_workspace_switcher.workspace_switcher.chosen', function(window, path, label)
+  window:gui_window():set_right_status(wezterm.format {
+    { Attribute = { Intensity = 'Bold' } },
+    { Foreground = { Color = colors.ansi[5] } },
+    { Text = basename(path) .. '  ' },
+  })
+end)
+
+---@diagnostic disable-next-line: unused-local
+wezterm.on('smart_workspace_switcher.workspace_switcher.selected', function(window, path, label)
+  resurrect.save_state(workspace_state.get_workspace_state())
+end)
+
 ---@diagnostic disable-next-line: unused-local
 wezterm.on('augment-command-palette', function(window, pane)
   return {
     {
+      brief = 'Window | Workspace: Switch Workspace',
+      icon = 'md_briefcase_arrow_up_down',
+      action = workspace_switcher.switch_workspace(),
+    },
+    {
       brief = 'Window | Workspace: Rename Workspace',
       icon = 'md_briefcase_edit',
-
       action = wezterm.action.PromptInputLine {
         description = 'Enter new name for workspace',
         ---@diagnostic disable-next-line: unused-local, redefined-local
         action = wezterm.action_callback(function(window, pane, line)
           if line then
             wezterm.mux.rename_workspace(wezterm.mux.get_active_workspace(), line)
+            resurrect.save_state(workspace_state.get_workspace_state())
           end
         end),
       },
@@ -137,6 +181,7 @@ wezterm.on('augment-command-palette', function(window, pane)
 end)
 
 -- Smart Splits
+local smart_splits = wezterm.plugin.require 'https://github.com/mrjones2014/smart-splits.nvim'
 smart_splits.apply_to_config(config)
 
 return config

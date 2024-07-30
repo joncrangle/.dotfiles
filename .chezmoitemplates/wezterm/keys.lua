@@ -1,6 +1,9 @@
 local wezterm = require 'wezterm'
 local act = wezterm.action
 
+local resurrect = wezterm.plugin.require 'https://github.com/MLFlexer/resurrect.wezterm'
+local workspace_state = require(resurrect.get_require_path() .. '.plugin.resurrect.workspace_state')
+
 local M = {}
 
 M.mod = wezterm.target_triple:find 'windows' and 'SHIFT|CTRL' or 'SHIFT|SUPER'
@@ -24,8 +27,35 @@ function M.setup(config)
     { mods = 'SUPER', key = 'q', action = act.QuitApplication },
     { mods = 'SHIFT|CTRL', key = 'q', action = act.QuitApplication },
     -- Sessions
-    { mods = M.mod, key = 's', action = act { EmitEvent = 'save_session' } },
-    { mods = M.mod, key = 'o', action = act { EmitEvent = 'restore_session' } },
+    {
+      mods = M.mod,
+      key = 's',
+      action = wezterm.action.Multiple {
+        ---@diagnostic disable-next-line: unused-local
+        wezterm.action_callback(function(win, pane)
+          resurrect.save_state(workspace_state.get_workspace_state())
+        end),
+      },
+    },
+    {
+      mods = M.mod,
+      key = 'o',
+      action = wezterm.action.Multiple {
+        wezterm.action_callback(function(win, pane)
+          ---@diagnostic disable-next-line: unused-local
+          resurrect.fuzzy_load(win, pane, function(id, label)
+            id = string.match(id, '([^/]+)$')
+            id = string.match(id, '(.+)%..+$')
+            local state = resurrect.load_state(id, 'workspace')
+            workspace_state.restore_workspace(state, {
+              relative = true,
+              restore_text = true,
+              on_pane_restore = (require(resurrect.get_require_path() .. '.plugin.resurrect.tab_state')).default_on_pane_restore,
+            })
+          end)
+        end),
+      },
+    },
     -- Workspaces
     -- NOTE: 'ALT' + 's' is setup by workplace_switcher plugin
     -- Scrollback
