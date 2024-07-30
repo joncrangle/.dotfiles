@@ -12,6 +12,9 @@ return {
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
       { 'j-hui/fidget.nvim', opts = {} },
 
+      -- Allows extra capabilities provided by nvim-cmp
+      'hrsh7th/cmp-nvim-lsp',
+
       { 'b0o/schemastore.nvim', lazy = true, opts = nil },
     },
     config = function()
