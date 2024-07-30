@@ -117,8 +117,6 @@ return {
       ---@diagnostic disable-next-line: missing-fields
       require('nvim-treesitter.configs').setup(opts)
       require('nvim-treesitter.install').compilers = { 'zig' }
-      -- Prefer git instead of curl in order to improve connectivity in some environments
-      require('nvim-treesitter.install').prefer_git = true
 
       local ts_repeat_move = require 'nvim-treesitter.textobjects.repeatable_move'
       vim.keymap.set({ 'n', 'x', 'o' }, ';', ts_repeat_move.repeat_last_move, { desc = 'Repeat last move' })
