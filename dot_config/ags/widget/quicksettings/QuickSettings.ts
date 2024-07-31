@@ -61,6 +61,7 @@ const Settings = () =>
 			Widget.Box({
 				visible: media.bind("players").as((l) => l.length > 0),
 				class_name: "visualizer",
+				css: "padding: 6px;",
 				vertical: true,
 			}).hook(media, (self) => {
 				if (!media.bind("players").as((l) => l.length > 0)) return;
