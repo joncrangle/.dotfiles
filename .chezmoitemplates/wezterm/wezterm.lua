@@ -105,7 +105,6 @@ config.ssh_domains = wezterm.default_ssh_domains()
 
 -- Sessions
 local resurrect = wezterm.plugin.require 'https://github.com/MLFlexer/resurrect.wezterm'
--- resurrect.init_directories() -- you can delete this line once the directories have been created
 resurrect.periodic_save()
 
 --Workspaces
