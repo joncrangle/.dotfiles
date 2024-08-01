@@ -2,7 +2,6 @@ local wezterm = require 'wezterm'
 local act = wezterm.action
 
 local resurrect = wezterm.plugin.require 'https://github.com/MLFlexer/resurrect.wezterm'
-local workspace_state = require(resurrect.get_require_path() .. '.plugin.resurrect.workspace_state')
 
 local M = {}
 
@@ -33,7 +32,7 @@ function M.setup(config)
       action = wezterm.action.Multiple {
         ---@diagnostic disable-next-line: unused-local
         wezterm.action_callback(function(win, pane)
-          resurrect.save_state(workspace_state.get_workspace_state())
+          resurrect.save_state(resurrect.workspace_state.get_workspace_state())
         end),
       },
     },
@@ -47,10 +46,10 @@ function M.setup(config)
             id = string.match(id, '([^/]+)$')
             id = string.match(id, '(.+)%..+$')
             local state = resurrect.load_state(id, 'workspace')
-            workspace_state.restore_workspace(state, {
+            resurrect.workspace_state.restore_workspace(state, {
               relative = true,
               restore_text = true,
-              on_pane_restore = (require(resurrect.get_require_path() .. '.plugin.resurrect.tab_state')).default_on_pane_restore,
+              on_pane_restore = resurrect.tab_state.default_on_pane_restore,
             })
           end)
         end),

@@ -110,7 +110,7 @@ resurrect.periodic_save()
 --Workspaces
 local colors = wezterm.get_builtin_color_schemes()['Catppuccin Mocha']
 local workspace_switcher = wezterm.plugin.require 'https://github.com/MLFlexer/smart_workspace_switcher.wezterm'
-local workspace_state = require(resurrect.get_require_path() .. '.plugin.resurrect.workspace_state')
+local workspace_state = resurrect.workspace_state
 workspace_switcher.apply_to_config(config)
 workspace_switcher.set_workspace_formatter(function(label)
   return wezterm.format {
@@ -136,7 +136,7 @@ wezterm.on('smart_workspace_switcher.workspace_switcher.created', function(windo
     window = window,
     relative = true,
     restore_text = true,
-    on_pane_restore = (require(resurrect.get_require_path() .. '.plugin.resurrect.tab_state')).default_on_pane_restore,
+    on_pane_restore = (require(resurrect.plugin.resurrect.tab_state)).default_on_pane_restore,
   })
 end)
 
