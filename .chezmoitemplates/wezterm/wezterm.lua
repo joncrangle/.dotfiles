@@ -10,6 +10,7 @@
 -- https://wezfurlong.org/wezterm/
 
 local wezterm = require 'wezterm'
+wezterm.plugin.update_all()
 local config = wezterm.config_builder()
 wezterm.log_info 'reloading'
 
