@@ -68,7 +68,7 @@ const Settings = () =>
 				sh("pkill cava");
 				const limit = options.bar.media.length.value;
 				const width = 10;
-				const height = 62;
+				const height = 80;
 				const size = quicksettings.width.value;
 				self.child = Cava({
 					smooth,
