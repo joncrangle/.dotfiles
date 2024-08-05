@@ -21,4 +21,4 @@ try {
 	App.quit();
 }
 
-export {};
+export { };

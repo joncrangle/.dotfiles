@@ -195,7 +195,7 @@ const options = mkOptions(OPTIONS, {
 	quicksettings: {
 		width: opt(380),
 		position: opt<"left" | "center" | "right">("right"),
-		networkSettings: opt("gtk-launch gnome-control-center"),
+		networkSettings: opt("env XDG_CURRENT_DESKTOP=GNOME gnome-control-center"),
 		media: {
 			monochromeIcon: opt(false),
 			coverSize: opt(100),

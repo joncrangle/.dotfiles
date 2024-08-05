@@ -256,6 +256,7 @@ packages=(
     "gimp"
     "git-delta"
     "glow"
+    "gnome-bluetooth-3.0"
     "gnome-control-center"
     "gnu-free-fonts"
     "go"
@@ -398,7 +399,7 @@ env = MOZ_ENABLE_WAYLAND,1
 env = GDK_SCALE,1
 env = APPIMAGELAUNCHER_DISABLE,1
 env = XCURSOR_SIZE,24
-exec-once = hyprctl setcursor catppuccin-mocha-mauve-cursors 24
+exec-once = hyprctl setcursor catppuccin-mocha-dark-cursors 24
 exec-once = hypridle &
 input {
     repeat_rate = 35

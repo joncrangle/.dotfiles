@@ -5,7 +5,7 @@ include "/home/jon/.gtkrc-2.0.mine"
 gtk-theme-name="catppuccin-mocha-mauve-standard+default"
 gtk-icon-theme-name="Papirus-Dark"
 gtk-font-name="Liberation Sans Bold 12"
-gtk-cursor-theme-name="catppuccin-mocha-mauve-cursors"
+gtk-cursor-theme-name="catppuccin-mocha-dark-cursors"
 gtk-cursor-theme-size=28
 gtk-toolbar-style=3
 gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
