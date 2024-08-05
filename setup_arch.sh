@@ -376,6 +376,14 @@ if [[ $(_isInstalledParu "nwg-look") -eq 0 ]]; then
     nwg-look -a
 fi
 
+THEME_DIR="/usr/share/themes/catppuccin-mocha-mauve-standard+default"
+if [[ -d "${THEME_DIR}" ]]; then
+    mkdir -p "${HOME}/.config/gtk-4.0"
+    ln -sf "${THEME_DIR}/gtk-4.0/assets" "${HOME}/.config/gtk-4.0/assets"
+    ln -sf "${THEME_DIR}/gtk-4.0/gtk.css" "${HOME}/.config/gtk-4.0/gtk.css"
+    ln -sf "${THEME_DIR}/gtk-4.0/gtk-dark.css" "${HOME}/.config/gtk-4.0/gtk-dark.css"
+fi
+
 if [[ $(_isInstalledParu "sddm") -eq 0 ]]; then
     sudo mkdir -p /etc/sddm.conf.d
     sudo ln -s ~/.config/sddm/sddm.conf /etc/sddm.conf.d/sddm.conf
