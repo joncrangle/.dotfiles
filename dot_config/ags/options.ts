@@ -224,7 +224,7 @@ const options = mkOptions(OPTIONS, {
 
 	notifications: {
 		position: opt<Array<"top" | "bottom" | "left" | "right">>(["top", "right"]),
-		blacklist: opt(["Spotify"]),
+		blacklist: opt(["Spotify", "Plexamp"]),
 		width: opt(440),
 	},
 });
