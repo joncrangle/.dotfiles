@@ -10,7 +10,7 @@ return {
 
       -- Useful status updates for LSP.
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', opts = {} },
+      { 'j-hui/fidget.nvim',       opts = {} },
 
       -- Allows extra capabilities provided by nvim-cmp
       'hrsh7th/cmp-nvim-lsp',
@@ -213,6 +213,9 @@ return {
           directoryFilters = { '-.git', '-.vscode', '-.idea', '-.vscode-test', '-node_modules' },
           semanticTokens = true,
         },
+        harper_ls = {
+          filetypes = "markdown",
+        },
         html = {},
         htmx = {},
         jqls = {},
@@ -300,7 +303,8 @@ return {
           },
           -- lazy-load schemastore when needed
           on_new_config = function(new_config)
-            new_config.settings.yaml.schemas = vim.tbl_deep_extend('force', new_config.settings.yaml.schemas or {}, require('schemastore').yaml.schemas())
+            new_config.settings.yaml.schemas = vim.tbl_deep_extend('force', new_config.settings.yaml.schemas or {},
+              require('schemastore').yaml.schemas())
           end,
           settings = {
             redhat = { telemetry = { enabled = false } },
