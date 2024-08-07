@@ -1,5 +1,5 @@
 require('lazy').setup({
-  { 'tpope/vim-sleuth', event = { 'BufReadPre', 'BufNewFile' } }, -- Detect tabstop and shiftwidth automatically
+  { 'tpope/vim-sleuth',       event = { 'BufReadPre', 'BufNewFile' } }, -- Detect tabstop and shiftwidth automatically
 
   require 'kickstart/plugins/which-key',
 
@@ -10,8 +10,6 @@ require('lazy').setup({
   require 'kickstart/plugins/conform',
 
   require 'kickstart/plugins/cmp',
-
-  require 'kickstart/plugins/tokyonight',
 
   require 'kickstart/plugins/todo-comments',
 

@@ -15,7 +15,7 @@ return {
     end,
     opts = {
       options = {
-        theme = 'catppuccin',
+        theme = 'auto',
         extensions = {
           'lazy',
           'mason',
