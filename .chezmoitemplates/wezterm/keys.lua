@@ -31,8 +31,8 @@ function M.setup(config)
       key = 's',
       action = wezterm.action.Multiple {
         ---@diagnostic disable-next-line: unused-local
-        wezterm.action_callback(function(win, pane)
-          resurrect.save_state(resurrect.workspace_state.get_workspace_state())
+        wezterm.action_callback(function(window, pane)
+          resurrect.save_state(resurrect.workspace_state.get_workspace_state(), nil, window)
         end),
       },
     },
@@ -40,12 +40,12 @@ function M.setup(config)
       mods = M.mod,
       key = 'o',
       action = wezterm.action.Multiple {
-        wezterm.action_callback(function(win, pane)
+        wezterm.action_callback(function(window, pane)
           ---@diagnostic disable-next-line: unused-local
-          resurrect.fuzzy_load(win, pane, function(id, label)
+          resurrect.fuzzy_load(window, pane, function(id, label)
             id = string.match(id, '([^/]+)$')
             id = string.match(id, '(.+)%..+$')
-            local state = resurrect.load_state(id, 'workspace')
+            local state = resurrect.load_state(id, 'workspace', window)
             resurrect.workspace_state.restore_workspace(state, {
               relative = true,
               restore_text = true,

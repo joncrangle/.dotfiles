@@ -63,7 +63,7 @@ elseif wezterm.target_triple:find 'linux' then
   config.term = 'wezterm'
   config.window_decorations = 'NONE'
   config.enable_wayland = true
-  config.webgpu_power_preference = 'HighPerformance'
+  config.webgpu_power_preference = 'LowPower'
   config.font_size = 14
   config.command_palette_font_size = 14
   config.char_select_font_size = 14
@@ -132,6 +132,13 @@ local function basename(s)
   return string.gsub(s, '(.*[/\\])(.*)', '%2')
 end
 
+local resurrect_event_listeners = { 'resurrect.error', 'resurrect.save_state' }
+for _, event in ipairs(resurrect_event_listeners) do
+  wezterm.on(event, function(msg, window)
+    window:toast_notification('Wezterm', msg, nil, 4000)
+  end)
+end
+
 ---@diagnostic disable-next-line: unused-local
 wezterm.on('smart_workspace_switcher.workspace_switcher.created', function(window, path, label)
   window:gui_window():set_right_status(wezterm.format {
@@ -139,7 +146,7 @@ wezterm.on('smart_workspace_switcher.workspace_switcher.created', function(windo
     { Foreground = { Color = colors.ansi[5] } },
     { Text = basename(path) .. '  ' },
   })
-  workspace_state.restore_workspace(resurrect.load_state(label, 'workspace'), {
+  workspace_state.restore_workspace(resurrect.load_state(label, 'workspace', window), {
     window = window,
     relative = true,
     restore_text = true,
@@ -158,7 +165,7 @@ end)
 
 ---@diagnostic disable-next-line: unused-local
 wezterm.on('smart_workspace_switcher.workspace_switcher.selected', function(window, path, label)
-  resurrect.save_state(workspace_state.get_workspace_state())
+  resurrect.save_state(workspace_state.get_workspace_state(), label, window)
 end)
 
 ---@diagnostic disable-next-line: unused-local
@@ -178,7 +185,7 @@ wezterm.on('augment-command-palette', function(window, pane)
         action = wezterm.action_callback(function(window, pane, line)
           if line then
             wezterm.mux.rename_workspace(wezterm.mux.get_active_workspace(), line)
-            resurrect.save_state(workspace_state.get_workspace_state())
+            resurrect.save_state(workspace_state.get_workspace_state(), line, window)
           end
         end),
       },
