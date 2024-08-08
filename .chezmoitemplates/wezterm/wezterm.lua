@@ -133,9 +133,7 @@ local function basename(s)
 end
 
 local resurrect_event_listeners = {
-  'resurrect.decrypt.error',
-  'resurrect.encrypt.error',
-  'resurrect.load_state.error',
+  'resurrect.error',
   'resurrect.save_state.finished',
 }
 local is_periodic_save = false
