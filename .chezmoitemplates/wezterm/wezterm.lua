@@ -132,10 +132,28 @@ local function basename(s)
   return string.gsub(s, '(.*[/\\])(.*)', '%2')
 end
 
-local resurrect_event_listeners = { 'resurrect.error', 'resurrect.save_state' }
+local resurrect_event_listeners = {
+  'resurrect.decrypt.error',
+  'resurrect.encrypt.error',
+  'resurrect.load_state.error',
+  'resurrect.save_state.finished',
+}
+local is_periodic_save = false
+wezterm.on('resurrect.periodic_save', function()
+  is_periodic_save = true
+end)
 for _, event in ipairs(resurrect_event_listeners) do
-  wezterm.on(event, function(msg, window)
-    window:toast_notification('Wezterm', msg, nil, 4000)
+  wezterm.on(event, function(...)
+    if event == 'resurrect.save_state.finished' and is_periodic_save then
+      is_periodic_save = false
+      return
+    end
+    local args = { ... }
+    local msg = event
+    for _, v in ipairs(args) do
+      msg = msg .. tostring(v)
+    end
+    wezterm.gui.gui_windows()[1]:toast_notification('Wezterm - resurrect', msg, nil, 4000)
   end)
 end
 
@@ -146,7 +164,7 @@ wezterm.on('smart_workspace_switcher.workspace_switcher.created', function(windo
     { Foreground = { Color = colors.ansi[5] } },
     { Text = basename(path) .. '  ' },
   })
-  workspace_state.restore_workspace(resurrect.load_state(label, 'workspace', window), {
+  workspace_state.restore_workspace(resurrect.load_state(label, 'workspace'), {
     window = window,
     relative = true,
     restore_text = true,
@@ -165,7 +183,7 @@ end)
 
 ---@diagnostic disable-next-line: unused-local
 wezterm.on('smart_workspace_switcher.workspace_switcher.selected', function(window, path, label)
-  resurrect.save_state(workspace_state.get_workspace_state(), label, window)
+  resurrect.save_state(workspace_state.get_workspace_state())
 end)
 
 ---@diagnostic disable-next-line: unused-local
@@ -185,7 +203,7 @@ wezterm.on('augment-command-palette', function(window, pane)
         action = wezterm.action_callback(function(window, pane, line)
           if line then
             wezterm.mux.rename_workspace(wezterm.mux.get_active_workspace(), line)
-            resurrect.save_state(workspace_state.get_workspace_state(), line, window)
+            resurrect.save_state(workspace_state.get_workspace_state())
           end
         end),
       },

@@ -32,7 +32,7 @@ function M.setup(config)
       action = wezterm.action.Multiple {
         ---@diagnostic disable-next-line: unused-local
         wezterm.action_callback(function(window, pane)
-          resurrect.save_state(resurrect.workspace_state.get_workspace_state(), nil, window)
+          resurrect.save_state(resurrect.workspace_state.get_workspace_state())
         end),
       },
     },
@@ -45,7 +45,7 @@ function M.setup(config)
           resurrect.fuzzy_load(window, pane, function(id, label)
             id = string.match(id, '([^/]+)$')
             id = string.match(id, '(.+)%..+$')
-            local state = resurrect.load_state(id, 'workspace', window)
+            local state = resurrect.load_state(id, 'workspace')
             resurrect.workspace_state.restore_workspace(state, {
               relative = true,
               restore_text = true,
