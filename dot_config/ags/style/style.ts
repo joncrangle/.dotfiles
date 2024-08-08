@@ -115,7 +115,7 @@ const variables = () => [
 	$("screen-corner-multiplier", `${options.bar.corners.value * 0.01}`),
 ];
 
-async function resetCss() {
+export async function resetCss() {
 	if (!dependencies("sass", "fd")) return;
 
 	try {

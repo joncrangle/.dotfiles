@@ -2,7 +2,6 @@ const main = "/tmp/ags/main.js";
 const entry = `${App.configDir}/main.ts`;
 
 try {
-	App.resetCss();
 	await Utils.execAsync([
 		"bun",
 		"build",

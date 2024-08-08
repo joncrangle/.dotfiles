@@ -11,6 +11,7 @@ import ScreenCorners from "widget/bar/ScreenCorners";
 import SettingsDialog from "widget/settings/SettingsDialog";
 import Verification from "widget/powermenu/Verification";
 import { forMonitors } from "lib/utils";
+import { resetCss } from "style/style";
 import { setupDateMenu } from "widget/datemenu/DateMenu";
 import { setupLauncher } from "widget/launcher/Launcher";
 import { setupQuickSettings } from "widget/quicksettings/QuickSettings";
@@ -21,6 +22,7 @@ App.config({
 		setupQuickSettings();
 		setupLauncher();
 		init();
+		resetCss();
 	},
 	closeWindowDelay: {
 		launcher: options.transition.value,
@@ -40,4 +42,4 @@ App.config({
 	],
 });
 
-export {};
+export { };
