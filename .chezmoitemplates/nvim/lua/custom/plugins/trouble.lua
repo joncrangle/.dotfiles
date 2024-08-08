@@ -1,7 +1,7 @@
 return {
   'folke/trouble.nvim',
   lazy = true,
-  opts = true,
+  opts = {},
   cmd = 'Trouble',
   dependencies = { 'echasnovski/mini.nvim' },
   keys = {

@@ -14,7 +14,7 @@
 --  config = function() ... end
 
 return {
-  { -- Useful plugin to show you pending keybinds.
+  {                     -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     opts = {
@@ -32,7 +32,7 @@ return {
         { '<leader>s', group = '[S]earch', icon = { icon = '', color = 'green' } },
         { '<leader>t', group = '[T]oggle', icon = { icon = '', color = 'orange' } },
         { '<leader>w', group = '[W]orkspace', icon = { icon = '', color = 'yellow' } },
-        { '<leader>q', group = 'Persistent Sessions', icon = { icon = '', color = 'yellow' } },
+        { '<leader>p', group = 'Persistent Sessions', icon = { icon = '', color = 'yellow' } },
         { '<leader>u', '<cmd>Telescope undo<cr>', desc = '[U]ndo history', icon = { icon = '', color = 'green' } },
         { '<leader>z', '<cmd>Telescope zoxide list<cr>', desc = '[Z]oxide list', icon = { icon = ' ', color = 'orange' } },
       }

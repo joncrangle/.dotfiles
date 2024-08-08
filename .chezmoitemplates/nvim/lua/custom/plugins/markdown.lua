@@ -7,7 +7,7 @@ return {
     },
     enabled = false,
     ft = { 'markdown' },
-    opts = true,
+    opts = {},
     keys = {
       {
         '<leader>tm',
@@ -24,7 +24,7 @@ return {
       'echasnovski/mini.nvim',
     },
     ft = { 'markdown' },
-    opts = true,
+    opts = {},
     keys = {
       {
         '<leader>tm',
