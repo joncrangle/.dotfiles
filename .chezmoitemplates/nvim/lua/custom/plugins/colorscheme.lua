@@ -87,7 +87,7 @@ return {
     -- end,
     opts = {
       transparent = true,
-      ooverrides = function(colors)
+      overrides = function(colors)
         local theme = colors.theme
         return {
           NormalFloat = { bg = "none" },
