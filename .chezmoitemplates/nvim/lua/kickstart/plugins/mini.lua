@@ -2,7 +2,7 @@ return {
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
     lazy = true,
-    event = { 'BufReadPost', 'BufNewFile' },
+    event = { 'BufReadPost', 'BufNewFile', 'CmdlineEnter' },
     config = function()
       -- Better Around/Inside textobjects
       --
@@ -32,7 +32,6 @@ return {
       }
 
       require('mini.pairs').setup {
-        event = { 'BufReadPre', 'BufNewFile' },
         opts = {
           modes = { insert = true, command = true, terminal = false },
           -- skip autopair when next character is one of these
