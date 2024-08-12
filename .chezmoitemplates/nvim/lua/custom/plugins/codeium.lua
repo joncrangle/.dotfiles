@@ -5,6 +5,13 @@ return {
     event = 'InsertEnter',
     cmd = 'Codeium',
     build = ':Codeium Auth',
+    init = function()
+      vim.g.codeium_filetypes = {
+        oil = false,
+        TelescopePrompt = false,
+        NeoTree = false,
+      }
+    end,
     config = function()
       vim.g.codeium_disable_bindings = true
       vim.g.codeium_enabled = true
