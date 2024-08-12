@@ -31,7 +31,7 @@ return {
             action = 'lua require("telescope.builtin").find_files { cwd = vim.fn.stdpath \'config\' }',
             desc = ' Neovim Config',
             icon = ' ',
-            key = 'n',
+            key = 'v',
           },
           {
             action = 'lua require("telescope.builtin").find_files { cwd = \'$XDG_CONFIG_HOME/wezterm\' }',
