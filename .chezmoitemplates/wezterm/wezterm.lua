@@ -107,10 +107,12 @@ config.ssh_domains = wezterm.default_ssh_domains()
 -- Sessions
 local resurrect = wezterm.plugin.require 'https://github.com/MLFlexer/resurrect.wezterm'
 local separator = wezterm.target_triple:find 'windows' and '\\' or '/'
+local encryption_method = wezterm.target_triple:find 'darwin' and '/opt/homebrew/bin/age' or 'age'
 resurrect.set_encryption {
   enable = true,
+  method = encryption_method,
   private_key = wezterm.home_dir .. separator .. '.config' .. separator .. 'key.txt',
-  public_key = 'age1jgcaj9yy8nldpp2969kgxf97re59v6ydnk5ctz02z8anc4522pxswpcqf2',
+  public_key = '{{- .chezmoi.config.age.recipient -}}',
 }
 resurrect.periodic_save()
 
