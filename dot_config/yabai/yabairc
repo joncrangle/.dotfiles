@@ -84,6 +84,8 @@ yabai -m rule --add app="^System Information$" sticky=on manage=off
 yabai -m rule --add app="^System Settings$" sticky=on manage=off
 yabai -m rule --add app="VLC" sticky=on manage=off
 
+yabai -m rule --apply
+
 # JankyBorders - https://github.com/FelixKratz/JankyBorders 0xff7aa2f7
 borders active_color="gradient(top_left=0xffcba6f7,bottom_right=0xffb4befe)" inactive_color="gradient(top_left=0xfff38ba8,bottom_right=0xffeba0ac)" width=4 2>/dev/null 1>&2 &
 
