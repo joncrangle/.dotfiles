@@ -403,8 +403,6 @@ env = QT_QPA_PLATFORM,wayland
 env = QT_QPA_PLATFORMTHEME,qt6ct
 env = QT_WAYLAND_DISABLE_WINDOWDECORATION,1
 env = QT_AUTO_SCREEN_SCALE_FACTOR,1
-env = MOZ_ENABLE_WAYLAND,1
-env = GDK_SCALE,1
 env = APPIMAGELAUNCHER_DISABLE,1
 env = XCURSOR_SIZE,24
 exec-once = hyprctl setcursor catppuccin-mocha-dark-cursors 24
@@ -413,6 +411,9 @@ input {
     repeat_rate = 35
     repeat_delay = 250
     sensitivity = 0.2
+}
+animations {
+    enabled = false
 }
 misc {
     disable_hyprland_logo = true
@@ -427,7 +428,7 @@ general {
 # screen brightness
 listener {
     timeout = 150 # 2.5 minutes
-    on-timeout = brightnessctl -s set 10
+    on-timeout = brightnessctl -s set 0
     on-resume = brightnessctl -r
 }
 # dpms
@@ -437,10 +438,10 @@ listener {
     on-resume = hyprctl dispatch dpms on
 }
 # Suspend
-listener {
-    timeout = 1800 # 30 minutes
-    on-timeout = systemctl suspend
-}
+#listener {
+#    timeout = 1800 # 30 minutes
+#    on-timeout = systemctl suspend
+#}
 EOF
 fi
 echo
