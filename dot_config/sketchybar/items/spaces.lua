@@ -24,7 +24,10 @@ for i = 1, 10, 1 do
     },
     background = {
       color = colors.inactive_bg,
+      corner_radius = 10,
       height = 24,
+      padding_left = 4,
+      padding_right = 4,
     },
   })
 
