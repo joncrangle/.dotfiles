@@ -395,36 +395,18 @@ if [[ $(_isInstalledParu "sddm") -eq 0 ]]; then
     sudo mkdir -p /var/lib/sddm/.config/hypr
     sudo tee /var/lib/sddm/.config/hypr/hyprland.conf >/dev/null <<EOF
 monitor=,preferred,auto,1,mirror,DP-1
-env = XDG_SESSION_TYPE,wayland
-env = XDG_SESSION_DESKTOP,Hyprland
-env = XDG_CURRENT_DESKTOP,Hyprland
-env = CLUTTER_BACKEND,wayland
-env = QT_QPA_PLATFORM,wayland
-env = QT_QPA_PLATFORMTHEME,qt6ct
-env = QT_WAYLAND_DISABLE_WINDOWDECORATION,1
-env = QT_AUTO_SCREEN_SCALE_FACTOR,1
-env = APPIMAGELAUNCHER_DISABLE,1
-env = XCURSOR_SIZE,24
-exec-once = hyprctl setcursor catppuccin-mocha-dark-cursors 24
-exec-once = hypridle &
-input {
+exec-once = hyprctl setcursor catppuccin-mocha-dark-cursors 28
+exec-once = hypridle
 input {
     kb_layout = us
     kb_variant =
-    kb_model =
     kb_options =
-    repeat_rate = 35
-    repeat_delay = 250
-    numlock_by_default = true
-    mouse_refocus = false
-    repeat_rate = 35
-    repeat_delay = 250
-    sensitivity = 0.2
 }
 animations {
     enabled = false
 }
 misc {
+    force_default_wallpaper = 0
     disable_hyprland_logo = true
     disable_splash_rendering = true
     focus_on_activate = true
