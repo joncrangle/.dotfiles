@@ -309,7 +309,7 @@ Write-Host "`e[1;36m      `\###          |     d88P                           `e
 Write-Host "`e[1;94m       `\###         |   888P``"                          `e[0m"
 Write-Host "`e[1;94m         `\##       |                                     `e[0m"
 Write-Host "`e[1;94m          `\###.   .`)                                    `e[0m"
-Write-Host "`e[1;94m           ``======/                                      `e[0m"
+Write-Host "`e[1;94m           ````======/                                      `e[0m"
 Write-Host ""
 
 `$prompt = ""
