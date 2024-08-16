@@ -408,6 +408,15 @@ env = XCURSOR_SIZE,24
 exec-once = hyprctl setcursor catppuccin-mocha-dark-cursors 24
 exec-once = hypridle &
 input {
+input {
+    kb_layout = us
+    kb_variant =
+    kb_model =
+    kb_options =
+    repeat_rate = 35
+    repeat_delay = 250
+    numlock_by_default = true
+    mouse_refocus = false
     repeat_rate = 35
     repeat_delay = 250
     sensitivity = 0.2
