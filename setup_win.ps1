@@ -305,7 +305,7 @@ Write-Host "`e[1;36m |####      ___)    #|     888 888  888 888  888          `e
 Write-Host "`e[1;36m |######           ##|     888 Y88..88P 888  888          `e[0m"
 Write-Host "`e[1;36m   `\##### ---------- `/     888  ``"Y88P``"  888  888    `e[0m"
 Write-Host "`e[1;36m     `\####          `(      888                          `e[0m"
-Write-Host "`e[1;36m      ``\###         |     d88P                           `e[0m"
+Write-Host "`e[1;36m      `\###          |     d88P                           `e[0m"
 Write-Host "`e[1;94m       `\###         |   888P``"                          `e[0m"
 Write-Host "`e[1;94m         `\##       |                                     `e[0m"
 Write-Host "`e[1;94m          `\###.   .`)                                    `e[0m"
