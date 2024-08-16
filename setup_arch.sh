@@ -411,6 +411,9 @@ misc {
     disable_splash_rendering = true
     focus_on_activate = true
 }
+cursor {
+    no_hardware_cursors = true
+}
 EOF
     sudo tee /var/lib/sddm/.config/hypr/hypridle.conf >/dev/null <<EOF
 general {
