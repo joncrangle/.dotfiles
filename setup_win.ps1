@@ -43,7 +43,7 @@ if (!(Test-Path $scoopDir)) {
 
 Write-Host "Installing terminal apps..."
 $appsToInstall = @(
-    "age", "chezmoi", "fzf", "gh", "IosevkaTerm-NF", "Maple-Mono-NF",
+    "age", "chezmoi", "fzf", "gh", "IosevkaTerm-NF", "Maple-Mono",
     "psfzf", "psreadline", "starship", "terminal-icons", "zoxide"
 )
 
@@ -97,7 +97,7 @@ function Set-UserEnvironmentVariables {
 $envVars = @(
     @{ Name = "YAZI_FILE_ONE"; Path = "scoop\apps\git\current\usr\bin\file.exe" },
     @{ Name = "XDG_CONFIG_HOME"; Path = "AppData\Local" },
-    @{ Name = "XDG_DATA_HOME"; Path = "AppData\Local" },
+    @{ Name = "XDG_DATA_HOME"; Path = "AppData\Local" }
 )
 
 Set-UserEnvironmentVariables -variables $envVars
