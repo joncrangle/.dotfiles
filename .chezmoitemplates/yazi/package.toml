@@ -1,5 +1,5 @@
 [plugin]
-deps = [{ use = "dedukun/relative-motions", commit = "73f5542" }, { use = "Reledia/glow", commit = "536185a" }]
+deps = [{ use = "dedukun/relative-motions", rev = "73f5542" }, { use = "Reledia/glow", rev = "536185a" }]
 
 [flavor]
 deps = []
