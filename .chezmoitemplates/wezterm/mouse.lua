@@ -3,7 +3,7 @@ local keys = require 'keys'
 
 local M = {}
 
-function M.setup(config)
+function M.apply_to_config(config)
   config.alternate_buffer_wheel_scroll_speed = 1
   config.bypass_mouse_reporting_modifiers = keys.mod
   config.mouse_bindings = {

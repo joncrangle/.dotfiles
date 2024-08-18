@@ -18,7 +18,7 @@ M.smart_split = wezterm.action_callback(function(window, pane)
   end
 end)
 
-function M.setup(config)
+function M.apply_to_config(config)
   config.disable_default_key_bindings = true
   config.keys = {
     -- Window

@@ -3,7 +3,7 @@ local wezterm = require 'wezterm'
 
 local M = {}
 
-function M.setup(config)
+function M.apply_to_config(config)
   config.hyperlink_rules = {
     -- Linkify things that look like URLs and the host has a TLD name.
     --

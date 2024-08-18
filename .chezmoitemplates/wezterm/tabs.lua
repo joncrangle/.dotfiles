@@ -65,7 +65,7 @@ function M.title(tab, max_width)
   return ' ' .. title .. ' '
 end
 
-function M.setup(config)
+function M.apply_to_config(config)
   config.use_fancy_tab_bar = false
   config.tab_bar_at_bottom = true
   config.hide_tab_bar_if_only_one_tab = true

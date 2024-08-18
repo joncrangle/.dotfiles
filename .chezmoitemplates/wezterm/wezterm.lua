@@ -15,10 +15,11 @@ local config = wezterm.config_builder()
 wezterm.log_info 'reloading'
 
 -- Modules
-require('tabs').setup(config)
-require('mouse').setup(config)
-require('links').setup(config)
-require('keys').setup(config)
+require 'docker'.apply_to_config(config)
+require 'keys'.apply_to_config(config)
+require 'links'.apply_to_config(config)
+require 'mouse'.apply_to_config(config)
+require 'tabs'.apply_to_config(config)
 
 -- Graphics config
 config.front_end = 'WebGpu'
@@ -101,9 +102,6 @@ config.font_rules = {
 }
 config.harfbuzz_features = { 'ss06' }
 
--- SSH domains
-config.ssh_domains = wezterm.default_ssh_domains()
-
 -- Sessions
 local resurrect = wezterm.plugin.require 'https://github.com/MLFlexer/resurrect.wezterm'
 local separator = wezterm.target_triple:find 'windows' and '\\' or '/'
@@ -115,20 +113,21 @@ resurrect.set_encryption {
   public_key = '{{- .chezmoi.config.age.recipient -}}',
 }
 resurrect.periodic_save()
+resurrect.set_max_nlines(1000)
 
 --Workspaces
 local colors = wezterm.get_builtin_color_schemes()['Catppuccin Mocha']
 local workspace_switcher = wezterm.plugin.require 'https://github.com/MLFlexer/smart_workspace_switcher.wezterm'
 local workspace_state = resurrect.workspace_state
 workspace_switcher.apply_to_config(config)
-workspace_switcher.set_workspace_formatter(function(label)
+workspace_switcher.workspace_formatter = function(label)
   return wezterm.format {
     { Attribute = { Italic = true } },
     { Foreground = { Color = colors.ansi[3] } },
     { Background = { Color = colors.background } },
     { Text = '󱂬 : ' .. label },
   }
-end)
+end
 
 local function basename(s)
   return string.gsub(s, '(.*[/\\])(.*)', '%2')
