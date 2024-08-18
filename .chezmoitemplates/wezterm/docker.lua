@@ -3,8 +3,11 @@ local M = {}
 
 local function docker_list()
   local docker_container_list = {}
-  local _, stdout, _ =
+  local success, stdout, _ =
       wezterm.run_child_process({ "docker", "container", "ls", "--format", "{{ "{{.ID}}:{{.Names}}" }}" })
+  if not success then
+    return docker_container_list
+  end
   for _, line in ipairs(wezterm.split_by_newlines(stdout)) do
     local id, name = line:match("(.-):(.+)")
     if id and name then
