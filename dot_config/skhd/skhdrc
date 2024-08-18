@@ -7,13 +7,13 @@
 
 # Launch application shortcuts
 cmd - return : open -na /Applications/WezTerm.app
-cmd + shift - return : open -na /Applications/Arc.app
+cmd - b : open -na /Applications/Arc.app
 
 # Changing window focus
-ctrl - j : yabai -m window --focus south
-ctrl - k : yabai -m window --focus north
-ctrl - h : yabai -m window --focus west
-ctrl - l : yabai -m window --focus east
+cmd - j : yabai -m window --focus south
+cmd - k : yabai -m window --focus north
+cmd - h : yabai -m window --focus west
+cmd - l : yabai -m window --focus east
 
 # Modifying layout
 alt - return : yabai -m window --toggle zoom-fullscreen
@@ -52,8 +52,3 @@ shift + alt - 5 : yabai -m window --space 5
 ctrl + alt - q : yabai --stop-service
 ctrl + alt - s : yabai --start-service
 ctrl + alt - r : yabai --restart-service
-
-.blacklist [
-    "terminal"
-    "wezterm"
-]

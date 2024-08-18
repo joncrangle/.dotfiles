@@ -82,7 +82,7 @@ wezterm connect tnas
 |                                       | **Windows**       | **Mac**         |                                                                              |
 | Toggle Full Screen                    | `Alt`             | `Alt`           | `Enter`                                                                      |
 | Scroll Up / Down                      | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `k` / `j`                                                                    |
-| Font Size Increase / Decrease / Reset | `Ctrl` + `Shift`  | `Super`         | `+` / `-` /  `0`                                                             |
+| Font Size Increase / Decrease / Reset | `Ctrl` + `Shift`  | `Super`         | `+` / `-` / `0`                                                              |
 | **Sessions**                          |                   |                 |                                                                              |
 | Save Session                          | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `s`                                                                          |
 | Restore Session                       | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `o`                                                                          |
@@ -152,8 +152,8 @@ wezterm connect tnas
 | Filter the files/directories in CWD                        | `f`                                 |
 | Forward find file/directory in CWD                         | `/`                                 |
 | Backward find file/directory in CWD                        | `?`                                 |
-| Jump to next occurence                                     | `n`                                 |
-| Jump to previous occurence                                 | `N`                                 |
+| Jump to next occurrence                                    | `n`                                 |
+| Jump to previous occurrence                                | `N`                                 |
 | Search files by name using fd                              | `s`                                 |
 | Search files by name using fzf                             | `S`                                 |
 | Cancel the ongoing search                                  | `Ctrl` + `s`                        |
@@ -175,7 +175,7 @@ wezterm connect tnas
 
 | **Function**                                 | **Shortcut**                                  |
 | -------------------------------------------  | --------------------------------------------- |
-| Activate Left / Down / Up / Right            | `Ctrl` + `h`, `j`, `k`, `l`                   |
+| Activate Left / Down / Up / Right            | `⌘` + `h`, `j`, `k`, `l`                      |
 | Switch to Workspace 1 / 2 / 3 / 4 / 5        | `⌘` + `1` / `2` / `3` / `4` / `5`             |
 | Move Window to Workspace 1 / 2 / 3 / 4 / 5   | `Shift` + `Alt` + `1` / `2` / `3` / `4` / `5` |
 | Toggle Full Screen                           | `Alt` + `Enter`                               |
@@ -190,7 +190,7 @@ wezterm connect tnas
 | Start Yabai Service                          | `Ctrl` + `Alt` + `s`                          |
 | Restart Yabai Service                        | `Ctrl` + `Alt` + `r`                          |
 | Launch WezTerm                               | `⌘` + `Enter`                                 |
-| Launch Arc                                   | `⌘` + `Shift` + `Enter`                       |
+| Launch Arc                                   | `⌘` + `b`                                     |
 
 ## 🔷 GlazeWM
 
