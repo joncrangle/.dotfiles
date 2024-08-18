@@ -1,6 +1,6 @@
 local colors = require 'colors'
 local settings = require 'settings'
-local app_icons = require 'helpers.app_icons'
+local app_icons = require 'app_icons'
 
 local spaces = {}
 
@@ -13,12 +13,10 @@ for i = 1, 10, 1 do
       padding_left = 6,
       padding_right = 4,
       color = colors.inactive_fg,
-      highlight_color = colors.active_fg,
     },
     label = {
       padding_right = 12,
       color = colors.inactive_fg,
-      highlight_color = colors.black,
       font = 'sketchybar-app-font:Regular:12.0',
       y_offset = -1,
     },
@@ -34,12 +32,19 @@ for i = 1, 10, 1 do
   spaces[i] = space
 
   space:subscribe('space_change', function(env)
-    local selected = env.SELECTED == 'true'
-    space:set {
-      icon = { string = (selected and '' or '') .. ' ' .. i, highlight = selected },
-      label = { highlight = selected },
-      background = selected and { color = colors.active_bg } or { color = colors.inactive_bg },
-    }
+    if env.SELECTED == 'true' then
+      space:set {
+        icon = { string = '' .. ' ' .. i, color = colors.active_fg },
+        label = { color = colors.active_fg },
+        background = { color = colors.active_bg }
+      }
+    else
+      space:set {
+        icon = { string = '' .. ' ' .. i, color = colors.inactive_fg },
+        label = { color = colors.inactive_fg },
+        background = { color = colors.inactive_bg },
+      }
+    end
   end)
 
   space:subscribe('mouse.clicked', function(env)
@@ -47,8 +52,16 @@ for i = 1, 10, 1 do
     sbar.exec('yabai -m space ' .. op .. ' ' .. env.SID)
   end)
 
-  space:subscribe('mouse.exited', function()
-    space:set { popup = { drawing = false } }
+  space:subscribe('mouse.exited', function(env)
+    if env.SELECTED == 'true' then
+      space:set { background = { color = colors.active_bg } }
+    else
+      space:set { icon = { color = colors.inactive_fg }, label = { color = colors.inactive_fg }, background = { color = colors.inactive_bg } }
+    end
+  end)
+
+  space:subscribe('mouse.entered', function()
+    space:set { icon = { color = colors.active_fg }, label = { color = colors.active_fg }, background = { color = colors.hover_bg } }
   end)
 end
 

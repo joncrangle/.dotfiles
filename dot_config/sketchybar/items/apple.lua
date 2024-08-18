@@ -1,29 +1,27 @@
 local colors = require("colors")
 
--- Padding item required because of bracket
-sbar.add("item", { width = 5 })
+local popup_toggle = 'sketchybar --set $NAME popup.drawing=toggle'
 
-local apple = sbar.add("item", {
+local apple_logo = sbar.add("item", {
+	click_script = popup_toggle,
 	icon = {
-		font = { size = 16.0 },
-		string = "",
+		string = '􀣺',
+		font = {
+			size = 16.0,
+		},
 		color = colors.active_bg,
-		padding_right = 4,
-		padding_left = 4,
 	},
 	label = { drawing = false },
-	padding_left = 1,
-	padding_right = 1,
-	click_script = "$CONFIG_DIR/helpers/menus/bin/menus -s 0",
+	popup = { height = 35 }
 })
 
--- Double border for apple using a single item bracket
-sbar.add("bracket", { apple.name }, {
-	background = {
-		color = colors.transparent,
-		height = 24,
-	},
+local apple_prefs = sbar.add("item", {
+	position = "popup." .. apple_logo.name,
+	icon = '􀺽',
+	label = "System Settings",
 })
 
--- Padding item required because of bracket
-sbar.add("item", { width = 7 })
+apple_prefs:subscribe("mouse.clicked", function(_)
+	sbar.exec("open -a 'System Preferences'")
+	apple_logo:set({ popup = { drawing = false } })
+end)
