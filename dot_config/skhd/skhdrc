@@ -8,7 +8,7 @@
 # Toggle passthrough mode
 :: default : sketchybar --bar color=0x00000000
 :: passthrough @ : sketchybar --bar color=0x22f38ba8
-default < cmd - r; passthrough
+default < cmd + shift - r; passthrough
 passthrough < escape ; default
 
 # Launch application shortcuts

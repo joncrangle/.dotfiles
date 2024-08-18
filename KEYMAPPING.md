@@ -173,25 +173,25 @@ wezterm connect tnas
 
 ## 🪁 Yabai and Skhd
 
-| **Function**                                 | **Shortcut**                                      |
-| -------------------------------------------  | ------------------------------------------------- |
-| Activate Left / Down / Up / Right            | `⌘` + `h`, `j`, `k`, `l`                          |
-| Switch to Workspace 1 / 2 / 3 / 4 / 5        | `⌘` + `1` / `2` / `3` / `4` / `5`                 |
-| Move Window to Workspace 1 / 2 / 3 / 4 / 5   | `Shift` + `Alt` + `1` / `2` / `3` / `4` / `5`     |
-| Toggle Full Screen                           | `Alt` + `Enter`                                   |
-| Rotate Clockwise                             | `Shift` + `Alt` + `r`                             |
-| Mirror x / y Axis                            | `Shift` + `Alt` + `x` / `y`                       |
-| Toggle Float                                 | `Shift` + `Alt` + `Space`                         |
-| Rebalance Workspace                          | `Alt` + `e`                                       |
-| Resize Left / Down / Up / Right              | `Alt` + `h`, `j`, `k`, `l`                        |
-| Resize Mode for Wezterm                      | `⌘` + `r`, then `h`, `j`, `k`, `l`, `Esc` to exit |
-| Swap Left / Down / Up / Right                | `Shift` + `Alt` + `h`, `j`, `k`, `l`              |
-| Move Window and Tile with Existing Workspace | `Ctrl` + `Alt` + `h`, `j`, `k`, `l`               |
-| Stop Yabai Service                           | `Ctrl` + `Alt` + `q`                              |
-| Start Yabai Service                          | `Ctrl` + `Alt` + `s`                              |
-| Restart Yabai Service                        | `Ctrl` + `Alt` + `r`                              |
-| Launch WezTerm                               | `⌘` + `Enter`                                     |
-| Launch Arc                                   | `⌘` + `b`                                         |
+| **Function**                                 | **Shortcut**                                  |
+| -------------------------------------------  | --------------------------------------------- |
+| Activate Left / Down / Up / Right            | `⌘` + `h`, `j`, `k`, `l`                      |
+| Switch to Workspace 1 / 2 / 3 / 4 / 5        | `⌘` + `1` / `2` / `3` / `4` / `5`             |
+| Move Window to Workspace 1 / 2 / 3 / 4 / 5   | `Shift` + `Alt` + `1` / `2` / `3` / `4` / `5` |
+| Toggle Full Screen                           | `Alt` + `Enter`                               |
+| Rotate Clockwise                             | `Shift` + `Alt` + `r`                         |
+| Mirror x / y Axis                            | `Shift` + `Alt` + `x` / `y`                   |
+| Toggle Float                                 | `Shift` + `Alt` + `Space`                     |
+| Rebalance Workspace                          | `Alt` + `e`                                   |
+| Resize Left / Down / Up / Right              | `Alt` + `h`, `j`, `k`, `l`                    |
+| Resize Mode for Wezterm                      | `⌘` + `Shift` + `r`; `Esc` to exit            |
+| Swap Left / Down / Up / Right                | `Shift` + `Alt` + `h`, `j`, `k`, `l`          |
+| Move Window and Tile with Existing Workspace | `Ctrl` + `Alt` + `h`, `j`, `k`, `l`           |
+| Stop Yabai Service                           | `Ctrl` + `Alt` + `q`                          |
+| Start Yabai Service                          | `Ctrl` + `Alt` + `s`                          |
+| Restart Yabai Service                        | `Ctrl` + `Alt` + `r`                          |
+| Launch WezTerm                               | `⌘` + `Enter`                                 |
+| Launch Arc                                   | `⌘` + `b`                                     |
 
 ## 🔷 GlazeWM
 
