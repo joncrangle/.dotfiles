@@ -4,6 +4,10 @@ return {
   dependencies = { 'echasnovski/mini.nvim' },
   opts = {
     default_file_explorer = true,
+    keymaps = {
+      ['<C-f>'] = 'actions.preview_scroll_down',
+      ['<C-b>'] = 'actions.preview_scroll_up',
+    },
     skip_confirm_for_simple_edits = true,
     view_options = {
       show_hidden = true,
