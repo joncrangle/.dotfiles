@@ -7,9 +7,9 @@
 
 # Toggle passthrough mode
 :: default : sketchybar --bar color=0x00000000
-:: passthrough @ : sketchybar --bar color=0x22f38ba8
-default < cmd + shift - r; passthrough
-passthrough < escape ; default
+:: resize @ : sketchybar --bar color=0x22f38ba8
+default < cmd + shift - r; resize
+resize < escape ; default
 
 # Launch application shortcuts
 default < cmd - return : open -na /Applications/WezTerm.app
@@ -29,15 +29,11 @@ default < shift + alt - x : yabai -m space --mirror x-axis
 default < shift + alt - space : yabai -m window --toggle float --grid 4:4:1:1:2:2
 
 # Resizing
-default < alt - e : yabai -m space --balance
-default < alt - h : yabai -m window --resize left:-20:0
-default < alt - j : yabai -m window --resize bottom:0:20
-default < alt - k : yabai -m window --resize top:0:-20
-default < alt - l : yabai -m window --resize right:20:0
-passthrough < h : wezterm cli adjust-pane-size --amount 3 Left
-passthrough < j : wezterm cli adjust-pane-size --amount 3 Down
-passthrough < k : wezterm cli adjust-pane-size --amount 3 Up
-passthrough < l : wezterm cli adjust-pane-size --amount 3 Right
+resize < r : yabai -m space --balance
+resize < h : yabai -m window --resize left:-20:0
+resize < j : yabai -m window --resize bottom:0:20
+resize < k : yabai -m window --resize top:0:-20
+resize < l : yabai -m window --resize right:20:0
 
 # Swapping window
 default < shift + alt - j : yabai -m window --swap south
