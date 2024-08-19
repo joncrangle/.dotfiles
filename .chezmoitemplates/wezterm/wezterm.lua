@@ -52,35 +52,35 @@ config.window_background_opacity = 0.8
 config.window_close_confirmation = 'AlwaysPrompt'
 config.window_padding = { left = 6, right = 6, top = 6, bottom = 0 }
 
+local font_size
+local primary_font = 'Berkeley Mono'
+local secondary_font = 'IosevkaTerm Nerd Font'
 -- Windows, MacOS and Linux
-local primary_font = 'IosevkaTerm Nerd Font'
 if wezterm.target_triple:find 'windows' then
   config.default_prog = { 'pwsh.exe', '-NoLogo' }
   config.window_decorations = 'RESIZE'
-  config.font_size = 12
-  config.command_palette_font_size = 12
-  config.char_select_font_size = 12
+  font_size = 11
 elseif wezterm.target_triple:find 'linux' then
   config.term = 'wezterm'
   config.window_decorations = 'NONE'
   config.enable_wayland = true
   config.webgpu_power_preference = 'LowPower'
-  config.font_size = 14
-  config.command_palette_font_size = 14
-  config.char_select_font_size = 14
-  primary_font = 'Iosevka Term'
+  font_size = 14
+  secondary_font = 'Iosevka Term'
 else
   config.default_prog = { '/opt/homebrew/bin/zsh', '-l' }
   config.window_decorations = 'RESIZE'
-  config.font_size = 16
-  config.command_palette_font_size = 16
-  config.char_select_font_size = 16
+  font_size = 16
 end
+
+config.font_size = font_size
+config.command_palette_font_size = font_size
+config.char_select_font_size = font_size
 
 -- Fonts
 config.font = wezterm.font_with_fallback {
   { family = primary_font,             weight = 'Regular' },
-  { family = 'MesloLGS NF',            weight = 'Regular' },
+  { family = secondary_font,           weight = 'Regular' },
   { family = 'Symbols Nerd Font Mono', weight = 'Regular' },
 }
 config.font_rules = {
@@ -110,7 +110,7 @@ resurrect.set_encryption {
   enable = true,
   method = encryption_method,
   private_key = wezterm.home_dir .. separator .. '.config' .. separator .. 'key.txt',
-  public_key = '{{- .chezmoi.config.age.recipient -}}',
+  public_key = 'age1jgcaj9yy8nldpp2969kgxf97re59v6ydnk5ctz02z8anc4522pxswpcqf2',
 }
 resurrect.periodic_save()
 resurrect.set_max_nlines(1000)
