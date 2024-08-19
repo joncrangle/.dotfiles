@@ -7,10 +7,12 @@ key.txt
 .config/.archive/
 
 {{ if ne .chezmoi.os "windows" }}
+setup_win.ps1
 AppData/
 .config/windows-terminal/
+.config/komorebi/
 .glaze-wm/
-setup_win.ps1
+.glzr/
 {{ end }}
 
 {{ if and (ne .chezmoi.os "darwin") (ne .chezmoi.os "linux") }}
