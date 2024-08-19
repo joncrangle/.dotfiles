@@ -330,6 +330,36 @@ Invoke-Expression (& { (zoxide init powershell | Out-String) })
     Write-Host "An error occurred while configuring PowerShell."
 }
 
+# Install fonts
+Write-Host "Installing fonts..."
+$fontsDirectory = "$env:USERPROFILE\.config\fonts"
+$fontFiles = Get-ChildItem -Path $fontsDirectory -Recurse -Include *.ttf, *.otf -File
+$userFontsFolder = "$env:LOCALAPPDATA\Microsoft\Windows\Fonts"
+if (-not (Test-Path -Path $userFontsFolder)) {
+    New-Item -ItemType Directory -Path $userFontsFolder
+}
+
+foreach ($fontFile in $fontFiles) {
+    $fontName = [System.IO.Path]::GetFileNameWithoutExtension($fontFile.Name)
+    $fontPath = $fontFile.FullName
+    $destinationPath = Join-Path -Path $userFontsFolder -ChildPath $fontFile.Name
+    
+    # Copy the font to the user's local Fonts folder if it doesn't already exist
+    if (-not (Test-Path -Path $destinationPath)) {
+        Copy-Item -Path $fontPath -Destination $destinationPath
+        # Add the font to the current user's registry
+        $fontRegistryPath = "HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"
+        Set-ItemProperty -Path $fontRegistryPath -Name $fontName -Value $fontFile.Name
+
+        # Notify the system of the font change
+        [FontInstaller]::NotifyFontChange()
+        Write-Output "Installed font - $fontName"
+    } else {
+        Write-Output "Font $fontName is already installed. Skipping copy."
+    }
+}
+Write-Host "Fonts installed successfully."
+
 # Install Scoop apps
 Write-Host "Installing Scoop apps..."
 $packages = @(

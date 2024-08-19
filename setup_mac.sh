@@ -54,6 +54,27 @@ echo "Migrating dotfiles..."
 read -p "Please put key.txt in ~/.config/. Press Enter to continue"
 chezmoi init --apply git@github.com:joncrangle/.dotfiles.git
 
+# Install fonts
+echo "Installing fonts..."
+fonts_directory="$HOME/.config/fonts"
+user_fonts_folder="$HOME/Library/Fonts"
+if [ ! -d "$user_fonts_folder" ]; then
+    mkdir -p "$user_fonts_folder"
+fi
+for font_file in "$fonts_directory"/*.ttf "$fonts_directory"/*.otf; do
+    if [ -f "$font_file" ]; then
+        font_name=$(basename "$font_file")
+        destination_path="$user_fonts_folder/$font_name"
+        if [ ! -f "$destination_path" ]; then
+            cp "$font_file" "$destination_path"
+            echo "Installed font - $font_name"
+        else
+            echo "Font $font_name is already installed. Skipping copy."
+        fi
+    fi
+done
+echo "Fonts installed successfully."
+
 # Install Brewfile from .config/homebrew
 echo "Installing Brewfile..."
 brew bundle --file="$HOME"/.config/homebrew/Brewfile
