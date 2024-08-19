@@ -131,6 +131,7 @@ Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+f' -PSReadlineChordReverseHistory
 `$ENV:EDITOR = 'nvim'
 `$ENV:VISUAL = 'nvim'
 `$ENV:STARSHIP_CONFIG = "$HOME\.config\starship\starship.toml"
+`$ENV:KOMOREBI_CONFIG_HOME = "$HOME\.config\komorebi"
 
 # Set FZF_DEFAULT_COMMAND
 `$env:FZF_DEFAULT_COMMAND = "fd --type f --hidden --follow --exclude .git"
