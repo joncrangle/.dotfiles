@@ -227,7 +227,7 @@ chezmoi init --apply git@github.com:joncrangle/.dotfiles.git
 # Install fonts
 echo ":: Installing fonts..."
 fonts_directory="$HOME/.config/fonts"
-user_fonts_folder="$HOME/.local/share/fonts"
+user_fonts_folder="$HOME/.config/.local/share/fonts"
 if [ ! -d "$user_fonts_folder" ]; then
     mkdir -p "$user_fonts_folder"
 fi
