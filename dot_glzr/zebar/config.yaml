@@ -42,7 +42,6 @@ window/bar:
     background: linear-gradient(rgb(24 24 37 / 90%), rgb(30 30 46 / 85%));
 
     i {
-      color: rgb(137 180 250 / 95%)
       margin-right: 3px;
     }
 
@@ -54,6 +53,7 @@ window/bar:
     template/logo:
       styles: |
         margin-right: 20px;
+        color: #89b4fa;
       template: |
         <i class="nf nf-fa-windows"></i>
 
@@ -64,7 +64,7 @@ window/bar:
 
         .workspace {
           background: #f5c2e7;
-          margin-right: 4px;
+          margin-right: 3px;
           width: 18px;
           height: 18px;
           color: #1e1e2e;
@@ -87,13 +87,11 @@ window/bar:
           fn_path: "script.js#focusWorkspace"
           selector: ".workspace"
       template: |
-        <div class="template-block">
-          @for (workspace of komorebi.currentWorkspaces) {
-            <button class="workspace {{ workspace === komorebi.focusedWorkspace && 'active' }}">
-              {{ workspace.name }}
-            </button>
-          }
-        </div>
+        @for (workspace of komorebi.currentWorkspaces) {
+          <button class="workspace {{ workspace === komorebi.focusedWorkspace && 'active' }}">
+            {{ workspace.name }}
+          </button>
+        }
 
   group/center:
     styles: |
@@ -111,7 +109,7 @@ window/bar:
       display: flex;
 
       .template {
-        margin-left: 20px;
+        margin-left: 6px;
       }
 
     template/memory:
