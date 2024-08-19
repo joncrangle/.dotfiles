@@ -151,7 +151,7 @@ format = '[[  scala ](fg:base bg:mauve)]($style)'
 
 [time]
 disabled = false
-time_format = "%R" # Hour:Minute Format
+time_format = "%l:%M %p"
 format = '[[  $time ](fg:blue bg:mantle)]($style)'
 
 [zig]
