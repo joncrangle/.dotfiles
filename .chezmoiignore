@@ -19,7 +19,6 @@ AppData/
 {{ if and (ne .chezmoi.os "darwin") (ne .chezmoi.os "linux") }}
 .zshenv
 .config/bat/
-.config/fastfetch/
 .config/nvim/
 .config/wezterm/
 .config/yazi/
