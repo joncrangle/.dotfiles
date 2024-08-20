@@ -10,7 +10,7 @@ alt + shift + o         : komorebic reload-configuration
 alt + return            : if ($wshell.AppActivate('Wezterm') -eq $False) { start wezterm-gui }
 alt + b                 : if ($wshell.AppActivate('Chrome') -eq $False) { start chrome }
 alt + e                 : if ($wshell.AppActivate('Edge') -eq $False) { start edge }
-alt + f                : if ($wshell.AppActivate('Explorer') -eq $False) { start explorer }
+alt + f                 : if ($wshell.AppActivate('Explorer') -eq $False) { start explorer }
 
 alt + q                 : komorebic close
 alt + m                 : komorebic minimize
@@ -76,3 +76,8 @@ alt + shift + 5         : komorebic move-to-workspace 4
 alt + shift + 6         : komorebic move-to-workspace 5
 alt + shift + 7         : komorebic move-to-workspace 6
 alt + shift + 8         : komorebic move-to-workspace 7
+
+# Move windows across monitors
+alt + f1                : komorebic move-to-monitor 0
+alt + f2                : komorebic move-to-monitor 1
+alt + f3                : komorebic move-to-monitor 2

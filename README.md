@@ -36,14 +36,15 @@ Features include:
 
 - [Yabai](https://github.com/koekeishiya/yabai) window manager
 - [skhd](https://github.com/koekeishiya/skhd) keyboard shortcuts
-- [SketchyBar](https://github.com/FelixKratz/SketchyBar) panel
+- [SketchyBar](https://github.com/FelixKratz/SketchyBar) bar 
 - [JankyBorders](https://github.com/FelixKratz/JankyBorders) border styling
 - [Raycast](https://www.raycast.com/) launcher
 - [Homebrew](https://brew.sh/) package management
 
 **Windows**
 
-- [GlazeWM](https://github.com/glzr-io/glazewm) window manager
+- [Komorebi](https://github.com/LGUG2Z/komorebi) window manager
+- [Zebar](https://github.com/glzr-io/zebar) bar
 - Microsoft PowerToys for launcher, keyboard shortcuts and various extras
 - [Scoop](https://scoop.sh/) package management
 

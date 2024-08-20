@@ -191,26 +191,26 @@ wezterm connect tnas
 | Launch WezTerm                                  | `⌘` + `Enter`                                 |
 | Launch Arc                                      | `⌘` + `b`                                     |
 
-## 🔷 GlazeWM
+## 🔷 Komorebi and whkd
 
-| **Function**                                 | **Shortcut**                                  |
-| -------------------------------------------  | --------------------------------------------- |
-| Activate Left / Down / Up / Right            | `Alt` + `h`, `j`, `k`, `l`                    |
-| Switch to Workspace 1 - 9                    | `Alt` + `1 - 9`                               |
-| Move Window to Workspace 1 - 9               | `Alt` + `Shift` + `1 - 9`                     |
-| Move Workspace to Left / Right               | `Alt` + `a`, `f`                              |
-| Toggle Full Screen                           | `Alt` + `x`                                   |
-| Change toggle direction                      | `Alt` + `v`                                   |
-| Focus recent workspace                       | `Alt` + `y`                                   |
-| Toggle Float                                 | `Alt` + `Shift` + `Space`                     |
-| Close Window                                 | `Alt` + `Shift` + `q`                         |
-| Minimize Window                              | `Alt` + `Shift` + `m`                         |
-| Resize: Left / Down / Up / Right             | `Alt` + `r`, then `h`, `j`, `k`, `l`          |
-| Swap Left / Down / Up / Right                | `Alt` + `Shift` + `h`, `j`, `k`, `l`          |
-| Stop GlazeWM                                 | `Alt` + `Shift` + `e`                         |
-| Restart GlazeWM                              | `Alt` + `Shift` + `r`                         |
-| Launch WezTerm                               | `Alt` + `Enter`                               |
-| Launch Chrome                                | `Alt` + `Shift` + `Enter`                     |
+| **Function**                      | **Shortcut**                |
+| --------------------------------- | --------------------------- |
+| Activate Left / Down / Up / Right | `Alt` + `h`, `j`, `k`, `l`  |
+| Switch to Workspace 1 - 9         | `Alt` + `1 - 9`             |
+| Move Window to Workspace 1 - 9    | `Alt` + `Shift` + `1 - 9`   |
+| Move Workspace to monitor         | `Alt` + `F1`, `F2`, `F3`    |
+| Toggle Full Screen                | `Alt` + `Shift` + `r`       |
+| Toggle Float                      | `Alt` + `t`                 |
+| Retile Windows                    | `Alt` + `Shift` + `r`       |
+| Flip layout horizontal / vertical | `Alt` + `x` / `y`           |
+| Resize: Left / Right              | `Alt` + `-` / `+`           |
+| Resize: Up / Down                 | `Alt` + `Shift` + `-` / `+` |
+| Reload whkd                       | `Alt` + `o`                 |
+| Reload Komorebi                   | `Alt` + `Shift` + `o`       |
+| Launch WezTerm                    | `Alt` + `Enter`             |
+| Launch Chrome                     | `Alt` + `b`                 |
+| Launch Edge                       | `Alt` + `e`                 |
+| Launch Explorer                   | `Alt` + `f`                 |
 
 ## 💧 Hyprland
 
