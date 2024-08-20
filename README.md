@@ -3,7 +3,7 @@
 <!--toc:start-->
 - [.dotfiles](#dotfiles)
   - [📘 Overview](#-overview)
-    - [🍎 MacOS](#-macos)
+  - [🍎 MacOS](#-macos)
   - [🪟 Windows](#-windows)
   - [🐧 Arch Linux](#-arch-linux)
     - [Paru commands](#paru-commands)
