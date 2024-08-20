@@ -365,7 +365,7 @@ Write-Host "Fonts installed successfully."
 Write-Host "Installing Scoop apps..."
 $packages = @(
     "7zip", "bat", "biome", "bruno", "curl", "delta", "docker", "eza", "fastfetch", "fd",
-    "ffmpeg", "glazewm", "glow", "go", "gzip", "JetBrainsMono-NF", "jq", "komorebi", "krita", "lazygit",
+    "ffmpeg", "glow", "go", "gzip", "JetBrainsMono-NF", "jq", "komorebi", "krita", "lazygit",
     "lazydocker", "lua", "luarocks", "make", "mariadb", "Meslo-NF", "mingw", "neovim", "nodejs",
     "obsidian", "poppler", "pnpm", "postgresql", "python", "ripgrep", "rustup-gnu", "tableplus",
     "tldr", "tree-sitter", "unar", "unzip", "uv", "vlc", "vcredist2022", "vscode",
@@ -385,7 +385,6 @@ ya pack -u
 
 # Add apps to Windows startup
 $links = @(
-    @{ Path = "C:\Users\CrangleJon\scoop\apps\glazewm\current\GlazeWM.exe"; Name = "GlazeWM" },
     @{ Path = "C:\Program Files\Google\Chrome\Application\chrome.exe"; Name = "Google Chrome" },
     @{ Path = "C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE"; Name = "Microsoft Outlook" },
     @{ Path = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"; Name = "Microsoft Edge" },
