@@ -80,6 +80,26 @@ return {
     end,
     opts = {
       transparent = true,
+      theme = {
+        overrides = function(colors)
+          return {
+            CursorLine = { bg = 'NONE' },
+            CursorLineNr = { fg = colors.purple },
+            LineNrAbove = { fg = colors.grey },
+            LineNrBelow = { fg = colors.grey },
+            TelescopeBorder = { fg = colors.cyan, bg = 'NONE' },
+            TelescopeNormal = { bg = 'NONE' },
+            TelescopePreviewBorder = { bg = 'NONE' },
+            TelescopePreviewNormal = { bg = 'NONE' },
+            TelescopePreviewTitle = { fg = colors.bgAlt, bg = colors.green, bold = true },
+            TelescopePromptTitle = { fg = colors.bgAlt, bg = colors.red, bold = true },
+            TelescopePromptBorder = { fg = colors.red, bg = 'NONE' },
+            TelescopeResultsBorder = { fg = 'NONE', bg = 'NONE' },
+            TelescopeResultsNormal = { bg = 'NONE' },
+            TelescopeResultsTitle = { fg = colors.bgAlt, bg = colors.green },
+          }
+        end,
+      },
     },
   },
   {
