@@ -9,6 +9,7 @@ key.txt
 {{ if ne .chezmoi.os "windows" }}
 setup_win.ps1
 AppData/
+.config/whkdrc
 .config/windows-terminal/
 .config/komorebi/
 .glaze-wm/

@@ -14,9 +14,10 @@
     "monocle": "#eba0ac",
     "unfocused": "#fab387"
   },
+  "mouse_follows_focus": false,
   "stackbar": {
     "height": 40,
-    "mode": "OnStack",
+    "mode": "Never",
     "tabs": {
       "width": 300,
       "focused_text": "#a6e3a1",
@@ -37,27 +38,127 @@
       "matching_strategy": "Equals"
     }
   ],
+  "display_index_preferences": {
+    "0": "LEN61AF-4&30e153ed&0&UID232987",
+    "1": "LEN61A9-4&30e153ed&0&UID224795"
+  },
   "monitors": [
     {
       "workspaces": [
         {
           "name": "1",
-          "layout": "BSP"
+          "layout": "BSP",
+          "initial_workspace_rules": [
+            {
+              "kind": "Exe",
+              "id": "wezterm-gui.exe",
+              "matching_strategy": "Equals"
+            }
+          ]
         },
         {
           "name": "2",
-          "layout": "HorizontalStack"
+          "layout": "BSP",
+          "initial_workspace_rules": [
+            {
+              "kind": "Exe",
+              "id": "chrome.exe",
+              "matching_strategy": "Equals"
+            }
+          ]
+        },
+        {
+          "name": "3",
+          "layout": "BSP",
+          "initial_workspace_rules": [
+            {
+              "kind": "Exe",
+              "id": "ms-edge.exe",
+              "matching_strategy": "Equals"
+            }
+          ]
+        },
+        {
+          "name": "4",
+          "layout": "BSP",
+          "initial_workspace_rules": [
+            {
+              "kind": "Exe",
+              "id": "Obsidian.exe",
+              "matching_strategy": "Equals"
+            }
+          ]
+        },
+        {
+          "name": "5",
+          "layout": "BSP"
+        }
+      ]
+    },
+    {
+      "workspaces": [
+        {
+          "name": "1",
+          "layout": "HorizontalStack",
+          "initial_workspace_rules": [
+            {
+              "kind": "Exe",
+              "id": "ms-teams.exe",
+              "matching_strategy": "Equals"
+            },
+            {
+              "kind": "Exe",
+              "id": "OUTLOOK.exe",
+              "matching_strategy": "Equals"
+            }
+          ]
+        },
+        {
+          "name": "2",
+          "layout": "BSP",
+          "initial_workspace_rules": [
+            {
+              "kind": "Exe",
+              "id": "ms-teams.exe",
+              "matching_strategy": "Equals"
+            },
+            {
+              "kind": "Exe",
+              "id": "OUTLOOK.exe",
+              "matching_strategy": "Equals"
+            }
+          ]
         },
         {
           "name": "3",
           "layout": "BSP"
+        }
+      ]
+    },
+    {
+      "workspaces": [
+        {
+          "name": "1",
+          "layout": "VerticalStack",
+          "initial_workspace_rules": [
+            {
+              "kind": "Exe",
+              "id": "ms-teams.exe",
+              "matching_strategy": "Equals"
+            },
+            {
+              "kind": "Exe",
+              "id": "OUTLOOK.exe",
+              "matching_strategy": "Equals"
+            }
+          ]
         },
         {
-          "name": "4",
+          "name": "2",
           "layout": "BSP"
         },
         {
-          "name": "5",
+          "name": "3",
           "layout": "BSP"
         }
       ]
