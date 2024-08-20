@@ -369,7 +369,7 @@ $packages = @(
     "lazydocker", "lua", "luarocks", "make", "mariadb", "Meslo-NF", "mingw", "neovim", "nodejs",
     "obsidian", "poppler", "pnpm", "postgresql", "python", "ripgrep", "rustup-gnu", "tableplus",
     "tldr", "tree-sitter", "unar", "unzip", "uv", "vlc", "vcredist2022", "vscode",
-    "wezterm-nightly", "wget", "whkd", "yarn", "yazi", "yq", "zig", "zoom"
+    "wezterm-nightly", "win32yank", "wget", "whkd", "yarn", "yazi", "yq", "zig", "zoom"
 )
 
 foreach ($package in $packages) {
