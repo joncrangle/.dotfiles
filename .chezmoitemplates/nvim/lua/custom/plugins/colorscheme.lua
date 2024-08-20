@@ -54,9 +54,10 @@ return {
       highlight_overrides = {
         mocha = function(mocha)
           return {
+            CursorLine = { bg = 'NONE' },
+            CursorLineNr = { fg = mocha.rosewater },
             LineNrAbove = { fg = mocha.overlay1 },
             LineNrBelow = { fg = mocha.overlay1 },
-            CursorLineNr = { fg = mocha.rosewater },
           }
         end,
       },
