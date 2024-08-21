@@ -3,18 +3,25 @@ local colors = require 'colors'
 
 local cal = sbar.add('item', {
   icon = {
-    color = colors.active_bg,
+    color = colors.calendar,
+    padding_left = 12,
     font = {
       style = settings.font.style_map['Heavy'],
       size = 14.0,
     },
   },
   label = {
-    color = colors.hover_bg,
+    color = colors.calendar,
+    padding_right = 12,
     align = 'right',
     font = { family = settings.font.numbers, style = settings.font.style_map['Black'], size = 14.0 },
   },
-  position = 'right',
+  position = 'center',
+  background = {
+    color = colors.inactive_bg,
+    corner_radius = 10,
+    height = 24,
+  },
   update_freq = 15,
 })
 
