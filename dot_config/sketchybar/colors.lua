@@ -9,6 +9,7 @@ return {
 	calendar = 0xfffab387, -- #fab387
 	media = 0xffa6e3a1,    -- #a6e3a1
 	volume = 0xff89b4fa,   -- #89b4fa
+	stats = 0xffeaeaeb,    -- #eaeaeb
 	white = 0xffcdd6f4,    -- #cdd6f4
 
 	with_alpha = function(color, alpha)

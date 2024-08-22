@@ -103,9 +103,19 @@ volume_icon:subscribe('mouse.clicked', on_mouse_clicked)
 volume_percent:subscribe('mouse.clicked', on_mouse_clicked)
 
 -- Container
-sbar.add('bracket', 'volume', {
+local volume = sbar.add('bracket', 'volume', {
 	volume_icon.name,
 	volume_percent.name,
 }, {
-	background = { color = colors.inactive_bg, height = 24, corner_radius = 10 },
+	background = { color = colors.inactive_bg, border_color = colors.volume, height = 24, corner_radius = 10 },
 })
+
+local function on_mouse_entered()
+	volume:set({ background = { border_width = 1 } })
+end
+local function on_mouse_exited()
+	volume:set({ background = { border_width = 0 } })
+end
+
+volume:subscribe('mouse.entered', on_mouse_entered)
+volume:subscribe('mouse.exited', on_mouse_exited)

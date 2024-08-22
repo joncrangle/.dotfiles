@@ -19,6 +19,7 @@ local cal = sbar.add('item', 'calendar', {
   position = 'center',
   background = {
     color = colors.inactive_bg,
+    border_color = colors.calendar,
     corner_radius = 10,
     height = 24,
   },
@@ -33,3 +34,9 @@ end
 
 cal:subscribe('routine', update)
 cal:subscribe('forced', update)
+cal:subscribe('mouse.entered', function()
+  cal:set({ background = { border_width = 1 } })
+end)
+cal:subscribe('mouse.exited', function()
+  cal:set({ background = { border_width = 0 } })
+end)

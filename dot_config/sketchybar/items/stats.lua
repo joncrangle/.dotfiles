@@ -50,10 +50,20 @@ cpu:subscribe('mouse.clicked', function()
 end)
 
 -- Container
-sbar.add('bracket', 'stats', {
+local stats = sbar.add('bracket', 'stats', {
 	cpu.name,
 	ram.name,
 	disk.name,
 }, {
-	background = { color = colors.inactive_bg, height = 24, corner_radius = 10 },
+	background = { color = colors.inactive_bg, border_color = colors.stats, height = 24, corner_radius = 10 },
 })
+
+local function on_mouse_entered()
+	stats:set({ background = { border_width = 1 } })
+end
+local function on_mouse_exited()
+	stats:set({ background = { border_width = 0 } })
+end
+
+stats:subscribe('mouse.entered', on_mouse_entered)
+stats:subscribe('mouse.exited', on_mouse_exited)
