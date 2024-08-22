@@ -129,7 +129,7 @@ window/bar:
       color: #fab387;
       border: 1px solid #1e1e2edd;
       border-radius: 10px;
-      padding: 3px 6px;
+      padding: 2px 6px;
       height: 18px;
       cursor: default;
 
@@ -149,7 +149,7 @@ window/bar:
       background: #1e1e2edd;
       border: 1px solid #1e1e2edd;
       border-radius: 10px;
-      padding: 3px 6px;
+      padding: 2px 6px;
       height: 18px;
       cursor: default;
 
