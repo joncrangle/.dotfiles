@@ -22,7 +22,7 @@ return {
     },
     config = function()
       local key_bindings = {
-        { '<leader>#', desc = 'Harpoon2 list item [1-5]', icon = { icon = '󱡀', color = 'orange' } },
+        { '<leader>#', desc = 'Grapple tag item [1-9]', icon = { icon = '󱡀', color = 'orange' } },
         { '<leader>c', group = '[C]ode', icon = { icon = ' ', color = 'green' } },
         { '<leader>d', group = '[D]ocument', icon = { icon = '󰈙', color = 'green' } },
         { '<leader>de', '<cmd>Telescope symbols<cr>', desc = '[D]ocument [E]moji picker', icon = { icon = '😀', color = 'green' } },
@@ -37,8 +37,8 @@ return {
         { '<leader>z', '<cmd>Telescope zoxide list<cr>', desc = '[Z]oxide list', icon = { icon = ' ', color = 'orange' } },
       }
 
-      -- Add Harpoon2 list items
-      for i = 1, 5 do
+      -- Add Grapple list items
+      for i = 1, 9 do
         table.insert(key_bindings, { '<leader>' .. i, hidden = true })
         table.insert(key_bindings, { '<leader>#' .. i, hidden = true })
       end
