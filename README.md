@@ -110,6 +110,10 @@ curl -L https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_mac.sh
 
 9. Give `Yabai`, `Wezterm`, `skhd` accessibility permissions in `System Preferences` -> `Security & Privacy` -> `Accessibility`.
 
+10. Launch the `Shortcuts` app. Create a shortcut called "playpause" with "Play/Pause" from the "Media"category. This shortcut will be used by the bar for playback control.
+
+11. Launch the `Stats` app. Configure the Disk, RAM and CPU monitors widgets to be Center aligned with color "Second yellow".
+
 ## 🪟 Windows
 
 1. Download and run the [setup_win.ps1](https://github.com/joncrangle/.dotfiles/raw/main/setup_win.ps1) PowerShell script.

@@ -1,6 +1,5 @@
 return {
   paddings = 6,
-  group_paddings = 6,
   font = {
     text = 'Berkeley Mono',
     numbers = 'IosevkaTerm Nerd Font',

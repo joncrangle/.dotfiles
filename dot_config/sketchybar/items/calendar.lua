@@ -1,7 +1,7 @@
 local settings = require 'settings'
 local colors = require 'colors'
 
-local cal = sbar.add('item', {
+local cal = sbar.add('item', 'calendar', {
   icon = {
     color = colors.calendar,
     padding_left = 12,

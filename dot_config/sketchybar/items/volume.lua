@@ -1,7 +1,8 @@
 local colors = require 'colors'
 local settings = require 'settings'
 
-local volume_slider = sbar.add('slider', 100, {
+-- Volume slider
+local volume_slider = sbar.add('slider', 'volume_slider', 100, {
 	position = 'right',
 	updates = true,
 	label = { drawing = false },
@@ -19,10 +20,9 @@ local volume_slider = sbar.add('slider', 100, {
 			drawing = false,
 		},
 	},
-	background = { padding_left = 0 },
 })
 
-local volume_percent = sbar.add('item', {
+local volume_percent = sbar.add('item', 'volume_percent', {
 	position = 'right',
 	icon = { drawing = false },
 	label = {
@@ -30,16 +30,16 @@ local volume_percent = sbar.add('item', {
 		font = { family = settings.font.numbers, style = settings.font.style_map['Black'], size = 14.0 },
 		color = colors.volume,
 	},
-	background = { padding_left = 0, padding_right = 0 },
+	background = { padding_left = 0, padding_right = 10 },
 })
 
-local volume_icon = sbar.add('item', {
+local volume_icon = sbar.add('item', 'volume_icon', {
 	position = 'right',
 	icon = {
 		string = '􀊩',
 		width = 0,
 		align = 'left',
-		color = colors.inactive_fg,
+		color = colors.inactive_bg,
 		font = {
 			style = 'Regular',
 			size = 14.0,
@@ -53,16 +53,9 @@ local volume_icon = sbar.add('item', {
 			style = 'Regular',
 			size = 14.0,
 		},
+		padding_right = 0,
 	},
-	background = { padding_left = 0, padding_right = 0 },
-})
-
-sbar.add('bracket', {
-	volume_icon.name,
-	volume_percent.name,
-	volume_slider.name,
-}, {
-	background = { color = colors.inactive_bg, height = 24, corner_radius = 10 },
+	background = { padding_left = 10, padding_right = 0 },
 })
 
 volume_slider:subscribe('mouse.clicked', function(env)
@@ -108,3 +101,11 @@ end
 
 volume_icon:subscribe('mouse.clicked', on_mouse_clicked)
 volume_percent:subscribe('mouse.clicked', on_mouse_clicked)
+
+-- Container
+sbar.add('bracket', 'volume', {
+	volume_icon.name,
+	volume_percent.name,
+}, {
+	background = { color = colors.inactive_bg, height = 24, corner_radius = 10 },
+})

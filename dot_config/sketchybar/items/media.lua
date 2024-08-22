@@ -7,16 +7,21 @@ local whitelist = {
 	['Podcasts'] = true
 };
 
-local media = sbar.add('item', {
+local media = sbar.add('item', 'media', {
 	icon = {
 		font = 'sketchybar-app-font:Regular:12.0',
-		padding_left = 12,
 		color = colors.media,
 	},
 	label = {
-		padding_left = 2,
+		font = 'IosevkaTerm Nerd Font:Regular:14.0',
+		width = 20,
 		padding_right = 12,
 		color = colors.media,
+		background = {
+			color = colors.inactive_bg,
+			corner_radius = 10,
+			height = 24,
+		}
 	},
 	position = 'center',
 	updates = true,
@@ -25,17 +30,36 @@ local media = sbar.add('item', {
 		corner_radius = 10,
 		height = 24,
 	},
+	width = 24,
 })
+
+local function animate_media_width(width)
+	sbar.animate('tanh', 30.0, function()
+		media:set({ label = { width = width } })
+	end)
+end
+
+media:subscribe('mouse.entered', function()
+	local text = media:query().label.value
+	animate_media_width(#text * 7)
+end)
+media:subscribe('mouse.exited', function()
+	animate_media_width(20)
+end)
+media:subscribe('mouse.clicked', function(env)
+	sbar.exec('shortcuts run "playpause"')
+end)
 
 media:subscribe('media_change', function(env)
 	if whitelist[env.INFO.app] then
 		local lookup = app_icons[env.INFO.app]
 		local icon = ((lookup == nil) and app_icons['default'] or lookup)
+		local playback_state = env.INFO.state
+		local playback_icon = ((playback_state == 'playing') and '' or '')
 		sbar.animate('tanh', 10, function()
 			media:set({
-				drawing = (env.INFO.state == 'playing') and true or false,
 				icon = { string = icon },
-				label = env.INFO.artist .. ': ' .. env.INFO.title
+				label = playback_icon .. ' ' .. env.INFO.artist .. ': ' .. env.INFO.title
 			})
 		end)
 	end

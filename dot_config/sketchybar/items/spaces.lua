@@ -65,7 +65,7 @@ for i = 1, 10, 1 do
   end)
 end
 
-local space_window_observer = sbar.add('item', {
+local space_window_observer = sbar.add('item', 'space_window_observer', {
   drawing = false,
   updates = true,
 })
