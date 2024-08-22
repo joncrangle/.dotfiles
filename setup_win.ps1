@@ -7,9 +7,9 @@
 
 try {
     Write-Host "Installing PowerShell, Windows Terminal and Windows PowerToys..."
-    winget install --id Microsoft.WindowsTerminal -e
-    winget install --id Microsoft.Powershell --source winget
-    winget install Microsoft.PowerToys --source winget
+    winget install --id Microsoft.WindowsTerminal -e --scope user
+    winget install --id Microsoft.Powershell --source winget --scope user
+    winget install Microsoft.PowerToys --source winget --scope user
 } catch {
 # Prompt user to install PowerShell and Windows Terminal
     Write-Host "Please install PowerShell (https://apps.microsoft.com/detail/9mz1snwt0n5d?hl=en-US&gl=US), Windows Terminal (https://apps.microsoft.com/detail/9n0dx20hk701?hl=en-US&gl=US) and Windows PowerToys (https://apps.microsoft.com/detail/xp89dcgq3k6vld?hl=en-gb&gl=CA)."
@@ -384,12 +384,13 @@ ya pack -i
 ya pack -u
 
 # Add apps to Windows startup
+komorebic enable-autostart --config "$ENV:KOMOREBI_CONFIG_HOME\komorebi.json" --whkd
 $links = @(
     @{ Path = "C:\Program Files\Google\Chrome\Application\chrome.exe"; Name = "Google Chrome" },
     @{ Path = "C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE"; Name = "Microsoft Outlook" },
     @{ Path = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"; Name = "Microsoft Edge" },
     @{ Path = "$env:USERPROFILE\scoop\apps\wezterm-nightly\current\wezterm-gui.exe"; Name = "WezTerm" }
-    @{ Path = "$env:USERPROFILE\.config\komorebi\start.bat"; Name = "Komorebi" }
+    @{ Path = "$env:USERPROFILE\.glzr\zebar\zebar.bat"; Name = "Zebar" }
 )
 
 # Path to the Startup folder

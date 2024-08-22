@@ -39,10 +39,38 @@
     }
   ],
   "display_index_preferences": {
-    "0": "LEN61AF-4&30e153ed&0&UID232987",
-    "1": "LEN61A9-4&30e153ed&0&UID224795"
+    "0": "LEN61A9-4&30e153ed&0&UID224795",
+    "1": "LEN61AF-4&30e153ed&0&UID232987"
   },
   "monitors": [
+    {
+      "workspaces": [
+        {
+          "name": "1",
+          "layout": "HorizontalStack",
+          "initial_workspace_rules": [
+            {
+              "kind": "Exe",
+              "id": "ms-teams.exe",
+              "matching_strategy": "Equals"
+            },
+            {
+              "kind": "Exe",
+              "id": "OUTLOOK.exe",
+              "matching_strategy": "Equals"
+            }
+          ]
+        },
+        {
+          "name": "2",
+          "layout": "HorizontalStack"
+        },
+        {
+          "name": "3",
+          "layout": "BSP"
+        }
+      ]
+    },
     {
       "workspaces": [
         {
@@ -91,74 +119,6 @@
         },
         {
           "name": "5",
-          "layout": "BSP"
-        }
-      ]
-    },
-    {
-      "workspaces": [
-        {
-          "name": "1",
-          "layout": "HorizontalStack",
-          "initial_workspace_rules": [
-            {
-              "kind": "Exe",
-              "id": "ms-teams.exe",
-              "matching_strategy": "Equals"
-            },
-            {
-              "kind": "Exe",
-              "id": "OUTLOOK.exe",
-              "matching_strategy": "Equals"
-            }
-          ]
-        },
-        {
-          "name": "2",
-          "layout": "BSP",
-          "initial_workspace_rules": [
-            {
-              "kind": "Exe",
-              "id": "ms-teams.exe",
-              "matching_strategy": "Equals"
-            },
-            {
-              "kind": "Exe",
-              "id": "OUTLOOK.exe",
-              "matching_strategy": "Equals"
-            }
-          ]
-        },
-        {
-          "name": "3",
-          "layout": "BSP"
-        }
-      ]
-    },
-    {
-      "workspaces": [
-        {
-          "name": "1",
-          "layout": "VerticalStack",
-          "initial_workspace_rules": [
-            {
-              "kind": "Exe",
-              "id": "ms-teams.exe",
-              "matching_strategy": "Equals"
-            },
-            {
-              "kind": "Exe",
-              "id": "OUTLOOK.exe",
-              "matching_strategy": "Equals"
-            }
-          ]
-        },
-        {
-          "name": "2",
-          "layout": "BSP"
-        },
-        {
-          "name": "3",
           "layout": "BSP"
         }
       ]
