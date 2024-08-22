@@ -103,12 +103,19 @@ window/bar:
       providers: ["komorebi"]
       styles: |
         .focused-window {
+          line-height: 1.5;
           font-size: 10px;
           margin-left: 12px;
           max-width: 225px;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          cursor: default;
+
+          &:hover {
+            font-weight: bold;
+            text-decoration: underline;
+          }
         }
       template: |
         <div class="focused-window">
@@ -120,10 +127,15 @@ window/bar:
       justify-self: center;
       background: #1e1e2edd;
       color: #fab387;
+      border: 1px solid #1e1e2edd;
       border-radius: 10px;
       padding: 3px 6px;
       height: 18px;
+      cursor: default;
 
+      &:hover {
+        border: 1px solid #fab387;
+      }
     template/clock:
       providers: ["date"]
       # Available date tokens: https://moment.github.io/luxon/#/formatting?id=table-of-tokens
@@ -135,13 +147,19 @@ window/bar:
       justify-self: end;
       display: flex;
       background: #1e1e2edd;
+      border: 1px solid #1e1e2edd;
       border-radius: 10px;
       padding: 3px 6px;
       height: 18px;
+      cursor: default;
 
       .template {
         margin-left: 6px;
         margin-right: 10px;
+      }
+
+      &:hover {
+        border: 1px solid #89b4fa;
       }
 
     template/memory:
