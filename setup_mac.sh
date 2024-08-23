@@ -59,19 +59,19 @@ echo "Installing fonts..."
 fonts_directory="$HOME/.config/fonts"
 user_fonts_folder="$HOME/Library/Fonts"
 if [ ! -d "$user_fonts_folder" ]; then
-    mkdir -p "$user_fonts_folder"
+	mkdir -p "$user_fonts_folder"
 fi
 for font_file in "$fonts_directory"/*.ttf "$fonts_directory"/*.otf; do
-    if [ -f "$font_file" ]; then
-        font_name=$(basename "$font_file")
-        destination_path="$user_fonts_folder/$font_name"
-        if [ ! -f "$destination_path" ]; then
-            cp "$font_file" "$destination_path"
-            echo "Installed font - $font_name"
-        else
-            echo "Font $font_name is already installed. Skipping copy."
-        fi
-    fi
+	if [ -f "$font_file" ]; then
+		font_name=$(basename "$font_file")
+		destination_path="$user_fonts_folder/$font_name"
+		if [ ! -f "$destination_path" ]; then
+			cp "$font_file" "$destination_path"
+			echo "Installed font - $font_name"
+		else
+			echo "Font $font_name is already installed. Skipping copy."
+		fi
+	fi
 done
 echo "Fonts installed successfully."
 
@@ -85,6 +85,7 @@ ya pack -u
 osascript -e 'tell application "System Events" to set autohide menu bar of dock preferences to true'
 curl -L https://github.com/kvndrsslr/sketchybar-app-font/releases/download/v2.0.5/sketchybar-app-font.ttf -o "$HOME"/Library/Fonts/sketchybar-app-font.ttf
 (git clone https://github.com/FelixKratz/SbarLua.git /tmp/SbarLua && cd /tmp/SbarLua/ && make install && rm -rf /tmp/SbarLua/)
+cargo build --manifest-path $HOME/.config/sketchybar/stats_provider/Cargo.toml
 echo "$(whoami) ALL=(root) NOPASSWD: sha256:$(shasum -a 256 "$(which yabai)" | cut -d " " -f 1) $(which yabai) --load-sa" | sudo tee /private/etc/sudoers.d/yabai
 brew services start sketchybar
 skhd --start-service
