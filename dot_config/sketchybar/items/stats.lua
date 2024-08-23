@@ -1,50 +1,78 @@
 local colors = require 'colors'
 local settings = require 'settings'
 
+-- Execute the event provider binary which provides the event "system_stats" for
+-- the cpu, ram, and disk data, which is fired every 2.0 seconds.
+sbar.exec('killall stats_provider >/dev/null; $CONFIG_DIR/stats_provider/target/release/stats_provider')
+
 -- Disk
-local disk = sbar.add('alias', 'Stats,Disk_mini', {
+local disk = sbar.add('item', 'disk', {
 	position = 'right',
-	icon = { drawing = false },
-	label = {
-		font = { family = settings.font.numbers, style = settings.font.style_map['Black'], size = 14.0 },
-		width = 0,
+	icon = {
+		string = '',
+		font = { family = settings.font.numbers, style = settings.font.style_map['Bold'], size = 14.0 },
+		color = colors.stats,
+		padding_right = 0
 	},
-	padding_left = 0,
-	padding_right = 0,
+	label = {
+		font = { family = settings.font.text, style = settings.font.style_map['Bold'], size = 14.0 },
+		color = colors.stats,
+	},
+	padding_left = 3,
+	padding_right = 10,
 })
 
+disk:subscribe('system_stats', function(env)
+	disk:set { label = env.DISK_USAGE }
+end)
 disk:subscribe('mouse.clicked', function()
 	sbar.exec('open -a "/System/Applications/Utilities/Activity Monitor.app"')
 end)
 
 -- RAM
-local ram = sbar.add('alias', 'Stats,RAM_mini', {
+local ram = sbar.add('item', 'ram', {
 	position = 'right',
-	icon = { drawing = false },
-	label = {
-		font = { family = settings.font.numbers, style = settings.font.style_map['Black'], size = 14.0 },
-		width = 0,
+	icon = {
+		string = '',
+		font = { family = settings.font.numbers, style = settings.font.style_map['Bold'], size = 14.0 },
+		color = colors.stats,
+		padding_right = 0
 	},
-	padding_left = 0,
-	padding_right = 0,
+	label = {
+		font = { family = settings.font.text, style = settings.font.style_map['Bold'], size = 14.0 },
+		color = colors.stats,
+	},
+	padding_left = 3,
+	padding_right = 3,
 })
 
+ram:subscribe('system_stats', function(env)
+	ram:set { label = env.MEMORY_USAGE }
+end)
 ram:subscribe('mouse.clicked', function()
 	sbar.exec('open -a "/System/Applications/Utilities/Activity Monitor.app"')
 end)
 
 -- CPU
-local cpu = sbar.add('alias', 'Stats,CPU_mini', {
+local cpu = sbar.add('item', 'cpu', {
 	position = 'right',
-	icon = { drawing = false },
-	label = {
-		font = { family = settings.font.numbers, style = settings.font.style_map['Black'], size = 14.0 },
-		width = 0,
+	icon = {
+		string = '󰍛',
+		font = { family = settings.font.numbers, style = settings.font.style_map['Bold'], size = 14.0 },
+		color = colors.stats,
+		padding_right = 0
 	},
-	padding_left = 0,
-	padding_right = 0,
+	label = {
+		font = { family = settings.font.text, style = settings.font.style_map['Bold'], size = 14.0 },
+		color = colors.stats,
+	},
+	padding_left = 10,
+	padding_right = 3,
 })
 
+cpu:subscribe('system_stats', function(env)
+	cpu:set { label = env.CPU_USAGE }
+end)
 cpu:subscribe('mouse.clicked', function()
 	sbar.exec('open -a "/System/Applications/Utilities/Activity Monitor.app"')
 end)

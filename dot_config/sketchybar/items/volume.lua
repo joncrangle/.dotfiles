@@ -27,7 +27,7 @@ local volume_percent = sbar.add('item', 'volume_percent', {
 	icon = { drawing = false },
 	label = {
 		string = '??%',
-		font = { family = settings.font.numbers, style = settings.font.style_map['Black'], size = 14.0 },
+		font = { family = settings.font.text, style = settings.font.style_map['Bold'], size = 14.0 },
 		color = colors.volume,
 	},
 	background = { padding_left = 0, padding_right = 10 },

@@ -1,5 +1,6 @@
 local colors = require 'colors'
 local app_icons = require 'app_icons'
+local settings = require 'settings'
 
 local whitelist = {
 	['Spotify'] = true,
@@ -16,7 +17,7 @@ local media = sbar.add('item', 'media', {
 		color = colors.media,
 	},
 	label = {
-		font = 'IosevkaTerm Nerd Font:Regular:14.0',
+		font = { family = settings.font.numbers, size = 14.0 },
 		width = 20,
 		padding_right = 12,
 		color = colors.media,
@@ -49,7 +50,7 @@ end)
 media:subscribe('mouse.exited', function()
 	animate_media_width(20)
 end)
-media:subscribe('mouse.clicked', function(env)
+media:subscribe('mouse.clicked', function()
 	sbar.exec('shortcuts run "playpause"')
 end)
 
