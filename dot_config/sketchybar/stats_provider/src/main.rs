@@ -5,32 +5,29 @@ use std::time::Duration;
 use sysinfo::{CpuRefreshKind, Disks, MemoryRefreshKind, RefreshKind, System};
 
 fn cpu_usage(s: &mut System) -> f32 {
-    thread::sleep(sysinfo::MINIMUM_CPU_UPDATE_INTERVAL);
     s.refresh_cpu_all();
-
     let total_usage: f32 = s.cpus().iter().map(|cpu| cpu.cpu_usage()).sum();
     let cpu_count = s.cpus().len() as f32;
-
     total_usage / cpu_count
 }
 
 fn disk_space() -> (u64, u64) {
     let disks = Disks::new_with_refreshed_list();
-    let mut total_space = 0;
-    let mut available_space = 0;
-
-    for disk in disks.list() {
-        total_space += disk.total_space();
-        available_space += disk.available_space();
-    }
-
+    let (total_space, available_space) =
+        disks
+            .list()
+            .iter()
+            .fold((0, 0), |(total, available), disk| {
+                (
+                    total + disk.total_space(),
+                    available + disk.available_space(),
+                )
+            });
     (total_space, available_space)
 }
 
 fn memory_usage(s: &System) -> (u64, u64) {
-    let total_memory = s.total_memory();
-    let used_memory = s.used_memory();
-    (total_memory, used_memory)
+    (s.total_memory(), s.used_memory())
 }
 
 fn send_to_sketchybar(event: &str, vars: Option<&str>) {
@@ -39,9 +36,10 @@ fn send_to_sketchybar(event: &str, vars: Option<&str>) {
         None => format!("--trigger {}", event),
     };
 
-    match sketchybar_rs::message(&command, None) {
-        Ok(_) => println!("Successfully sent to SketchyBar: {}", command),
-        Err(e) => eprintln!("Failed to send to SketchyBar: {}", e),
+    if let Err(e) = sketchybar_rs::message(&command, None) {
+        eprintln!("Failed to send to SketchyBar: {}", e);
+    } else {
+        println!("Successfully sent to SketchyBar: {}", command);
     }
 }
 
@@ -73,6 +71,6 @@ fn main() {
 
         println!("Program is running. Current message: {}", vars);
 
-        thread::sleep(Duration::from_secs(2));
+        thread::sleep(Duration::from_secs(5));
     }
 }

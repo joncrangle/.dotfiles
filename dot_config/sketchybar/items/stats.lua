@@ -2,7 +2,7 @@ local colors = require 'colors'
 local settings = require 'settings'
 
 -- Execute the event provider binary which provides the event "system_stats" for
--- the cpu, ram, and disk data, which is fired every 2.0 seconds.
+-- the cpu, ram, and disk data, which is fired every 5 seconds.
 sbar.exec('killall stats_provider >/dev/null; $CONFIG_DIR/stats_provider/target/release/stats_provider')
 
 -- Disk
