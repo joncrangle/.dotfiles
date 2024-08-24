@@ -3,7 +3,8 @@ local settings = require 'settings'
 
 -- Execute the event provider binary which provides the event "system_stats" for
 -- the cpu, ram, and disk data, which is fired every 5 seconds.
-sbar.exec('killall stats_provider >/dev/null; $CONFIG_DIR/stats_provider/target/release/stats_provider')
+sbar.exec(
+	'killall stats_provider >/dev/null; $CONFIG_DIR/sketchybar-system-stats/target/release/stats_provider --cpu usage --disk usage --memory usage')
 
 -- Disk
 local disk = sbar.add('item', 'disk', {
@@ -29,8 +30,8 @@ disk:subscribe('mouse.clicked', function()
 	sbar.exec('open -a "/System/Applications/Utilities/Activity Monitor.app"')
 end)
 
--- RAM
-local ram = sbar.add('item', 'ram', {
+-- Memory
+local memory = sbar.add('item', 'memory', {
 	position = 'right',
 	icon = {
 		string = '',
@@ -46,10 +47,10 @@ local ram = sbar.add('item', 'ram', {
 	padding_right = 3,
 })
 
-ram:subscribe('system_stats', function(env)
-	ram:set { label = env.MEMORY_USAGE }
+memory:subscribe('system_stats', function(env)
+	memory:set { label = env.MEMORY_USAGE }
 end)
-ram:subscribe('mouse.clicked', function()
+memory:subscribe('mouse.clicked', function()
 	sbar.exec('open -a "/System/Applications/Utilities/Activity Monitor.app"')
 end)
 
@@ -80,7 +81,7 @@ end)
 -- Container
 local stats = sbar.add('bracket', 'stats', {
 	cpu.name,
-	ram.name,
+	memory.name,
 	disk.name,
 }, {
 	background = { color = colors.inactive_bg, border_color = colors.stats, height = 24, corner_radius = 10 },
