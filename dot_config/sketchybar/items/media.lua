@@ -17,7 +17,7 @@ local media = sbar.add('item', 'media', {
 		color = colors.media,
 	},
 	label = {
-		font = { family = settings.font.numbers, size = 14.0 },
+		font = { family = settings.font.numbers, size = 12.0 },
 		width = 20,
 		padding_right = 12,
 		color = colors.media,
@@ -45,7 +45,7 @@ end
 
 media:subscribe('mouse.entered', function()
 	local text = media:query().label.value
-	animate_media_width(#text * 7)
+	animate_media_width(#text * 7.2)
 end)
 media:subscribe('mouse.exited', function()
 	animate_media_width(20)
