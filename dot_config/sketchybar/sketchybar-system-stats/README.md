@@ -121,4 +121,3 @@ end)
 
 * [Sketchybar](https://github.com/FelixKratz/SketchyBar) and [SbarLua](https://github.com/FelixKratz/SbarLua)
 * [sketchybar-rs](https://github.com/johnallen3d/sketchybar-rs)
-
