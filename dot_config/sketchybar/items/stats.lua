@@ -7,10 +7,10 @@ sbar.exec(
 	'killall stats_provider >/dev/null; $CONFIG_DIR/sketchybar-system-stats/target/release/stats_provider --cpu usage temperature --disk usage --memory usage')
 
 local items = {
+	{ name = 'cpu_temp', icon = '', env = 'CPU_TEMP' },
 	{ name = 'disk_usage', icon = '󰋊', env = 'DISK_USAGE' },
 	{ name = 'memory_usage', icon = '', env = 'MEMORY_USAGE' },
 	{ name = 'cpu_usage', icon = '󰻠', env = 'CPU_USAGE' },
-	{ name = 'cpu_temp', icon = '', env = 'CPU_TEMP' },
 }
 
 local item_names = {}
