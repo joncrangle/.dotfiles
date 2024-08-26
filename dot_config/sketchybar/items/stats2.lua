@@ -6,6 +6,7 @@ sbar.exec(
 
 local items = {
 	{ name = 'cpu_count', icon = '󰻠 #', env = 'CPU_COUNT' },
+	{ name = 'cpu_frequency', icon = '󰻠 Freq', env = 'CPU_FREQUENCY' },
 	{ name = 'cpu_usage', icon = '󰻠', env = 'CPU_USAGE' },
 	{ name = 'cpu_temp', icon = '', env = 'CPU_TEMP' },
 	{ name = 'disk_count', icon = '󰋊 #', env = 'DISK_COUNT' },
