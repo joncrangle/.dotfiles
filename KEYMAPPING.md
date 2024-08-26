@@ -83,15 +83,16 @@ wezterm connect tnas
 | Scroll Up / Down                      | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `k` / `j`                                                                    |
 | Font Size Increase / Decrease / Reset | `Ctrl` + `Shift`  | `Super`         | `+` / `-` / `0`                                                              |
 | **Sessions**                          |                   |                 |                                                                              |
-| Save Session                          | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `s`                                                                          |
-| Restore Session                       | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `o`                                                                          |
+| Save Window                           | `Alt`             | `Alt`           | `s`                                                                          |
+| Save Workspace                        | `Alt`             | `Alt`           | `S`                                                                          |
+| Restore Session                       | `Alt`             | `Alt`           | `o`                                                                          |
 | **Workspaces**                        |                   |                 |                                                                              |
-| Switch Workspace                      | `Alt`             | `Alt`           | `s`                                                                          |
+| Switch Workspace                      | `Alt`             | `Alt`           | `w`                                                                          |
 | **Splitting**                         |                   |                 |                                                                              |
 | Smart Split                           | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `Enter`                                                                      |
 | Split Vertically                      | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `\|`                                                                         |
 | Split Horizontally                    | `Ctrl` + `Shift`  | `⌘` + `Shift`   | `_`                                                                          |
-| Close Split                           | `Ctrl` or `Alt`   | `Ctrl` or `Alt` | `Bac kspace`                                                                 |
+| Close Split                           | `Ctrl` or `Alt`   | `Ctrl` or `Alt` | `Backspace`                                                                  |
 | Activate Left / Down / Up / Right     | `Ctrl`            | `Ctrl`          | `h`, `j` / `k` / `l`                                                         |
 | Resize Left / Down / Up / Right       | `Alt`             | `Alt`           | `h`, `j` / `k` / `l` or<br>`LeftArrow`, `DownArrow`, `UpArrow`, `RightArrow` |
 | Zoom (Maximize) Pane                  | `Alt`             | `Alt`           | `m`                                                                          |
@@ -199,14 +200,14 @@ wezterm connect tnas
 | Switch to Workspace 1 - 9         | `Alt` + `1 - 9`             |
 | Move Window to Workspace 1 - 9    | `Alt` + `Shift` + `1 - 9`   |
 | Move Workspace to monitor         | `Alt` + `F1`, `F2`, `F3`    |
-| Toggle Full Screen                | `Alt` + `Shift` + `r`       |
+| Toggle Full Screen                | `Alt` + `Shift` + `f`       |
 | Toggle Float                      | `Alt` + `t`                 |
 | Retile Windows                    | `Alt` + `Shift` + `r`       |
 | Flip layout horizontal / vertical | `Alt` + `x` / `y`           |
 | Resize: Left / Right              | `Alt` + `-` / `+`           |
 | Resize: Up / Down                 | `Alt` + `Shift` + `-` / `+` |
-| Reload whkd                       | `Alt` + `o`                 |
-| Reload Komorebi                   | `Alt` + `Shift` + `o`       |
+| Reload whkd                       | `Alt` + `Shift` + `z`       |
+| Reload Komorebi                   | `Alt` + `z`                 |
 | Launch WezTerm                    | `Alt` + `Enter`             |
 | Launch Chrome                     | `Alt` + `b`                 |
 | Launch Edge                       | `Alt` + `e`                 |

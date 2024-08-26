@@ -119,7 +119,6 @@ resurrect.set_max_nlines(1000)
 local colors = wezterm.get_builtin_color_schemes()['Catppuccin Mocha']
 local workspace_switcher = wezterm.plugin.require 'https://github.com/MLFlexer/smart_workspace_switcher.wezterm'
 local workspace_state = resurrect.workspace_state
-workspace_switcher.apply_to_config(config)
 workspace_switcher.workspace_formatter = function(label)
   return wezterm.format {
     { Attribute = { Italic = true } },

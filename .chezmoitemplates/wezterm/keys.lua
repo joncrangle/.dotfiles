@@ -2,6 +2,7 @@ local wezterm = require 'wezterm'
 local act = wezterm.action
 
 local resurrect = wezterm.plugin.require 'https://github.com/MLFlexer/resurrect.wezterm'
+local workspace_switcher = wezterm.plugin.require 'https://github.com/MLFlexer/smart_workspace_switcher.wezterm'
 
 local M = {}
 
@@ -27,36 +28,54 @@ function M.apply_to_config(config)
     { mods = 'SHIFT|CTRL', key = 'q',     action = act.QuitApplication },
     -- Sessions
     {
-      mods = M.mod,
-      key = 's',
-      action = wezterm.action.Multiple {
-        ---@diagnostic disable-next-line: unused-local
-        wezterm.action_callback(function(window, pane)
-          resurrect.save_state(resurrect.workspace_state.get_workspace_state())
-        end),
-      },
+      mods = 'ALT',
+      key = 'S',
+      ---@diagnostic disable-next-line: unused-local
+      action = wezterm.action_callback(function(win, pane)
+        resurrect.save_state(resurrect.workspace_state.get_workspace_state())
+      end),
     },
     {
-      mods = M.mod,
+      mods = 'ALT',
+      key = 's',
+      action = resurrect.window_state.save_window_action(),
+    },
+    {
+      mods = 'ALT',
       key = 'o',
-      action = wezterm.action.Multiple {
-        wezterm.action_callback(function(window, pane)
-          ---@diagnostic disable-next-line: unused-local
-          resurrect.fuzzy_load(window, pane, function(id, label)
-            id = string.match(id, '([^/]+)$')
-            id = string.match(id, '(.+)%..+$')
-            local state = resurrect.load_state(id, 'workspace')
+      action = wezterm.action_callback(function(win, pane)
+        ---@diagnostic disable-next-line: unused-local
+        resurrect.fuzzy_load(win, pane, function(id, label)
+          local type = string.match(id, "^([^/]+)") -- match before '/'
+          id = string.match(id, "([^/]+)$")         -- match after '/'
+          id = string.match(id, "(.+)%..+$")        -- remove file extension
+          local state
+          if type == "workspace" then
+            state = resurrect.load_state(id, "workspace")
             resurrect.workspace_state.restore_workspace(state, {
               relative = true,
               restore_text = true,
               on_pane_restore = resurrect.tab_state.default_on_pane_restore,
             })
-          end)
-        end),
-      },
+          elseif type == "window" then
+            state = resurrect.load_state(id, "window")
+            resurrect.window_state.restore_window(pane:window(), state, {
+              relative = true,
+              restore_text = true,
+              on_pane_restore = resurrect.tab_state.default_on_pane_restore,
+              -- uncomment this line to use active tab when restoring
+              -- tab = win:active_tab(),
+            })
+          end
+        end)
+      end),
     },
-    -- Workspaces
-    -- NOTE: 'ALT' + 's' is setup by workplace_switcher plugin
+    -- Switch workspaces
+    {
+      mods = "ALT",
+      key = "w",
+      action = workspace_switcher.switch_workspace(),
+    },
     -- Scrollback
     { mods = M.mod,   key = 'k',          action = act.ScrollByPage(-0.5) },
     { mods = M.mod,   key = 'j',          action = act.ScrollByPage(0.5) },
