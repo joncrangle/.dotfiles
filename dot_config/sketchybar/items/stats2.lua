@@ -13,10 +13,14 @@ local items = {
 	{ name = 'disk_used', icon = '󰋊 Used', env = 'DISK_USED' },
 	{ name = 'disk_total', icon = '󰋊 Tot', env = 'DISK_TOTAL' },
 	{ name = 'disk_usage', icon = '󰋊', env = 'DISK_USAGE' },
-	{ name = 'memory_free', icon = ' Free', env = 'MEMORY_FREE' },
-	{ name = 'memory_used', icon = ' Used', env = 'MEMORY_USED' },
-	{ name = 'memory_total', icon = ' Tot', env = 'MEMORY_TOTAL' },
-	{ name = 'memory_usage', icon = '', env = 'MEMORY_USAGE' },
+	{ name = 'ram_available', icon = ' Avail', env = 'RAM_AVAILABLE' },
+	{ name = 'ram_used', icon = ' Used', env = 'RAM_USED' },
+	{ name = 'ram_total', icon = ' Tot', env = 'RAM_TOTAL' },
+	{ name = 'ram_usage', icon = '', env = 'RAM_USAGE' },
+	{ name = 'swp_free', icon = ' Free', env = 'SWP_FREE' },
+	{ name = 'swp_used', icon = ' Used', env = 'SWP_USED' },
+	{ name = 'swp_total', icon = ' Tot', env = 'SWP_TOTAL' },
+	{ name = 'swp_usage', icon = '', env = 'SWP_USAGE' },
 }
 
 local item_names = {}
