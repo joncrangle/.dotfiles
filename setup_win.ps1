@@ -5,23 +5,27 @@
 #   '-..-'|   ||   |
 #   '-..-'|_.-''-._|
 
-try {
+try
+{
     Write-Host "Installing PowerShell, Windows Terminal and Windows PowerToys..."
     winget install --id Microsoft.WindowsTerminal -e --scope user
     winget install --id Microsoft.Powershell --source winget --scope user
     winget install Microsoft.PowerToys --source winget --scope user
-} catch {
-# Prompt user to install PowerShell and Windows Terminal
+} catch
+{
+    # Prompt user to install PowerShell and Windows Terminal
     Write-Host "Please install PowerShell (https://apps.microsoft.com/detail/9mz1snwt0n5d?hl=en-US&gl=US), Windows Terminal (https://apps.microsoft.com/detail/9n0dx20hk701?hl=en-US&gl=US) and Windows PowerToys (https://apps.microsoft.com/detail/xp89dcgq3k6vld?hl=en-gb&gl=CA)."
-        Write-Host "Once installed, press Enter to continue, or press Escape to exit."
-        do {
-            $key = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown").VirtualKeyCode
-        } until ($key -eq 13 -or $key -eq 27)  # Enter key (13) or Escape key (27)
+    Write-Host "Once installed, press Enter to continue, or press Escape to exit."
+    do
+    {
+        $key = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown").VirtualKeyCode
+    } until ($key -eq 13 -or $key -eq 27)  # Enter key (13) or Escape key (27)
 
-    if ($key -eq 27) {
-# User pressed Escape, exit the script
+    if ($key -eq 27)
+    {
+        # User pressed Escape, exit the script
         Write-Host "Exiting the script."
-            exit
+        exit
     }
 }
 
@@ -30,14 +34,18 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 Write-Host "Installing Scoop..."
 $scoopDir = "$env:USERPROFILE\scoop"
-if (!(Test-Path $scoopDir)) {
+if (!(Test-Path $scoopDir))
+{
     Write-Host "Installing Scoop..."
-    try {
+    try
+    {
         Invoke-RestMethod -Uri "https://get.scoop.sh" -ErrorAction Stop | Invoke-Expression
-    } catch {
+    } catch
+    {
         Write-Host "An error occurred while installing Scoop."
     }
-} else {
+} else
+{
     Write-Host "Scoop is already installed."
 }
 
@@ -47,32 +55,38 @@ $appsToInstall = @(
     "psfzf", "psreadline", "starship", "terminal-icons", "zoxide"
 )
 
-try {
+try
+{
     scoop install git
     scoop bucket add extras
     scoop bucket add versions
     scoop bucket add nerd-fonts
     scoop update
-    foreach ($app in $appsToInstall) {
+    foreach ($app in $appsToInstall)
+    {
         scoop install $app
     }
-} catch {
+} catch
+{
     Write-Host "An error occurred while installing one or more terminal apps."
 }
 
 Write-Host "Configuring Git..."
-try {
+try
+{
     git config --global credential.helper manager
     $regFilePath = Join-Path -Path $env:USERPROFILE -ChildPath 'scoop\apps\git\current\install-file-associations.reg'
-    if (Test-Path -Path $regFilePath -PathType Leaf) {
+    if (Test-Path -Path $regFilePath -PathType Leaf)
+    {
         Start-Process -FilePath "regedit.exe" -ArgumentList "/s `"$regFilePath`"" -Wait
-    }
-    else {
+    } else
+    {
         Write-Host "The file $regFilePath does not exist."
     }
     git config --global user.name "jonathancrangle"
     git config --global user.email "94425204+joncrangle@users.noreply.github.com"
-} catch {
+} catch
+{
     Write-Host "An error occurred while configuring Git."
 }
 
@@ -80,12 +94,14 @@ try {
 Read-Host "Please run 'gh auth login' to authenticate with GitHub. Press Enter to continue after you have completed the authentication."
 
 Write-Host "Configuring environment variables..."
-function Set-UserEnvironmentVariables {
+function Set-UserEnvironmentVariables
+{
     param (
         [array]$variables
     )
 
-    foreach ($variable in $variables) {
+    foreach ($variable in $variables)
+    {
         $variableName = $variable.Name
         $variablePath = $variable.Path
         $variableValue = [System.IO.Path]::Combine($env:USERPROFILE, $variablePath)
@@ -106,17 +122,21 @@ Write-Host "Moving dotfiles..."
 chezmoi init --apply https://github.com/joncrangle/.dotfiles.git
 
 Write-Host "Configuring Windows Terminal..."
-try {
+try
+{
     $windowsTerminalDir = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
     $settingsJson = "$env:USERPROFILE\.config\windows-terminal\settings.json"
     Copy-Item $settingsJson -Destination $windowsTerminalDir -Force
-} catch {
+} catch
+{
     Write-Host "An error occurred while configuring Windows Terminal."
 }
 
 Write-Host "Configuring PowerShell..."
-try {
-    if (-not (Test-Path $PROFILE)) {
+try
+{
+    if (-not (Test-Path $PROFILE))
+    {
         New-Item -Path $PROFILE -ItemType File -Force
     }
     # Add content to $PROFILE
@@ -128,8 +148,8 @@ Import-Module -Name Terminal-Icons
 Import-Module PSFzf
 Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+f' -PSReadlineChordReverseHistory 'Ctrl+r'
 
-`$ENV:EDITOR = 'nvim'
-`$ENV:VISUAL = 'nvim'
+`$ENV:EDITOR = "nvim"
+`$ENV:VISUAL = "nvim"
 `$ENV:STARSHIP_CONFIG = "$HOME\.config\starship\starship.toml"
 `$ENV:KOMOREBI_CONFIG_HOME = "$HOME\.config\komorebi"
 
@@ -327,26 +347,31 @@ Invoke-Expression (&starship init powershell)
 Invoke-Expression (& { (zoxide init powershell | Out-String) })
 "@
     $profileContent | Out-File -FilePath $PROFILE
-} catch {
+} catch
+{
     Write-Host "An error occurred while configuring PowerShell."
 }
+. $PROFILE
 
 # Install fonts
 Write-Host "Installing fonts..."
 $fontsDirectory = "$env:USERPROFILE\.config\fonts"
 $fontFiles = Get-ChildItem -Path $fontsDirectory -Recurse -Include *.ttf, *.otf -File
 $userFontsFolder = "$env:LOCALAPPDATA\Microsoft\Windows\Fonts"
-if (-not (Test-Path -Path $userFontsFolder)) {
+if (-not (Test-Path -Path $userFontsFolder))
+{
     New-Item -ItemType Directory -Path $userFontsFolder
 }
 
-foreach ($fontFile in $fontFiles) {
+foreach ($fontFile in $fontFiles)
+{
     $fontName = [System.IO.Path]::GetFileNameWithoutExtension($fontFile.Name)
     $fontPath = $fontFile.FullName
     $destinationPath = Join-Path -Path $userFontsFolder -ChildPath $fontFile.Name
     
     # Copy the font to the user's local Fonts folder if it doesn't already exist
-    if (-not (Test-Path -Path $destinationPath)) {
+    if (-not (Test-Path -Path $destinationPath))
+    {
         Copy-Item -Path $fontPath -Destination $destinationPath
         # Add the font to the current user's registry
         $fontRegistryPath = "HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"
@@ -355,7 +380,8 @@ foreach ($fontFile in $fontFiles) {
         # Notify the system of the font change
         [FontInstaller]::NotifyFontChange()
         Write-Output "Installed font - $fontName"
-    } else {
+    } else
+    {
         Write-Output "Font $fontName is already installed. Skipping copy."
     }
 }
@@ -372,19 +398,22 @@ $packages = @(
     "wezterm-nightly", "win32yank", "wget", "whkd", "yarn", "yazi", "yq", "zig", "zoom"
 )
 
-foreach ($package in $packages) {
-    try {
+foreach ($package in $packages)
+{
+    try
+    {
         scoop install $package
-    } catch {
+    } catch
+    {
         Write-Host "An error occurred while installing $package."
     }
 }
 
 ya pack -i
 ya pack -u
+cargo install --locked bacon
 
 # Add apps to Windows startup
-komorebic enable-autostart --config "$ENV:KOMOREBI_CONFIG_HOME\komorebi.json" --whkd
 $links = @(
     @{ Path = "C:\Program Files\Google\Chrome\Application\chrome.exe"; Name = "Google Chrome" },
     @{ Path = "C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE"; Name = "Microsoft Outlook" },
@@ -398,7 +427,9 @@ $startupFolderPath = [System.IO.Path]::Combine($env:APPDATA, "Microsoft\Windows\
 
 # Function to create a shortcut
 Write-Host "Creating startup shortcuts..."
-function Create-Shortcut {
+Copy-Item -Path "$env:USERPROFILE\.config\komorebi\WM.bat" -Destination $startupFolderPath
+function New-Shortcut
+{
     param (
         [string]$targetPath,
         [string]$shortcutName
@@ -412,23 +443,30 @@ function Create-Shortcut {
 }
 
 # Loop through each program and create a shortcut
-foreach ($link in $links) {
-    try {
-        Create-Shortcut -targetPath $program.Path -shortcutName $program.Name
-    } catch {
+foreach ($link in $links)
+{
+    try
+    {
+        New-Shortcut -targetPath $program.Path -shortcutName $program.Name
+    } catch
+    {
         Write-Host "Failed to create shortcut for $($program.Name): $_"
     }
 }
 
-try {
+try
+{
     $regFilePath = "$env:USERPROFILE\scoop\apps\python\current\install-pep-514.reg"
-    if (Test-Path $regFilePath) {
+    if (Test-Path $regFilePath)
+    {
         # Import the registry file
         reg import $regFilePath
-    } else {
+    } else
+    {
         Write-Error "Registry file for python not found: $regFilePath"
     }
-} catch {
+} catch
+{
     Write-Error "An error occurred: $_"
 }
 
@@ -436,4 +474,3 @@ Copy-Item -Path "$env:USERPROFILE\.config\btop\btop.conf" -Destination "$env:USE
 Copy-Item -Path "$env:USERPROFILE\.config\btop\themes\catppuccin_mocha.theme" -Destination "$env:USERPROFILE\scoop\persist\btop\themes\catppuccin_mocha.theme" -Force
 
 Write-Host "Configuration complete. Please restart the terminal."
-. $PROFILE

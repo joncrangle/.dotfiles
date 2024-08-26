@@ -63,7 +63,7 @@
         },
         {
           "name": "2",
-          "layout": "HorizontalStack"
+          "layout": "VerticalStack"
         },
         {
           "name": "3",
