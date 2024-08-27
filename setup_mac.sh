@@ -85,6 +85,7 @@ ya pack -u
 osascript -e 'tell application "System Events" to set autohide menu bar of dock preferences to true'
 curl -L https://github.com/kvndrsslr/sketchybar-app-font/releases/download/v2.0.5/sketchybar-app-font.ttf -o "$HOME"/Library/Fonts/sketchybar-app-font.ttf
 (git clone https://github.com/FelixKratz/SbarLua.git /tmp/SbarLua && cd /tmp/SbarLua/ && make install && rm -rf /tmp/SbarLua/)
+git clone git@github.com:joncrangle/sketchybar-system-stats.git $HOME/.config/sketchybar
 cargo build --manifest-path $HOME/.config/sketchybar/stats_provider/Cargo.toml --release
 echo "$(whoami) ALL=(root) NOPASSWD: sha256:$(shasum -a 256 "$(which yabai)" | cut -d " " -f 1) $(which yabai) --load-sa" | sudo tee /private/etc/sudoers.d/yabai
 brew services start sketchybar
