@@ -1,6 +1,9 @@
 return {
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
+    -- FIX: temp pin see: https://github.com/hrsh7th/nvim-cmp/issues/1877
+    commit = "b356f2c",
+    pin = true,
     event = { 'InsertEnter', 'CmdlineEnter' },
     dependencies = {
       -- Snippet Engine & its associated nvim-cmp source
@@ -69,6 +72,19 @@ return {
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
+    },
+    opts = {
+      mappings = {
+        disallow_fuzzy_matching = true,
+        disallow_fullfuzzy_matching = true,
+        disallow_partial_fuzzy_matching = true,
+        disallow_partial_matching = false,
+        disallow_prefix_unmatching = true,
+      },
+      performance = {
+        debounce = 0,
+        throttle = 0,
+      },
     },
     config = function()
       -- See `:help cmp`
