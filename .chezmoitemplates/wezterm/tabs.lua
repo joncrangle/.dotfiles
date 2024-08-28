@@ -127,6 +127,20 @@ function M.apply_to_config(config)
 
     return ret
   end)
+
+  ---@diagnostic disable-next-line: unused-local
+  wezterm.on('update-status', function(window, pane)
+    local colors = wezterm.get_builtin_color_schemes()['Catppuccin Mocha']
+
+    window:set_left_status(wezterm.format({
+      { Foreground = { Color = colors.ansi[6] } },
+      { Text = ' ' .. wezterm.nerdfonts.cod_terminal_tmux },
+      { Attribute = { Italic = true } },
+      { Text = ' ' .. window:active_workspace() },
+      { Attribute = { Italic = false } },
+      { Text = ' ' .. wezterm.nerdfonts.pl_left_soft_divider .. ' ' },
+    }))
+  end)
 end
 
 return M
