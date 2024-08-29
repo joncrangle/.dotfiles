@@ -45,7 +45,7 @@ end
 
 media:subscribe('mouse.entered', function()
 	local text = media:query().label.value
-	animate_media_width(#text * 7.2)
+	animate_media_width(#text * 7.2 > 750 and 750 or #text * 7.2)
 end)
 media:subscribe('mouse.exited', function()
 	animate_media_width(20)
