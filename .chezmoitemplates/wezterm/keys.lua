@@ -70,10 +70,25 @@ function M.apply_to_config(config)
         end)
       end),
     },
+    {
+      mods = 'ALT',
+      key = 'd',
+      action = wezterm.action_callback(function(win, pane)
+        ---@diagnostic disable-next-line: unused-local
+        resurrect.fuzzy_load(win, pane, function(id)
+            resurrect.delete_state(id)
+          end,
+          {
+            title = 'Delete State',
+            fuzzy_description = 'Search State to Delete: ',
+            is_fuzzy = true,
+          })
+      end),
+    },
     -- Switch workspaces
     {
-      mods = "ALT",
-      key = "w",
+      mods = 'ALT',
+      key = 'w',
       action = workspace_switcher.switch_workspace(),
     },
     -- Scrollback
