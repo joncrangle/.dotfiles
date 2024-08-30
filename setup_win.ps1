@@ -411,6 +411,8 @@ foreach ($package in $packages)
 
 ya pack -i
 ya pack -u
+rustup update
+rustup component add rust-analyzer
 cargo install --locked bacon
 
 # Add apps to Windows startup
