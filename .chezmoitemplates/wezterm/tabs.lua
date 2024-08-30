@@ -141,6 +141,27 @@ function M.apply_to_config(config)
       { Text = ' ' .. wezterm.nerdfonts.pl_left_soft_divider .. ' ' },
     }))
   end)
+
+  local event_listeners = {
+    { event = 'resurrect.fuzzy_load',                        text = wezterm.nerdfonts.md_sleep_off .. ' Resurrect ' },
+    { event = 'smart_workspace_switcher.workspace_switcher', text = wezterm.nerdfonts.cod_terminal_tmux .. ' Smart Workspace Switcher ' },
+  }
+
+  for _, v in ipairs(event_listeners) do
+    wezterm.on(v.event .. '.start', function(window, _)
+      local colors = wezterm.get_builtin_color_schemes()['Catppuccin Mocha']
+
+      window:set_right_status(wezterm.format({
+        { Foreground = { Color = colors.ansi[6] } },
+        { Text = v.text },
+      }))
+    end)
+    wezterm.on(v.event .. '.finished', function(window, _)
+      window:set_right_status(wezterm.format({
+        { Text = '' },
+      }))
+    end)
+  end
 end
 
 return M
