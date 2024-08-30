@@ -143,8 +143,8 @@ function M.apply_to_config(config)
   end)
 
   local event_listeners = {
-    { event = 'resurrect.fuzzy_load',                        text = wezterm.nerdfonts.md_sleep_off .. ' Resurrect ' },
-    { event = 'smart_workspace_switcher.workspace_switcher', text = wezterm.nerdfonts.cod_terminal_tmux .. ' Smart Workspace Switcher ' },
+    { event = 'resurrect.fuzzy_load',                        text = 'Resurrect ' .. wezterm.nerdfonts.md_sleep_off .. ' ' },
+    { event = 'smart_workspace_switcher.workspace_switcher', text = 'Smart Workspace Switcher ' .. wezterm.nerdfonts.cod_terminal_tmux .. ' ' },
   }
 
   for _, v in ipairs(event_listeners) do
@@ -152,7 +152,7 @@ function M.apply_to_config(config)
       local colors = wezterm.get_builtin_color_schemes()['Catppuccin Mocha']
 
       window:set_right_status(wezterm.format({
-        { Foreground = { Color = colors.ansi[6] } },
+        { Foreground = { Color = colors.ansi[5] } },
         { Text = v.text },
       }))
     end)
