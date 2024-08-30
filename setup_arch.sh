@@ -154,6 +154,9 @@ echo
 # Install Rust
 echo ":: Installing Rust..."
 rustup default stable
+rustup update
+rustup component add rust-analyzer
+
 echo ":: Starting ssh daemon..."
 sudo systemctl enable sshd
 sudo systemctl start sshd
