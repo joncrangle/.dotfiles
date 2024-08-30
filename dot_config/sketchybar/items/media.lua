@@ -14,15 +14,15 @@ local whitelist = {
 local media = sbar.add('item', 'media', {
 	icon = {
 		font = 'sketchybar-app-font:Regular:12.0',
-		color = colors.media,
+		color = colors.green,
 	},
 	label = {
 		font = { family = settings.font.numbers, size = 12.0 },
 		width = 20,
 		padding_right = 12,
-		color = colors.media,
+		color = colors.green,
 		background = {
-			color = colors.inactive_bg,
+			color = colors.surface0,
 			corner_radius = 10,
 			height = 24,
 		}
@@ -30,7 +30,7 @@ local media = sbar.add('item', 'media', {
 	position = 'center',
 	updates = true,
 	background = {
-		color = colors.inactive_bg,
+		color = colors.surface0,
 		corner_radius = 10,
 		height = 24,
 	},

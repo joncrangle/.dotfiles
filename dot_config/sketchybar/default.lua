@@ -10,7 +10,6 @@ sbar.default {
       style = settings.font.style_map['Regular'],
       size = 14.0,
     },
-    color = colors.white,
     padding_left = settings.paddings,
     padding_right = settings.paddings,
   },
@@ -20,7 +19,6 @@ sbar.default {
       style = settings.font.style_map['Semibold'],
       size = 14.0
     },
-    color = colors.white,
     padding_left = settings.paddings,
     padding_right = settings.paddings,
   },
@@ -28,8 +26,8 @@ sbar.default {
     background = {
       border_width = 2,
       corner_radius = 9,
-      border_color = colors.active_bg,
-      color = colors.popup_bg,
+      border_color = colors.mauve,
+      color = colors.crust,
       shadow = { drawing = true },
     },
     blur_radius = 20,

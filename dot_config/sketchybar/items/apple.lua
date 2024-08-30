@@ -9,7 +9,7 @@ local apple_logo = sbar.add('item', 'apple_logo', {
 		font = {
 			size = 16.0,
 		},
-		color = colors.active_bg,
+		color = colors.mauve,
 	},
 	label = { drawing = false },
 	popup = { height = 35 }

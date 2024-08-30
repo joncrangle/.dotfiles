@@ -12,16 +12,16 @@ for i = 1, 10, 1 do
       string = i,
       padding_left = 6,
       padding_right = 4,
-      color = colors.inactive_fg,
+      color = colors.text,
     },
     label = {
       padding_right = 12,
-      color = colors.inactive_fg,
+      color = colors.text,
       font = 'sketchybar-app-font:Regular:12.0',
       y_offset = -1,
     },
     background = {
-      color = colors.inactive_bg,
+      color = colors.surface0,
       corner_radius = 10,
       height = 24,
       padding_left = 4,
@@ -34,15 +34,15 @@ for i = 1, 10, 1 do
   space:subscribe('space_change', function(env)
     if env.SELECTED == 'true' then
       space:set {
-        icon = { string = '' .. ' ' .. i, color = colors.active_fg },
-        label = { color = colors.active_fg },
-        background = { color = colors.active_bg }
+        icon = { string = '' .. ' ' .. i, color = colors.crust },
+        label = { color = colors.crust },
+        background = { color = colors.mauve }
       }
     else
       space:set {
-        icon = { string = '' .. ' ' .. i, color = colors.inactive_fg },
-        label = { color = colors.inactive_fg },
-        background = { color = colors.inactive_bg },
+        icon = { string = '' .. ' ' .. i, color = colors.text },
+        label = { color = colors.text },
+        background = { color = colors.surface0 },
       }
     end
   end)
@@ -54,14 +54,14 @@ for i = 1, 10, 1 do
 
   space:subscribe('mouse.exited', function(env)
     if env.SELECTED == 'true' then
-      space:set { background = { color = colors.active_bg } }
+      space:set { background = { color = colors.mauve } }
     else
-      space:set { icon = { color = colors.inactive_fg }, label = { color = colors.inactive_fg }, background = { color = colors.inactive_bg } }
+      space:set { icon = { color = colors.text }, label = { color = colors.text }, background = { color = colors.surface0 } }
     end
   end)
 
   space:subscribe('mouse.entered', function()
-    space:set { icon = { color = colors.active_fg }, label = { color = colors.active_fg }, background = { color = colors.hover_bg } }
+    space:set { icon = { color = colors.crust }, label = { color = colors.crust }, background = { color = colors.pink } }
   end)
 end
 

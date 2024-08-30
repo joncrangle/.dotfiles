@@ -15,7 +15,7 @@ front_app:subscribe('front_app_switched', function(env)
   front_app:set({
     label = {
       string = env.INFO,
-      color = colors.active_bg
+      color = colors.mauve
     }
   })
 end)
