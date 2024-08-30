@@ -130,11 +130,11 @@ return {
           -- code, if the language server you are using supports them
           --
           -- This may be unwanted, since they displace some of your code
-          -- if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
-          -- 	map("<leader>th", function()
-          -- 		vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
-          -- 	end, "[T]oggle Inlay [H]ints")
-          -- end
+          if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+            map("<leader>ti", function()
+              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
+            end, "[T]oggle [I]nlay Hints")
+          end
         end,
       })
 
@@ -236,16 +236,20 @@ return {
           },
         },
         lua_ls = {
-          -- cmd = {...},
-          -- filetypes = { ...},
-          -- capabilities = {},
           settings = {
             Lua = {
               completion = {
                 callSnippet = 'Replace',
               },
-              -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-              -- diagnostics = { disable = { 'missing-fields' } },
+              hint = {
+                enable = true,
+              },
+              codeLens = {
+                enable = true,
+              },
+              doc = {
+                privateName = { "^_" },
+              },
             },
           },
         },
@@ -253,7 +257,6 @@ return {
         mdx_analyzer = {},
         prismals = {},
         ruff = {},
-        rust_analyzer = {},
         sqlls = {},
         svelte = {},
         tailwindcss = {
@@ -289,6 +292,29 @@ return {
           settings = {
             completions = {
               completeFunctionCalls = true,
+            },
+            javascript = {
+              inlayHints = {
+                includeInlayEnumMemberValueHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+                includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayVariableTypeHints = false,
+              },
+            },
+
+            typescript = {
+              inlayHints = {
+                includeInlayEnumMemberValueHints = true,
+                includeInlayFunctionLikeReturnTypeHints = true,
+                includeInlayFunctionParameterTypeHints = true,
+                includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+                includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+                includeInlayPropertyDeclarationTypeHints = true,
+                includeInlayVariableTypeHints = false,
+              },
             },
           },
         },
@@ -341,6 +367,7 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'biome',
+        'codelldb',
         'delve',
         'goimports',
         'goimports-reviser',
@@ -371,6 +398,54 @@ return {
           end,
         },
       }
+    end,
+  },
+  {
+    'mrcjkb/rustaceanvim',
+    version = '^5',
+    ft = { "rust" },
+    opts = {
+      server = {
+        on_attach = function(_, bufnr)
+          vim.keymap.set("n", "<leader>cR", function()
+            vim.cmd.RustLsp("codeAction")
+          end, { desc = "Code Action", buffer = bufnr })
+          vim.keymap.set("n", "<leader>dr", function()
+            vim.cmd.RustLsp("debuggables")
+          end, { desc = "Rust Debuggables", buffer = bufnr })
+        end,
+        default_settings = {
+          -- rust-analyzer language server configuration
+          ["rust-analyzer"] = {
+            cargo = {
+              allFeatures = true,
+              loadOutDirsFromCheck = true,
+              buildScripts = {
+                enable = true,
+              },
+            },
+            -- Add clippy lints for Rust.
+            checkOnSave = true,
+            procMacro = {
+              enable = true,
+              ignored = {
+                ["async-trait"] = { "async_trait" },
+                ["napi-derive"] = { "napi" },
+                ["async-recursion"] = { "async_recursion" },
+              },
+            },
+          },
+        },
+      },
+    },
+    config = function(_, opts)
+      vim.g.rustaceanvim = vim.tbl_deep_extend("keep", vim.g.rustaceanvim or {}, opts or {})
+      if vim.fn.executable("rust-analyzer") == 0 then
+        LazyVim.error(
+          "**rust-analyzer** not found in PATH, please install it.\nhttps://rust-analyzer.github.io/",
+          { title = "rustaceanvim" }
+        )
+      end
     end,
   },
   {

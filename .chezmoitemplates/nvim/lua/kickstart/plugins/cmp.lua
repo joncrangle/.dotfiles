@@ -66,6 +66,16 @@ return {
         },
       },
 
+      {
+        "Saecki/crates.nvim",
+        event = { "BufRead Cargo.toml" },
+        opts = {
+          completion = {
+            cmp = { enabled = true },
+          },
+        },
+      },
+
       -- Adds other completion capabilities.
       --  nvim-cmp does not ship with all sources by default. They are split
       --  into multiple repos for maintenance purposes.
@@ -125,6 +135,7 @@ return {
           },
           { name = 'nvim_lsp' },
           { name = 'snippets' },
+          { name = 'crates' },
           { name = 'path' },
         },
         ---@diagnostic disable-next-line: missing-fields

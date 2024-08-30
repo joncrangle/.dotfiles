@@ -78,6 +78,8 @@ echo "Fonts installed successfully."
 # Install Brewfile from .config/homebrew
 echo "Installing Brewfile..."
 brew bundle --file="$HOME"/.config/homebrew/Brewfile
+rustup update
+rustup component add rust-analyzer
 ya pack -i
 ya pack -u
 

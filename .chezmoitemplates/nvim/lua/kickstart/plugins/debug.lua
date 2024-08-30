@@ -17,6 +17,7 @@ return {
           require 'neotest-golang',
           require 'neotest-vitest',
           require 'neotest-plenary',
+          require 'rustaceanvim.neotest',
         }
       }
     end,

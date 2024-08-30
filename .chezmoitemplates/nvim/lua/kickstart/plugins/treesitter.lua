@@ -34,6 +34,8 @@ return {
         'markdown',
         'markdown_inline',
         'query',
+        'rust',
+        'ron',
         'typescript',
         'vim',
         'vimdoc',
