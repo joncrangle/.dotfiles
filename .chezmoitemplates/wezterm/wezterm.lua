@@ -20,6 +20,8 @@ require 'keys'.apply_to_config(config)
 require 'links'.apply_to_config(config)
 require 'mouse'.apply_to_config(config)
 require 'tabs'.apply_to_config(config)
+-- require 'tabline'.apply_to_config(config)
+-- require 'tabline'.tabline()
 
 -- Graphics config
 config.front_end = 'WebGpu'
