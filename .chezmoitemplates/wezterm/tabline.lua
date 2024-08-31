@@ -32,7 +32,7 @@ function M.tabline()
       tabline_y = { 'ram' },
       tabline_z = { 'cpu' },
     },
-    extensions = { 'ressurect', 'smart_workspace_switcher' },
+    extensions = { 'resurrect', 'smart_workspace_switcher' },
   })
 end
 
