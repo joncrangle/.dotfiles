@@ -405,6 +405,7 @@ return {
     version = '^5',
     ft = { "rust" },
     opts = {
+      tools = { float_win_config = { border = "rounded" } },
       server = {
         on_attach = function(_, bufnr)
           vim.keymap.set("n", "<leader>cR", function()
@@ -441,10 +442,8 @@ return {
     config = function(_, opts)
       vim.g.rustaceanvim = vim.tbl_deep_extend("keep", vim.g.rustaceanvim or {}, opts or {})
       if vim.fn.executable("rust-analyzer") == 0 then
-        LazyVim.error(
-          "**rust-analyzer** not found in PATH, please install it.\nhttps://rust-analyzer.github.io/",
-          { title = "rustaceanvim" }
-        )
+        vim.notify("rust-analyzer not found in PATH, please install it.\nhttps://rust-analyzer.github.io/",
+          vim.log.levels.ERROR, { title = "rustaceanvim" })
       end
     end,
   },
