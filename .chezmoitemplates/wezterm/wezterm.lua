@@ -19,9 +19,9 @@ require 'docker'.apply_to_config(config)
 require 'keys'.apply_to_config(config)
 require 'links'.apply_to_config(config)
 require 'mouse'.apply_to_config(config)
-require 'tabs'.apply_to_config(config)
--- require 'tabline'.apply_to_config(config)
--- require 'tabline'.tabline()
+-- require 'tabs'.apply_to_config(config)
+require 'tabline'.apply_to_config(config)
+require 'tabline'.tabline()
 
 -- Graphics config
 config.front_end = 'WebGpu'
@@ -203,7 +203,19 @@ wezterm.on('augment-command-palette', function(window, pane)
         action = wezterm.action_callback(function(window, pane, line)
           if line then
             wezterm.mux.rename_workspace(wezterm.mux.get_active_workspace(), line)
-            resurrect.save_state(workspace_state.get_workspace_state())
+          end
+        end),
+      },
+    },
+    {
+      brief = 'Window | Workspace: Rename Window',
+      icon = 'cod_window',
+      action = wezterm.action.PromptInputLine {
+        description = 'Enter new name for window',
+        ---@diagnostic disable-next-line: unused-local, redefined-local
+        action = wezterm.action_callback(function(window, pane, line)
+          if line then
+            window:mux_window():set_title(line)
           end
         end),
       },

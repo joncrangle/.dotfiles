@@ -23,20 +23,22 @@ M.icons = {
   ['kubectl'] = wezterm.nerdfonts.linux_docker,
   ['kuberlr'] = wezterm.nerdfonts.linux_docker,
   ['lazydocker'] = wezterm.nerdfonts.linux_docker,
+  ['lazygit'] = wezterm.nerdfonts.cod_github,
   ['lua'] = wezterm.nerdfonts.seti_lua,
   ['make'] = wezterm.nerdfonts.seti_makefile,
   ['node'] = wezterm.nerdfonts.mdi_hexagon,
   ['nvim'] = wezterm.nerdfonts.custom_neovim,
   ['pacman'] = wezterm.nerdfonts.md_pac_man,
   ['paru'] = wezterm.nerdfonts.md_pac_man,
+  ['powershell.exe'] = wezterm.nerdfonts.md_console,
   ['psql'] = wezterm.nerdfonts.dev_postgresql,
   ['pwsh.exe'] = wezterm.nerdfonts.md_console,
   ['ruby'] = wezterm.nerdfonts.cod_ruby,
   ['sudo'] = wezterm.nerdfonts.fa_hashtag,
   ['vim'] = wezterm.nerdfonts.dev_vim,
   ['wget'] = wezterm.nerdfonts.mdi_arrow_down_box,
+  ['yay'] = wezterm.nerdfonts.md_pac_man,
   ['zsh'] = wezterm.nerdfonts.dev_terminal,
-  ['lazygit'] = wezterm.nerdfonts.cod_github,
 }
 
 function M.title(tab, max_width)
