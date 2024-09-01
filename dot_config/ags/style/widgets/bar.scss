@@ -245,6 +245,7 @@ $button-radius: $radius;
   .messages,
   .datemenu {
     background-color: $bg;
+    color: $accent-fg;
     border-radius: $radius;
 
     &:hover>* {
