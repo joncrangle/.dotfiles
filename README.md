@@ -210,13 +210,19 @@ bash <(curl -s https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup
 ### Paru commands
 
 Install a package
-`paru -S <package>`
+```
+paru -S <package>
+```
 
 Clean package cache
-`paru -Scd`
+```
+paru -Scd
+```
 
 Remove orphaned packages
-`paru -Qdtq | paru -Rns`
+```
+paru -Qdtq | paru -Rns
+```
 
 ## 🧭 Keymapping
 
