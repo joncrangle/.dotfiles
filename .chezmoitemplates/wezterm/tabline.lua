@@ -95,7 +95,7 @@ function M.tabline()
       tabline_y = {},
       tabline_z = {},
     },
-    extensions = { 'ressurect', 'smart_workspace_switcher' }, -- FIX: until 'resurrect' spelling is updated
+    extensions = { 'resurrect', 'smart_workspace_switcher' },
   })
 end
 
