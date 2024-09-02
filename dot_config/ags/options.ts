@@ -113,7 +113,7 @@ const options = mkOptions(OPTIONS, {
 			},
 		},
 		date: {
-			format: opt("%-l:%M %p - %a %b %e, %Y"),
+			format: opt("%-l:%M %p - %a %b %d, %Y"),
 			time: opt("%l:%M %p"),
 			action: opt(() => App.toggleWindow("datemenu")),
 		},

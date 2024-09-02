@@ -230,9 +230,9 @@ chezmoi init --apply git@github.com:joncrangle/.dotfiles.git
 # Install fonts
 echo ":: Installing fonts..."
 fonts_directory="$HOME/.config/fonts"
-user_fonts_folder="$HOME/.config/.local/share/fonts"
+user_fonts_folder="/usr/share/fonts/berkeley-mono"
 if [ ! -d "$user_fonts_folder" ]; then
-    mkdir -p "$user_fonts_folder"
+    sudo mkdir -p "$user_fonts_folder"
 fi
 for font_file in "$fonts_directory"/*.ttf "$fonts_directory"/*.otf; do
     if [ -f "$font_file" ]; then
@@ -286,6 +286,8 @@ packages=(
     "gnome-control-center"
     "gnu-free-fonts"
     "go"
+    "greetd"
+    "greetd-tuigreet"
     "grim"
     "gum"
     "handbrake"
@@ -410,6 +412,11 @@ if [[ -d "${THEME_DIR}" ]]; then
     ln -sf "${THEME_DIR}/gtk-4.0/gtk-dark.css" "${HOME}/.config/gtk-4.0/gtk-dark.css"
 fi
 
+if [[ $(_isInstalledParu "greetd-tuigreet") -eq 0 ]]; then
+    sudo sed -i 's|agreety --cmd /bin/sh|tuigreet --time --time-format '%A, %-d %b %Y - %-I:%M %p' --user-menu --remember --remember-user-session --issue --asterisks --window-padding 2 --theme 'border=magenta;text=cyan;prompt=cyan;time=magenta;action=magenta;button=gray;container=black;input=magenta' --cmd Hyprland|g' /etc/greetd/greetd.conf
+fi
+echo
+
 if [[ $(_isInstalledParu "sddm") -eq 0 ]]; then
     sudo mkdir -p /etc/sddm.conf.d
     sudo ln -s ~/.config/sddm/sddm.conf /etc/sddm.conf.d/sddm.conf
@@ -475,7 +482,7 @@ fi
 
 # Check for ttf-ms-fonts
 if [[ $(_isInstalledParu "ttf-ms-fonts") == 0 ]]; then
-    echo "The script has detected ttf-ms-fonts. This can cause conflicts with icons in Waybar."
+    echo "The script has detected ttf-ms-fonts. This can cause conflicts with icons."
     if gum confirm "Do you want to uninstall ttf-ms-fonts?"; then
         sudo pacman --noconfirm -R ttf-ms-fonts
     fi
@@ -484,12 +491,19 @@ fi
 # Enable services
 echo ":: Enabling services..."
 
-# Check for running sddm.service
+# Check for running display-manager.service
 if [ -f /etc/systemd/system/display-manager.service ]; then
     echo ":: Display Manager is already enabled."
 else
-    sudo systemctl enable sddm.service
-    echo ":: sddm.service enabled successfully."
+    if [[ $(_isInstalledParu "greetd-tuigreet") -eq 0 ]]; then
+        sudo systemctl enable greetd.service
+        echo ":: greetd.service enabled successfully."
+    elif [[ $(_isInstalledParu "sddm") -eq 0 ]]; then
+        sudo systemctl enable sddm.service
+        echo ":: sddm.service enabled successfully."
+    else
+        echo ":: No display manager found."
+    fi
 fi
 
 # Check for running power-profiles-daemon.service
