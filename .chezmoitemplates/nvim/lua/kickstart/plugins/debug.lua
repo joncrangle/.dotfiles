@@ -4,11 +4,13 @@ return {
     cmd = 'Neotest',
     dependencies = {
       'nvim-neotest/nvim-nio',
+      'nvim-neotest/neotest-plenary',
       'nvim-lua/plenary.nvim',
       'antoinemadec/FixCursorHold.nvim',
       'nvim-treesitter/nvim-treesitter',
       'fredrikaverpil/neotest-golang',
       'marilari88/neotest-vitest',
+      'mrcjkb/rustaceanvim',
     },
     config = function()
       ---@diagnostic disable-next-line: missing-fields
