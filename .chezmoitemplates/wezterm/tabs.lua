@@ -47,7 +47,7 @@ function M.title(tab, max_width)
   local process, other = title:match '^(%S+)%s*%-?%s*%s*(.*)$'
   local icon = M.icons[process]
   if not icon then
-    icon = wezterm.nerdfonts.dev_terminal
+    icon = wezterm.nerdfonts.md_application
   end
 
   title = (icon and icon .. ' ' or '')

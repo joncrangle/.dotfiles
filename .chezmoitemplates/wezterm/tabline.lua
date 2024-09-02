@@ -77,7 +77,7 @@ function M.tabline()
         {
           'process',
           padding = { left = 0, right = 1 },
-          fmt = function(str) return icons[str] or '' end
+          fmt = function(str) return icons[str] or wezterm.nerdfonts.md_application end
         }
       },
       tab_inactive = {
@@ -88,7 +88,7 @@ function M.tabline()
         {
           'process',
           padding = { left = 0, right = 1 },
-          fmt = function(str) return icons[str] or '' end
+          fmt = function(str) return icons[str] or wezterm.nerdfonts.md_application end
         }
       },
       tabline_x = {},
