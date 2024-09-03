@@ -56,7 +56,7 @@
             },
             {
               "kind": "Exe",
-              "id": "OUTLOOK.exe",
+              "id": "OUTLOOK.EXE",
               "matching_strategy": "Equals"
             }
           ]
@@ -101,7 +101,7 @@
           "initial_workspace_rules": [
             {
               "kind": "Exe",
-              "id": "ms-edge.exe",
+              "id": "msedge.exe",
               "matching_strategy": "Equals"
             }
           ]
