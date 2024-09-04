@@ -7,10 +7,10 @@ return {
     ft = 'lua',
     cmd = 'LazyDev',
     opts = {
-      { path = 'wezterm-types', mods = { 'wezterm' } },
       library = {
         -- Load luvit types when the `vim.uv` word is found
         { path = 'luvit-meta/library', words = { 'vim%.uv' } },
+        { path = 'wezterm-types',      mods = { 'wezterm' } },
       },
     },
   },
