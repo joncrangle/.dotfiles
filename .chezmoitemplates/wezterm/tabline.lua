@@ -9,6 +9,7 @@ local icons = {
   ['btop'] = wezterm.nerdfonts.md_chart_areaspline,
   ['btop4win++'] = wezterm.nerdfonts.md_chart_areaspline,
   ['cargo'] = wezterm.nerdfonts.dev_rust,
+  ['chezmoi'] = wezterm.nerdfonts.md_home_plus_outline,
   ['cmd.exe'] = wezterm.nerdfonts.md_console_line,
   ['curl'] = wezterm.nerdfonts.mdi_flattr,
   ['debug'] = wezterm.nerdfonts.cod_debug,
@@ -117,7 +118,7 @@ function M.tabline()
           end
         },
       },
-      tabline_x = { '' },
+      tabline_x = { ' ' },
       tabline_y = {},
       tabline_z = { { 'datetime', style = '%I:%M %p' } },
     },
