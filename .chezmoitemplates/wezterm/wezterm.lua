@@ -31,6 +31,11 @@ config.cursor_blink_ease_out = 'Constant'
 --  Colour scheme and UI
 config.adjust_window_size_when_changing_font_size = false
 config.bold_brightens_ansi_colors = true
+local scheme = wezterm.get_builtin_color_schemes()['Catppuccin Mocha']
+scheme.tab_bar.background = 'rgba(30, 30, 46, 0.8)'
+config.color_schemes = {
+  ['Catppuccin Mocha'] = scheme
+}
 config.color_scheme = 'Catppuccin Mocha'
 local modal_bg_color = 'rgba(26, 27, 38, 0.92)'
 local modal_fg_color = '#a9b1d6'
