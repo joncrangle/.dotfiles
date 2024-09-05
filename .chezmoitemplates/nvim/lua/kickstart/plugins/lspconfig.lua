@@ -1,7 +1,6 @@
 return {
   { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
-    event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
       { 'williamboman/mason.nvim', cmd = 'Mason', config = true },
@@ -97,6 +96,28 @@ return {
           --  For example, in C this would take you to the header.
           map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
+          map('<leader>ci', function()
+            vim.lsp.buf.code_action {
+              apply = true,
+              context = {
+                only = { 'source.organizeImports' },
+                diagnostics = {},
+              },
+            }
+          end, 'LSP Organize [I]mports')
+
+          if vim.bo.filetype == 'typescriptreact' then
+            map('<leader>cI', function()
+              vim.lsp.buf.code_action {
+                apply = true,
+                context = {
+                  ---@diagnostic disable-next-line: assign-type-mismatch
+                  only = { 'source.addMissingImports.ts' },
+                  diagnostics = {},
+                },
+              }
+            end, 'LSP Add Missing [I]mport')
+          end
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
           --    See `:help CursorHold` for information about when this is executed
@@ -264,56 +285,30 @@ return {
           filetypes_include = {},
         },
         templ = {},
-        tsserver = {
-          ---@diagnostic disable-next-line: unused-local
-          on_attach = function(client, bufnr)
-            vim.keymap.set('n', '<leader>co', function()
-              vim.lsp.buf.code_action {
-                apply = true,
-                context = {
-                  ---@diagnostic disable-next-line: assign-type-mismatch
-                  only = { 'source.organizeImports.ts' },
-                  diagnostics = {},
-                },
-              }
-            end, { buffer = bufnr, desc = 'Organize Imports' })
-
-            vim.keymap.set('n', '<leader>cR', function()
-              vim.lsp.buf.code_action {
-                apply = true,
-                context = {
-                  ---@diagnostic disable-next-line: assign-type-mismatch
-                  only = { 'source.removeUnused.ts' },
-                  diagnostics = {},
-                },
-              }
-            end, { buffer = bufnr, desc = 'Remove Unused Imports' })
-          end,
+        vtsls = {
           settings = {
-            completions = {
-              completeFunctionCalls = true,
-            },
-            javascript = {
-              inlayHints = {
-                includeInlayEnumMemberValueHints = true,
-                includeInlayFunctionLikeReturnTypeHints = true,
-                includeInlayFunctionParameterTypeHints = true,
-                includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-                includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                includeInlayPropertyDeclarationTypeHints = true,
-                includeInlayVariableTypeHints = false,
+            complete_function_calls = true,
+            vtsls = {
+              enableMoveToFileCodeAction = true,
+              autoUseWorkspaceTsdk = true,
+              experimental = {
+                completion = {
+                  enableServerSideFuzzyMatch = true,
+                },
               },
             },
-
             typescript = {
+              updateImportsOnFileMove = { enabled = 'always' },
+              suggest = {
+                completeFunctionCalls = true,
+              },
               inlayHints = {
-                includeInlayEnumMemberValueHints = true,
-                includeInlayFunctionLikeReturnTypeHints = true,
-                includeInlayFunctionParameterTypeHints = true,
-                includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-                includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-                includeInlayPropertyDeclarationTypeHints = true,
-                includeInlayVariableTypeHints = false,
+                enumMemberValues = { enabled = true },
+                functionLikeReturnTypes = { enabled = true },
+                parameterNames = { enabled = 'literals' },
+                parameterTypes = { enabled = true },
+                propertyDeclarationTypes = { enabled = true },
+                variableTypes = { enabled = false },
               },
             },
           },
