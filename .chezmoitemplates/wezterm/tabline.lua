@@ -107,9 +107,9 @@ function M.tabline()
         },
       },
       tab_inactive = {
-        { Text = wezterm.nerdfonts.cod_triangle_right .. ' ' },
-        { 'zoomed',                                          padding = 0 },
-        { 'tab_index',                                       padding = { left = 0, right = 1 } },
+        { Text = wezterm.nerdfonts.cod_chevron_right .. ' ' },
+        { 'zoomed',                                         padding = 0 },
+        { 'tab_index',                                      padding = { left = 0, right = 1 } },
         {
           'process',
           padding = { left = 0, right = 1 },
