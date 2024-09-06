@@ -1,23 +1,5 @@
 return {
   {
-    'OXY2DEV/markview.nvim',
-    dependencies = {
-      'echasnovski/mini.nvim',
-      'nvim-treesitter/nvim-treesitter',
-    },
-    enabled = false,
-    ft = { 'markdown' },
-    opts = {},
-    keys = {
-      {
-        '<leader>tm',
-        '<cmd>Markview<cr>',
-        ft = 'markdown',
-        desc = '[T]oggle [M]arkview',
-      },
-    },
-  },
-  {
     'MeanderingProgrammer/render-markdown.nvim',
     dependencies = {
       'nvim-treesitter/nvim-treesitter',
@@ -32,6 +14,18 @@ return {
         ft = 'markdown',
         desc = '[T]oggle [M]arkdown',
       },
+    },
+  },
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    ft = { "markdown" },
+    build = "cd app && npm install",
+    init = function()
+      vim.g.mkdp_filetypes = { "markdown" }
+    end,
+    keys = {
+      { "<leader>tp", "<cmd>MarkdownPreviewToggle<cr>", desc = "[T]oggle Markdown [P]review" },
     },
   },
 }
