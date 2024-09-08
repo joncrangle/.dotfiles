@@ -20,6 +20,7 @@ AppData/
 .zshenv
 .config/bat/
 .config/nvim/
+.config/topgrade/
 .config/wezterm/
 .config/yazi/
 .config/zsh/

@@ -189,6 +189,7 @@ Remove-Item -Path Alias:lazy -ErrorAction SilentlyContinue
 Remove-Item -Path Alias:lg -ErrorAction SilentlyContinue
 Remove-Item -Path Alias:lzg -ErrorAction SilentlyContinue
 Remove-Item -Path Alias:lzd -ErrorAction SilentlyContinue
+Remove-Item -Path Alias:tg -ErrorAction SilentlyContinue
 
 function cme {
     Set-Location "`$env:LOCALAPPDATA\chezmoi"
@@ -285,6 +286,11 @@ function take {
     Set-Location -Path `$path
 }
 
+function x
+{
+    exit
+}
+
 function yy {
     `$tmp = [System.IO.Path]::GetTempFileName()
     yazi $args --cwd-file="`$tmp"
@@ -313,6 +319,7 @@ New-Alias -Name lazy -Value lazygit
 New-Alias -Name lg -Value lazygit
 New-Alias -Name lzg -Value lazygit
 New-Alias -Name lzd -Value lazydocker
+New-Alias -Name tg -Value topgrade
 
 Write-Host "`e[38;5;80m         ___                                           `e[0m"
 Write-Host "`e[38;5;80m     . -^   \`--,                                      `e[0m"
@@ -394,7 +401,7 @@ $packages = @(
     "ffmpeg", "glow", "go", "gzip", "JetBrainsMono-NF", "jq", "komorebi", "krita", "lazygit",
     "lazydocker", "lua", "luarocks", "make", "mariadb", "Meslo-NF", "mingw", "neovim", "nodejs",
     "obsidian", "poppler", "pnpm", "postgresql", "python", "ripgrep", "rustup-gnu", "tableplus",
-    "tldr", "tree-sitter", "unar", "unzip", "uv", "vlc", "vcredist2022", "vscode",
+    "tldr", "topgrade", "tree-sitter", "unar", "unzip", "uv", "vlc", "vcredist2022", "vscode",
     "wezterm-nightly", "win32yank", "wget", "whkd", "yarn", "yazi", "yq", "zig", "zoom"
 )
 
@@ -413,7 +420,10 @@ ya pack -i
 ya pack -u
 rustup update
 rustup component add rust-analyzer
+cargo install cargo-update
+cargo install cargo-cache
 cargo install --locked bacon
+pnpm setup
 
 # Add apps to Windows startup
 $links = @(
@@ -421,7 +431,6 @@ $links = @(
     @{ Path = "C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE"; Name = "Microsoft Outlook" },
     @{ Path = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"; Name = "Microsoft Edge" },
     @{ Path = "$env:USERPROFILE\scoop\apps\wezterm-nightly\current\wezterm-gui.exe"; Name = "WezTerm" }
-    @{ Path = "$env:USERPROFILE\.glzr\zebar\zebar.bat"; Name = "Zebar" }
 )
 
 # Path to the Startup folder

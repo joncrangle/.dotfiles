@@ -50,6 +50,13 @@ export BAT_THEME="Catppuccin Mocha"
 # Go
 export GOPATH=$HOME/.go
 
+# pnpm
+export PNPM_HOME="$XDG_DATA_HOME/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
 # Path
 path=(
     {{ if eq .chezmoi.os "darwin" }}

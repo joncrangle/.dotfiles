@@ -156,6 +156,9 @@ echo ":: Installing Rust..."
 rustup default stable
 rustup update
 rustup component add rust-analyzer
+cargo install cargo-update
+cargo install cargo-cache
+cargo install --locked bacon
 
 echo ":: Starting ssh daemon..."
 sudo systemctl enable sshd
@@ -344,6 +347,7 @@ packages=(
     "thunar"
     "thunar-archive-plugin"
     "tldr"
+    "topgrade"
     "ttf-cascadia-code-nerd"
     "ttf-droid"
     "ttf-fira-code"

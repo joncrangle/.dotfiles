@@ -29,6 +29,7 @@ alias l="eza --icons"
 alias ll="eza -l --icons"
 alias la="eza -la --icons"
 alias reload='exec zsh -l'
+alias tg='topgrade'
 alias top="btop"
 alias tree="eza -T --icons --level=2"
 alias v=$EDITOR
