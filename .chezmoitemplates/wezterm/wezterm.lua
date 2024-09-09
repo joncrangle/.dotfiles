@@ -117,20 +117,19 @@ resurrect.set_encryption {
   enable = true,
   method = encryption_method,
   private_key = wezterm.home_dir .. separator .. '.config' .. separator .. 'key.txt',
-  public_key = 'age1jgcaj9yy8nldpp2969kgxf97re59v6ydnk5ctz02z8anc4522pxswpcqf2',
+  public_key = '{{- .chezmoi.config.age.recipient -}}',
 }
 resurrect.periodic_save()
 resurrect.set_max_nlines(1000)
 
 --Workspaces
-local colors = wezterm.get_builtin_color_schemes()['Catppuccin Mocha']
 local workspace_switcher = wezterm.plugin.require 'https://github.com/MLFlexer/smart_workspace_switcher.wezterm'
 local workspace_state = resurrect.workspace_state
 workspace_switcher.workspace_formatter = function(label)
   return wezterm.format {
     { Attribute = { Italic = true } },
-    { Foreground = { Color = colors.ansi[3] } },
-    { Background = { Color = colors.background } },
+    { Foreground = { Color = scheme.ansi[3] } },
+    { Background = { Color = scheme.background } },
     { Text = '󱂬 : ' .. label },
   }
 end
@@ -166,7 +165,7 @@ end
 wezterm.on('smart_workspace_switcher.workspace_switcher.created', function(window, path, label)
   window:gui_window():set_right_status(wezterm.format {
     { Attribute = { Intensity = 'Bold' } },
-    { Foreground = { Color = colors.ansi[5] } },
+    { Foreground = { Color = scheme.ansi[5] } },
     { Text = basename(path) .. '  ' },
   })
   workspace_state.restore_workspace(resurrect.load_state(label, 'workspace'), {
@@ -181,7 +180,7 @@ end)
 wezterm.on('smart_workspace_switcher.workspace_switcher.chosen', function(window, path, label)
   window:gui_window():set_right_status(wezterm.format {
     { Attribute = { Intensity = 'Bold' } },
-    { Foreground = { Color = colors.ansi[5] } },
+    { Foreground = { Color = scheme.ansi[5] } },
     { Text = basename(path) .. '  ' },
   })
 end)

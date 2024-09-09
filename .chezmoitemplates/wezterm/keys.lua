@@ -3,6 +3,7 @@ local act = wezterm.action
 
 local resurrect = wezterm.plugin.require 'https://github.com/MLFlexer/resurrect.wezterm'
 local workspace_switcher = wezterm.plugin.require 'https://github.com/MLFlexer/smart_workspace_switcher.wezterm'
+local domains = wezterm.plugin.require "https://github.com/DavidRR-F/quick_domains.wezterm"
 
 local M = {}
 
@@ -140,6 +141,20 @@ function M.apply_to_config(config)
   for i = 1, 9 do
     table.insert(config.keys, { mods = 'CTRL', key = tostring(i), action = act { ActivateTab = i - 1 } })
   end
+
+  -- Domains
+  domains.apply_to_config(
+    config,
+    {
+      keys = {
+        attach = {
+          key  = 'D',
+          mods = 'ALT|SHIFT',
+          tbl  = ''
+        }
+      }
+    }
+  )
 end
 
 return M
