@@ -99,7 +99,6 @@ return {
       require('mini.pairs').setup(pairs_opts)
       custom_pairs(pairs_opts)
 
-
       -- Icon provider
       require('mini.icons').setup {
         file = {

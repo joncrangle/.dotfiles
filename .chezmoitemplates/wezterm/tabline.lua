@@ -1,78 +1,25 @@
 local wezterm = require 'wezterm'
+local colors = wezterm.get_builtin_color_schemes()['Catppuccin Mocha']
 
 local M = {}
 
-local icons = {
-  ['air'] = wezterm.nerdfonts.md_language_go,
-  ['apt'] = wezterm.nerdfonts.dev_debian,
-  ['bacon'] = '🥓',
-  ['bash'] = wezterm.nerdfonts.cod_terminal_bash,
-  ['bat'] = wezterm.nerdfonts.md_bat,
-  ['btm'] = wezterm.nerdfonts.md_chart_donut_variant,
-  ['btop'] = wezterm.nerdfonts.md_chart_areaspline,
-  ['btop4win++'] = wezterm.nerdfonts.md_chart_areaspline,
-  ['cargo'] = wezterm.nerdfonts.dev_rust,
-  ['chezmoi'] = wezterm.nerdfonts.md_home_plus_outline,
-  ['cmd.exe'] = wezterm.nerdfonts.md_console_line,
-  ['curl'] = wezterm.nerdfonts.md_flattr,
-  ['debug'] = wezterm.nerdfonts.cod_debug,
-  ['default'] = wezterm.nerdfonts.md_application,
-  ['docker'] = wezterm.nerdfonts.linux_docker,
-  ['docker-compose'] = wezterm.nerdfonts.linux_docker,
-  ['dpkg'] = wezterm.nerdfonts.dev_debian,
-  ['fish'] = wezterm.nerdfonts.md_fish,
-  ['gh'] = wezterm.nerdfonts.dev_github_badge,
-  ['git'] = wezterm.nerdfonts.dev_git,
-  ['go'] = wezterm.nerdfonts.md_language_go,
-  ['htop'] = wezterm.nerdfonts.md_chart_areaspline,
-  ['kubectl'] = wezterm.nerdfonts.linux_docker,
-  ['kuberlr'] = wezterm.nerdfonts.linux_docker,
-  ['lazydocker'] = wezterm.nerdfonts.linux_docker,
-  ['lazygit'] = wezterm.nerdfonts.cod_github,
-  ['lua'] = wezterm.nerdfonts.seti_lua,
-  ['make'] = wezterm.nerdfonts.seti_makefile,
-  ['nix'] = wezterm.nerdfonts.linux_nixos,
-  ['node'] = wezterm.nerdfonts.md_nodejs,
-  ['npm'] = wezterm.nerdfonts.md_npm,
-  ['nvim'] = wezterm.nerdfonts.custom_neovim,
-  ['pacman'] = wezterm.nerdfonts.md_pac_man,
-  ['paru'] = wezterm.nerdfonts.md_pac_man,
-  ['pnpm'] = wezterm.nerdfonts.md_npm,
-  ['postgresql'] = wezterm.nerdfonts.dev_postgresql,
-  ['powershell.exe'] = wezterm.nerdfonts.md_console,
-  ['psql'] = wezterm.nerdfonts.dev_postgresql,
-  ['pwsh.exe'] = wezterm.nerdfonts.md_console,
-  ['rpm'] = wezterm.nerdfonts.dev_redhat,
-  ['redis'] = wezterm.nerdfonts.dev_redis,
-  ['ruby'] = wezterm.nerdfonts.cod_ruby,
-  ['rust'] = wezterm.nerdfonts.dev_rust,
-  ['serial'] = wezterm.nerdfonts.md_serial_port,
-  ['ssh'] = wezterm.nerdfonts.md_pipe,
-  ['sudo'] = wezterm.nerdfonts.fa_hashtag,
-  ['tls'] = wezterm.nerdfonts.md_power_socket,
-  ['topgrade'] = wezterm.nerdfonts.md_rocket_launch,
-  ['unix'] = wezterm.nerdfonts.md_bash,
-  ['valkey'] = wezterm.nerdfonts.dev_redis,
-  ['vim'] = wezterm.nerdfonts.dev_vim,
-  ['wget'] = wezterm.nerdfonts.md_arrow_down_box,
-  ['yarn'] = wezterm.nerdfonts.seti_yarn,
-  ['yay'] = wezterm.nerdfonts.md_pac_man,
-  ['yum'] = wezterm.nerdfonts.dev_redhat,
-  ['zsh'] = wezterm.nerdfonts.dev_terminal,
+local process_to_icon = {
+  ['air'] = { wezterm.nerdfonts.md_language_go, color = { fg = colors.ansi[5] } },
+  ['bacon'] = { wezterm.nerdfonts.dev_rust, color = { fg = colors.ansi[2] } },
+  ['debug'] = { wezterm.nerdfonts.cod_debug, color = { fg = colors.ansi[2] } },
+  ['gh'] = { wezterm.nerdfonts.cod_github, color = { fg = colors.ansi[3] } },
+  ['git'] = { wezterm.nerdfonts.cod_git, color = { fg = colors.ansi[3] } },
+  ['go'] = { wezterm.nerdfonts.md_language_go, color = { fg = colors.ansi[5] } },
+  ['lazygit'] = { wezterm.nerdfonts.cod_git, color = { fg = colors.ansi[3] } },
+  ['nvim'] = { wezterm.nerdfonts.cod_git, color = { fg = colors.ansi[6] } },
+  ['pacman'] = { wezterm.nerdfonts.cod_git, color = { fg = colors.ansi[4] } },
+  ['paru'] = { wezterm.nerdfonts.cod_git, color = { fg = colors.ansi[4] } },
+  ['rust'] = { wezterm.nerdfonts.dev_rust, color = { fg = colors.ansi[2] } },
+  ['vim'] = { wezterm.nerdfonts.cod_git, color = { fg = colors.ansi[6] } },
 }
-
-local function get_icon(str)
-  for k, v in pairs(icons) do
-    if str:lower():match("^" .. k) then
-      return v
-    end
-  end
-  return icons['default']
-end
 
 function M.tabline()
   local tabline = wezterm.plugin.require 'https://github.com/michaelbrusegard/tabline.wez'
-  local colors = wezterm.get_builtin_color_schemes()['Catppuccin Mocha']
 
   tabline.setup({
     options = {
@@ -107,9 +54,8 @@ function M.tabline()
         {
           'process',
           padding = { left = 0, right = 1 },
-          fmt = function(str)
-            return get_icon(str)
-          end
+          icons_only = true,
+          process_to_icon = process_to_icon,
         },
       },
       tab_inactive = {
@@ -119,9 +65,8 @@ function M.tabline()
         {
           'process',
           padding = { left = 0, right = 1 },
-          fmt = function(str)
-            return get_icon(str)
-          end
+          icons_only = true,
+          process_to_icon = process_to_icon,
         },
       },
       tabline_x = { ' ' },
