@@ -128,7 +128,7 @@ function M.tabline()
       tabline_y = {},
       tabline_z = { { 'datetime', style = '%I:%M %p' } },
     },
-    extensions = { 'resurrect', 'smart_workspace_switcher' },
+    extensions = { 'resurrect', 'smart_workspace_switcher', 'quick_domains' },
   })
 end
 

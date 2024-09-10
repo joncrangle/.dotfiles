@@ -190,6 +190,16 @@ wezterm.on('smart_workspace_switcher.workspace_switcher.selected', function(wind
   resurrect.save_state(workspace_state.get_workspace_state())
 end)
 
+-- Domains
+local domains = wezterm.plugin.require "https://github.com/DavidRR-F/quick_domains.wezterm"
+domains.formatter = function(icon, name)
+  return wezterm.format({
+    { Foreground = { Color = scheme.ansi[5] } },
+    { Background = { Color = scheme.background } },
+    { Text = icon .. ' ' .. name },
+  })
+end
+
 ---@diagnostic disable-next-line: unused-local
 wezterm.on('augment-command-palette', function(window, pane)
   return {
