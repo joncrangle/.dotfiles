@@ -191,29 +191,39 @@ Remove-Item -Path Alias:lzg -ErrorAction SilentlyContinue
 Remove-Item -Path Alias:lzd -ErrorAction SilentlyContinue
 Remove-Item -Path Alias:tg -ErrorAction SilentlyContinue
 
-function cme {
+function cme
+{
     Set-Location "`$env:LOCALAPPDATA\chezmoi"
 }
 
-function cmu {
+function cmu
+{
     chezmoi update && chezmoi apply
 }
 
-function copy-line {
+function copy-line
+{
     # Ensure rg, fzf, and bat are available
     `$rgPath = Get-Command rg -ErrorAction SilentlyContinue
     `$fzfPath = Get-Command fzf -ErrorAction SilentlyContinue
     `$batPath = Get-Command bat -ErrorAction SilentlyContinue
 
-    if (-not `$rgPath) { Write-Host "rg (ripgrep) is not installed."; return }
-    if (-not `$fzfPath) { Write-Host "fzf is not installed."; return }
-    if (-not `$batPath) { Write-Host "bat is not installed."; return }
+    if (-not `$rgPath)
+    { Write-Host "rg (ripgrep) is not installed."; return
+    }
+    if (-not `$fzfPath)
+    { Write-Host "fzf is not installed."; return
+    }
+    if (-not `$batPath)
+    { Write-Host "bat is not installed."; return
+    }
 
     # Run rg and pipe to fzf
     `$selected = rg --line-number . | fzf --delimiter ':' --preview 'bat --color=always --highlight-line {2} {1}'
 
     # Extract the line content
-    if (`$selected) {
+    if (`$selected)
+    {
         `$parts = `$selected -split ':'
         `$lineContent = `$parts[2..(`$parts.Length - 1)] -join ':'
         `$lineContent = `$lineContent.Trim()
@@ -225,39 +235,53 @@ function copy-line {
     }
 }
 
-function ListWithIcons {
+function ListWithIcons
+{
     eza --icons
 }
 
-function ListLongWithIcons {
+function ListLongWithIcons
+{
     eza -l --icons
 }
 
-function ListAllWithIcons {
+function ListAllWithIcons
+{
     eza -la --icons
 }
 
-function ListTreeWithIcons {
+function ListTreeWithIcons
+{
     eza -T --icons
 }
 
-function open-at-line {
+function open-at-line
+{
     # Ensure rg, fzf, bat, and nvim are available
     `$rgPath = Get-Command rg -ErrorAction SilentlyContinue
     `$fzfPath = Get-Command fzf -ErrorAction SilentlyContinue
     `$batPath = Get-Command bat -ErrorAction SilentlyContinue
     `$nvimPath = Get-Command nvim -ErrorAction SilentlyContinue
 
-    if (-not `$rgPath) { Write-Host "rg (ripgrep) is not installed."; return }
-    if (-not `$fzfPath) { Write-Host "fzf is not installed."; return }
-    if (-not `$batPath) { Write-Host "bat is not installed."; return }
-    if (-not `$nvimPath) { Write-Host "nvim (Neovim) is not installed."; return }
+    if (-not `$rgPath)
+    { Write-Host "rg (ripgrep) is not installed."; return
+    }
+    if (-not `$fzfPath)
+    { Write-Host "fzf is not installed."; return
+    }
+    if (-not `$batPath)
+    { Write-Host "bat is not installed."; return
+    }
+    if (-not `$nvimPath)
+    { Write-Host "nvim (Neovim) is not installed."; return
+    }
 
     # Run rg and pipe to fzf
     `$selected = rg --line-number . | fzf --delimiter ':' --preview 'bat --color=always --highlight-line {2} {1}'
 
     # Extract the line number and file path
-    if (`$selected) {
+    if (`$selected)
+    {
         `$parts = `$selected -split ':'
         `$lineNumber = `$parts[1]
         `$filePath = `$parts[0]
@@ -267,18 +291,21 @@ function open-at-line {
     }
 }
 
-function scoop-upgrade {
+function scoop-upgrade
+{
     scoop update -a
     scoop cleanup -a
 }
 
-function take {
+function take
+{
     param (
         [string]`$path
     )
 
     # Create the directory if it does not exist
-    if (-Not (Test-Path -Path `$path)) {
+    if (-Not (Test-Path -Path `$path))
+    {
         New-Item -ItemType Directory -Path `$path | Out-Null
     }
 
@@ -286,16 +313,34 @@ function take {
     Set-Location -Path `$path
 }
 
+function up
+{
+    param (
+        [int]$count = 1
+    )
+
+    if ($count -lt 1)
+    {
+        Write-Host "The number of directories to go up must be a positive integer."
+        return
+    }
+
+    $path = ('..\' * $count).TrimEnd('\')
+    Set-Location $path
+}
+
 function x
 {
     exit
 }
 
-function yy {
+function yy
+{
     `$tmp = [System.IO.Path]::GetTempFileName()
     yazi $args --cwd-file="`$tmp"
     `$cwd = Get-Content -Path `$tmp
-    if (-not [String]::IsNullOrEmpty(`$cwd) -and `$cwd -ne `$PWD.Path) {
+    if (-not [String]::IsNullOrEmpty(`$cwd) -and `$cwd -ne `$PWD.Path)
+    {
         Set-Location -LiteralPath `$cwd
     }
     Remove-Item -Path `$tmp
@@ -343,7 +388,8 @@ Write-Host ""
 `$prompt = ""
 function Invoke-Starship-PreCommand {
     `$current_location = `$executionContext.SessionState.Path.CurrentLocation
-    if (`$current_location.Provider.Name -eq "FileSystem") {
+    if (`$current_location.Provider.Name -eq "FileSystem")
+    {
         `$ansi_escape = [char]27
         `$provider_path = `$current_location.ProviderPath -replace "\\", "/"
         `$prompt = "`$ansi_escape]7;file://`${env:COMPUTERNAME}/`${provider_path}`$ansi_escape\"
