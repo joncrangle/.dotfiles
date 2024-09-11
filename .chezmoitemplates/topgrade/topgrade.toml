@@ -184,7 +184,7 @@ arch_package_manager = "paru"
  repos = [ "~/Code/*/" ]
 {{- end -}}
 {{- if eq .chezmoi.os "windows" }}
- repos = [ "$env:USERPROFILE\\Downloads\\Code\\*\\" ]
+ repos = [ "~\\Downloads\\Code\\*\\" ]
 {{- end }}
 
 # Don't pull the predefined git repos
