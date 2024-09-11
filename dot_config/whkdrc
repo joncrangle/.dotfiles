@@ -13,7 +13,7 @@ alt + e                 : if ($wshell.AppActivate('Edge') -eq $False) { start ed
 alt + f                 : if ($wshell.AppActivate('Explorer') -eq $False) { start explorer }
 
 alt + q                 : komorebic close
-alt + m                 : komorebic minimize
+alt + shift + m         : komorebic minimize
 
 # Focus windows
 alt + h                 : komorebic focus left
