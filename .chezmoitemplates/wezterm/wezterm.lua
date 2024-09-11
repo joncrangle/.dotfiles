@@ -55,7 +55,6 @@ config.scrollback_lines = 5000
 config.underline_thickness = 3
 config.underline_position = -6
 config.warn_about_missing_glyphs = false
-config.window_background_opacity = 0.8
 config.window_close_confirmation = 'AlwaysPrompt'
 config.window_padding = { left = 6, right = 6, top = 6, bottom = 0 }
 
@@ -65,17 +64,22 @@ local secondary_font = 'IosevkaTerm Nerd Font'
 -- Windows, MacOS and Linux
 if wezterm.target_triple:find 'windows' then
   config.default_prog = { 'pwsh.exe', '-NoLogo' }
+  config.window_background_opacity = 0.2
   config.window_decorations = 'RESIZE'
+  config.win32_system_backdrop = 'Acrylic'
   font_size = 11
 elseif wezterm.target_triple:find 'linux' then
   config.term = 'wezterm'
   config.window_decorations = 'NONE'
   config.enable_wayland = true
   config.webgpu_power_preference = 'LowPower'
+  config.window_background_opacity = 0.8
   font_size = 14
   secondary_font = 'Iosevka Term'
 else
   config.default_prog = { '/opt/homebrew/bin/zsh', '-l' }
+  config.macos_window_background_blur = 20
+  config.window_background_opacity = 0.3
   config.window_decorations = 'RESIZE'
   font_size = 16
 end
