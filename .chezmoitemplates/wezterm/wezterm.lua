@@ -79,7 +79,7 @@ elseif wezterm.target_triple:find 'linux' then
 else
   config.default_prog = { '/opt/homebrew/bin/zsh', '-l' }
   config.macos_window_background_blur = 20
-  config.window_background_opacity = 0.3
+  config.window_background_opacity = 0.6
   config.window_decorations = 'RESIZE'
   font_size = 16
 end
