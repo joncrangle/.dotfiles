@@ -37,7 +37,7 @@ return {
         -- Skip autopair when next character is one of these
         skip_next = [=[[%w%%%'%[%"%.%`%$]]=],
         -- Skip autopair when the cursor is inside these Treesitter nodes
-        skip_ts = { "string" },
+        skip_ts = { 'string' },
         -- Skip autopair when the next character is a closing pair
         -- and there are more closing pairs than opening pairs
         skip_unbalanced = true,
@@ -46,7 +46,7 @@ return {
       }
 
       local function custom_pairs(opts)
-        local pairs = require("mini.pairs")
+        local pairs = require('mini.pairs')
         pairs.setup(opts)
 
         -- Overriding the open function
@@ -63,7 +63,7 @@ return {
           local before = line:sub(1, cursor[2])
 
           -- Handle markdown code blocks
-          if opts.markdown and o == "`" and vim.bo.filetype == "markdown" and before:match("^%s*``") then
+          if opts.markdown and o == '`' and vim.bo.filetype == 'markdown' and before:match("^%s*``") then
             return "`\n```" .. vim.api.nvim_replace_termcodes("<up>", true, true, true)
           end
 
@@ -106,13 +106,26 @@ return {
           ['.chezmoiremove'] = { glyph = '', hl = 'MiniIconsGrey' },
           ['.chezmoiroot'] = { glyph = '', hl = 'MiniIconsGrey' },
           ['.chezmoiversion'] = { glyph = '', hl = 'MiniIconsGrey' },
+          ['.eslintrc.js'] = { glyph = '󰱺', hl = 'MiniIconsYellow' },
+          ['.go-version'] = { glyph = '', hl = 'MiniIconsBlue' },
+          ['.node-version'] = { glyph = '', hl = 'MiniIconsGreen' },
+          ['.prettierrc'] = { glyph = '', hl = 'MiniIconsPurple' },
+          ['.yarnrc.yml'] = { glyph = '', hl = 'MiniIconsBlue' },
           ['bash.tmpl'] = { glyph = '', hl = 'MiniIconsGrey' },
+          ['eslint.config.js'] = { glyph = '󰱺', hl = 'MiniIconsYellow' },
           ['json.tmpl'] = { glyph = '', hl = 'MiniIconsGrey' },
+          ['package.json'] = { glyph = "', hl = 'MiniIconsGreen" },
           ['ps1.tmpl'] = { glyph = '󰨊', hl = 'MiniIconsGrey' },
           ['sh.tmpl'] = { glyph = '', hl = 'MiniIconsGrey' },
           ['toml.tmpl'] = { glyph = '', hl = 'MiniIconsGrey' },
+          ['tsconfig.build.json'] = { glyph = '', hl = 'MiniIconsAzure' },
+          ['tsconfig.json'] = { glyph = "', hl = 'MiniIconsAzure" },
           ['yaml.tmpl'] = { glyph = '', hl = 'MiniIconsGrey' },
+          ['yarn.lock'] = { glyph = '', hl = 'MiniIconsBlue' },
           ['zsh.tmpl'] = { glyph = '', hl = 'MiniIconsGrey' },
+        },
+        filetype = {
+          gotmpl = { glyph = '󰟓', hl = 'MiniIconsGrey' },
         },
       }
       -- Until other plugins support mini.icons natively

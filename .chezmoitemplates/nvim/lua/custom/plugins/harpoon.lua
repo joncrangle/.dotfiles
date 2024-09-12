@@ -63,11 +63,11 @@ return {
     end,
   },
   {
-    "cbochs/grapple.nvim",
+    'cbochs/grapple.nvim',
     lazy = true,
     dependencies = { 'echasnovski/mini.nvim' },
     opts = {
-      scope = "cwd",
+      scope = 'cwd',
       icons = true,
       tag_title = function() return 'Grapple Tags' end,
       win_opts = {
@@ -78,8 +78,8 @@ return {
     },
     keys = function()
       local keys = {
-        { "<leader>a", "<cmd>Grapple toggle<cr>",      desc = "Tag a file" },
-        { "<leader>h", "<cmd>Grapple toggle_tags<cr>", desc = "Toggle tags menu" },
+        { '<leader>a', '<cmd>Grapple toggle<cr>',      desc = 'Tag a file' },
+        { '<leader>h', '<cmd>Grapple toggle_tags<cr>', desc = 'Toggle tags menu' },
       }
 
       for i = 1, 9 do

@@ -2,7 +2,7 @@ return {
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
     -- FIX: temp pin see: https://github.com/hrsh7th/nvim-cmp/issues/1877
-    commit = "b356f2c",
+    commit = 'b356f2c',
     pin = true,
     event = { 'InsertEnter', 'CmdlineEnter' },
     dependencies = {

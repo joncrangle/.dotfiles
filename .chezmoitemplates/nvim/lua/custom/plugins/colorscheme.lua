@@ -37,13 +37,13 @@ return {
       native_lsp = {
         enabled = true,
         underlines = {
-          errors = { "undercurl" },
-          hints = { "undercurl" },
-          warnings = { "undercurl" },
-          information = { "undercurl" },
+          errors = { 'undercurl' },
+          hints = { 'undercurl' },
+          warnings = { 'undercurl' },
+          information = { 'undercurl' },
         },
       },
-      navic = { enabled = true, custom_bg = "lualine" },
+      navic = { enabled = true, custom_bg = 'lualine' },
       neotest = true,
       neotree = true,
       noice = true,
@@ -72,7 +72,7 @@ return {
     },
   },
   {
-    "scottmckendry/cyberdream.nvim",
+    'scottmckendry/cyberdream.nvim',
     enabled = false,
     priority = 1000,
     init = function()
@@ -114,9 +114,9 @@ return {
       overrides = function(colors)
         local theme = colors.theme
         return {
-          NormalFloat = { bg = "none" },
-          FloatBorder = { bg = "none" },
-          FloatTitle = { bg = "none" },
+          NormalFloat = { bg = 'none' },
+          FloatBorder = { bg = 'none' },
+          FloatTitle = { bg = 'none' },
           -- Save an hlgroup with dark background and dimmed foreground
           -- so that you can use it where your still want darker windows.
           -- E.g.: autocmd TermOpen * setlocal winhighlight=Normal:NormalDark
@@ -133,7 +133,7 @@ return {
           TelescopePreviewNormal = { bg = theme.ui.bg_dim },
           TelescopePreviewBorder = { bg = theme.ui.bg_dim, fg = theme.ui.bg_dim },
           Pmenu = { fg = theme.ui.shade0, bg = theme.ui.bg_p1 }, -- add `blend = vim.o.pumblend` to enable transparency
-          PmenuSel = { fg = "NONE", bg = theme.ui.bg_p2 },
+          PmenuSel = { fg = 'NONE', bg = theme.ui.bg_p2 },
           PmenuSbar = { bg = theme.ui.bg_m1 },
           PmenuThumb = { bg = theme.ui.bg_p2 },
         }
@@ -169,7 +169,7 @@ return {
   {
     'rose-pine/neovim',
     enabled = false,
-    name = "rose-pine",
+    name = 'rose-pine',
     priority = 1000,
     init = function()
       vim.cmd.colorscheme 'rose-pine'
@@ -179,7 +179,7 @@ return {
     },
   },
   {
-    "Mofiqul/dracula.nvim",
+    'Mofiqul/dracula.nvim',
     enabled = false,
     priority = 1000,
     init = function()

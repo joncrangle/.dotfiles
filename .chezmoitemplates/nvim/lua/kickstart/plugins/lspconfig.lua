@@ -270,7 +270,7 @@ return {
                 enable = true,
               },
               doc = {
-                privateName = { "^_" },
+                privateName = { '^_' },
               },
             },
           },
@@ -401,16 +401,16 @@ return {
     version = '^5',
     ft = { "rust" },
     opts = {
-      tools = { float_win_config = { border = "rounded" } },
+      tools = { float_win_config = { border = 'rounded' } },
       server = {
         on_attach = function(_, bufnr)
-          vim.keymap.set("n", "<leader>dr", function()
-            vim.cmd.RustLsp("debuggables")
-          end, { desc = "Rust Debuggables", buffer = bufnr })
+          vim.keymap.set('n', '<leader>dr', function()
+            vim.cmd.RustLsp('debuggables')
+          end, { desc = 'Rust Debuggables', buffer = bufnr })
         end,
         default_settings = {
           -- rust-analyzer language server configuration
-          ["rust-analyzer"] = {
+          ['rust-analyzer'] = {
             cargo = {
               allFeatures = true,
               loadOutDirsFromCheck = true,
@@ -433,10 +433,10 @@ return {
       },
     },
     config = function(_, opts)
-      vim.g.rustaceanvim = vim.tbl_deep_extend("keep", vim.g.rustaceanvim or {}, opts or {})
-      if vim.fn.executable("rust-analyzer") == 0 then
-        vim.notify("rust-analyzer not found in PATH, please install it.\nhttps://rust-analyzer.github.io/",
-          vim.log.levels.ERROR, { title = "rustaceanvim" })
+      vim.g.rustaceanvim = vim.tbl_deep_extend('keep', vim.g.rustaceanvim or {}, opts or {})
+      if vim.fn.executable('rust-analyzer') == 0 then
+        vim.notify('rust-analyzer not found in PATH, please install it.\nhttps://rust-analyzer.github.io/',
+          vim.log.levels.ERROR, { title = 'rustaceanvim' })
       end
     end,
   },
