@@ -4,18 +4,7 @@ local colors = wezterm.get_builtin_color_schemes()['Catppuccin Mocha']
 local M = {}
 
 local process_to_icon = {
-  ['air'] = { wezterm.nerdfonts.md_language_go, color = { fg = colors.ansi[5] } },
-  ['bacon'] = { wezterm.nerdfonts.dev_rust, color = { fg = colors.ansi[2] } },
-  ['debug'] = { wezterm.nerdfonts.cod_debug, color = { fg = colors.ansi[2] } },
-  ['gh'] = { wezterm.nerdfonts.cod_github, color = { fg = colors.ansi[3] } },
-  ['git'] = { wezterm.nerdfonts.cod_git, color = { fg = colors.ansi[3] } },
-  ['go'] = { wezterm.nerdfonts.md_language_go, color = { fg = colors.ansi[5] } },
-  ['lazygit'] = { wezterm.nerdfonts.cod_git, color = { fg = colors.ansi[3] } },
-  ['nvim'] = { wezterm.nerdfonts.cod_git, color = { fg = colors.ansi[6] } },
-  ['pacman'] = { wezterm.nerdfonts.cod_git, color = { fg = colors.ansi[4] } },
-  ['paru'] = { wezterm.nerdfonts.cod_git, color = { fg = colors.ansi[4] } },
-  ['rust'] = { wezterm.nerdfonts.dev_rust, color = { fg = colors.ansi[2] } },
-  ['vim'] = { wezterm.nerdfonts.cod_git, color = { fg = colors.ansi[6] } },
+  ['nvim'] = { color = { fg = colors.compose_cursor } },
 }
 
 function M.tabline()
