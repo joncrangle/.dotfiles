@@ -51,12 +51,12 @@
           "initial_workspace_rules": [
             {
               "kind": "Exe",
-              "id": "ms-teams.exe",
+              "id": "OUTLOOK.EXE",
               "matching_strategy": "Equals"
             },
             {
               "kind": "Exe",
-              "id": "OUTLOOK.EXE",
+              "id": "ms-teams.exe",
               "matching_strategy": "Equals"
             }
           ]
