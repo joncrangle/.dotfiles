@@ -33,9 +33,6 @@ config.adjust_window_size_when_changing_font_size = false
 config.bold_brightens_ansi_colors = true
 local scheme = wezterm.get_builtin_color_schemes()['Catppuccin Mocha']
 scheme.tab_bar.background = 'rgba(30, 30, 46, 0.8)'
-config.color_schemes = {
-  ['Catppuccin Mocha'] = scheme
-}
 config.color_scheme = 'Catppuccin Mocha'
 local modal_bg_color = 'rgba(26, 27, 38, 0.92)'
 local modal_fg_color = '#a9b1d6'
@@ -43,6 +40,9 @@ config.command_palette_bg_color = modal_bg_color
 config.command_palette_fg_color = modal_fg_color
 config.char_select_bg_color = modal_bg_color
 config.char_select_fg_color = modal_fg_color
+config.color_schemes = {
+  ['Catppuccin Mocha'] = scheme
+}
 config.cursor_thickness = 2
 config.default_cursor_style = 'BlinkingBar'
 config.force_reverse_video_cursor = true
