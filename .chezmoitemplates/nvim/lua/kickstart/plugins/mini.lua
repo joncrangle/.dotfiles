@@ -112,6 +112,8 @@ return {
           ['.prettierrc'] = { glyph = '', hl = 'MiniIconsPurple' },
           ['.yarnrc.yml'] = { glyph = '', hl = 'MiniIconsBlue' },
           ['bash.tmpl'] = { glyph = '', hl = 'MiniIconsGrey' },
+          ['docker-compose.yml'] = { glyph = '', hl = 'MiniIconsBlue' },
+          ['docker-compose.yaml'] = { glyph = '', hl = 'MiniIconsBlue' },
           ['eslint.config.js'] = { glyph = '󰱺', hl = 'MiniIconsYellow' },
           ['json.tmpl'] = { glyph = '', hl = 'MiniIconsGrey' },
           ['package.json'] = { glyph = '', hl = 'MiniIconsGreen' },
@@ -125,6 +127,7 @@ return {
           ['zsh.tmpl'] = { glyph = '', hl = 'MiniIconsGrey' },
         },
         filetype = {
+          dockerfile = { glyph = '', hl = 'MiniIconsBlue' },
           gotmpl = { glyph = '󰟓', hl = 'MiniIconsGrey' },
         },
       }
