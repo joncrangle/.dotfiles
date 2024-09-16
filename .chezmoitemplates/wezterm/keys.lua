@@ -151,8 +151,18 @@ function M.apply_to_config(config)
           key  = 'D',
           mods = 'ALT|SHIFT',
           tbl  = ''
-        }
-      }
+        },
+        vsplit = {
+          key  = 'v',
+          mods = 'ALT|SHIFT',
+          tbl  = ''
+        },
+        hsplit = {
+          key  = 'h',
+          mods = 'ALT|SHIFT',
+          tbl  = ''
+        },
+      },
     }
   )
 end
