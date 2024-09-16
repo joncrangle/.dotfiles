@@ -441,6 +441,24 @@ return {
     end,
   },
   {
+    'vuki656/package-info.nvim',
+    event = { "BufRead package.json" },
+    opts = {
+      colors = {
+        up_to_date = '#a6e3a1',
+        outdated = '#f9e2af',
+        invalid = '#f38ba8',
+      },
+      package_manager = 'pnpm',
+    },
+    config = function(_, opts)
+      require('package-info').setup(opts)
+      vim.cmd([[highlight PackageInfoUpToDateVersion guifg=]] .. opts.colors.up_to_date)
+      vim.cmd([[highlight PackageInfoOutdatedVersion guifg=]] .. opts.colors.outdated)
+      vim.cmd([[highlight PackageInfoInErrorVersion guifg=]] .. opts.colors.invalid)
+    end,
+  },
+  {
     'zeioth/garbage-day.nvim',
     dependencies = 'neovim/nvim-lspconfig',
     event = 'LspAttach',
