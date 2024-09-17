@@ -1,6 +1,7 @@
 return {
   { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
+    event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
       { 'williamboman/mason.nvim', cmd = 'Mason', config = true },
@@ -12,9 +13,9 @@ return {
       { 'j-hui/fidget.nvim',       opts = {} },
 
       -- Allows extra capabilities provided by nvim-cmp
-      'hrsh7th/cmp-nvim-lsp',
+      { 'hrsh7th/cmp-nvim-lsp',    lazy = true },
 
-      { 'b0o/schemastore.nvim', lazy = true, opts = nil },
+      { 'b0o/schemastore.nvim',    lazy = true,   opts = nil },
     },
     config = function()
       -- Brief aside: **What is LSP?**
