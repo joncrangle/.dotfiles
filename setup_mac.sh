@@ -38,9 +38,6 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 	touch ~/.ssh/config
 	echo "Host *\n AddKeysToAgent yes\n IdentityFile ~/.ssh/id_ed25519" | tee ~/.ssh/config >/dev/null
 	ssh-add --apple-use-keychain ~/.ssh/id_ed25519
-	pbcopy <~/.ssh/id_ed25519.pub
-	echo "SSH key copied to clipboard. Please add it to your GitHub account."
-	echo "You can also run 'pbcopy < ~/.ssh/id_ed25519.pub' to copy the SSH key to your clipboard."
 fi
 
 echo "Configuring Git..."

@@ -85,13 +85,37 @@ try
     }
     git config --global user.name "jonathancrangle"
     git config --global user.email "94425204+joncrangle@users.noreply.github.com"
+
+    $confirm = Read-Host "Do you want to generate a new SSH key for GitHub? (y/n)"
+    if ($confirm -eq "y")
+    {
+        Write-Host ":: Generating a new SSH key for GitHub..."
+        ssh-keygen -t ed25519 -C "94425204+joncrangle@users.noreply.github.com" -f "$HOME\.ssh\id_ed25519"
+        $agentOutput = & ssh-agent
+        Invoke-Expression $agentOutput
+        $sshConfigPath = "$HOME\.ssh\config"
+        if (-not (Test-Path $sshConfigPath))
+        {
+            New-Item -Path $sshConfigPath -ItemType File -Force
+        }
+        Add-Content -Path $sshConfigPath -Value "Host *`n  AddKeysToAgent yes`n  IdentityFile $HOME\.ssh\id_ed25519"
+        ssh-add "$HOME\.ssh\id_ed25519"
+    } elseif ($confirm -eq "n")
+    {
+        Write-Host ":: Skipping SSH key generation."
+        exit
+    } else
+    {
+        Write-Host "Invalid input. Please enter 'y' or 'n'."
+    }
 } catch
 {
     Write-Host "An error occurred while configuring Git."
 }
 
 # Prompt user to run gh auth login
-Read-Host "Please run 'gh auth login' to authenticate with GitHub. Press Enter to continue after you have completed the authentication."
+Read-Host "Please run 'gh auth login --web' to authenticate with GitHub. Press Enter to continue after you have completed the authentication."
+Read-Host ":: Please put key.txt in ~/.config/. Press Enter to continue"
 
 Write-Host "Configuring environment variables..."
 function Set-UserEnvironmentVariables
