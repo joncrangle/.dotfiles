@@ -5,8 +5,10 @@ return {
       'nvim-treesitter/nvim-treesitter',
       'echasnovski/mini.nvim',
     },
-    ft = { 'markdown' },
-    opts = {},
+    ft = { 'markdown', 'Avante' },
+    opts = {
+      file_types = { 'markdown', 'Avante' },
+    },
     keys = {
       {
         '<leader>tm',

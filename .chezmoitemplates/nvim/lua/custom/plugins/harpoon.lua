@@ -34,7 +34,7 @@ return {
     keys = function()
       local keys = {
         {
-          '<leader>h',
+          '<leader>H',
           function()
             local harpoon = require 'harpoon'
             harpoon.ui:toggle_quick_menu(harpoon:list())
@@ -42,7 +42,7 @@ return {
           desc = '[H]arpoon2 quick menu',
         },
         {
-          '<leader>a',
+          '<leader>h',
           function()
             require('harpoon'):list():add()
           end,
@@ -78,8 +78,8 @@ return {
     },
     keys = function()
       local keys = {
-        { '<leader>a', '<cmd>Grapple toggle<cr>',      desc = 'Tag a file' },
-        { '<leader>h', '<cmd>Grapple toggle_tags<cr>', desc = 'Toggle tags menu' },
+        { '<leader>h', '<cmd>Grapple toggle<cr>',      desc = 'Grapple a file' },
+        { '<leader>H', '<cmd>Grapple toggle_tags<cr>', desc = 'Toggle Grapple menu' },
       }
 
       for i = 1, 9 do

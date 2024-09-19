@@ -82,6 +82,8 @@ cargo install cargo-cache
 cargo install --locked bacon
 ya pack -i
 ya pack -u
+launchctl setenv OLLAMA_HOST "0.0.0.0"
+brew services start ollama
 
 # Start yabai, skhd, sketchybar and borders
 osascript -e 'tell application "System Events" to set autohide menu bar of dock preferences to true'

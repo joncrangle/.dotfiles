@@ -10,6 +10,7 @@ return {
         oil = false,
         TelescopePrompt = false,
         NeoTree = false,
+        AvanteInput = false,
       }
     end,
     config = function()

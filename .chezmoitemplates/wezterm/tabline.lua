@@ -5,6 +5,7 @@ local M = {}
 
 local process_to_icon = {
   ['nvim'] = { color = { fg = colors.compose_cursor } },
+  ['ollama'] = { wezterm.nerdfonts.cod_code, color = { fg = colors.cursor_bg } },
 }
 
 function M.tabline()

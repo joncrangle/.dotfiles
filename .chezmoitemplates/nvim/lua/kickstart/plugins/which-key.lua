@@ -23,6 +23,7 @@ return {
     config = function()
       local key_bindings = {
         { '<leader>#', desc = 'Grapple tag item [1-9]', icon = { icon = '󱡀', color = 'orange' } },
+        { '<leader>a', group = '[A]vante', mode = { 'n', 'x' }, icon = { icon = ' ', color = 'green' } },
         { '<leader>c', group = '[C]ode', mode = { 'n', 'x' }, icon = { icon = ' ', color = 'green' } },
         { '<leader>d', group = '[D]ocument', icon = { icon = '󰈙', color = 'green' } },
         { '<leader>de', '<cmd>Telescope symbols<cr>', desc = '[D]ocument [E]moji picker', icon = { icon = '😀', color = 'green' } },
