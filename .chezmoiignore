@@ -5,6 +5,7 @@ assets/
 cm
 key.txt
 .config/.archive/
+com.joncrangle.llm.plist
 
 {{ if ne .chezmoi.os "windows" }}
 setup_win.ps1
