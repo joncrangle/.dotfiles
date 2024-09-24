@@ -13,7 +13,7 @@ local function generate_vendor(model)
         body = {
           model = opts.model,
           messages = require('avante.providers').copilot.parse_message(code_opts),
-          max_tokens = 2048,
+          max_tokens = 4096,
           stream = true,
         },
       }
@@ -28,12 +28,13 @@ return {
   {
     'yetone/avante.nvim',
     event = 'VeryLazy',
-    build = '{{- if and (ne .chezmoi.os "darwin") (ne .chezmoi.os "linux") -}}pwsh.exe -NoProfile -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false{{- else -}}make{{- end -}}',
+    build = vim.fn.has 'win32' == 0 and 'make' or
+        'pwsh.exe -NoProfile -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false',
     opts = {
       provider = 'qwen',
       vendors = {
-        qwen = generate_vendor('qwen2.5-coder:7b-instruct'),
-        deepseek = generate_vendor('deepseek-coder-v2:16b-lite-instruct-q4_K_M'),
+        qwen = generate_vendor('qwen-coder:latest'),
+        deepseek = generate_vendor('deepseek-coder:latest'),
       },
     }
   },
