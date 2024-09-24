@@ -55,7 +55,7 @@ return {
         mocha = function(mocha)
           return {
             CursorLine = { bg = 'NONE' },
-            CursorLineNr = { fg = mocha.rosewater },
+            CursorLineNr = { fg = mocha.yellow },
             LineNrAbove = { fg = mocha.overlay1 },
             LineNrBelow = { fg = mocha.overlay1 },
           }
@@ -188,6 +188,13 @@ return {
     opts = {
       transparent = true,
     },
+  },
+  {
+    'yorumicolors/yorumi.nvim',
+    enabled = false,
+    init = function()
+      vim.cmd.colorscheme 'yorumi'
+    end,
   },
 }
 -- vim: ts=2 sts=2 sw=2 et
