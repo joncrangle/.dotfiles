@@ -31,7 +31,7 @@ return {
     build = vim.fn.has 'win32' == 0 and 'make' or
         'pwsh.exe -NoProfile -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false',
     opts = {
-      provider = 'qwen',
+      provider = 'deepseek',
       vendors = {
         qwen = generate_vendor('qwen-coder:latest'),
         deepseek = generate_vendor('deepseek-coder:latest'),
