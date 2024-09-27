@@ -15,9 +15,9 @@
     <string>com.joncrangle.llm</string>
     <key>ProgramArguments</key>
     <array>
-        <string>/bin/sh</string>
+	<string>/bin/sh</string>
         <string>-c</string>
-        <string>/Users/jonathancrangle/Documents/Code/stable-diffusion-webui/webui.sh --api --listen</string>
+	<string>cd /Users/jonathancrangle/Documents/Code/ComfyUI && source comfyui/bin/activate && /opt/homebrew/bin/uv run main.py --listen 0.0.0.0</string>
     </array>
     <key>RunAtLoad</key>
     <true/>

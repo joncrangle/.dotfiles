@@ -6,6 +6,7 @@ cm
 key.txt
 .config/.archive/
 com.joncrangle.llm.plist
+sdxl-workflow-api.json
 
 {{ if ne .chezmoi.os "windows" }}
 setup_win.ps1
