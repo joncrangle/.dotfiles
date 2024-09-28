@@ -1,14 +1,14 @@
 {
   "3": {
     "inputs": {
-      "seed": 810081082189200,
+      "seed": 973588808909503,
       "steps": 6,
       "cfg": 2,
       "sampler_name": "dpmpp_sde",
       "scheduler": "karras",
       "denoise": 1,
       "model": [
-        "15",
+        "45",
         0
       ],
       "positive": [
@@ -53,7 +53,7 @@
     "inputs": {
       "text": "medium shot, cinematic film still, photo of a handsome man with a beard near grasses wearing a white tshirt, fictional landscapes, (intense sunlight:1.4), detailed, brooding mood, detailed character expressions, light amber and red, amazing quality, wallpaper, analog film grain\n",
       "clip": [
-        "15",
+        "45",
         1
       ]
     },
@@ -64,9 +64,9 @@
   },
   "7": {
     "inputs": {
-      "text": "(low quality, worst quality:1.4), cgi, text, signature, watermark, extra limbs, blurry, logo, watermark, signature, cropped, out of frame, jpeg artifacts, poorly lit, overexposed, underexposed, glitch, error, (poorly drawn hands, poorly drawn face:1.2), deformed iris, deformed pupils, morbid, duplicate, mutilated, extra fingers, mutated hands, poorly drawn eyes, mutation, deformed, dehydrated, bad anatomy, bad proportions, extra limbs, cloned face, disfigured, gross proportions, malformed limbs, missing arms, missing legs, extra arms, extra legs, fused fingers, too many fingers, long neck, incoherent",
+      "text": "embedding:BadDream, embedding:UnrealisticDream, embedding:FastNegativeV2,  embedding:bad-hands-5, embedding:bad_prompt_version2-neg, (poorly drawn hands, poorly drawn face:1.2), extra limbs, deformed iris, deformed pupils, morbid, duplicate, mutilated, extra fingers, mutated hands, poorly drawn eyes, mutation, deformed, dehydrated, bad anatomy, bad proportions, extra limbs, cloned face, disfigured, gross proportions, malformed limbs, missing arms, missing legs, extra arms, extra legs, fused fingers, too many fingers, long neck, incoherent",
       "clip": [
-        "15",
+        "45",
         1
       ]
     },
@@ -91,19 +91,6 @@
       "title": "VAE Decode"
     }
   },
-  "9": {
-    "inputs": {
-      "filename_prefix": "ComfyUI",
-      "images": [
-        "8",
-        0
-      ]
-    },
-    "class_type": "SaveImage",
-    "_meta": {
-      "title": "Save Image"
-    }
-  },
   "14": {
     "inputs": {
       "filename_prefix": "ComfyUI",
@@ -112,40 +99,21 @@
         0
       ]
     },
-    "class_type": "SaveImage",
+    "class_type": "PreviewImage",
     "_meta": {
-      "title": "Save Image"
-    }
-  },
-  "15": {
-    "inputs": {
-      "lora_name": "detailed.safetensors",
-      "strength_model": 0.6,
-      "strength_clip": 0,
-      "model": [
-        "4",
-        0
-      ],
-      "clip": [
-        "4",
-        1
-      ]
-    },
-    "class_type": "LoraLoader",
-    "_meta": {
-      "title": "Load LoRA"
+      "title": "Preview Image"
     }
   },
   "39": {
     "inputs": {
-      "seed": 637443276635424,
+      "seed": 512442207415797,
       "steps": 3,
       "cfg": 2,
       "sampler_name": "dpmpp_sde",
       "scheduler": "karras",
       "denoise": 0.5,
       "model": [
-        "15",
+        "45",
         0
       ],
       "positive": [
@@ -221,6 +189,36 @@
     "class_type": "UpscaleModelLoader",
     "_meta": {
       "title": "Load Upscale Model"
+    }
+  },
+  "45": {
+    "inputs": {
+      "PowerLoraLoaderHeaderWidget": {
+        "type": "PowerLoraLoaderHeaderWidget"
+      },
+      "lora_1": {
+        "on": true,
+        "lora": "detailed.safetensors",
+        "strength": 0.75
+      },
+      "lora_2": {
+        "on": true,
+        "lora": "perfection style.safetensors",
+        "strength": 0.6
+      },
+      "➕ Add Lora": "",
+      "model": [
+        "4",
+        0
+      ],
+      "clip": [
+        "4",
+        1
+      ]
+    },
+    "class_type": "Power Lora Loader (rgthree)",
+    "_meta": {
+      "title": "Power Lora Loader (rgthree)"
     }
   }
 }
