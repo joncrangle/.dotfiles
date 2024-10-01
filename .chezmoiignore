@@ -8,7 +8,7 @@ key.txt
 .config/.archive/
 com.joncrangle.llm.plist
 dreamshaper-workflow-api.json
-sdxl-workflow-api.json
+pony-workflow-api.json
 
 {{ if ne .chezmoi.os "windows" }}
 setup_win.ps1
