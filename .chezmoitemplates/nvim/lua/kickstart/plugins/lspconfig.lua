@@ -97,6 +97,8 @@ return {
           --  For example, in C this would take you to the header.
           map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
+          map('ge', '<cmd>lua vim.diagnostic.open_float()<CR>', 'Open [E]rror in Float')
+
           map('<leader>ci', function()
             vim.lsp.buf.code_action {
               apply = true,
