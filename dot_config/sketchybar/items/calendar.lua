@@ -2,6 +2,7 @@ local settings = require 'settings'
 local colors = require 'colors'
 
 local popup_toggle = 'sketchybar --set $NAME popup.drawing=toggle'
+local added_calendar_items = false
 
 local cal = sbar.add('item', 'calendar', {
   click_script = popup_toggle,
@@ -64,23 +65,32 @@ local function update_calendar_items()
 
   for idx, line in ipairs(lines) do
     local item_name = 'cal_month_line_' .. idx
-    sbar.add('item', item_name, {
-      position = 'popup.' .. cal.name,
-      icon = { drawing = false },
-      width = 180,
-      label = {
-        string = format_line(line),
-        color = idx == 1 and colors.peach or
-            idx == 2 and colors.flamingo or
-            colors.maroon,
-        font = {
-          family = settings.font.text,
-          style = settings.font.style_map['Bold'],
-          size = idx == 1 and 16.0 or 14.0
+    if not added_calendar_items then
+      sbar.add('item', item_name, {
+        position = 'popup.' .. cal.name,
+        icon = { drawing = false },
+        width = 180,
+        label = {
+          string = format_line(line),
+          color = idx == 1 and colors.peach or
+              idx == 2 and colors.flamingo or
+              colors.maroon,
+          font = {
+            family = settings.font.text,
+            style = settings.font.style_map['Bold'],
+            size = idx == 1 and 16.0 or 14.0
+          },
         },
-      },
-    })
+      })
+    else
+      sbar.set('item', item_name, {
+        label = {
+          string = format_line(line),
+        },
+      })
+    end
   end
+  added_calendar_items = true
 end
 
 update_calendar_items()
