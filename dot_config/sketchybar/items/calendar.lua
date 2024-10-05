@@ -83,7 +83,7 @@ local function update_calendar_items()
         },
       })
     else
-      sbar.set('item', item_name, {
+      sbar.set(item_name, {
         label = {
           string = format_line(line),
         },
