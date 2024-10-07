@@ -176,7 +176,7 @@ wezterm.on('smart_workspace_switcher.workspace_switcher.created', function(windo
     window = window,
     relative = true,
     restore_text = true,
-    on_pane_restore = (require(resurrect.plugin.resurrect.tab_state)).default_on_pane_restore,
+    on_pane_restore = resurrect.tab_state.default_on_pane_restore,
   })
 end)
 
