@@ -6,5 +6,5 @@ pwsh -WindowStyle Hidden -Command Start-Process "$env:USERPROFILE\scoop\apps\kom
 pwsh -WindowStyle hidden -Command ^
   while (-not (Get-Process -Name "komorebi" -ErrorAction SilentlyContinue)) { Start-Sleep -Seconds 5 }; ^
 
-@REM Start hidden PowerShell script, which runs `zebar`
-pwsh -WindowStyle Hidden -Command Start-Process "zebar.exe"
+@REM Start zebar
+start "" "zebar.exe" > nul 2>&1
