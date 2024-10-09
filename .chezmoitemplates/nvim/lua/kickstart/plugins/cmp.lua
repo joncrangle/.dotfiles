@@ -1,6 +1,7 @@
 return {
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
+    enabled = vim.fn.has 'win32' == 1,
     -- FIX: temp pin see: https://github.com/hrsh7th/nvim-cmp/issues/1877
     commit = 'b356f2c',
     pin = true,
@@ -162,6 +163,49 @@ return {
         }),
       })
     end,
+  },
+  {
+    'saghen/blink.cmp',
+    enabled = vim.fn.has 'win32' ~= 1,
+    build = 'cargo build --release',
+    event = { 'InsertEnter', 'CmdlineEnter' },
+    dependencies = {
+      { 'rafamadriz/friendly-snippets' },
+      {
+        "Saecki/crates.nvim",
+        event = { "BufRead Cargo.toml" },
+        opts = {
+          completion = {
+            cmp = { enabled = true },
+          },
+        },
+      },
+    },
+    opts = {
+      highlight = {
+        use_nvim_cmp_as_default = true,
+      },
+      nerd_font_variant = 'normal',
+      accept = { auto_brackets = { enabled = true } },
+      fuzzy = {
+        prebuiltBinaries = {
+          download = false,
+        },
+      },
+      keymap = {
+        show = '<C-Space>',
+        hide = '<C-d>',
+        accept = '<C-y>',
+        select_prev = { '<Up>', '<C-p>' },
+        select_next = { '<Down>', '<C-n>' },
+        show_documentation = {},
+        hide_documentation = {},
+        scroll_documentation_up = '<C-b>',
+        scroll_documentation_down = '<C-f>',
+        snippet_forward = '<C-h>',
+        snippet_backward = '<C-l>',
+      },
+    },
   },
 }
 -- vim: ts=2 sts=2 sw=2 et
