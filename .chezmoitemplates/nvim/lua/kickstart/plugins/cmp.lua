@@ -1,7 +1,6 @@
 return {
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
-    enabled = vim.fn.has 'win32' == 1,
     -- FIX: temp pin see: https://github.com/hrsh7th/nvim-cmp/issues/1877
     commit = 'b356f2c',
     pin = true,
@@ -166,8 +165,8 @@ return {
   },
   {
     'saghen/blink.cmp',
-    enabled = vim.fn.has 'win32' ~= 1,
-    build = 'cargo build --release',
+    enabled = false,
+    version = 'v0.*',
     event = { 'InsertEnter', 'CmdlineEnter' },
     dependencies = {
       { 'rafamadriz/friendly-snippets' },
@@ -187,11 +186,6 @@ return {
       },
       nerd_font_variant = 'normal',
       accept = { auto_brackets = { enabled = true } },
-      fuzzy = {
-        prebuiltBinaries = {
-          download = false,
-        },
-      },
       keymap = {
         show = '<C-Space>',
         hide = '<C-d>',
