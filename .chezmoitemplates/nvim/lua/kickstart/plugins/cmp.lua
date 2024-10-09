@@ -1,9 +1,7 @@
 return {
-  { -- Autocompletion
-    'hrsh7th/nvim-cmp',
-    -- FIX: temp pin see: https://github.com/hrsh7th/nvim-cmp/issues/1877
-    commit = 'b356f2c',
-    pin = true,
+  {
+    "iguanacucumber/magazine.nvim",
+    name = "nvim-cmp", -- Otherwise highlighting gets messed up
     event = { 'InsertEnter', 'CmdlineEnter' },
     dependencies = {
       -- Snippet Engine & its associated nvim-cmp source
@@ -134,6 +132,7 @@ return {
             group_index = 0,
           },
           { name = 'nvim_lsp' },
+          { name = 'nvim_lsp_signature_help' },
           { name = 'snippets' },
           { name = 'crates' },
           { name = 'path' },
