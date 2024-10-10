@@ -38,6 +38,7 @@ Install [ComfyUI](https://github.com/comfyanonymous/ComfyUI) and [ComfyUI-Manage
  - WAS Node Suite
  - rgthree's ComfyUI Nodes
  - ComfyUI-Custom-Scripts
+ - ComfyUI MLX Nodes
 
 ## 💬 OpenWebUI
 
