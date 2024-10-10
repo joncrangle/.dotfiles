@@ -61,6 +61,7 @@ esac
 path=(
     {{ if eq .chezmoi.os "darwin" }}
     $HOMEBREW_DIR/bin(N-/)
+    $HOME/.config/.local/share/.../bin(N-/)
     {{- end -}}
     {{- if eq .chezmoi.os "linux" -}}
     /usr/bin(N-/)
