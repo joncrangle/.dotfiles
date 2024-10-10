@@ -1,0 +1,88 @@
+{
+  "33": {
+    "inputs": {
+      "width": 512,
+      "height": 512,
+      "batch_size": 1
+    },
+    "class_type": "EmptyLatentImage",
+    "_meta": {
+      "title": "Empty Latent Image"
+    }
+  },
+  "60": {
+    "inputs": {
+      "text": "photo of a cat",
+      "clip": [
+        "73",
+        2
+      ]
+    },
+    "class_type": "MLXClipTextEncoder",
+    "_meta": {
+      "title": "MLX CLIP Text Encoder"
+    }
+  },
+  "73": {
+    "inputs": {
+      "model_version": "argmaxinc/mlx-FLUX.1-schnell-4bit-quantized"
+    },
+    "class_type": "MLXLoadFlux",
+    "_meta": {
+      "title": "MLX Load Flux Model"
+    }
+  },
+  "78": {
+    "inputs": {
+      "seed": 1012,
+      "steps": 4,
+      "cfg": 0,
+      "denoise": 1,
+      "model": [
+        "73",
+        0
+      ],
+      "positive": [
+        "60",
+        0
+      ],
+      "latent_image": [
+        "33",
+        0
+      ]
+    },
+    "class_type": "MLXSampler",
+    "_meta": {
+      "title": "MLX Sampler"
+    }
+  },
+  "80": {
+    "inputs": {
+      "latent_image": [
+        "78",
+        0
+      ],
+      "vae": [
+        "73",
+        1
+      ]
+    },
+    "class_type": "MLXDecoder",
+    "_meta": {
+      "title": "MLX Decoder"
+    }
+  },
+  "83": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "images": [
+        "80",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  }
+}
