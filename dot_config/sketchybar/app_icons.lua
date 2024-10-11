@@ -1,5 +1,10 @@
 -- https://github.com/kvndrsslr/sketchybar-app-font
 return {
+	-- Custom
+	['qBittorrent'] = ':transmit:',
+	['default'] = ':default:',
+	['Zen Browser'] = ':firefox:',
+
 	['Live'] = ':ableton:',
 	['Adobe Bridge'] = ':adobe_bridge:',
 	['Affinity Designer'] = ':affinity_designer:',
@@ -17,6 +22,8 @@ return {
 	['App Eraser'] = ':app_eraser:',
 	['App Store'] = ':app_store:',
 	['Arc'] = ':arc:',
+	['Arduino'] = ':arduino:',
+	['Arduino IDE'] = ':arduino:',
 	['Atom'] = ':atom:',
 	['Audacity'] = ':audacity:',
 	['Bambu Studio'] = ':bambu_studio:',
@@ -51,13 +58,13 @@ return {
 	['数码测色计'] = ':color_picker:',
 	['CotEditor'] = ':coteditor:',
 	['Creative Cloud'] = ':creative_cloud:',
+	['Cursor'] = ':cursor:',
 	['Cypress'] = ':cypress:',
 	['DataGrip'] = ':datagrip:',
 	['DataSpell'] = ':dataspell:',
 	['DaVinci Resolve'] = ':davinciresolve:',
 	['Deezer'] = ':deezer:',
 	['Default'] = ':default:',
-	['default'] = ':default:',
 	['CleanMyMac X'] = ':desktop:',
 	['DEVONthink 3'] = ':devonthink3:',
 	['DingTalk'] = ':dingtalk:',
@@ -217,7 +224,6 @@ return {
 	['PrusaSlicer'] = ':prusaslicer:',
 	['SuperSlicer'] = ':prusaslicer:',
 	['PyCharm'] = ':pycharm:',
-	['qBittorrent'] = ':transmit:',
 	['QQ'] = ':qq:',
 	['QQ音乐'] = ':qqmusic:',
 	['QQMusic'] = ':qqmusic:',
@@ -291,7 +297,6 @@ return {
 	['Yuque'] = ':yuque:',
 	['语雀'] = ':yuque:',
 	['Zed'] = ':zed:',
-	['Zen Browser'] = ':firefox:', -- temporary
 	['Zeplin'] = ':zeplin:',
 	['zoom.us'] = ':zoom:',
 	['Zotero'] = ':zotero:',
