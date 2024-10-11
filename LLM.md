@@ -28,9 +28,9 @@ To expose on local network, edit: `~/Library/LaunchAgents/homebrew.mxcl.ollama.p
 
 ## 🖼️Comfy UI
 
-Install [ComfyUI](https://github.com/comfyanonymous/ComfyUI) and [ComfyUI-Manager](https://github.com/ltdrdata/ComfyUI-Manager) according to the instructions within a Python venv. Enable `Dev Mode`.
+Install [ComfyUI](https://github.com/comfyanonymous/ComfyUI) and [ComfyUI-Manager](https://github.com/ltdrdata/ComfyUI-Manager) according to the instructions. Copy [./llm/pyproject.toml] to the `ComfyUI` directory and run `uv sync`. Enable `Dev Mode`.
 
-[Custom plist](./com.joncrangle.llm.plist) can be moved to `~/Library/LaunchAgents` to automatically start on login listening on `0.0.0.0` for local network access.
+[Custom plist](./llm/com.joncrangle.llm.plist) can be moved to `~/Library/LaunchAgents` to automatically start on login listening on `0.0.0.0` for local network access.
 
 - Current workflow: [Dreamshaper](./dreamshaper-workflow-api.json)
 - Custom nodes (use ComfyUI-Manager to install):

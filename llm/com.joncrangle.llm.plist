@@ -17,14 +17,12 @@
     <array>
 	<string>/bin/sh</string>
         <string>-c</string>
-	<string>cd /Users/jonathancrangle/Documents/Code/ComfyUI && source venv/bin/activate && python3 main.py --listen 0.0.0.0</string>
+	<string>cd /Users/jonathancrangle/Documents/Code/ComfyUI/ && /opt/homebrew/bin/uv run main.py --listen 0.0.0.0</string>
     </array>
     <key>RunAtLoad</key>
     <true/>
     <key>KeepAlive</key>
     <true/>
-    <key>StandardOutPath</key>
-    <string>/tmp/start_webui.log</string>
     <key>StandardErrorPath</key>
     <string>/tmp/start_webui.err</string>
 </dict>

@@ -6,10 +6,7 @@ assets/
 cm
 key.txt
 .config/.archive/
-com.joncrangle.llm.plist
-dreamshaper-workflow-api.json
-flux-workflow-api.json
-pony-workflow-api.json
+llm/
 
 {{ if ne .chezmoi.os "windows" }}
 setup_win.ps1
