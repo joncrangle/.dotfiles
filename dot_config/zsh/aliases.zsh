@@ -28,6 +28,7 @@ alias ls="eza"
 alias l="eza --icons"
 alias ll="eza -l --icons"
 alias la="eza -la --icons"
+alias python="uv"
 alias python3="uv"
 alias reload='exec zsh -l'
 alias tg='topgrade'
