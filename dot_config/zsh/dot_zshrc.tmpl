@@ -25,9 +25,15 @@ FPATH="/usr/share/zsh/site-functions:${FPATH}"
 FPATH="opt/homebrew/share/zsh/site-functions:${FPATH}"
 {{ end }}
 
+function zvm_config() {
+  ZVM_VI_SURROUND_BINDKEY=s-prefix
+  ZVM_VI_HIGHLIGHT_FOREGROUND=#cdd6f4
+  ZVM_VI_HIGHLIGHT_BACKGROUND=#45475a
+  ZVM_VI_HIGHLIGHT_EXTRASTYLE=bold
+}
+
 source "$ZDOTDIR/options.zsh"
 source "$ZDOTDIR/aliases.zsh"
-source "$ZDOTDIR/keymaps.zsh"
 source "$ZDOTDIR/banner.zsh"
 {{ if eq .chezmoi.os "linux" }}
 source "/usr/share/zsh-antidote/antidote.zsh"
