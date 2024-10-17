@@ -56,6 +56,11 @@ return {
     },
     config = function()
       require('codecompanion').setup {
+        display = {
+          diff = {
+            provider = 'mini_diff',
+          },
+        },
         strategies = {
           chat = {
             adapter = 'ollama',
@@ -70,6 +75,9 @@ return {
         adapters = {
           ollama = function()
             return require('codecompanion.adapters').extend('ollama', {
+              env = {
+                url = '{{- if eq .chezmoi.os "darwin" -}}127.0.0.1:11434{{- else -}}{{- .MacAddress -}}:11434{{- end -}}',
+              },
               schema = {
                 model = {
                   default = 'qwen-coder:latest',

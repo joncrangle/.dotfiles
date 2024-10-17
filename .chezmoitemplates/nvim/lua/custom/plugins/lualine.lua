@@ -16,6 +16,7 @@ return {
     opts = {
       options = {
         theme = 'auto',
+        globalstatus = true,
         extensions = {
           'lazy',
           'mason',
@@ -25,7 +26,7 @@ return {
           'quickfix',
           'trouble',
         },
-        disabled_filetypes = { statusline = { 'dashboard' } },
+        disabled_filetypes = { statusline = { 'dashboard', 'lazygit' } },
       },
     },
   },
