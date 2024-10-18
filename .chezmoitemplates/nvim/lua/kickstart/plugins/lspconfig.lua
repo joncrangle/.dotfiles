@@ -13,7 +13,7 @@ return {
       { 'j-hui/fidget.nvim',       opts = {} },
 
       -- Allows extra capabilities provided by nvim-cmp
-      { 'hrsh7th/cmp-nvim-lsp',    lazy = true },
+      -- { 'hrsh7th/cmp-nvim-lsp',    lazy = true },
 
       { 'b0o/schemastore.nvim',    lazy = true,   opts = nil },
     },
@@ -167,7 +167,7 @@ return {
       --  When you add nvim-cmp, nvim-snippets, etc. Neovim now has *more* capabilities.
       --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
       local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+      -- capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -243,7 +243,6 @@ return {
           filetypes = { "markdown" },
         },
         html = {},
-        htmx = {},
         jqls = {},
         jsonls = {
           -- Lazy-load schemastore when needed
@@ -300,6 +299,20 @@ return {
                 completion = {
                   enableServerSideFuzzyMatch = true,
                 },
+              },
+            },
+            javascript = {
+              updateImportsOnFileMove = { enabled = 'always' },
+              suggest = {
+                completeFunctionCalls = true,
+              },
+              inlayHints = {
+                enumMemberValues = { enabled = true },
+                functionLikeReturnTypes = { enabled = true },
+                parameterNames = { enabled = 'literals' },
+                parameterTypes = { enabled = true },
+                propertyDeclarationTypes = { enabled = true },
+                variableTypes = { enabled = false },
               },
             },
             typescript = {
@@ -444,8 +457,23 @@ return {
     end,
   },
   {
+    'Saecki/crates.nvim',
+    event = { 'BufRead Cargo.toml' },
+    opts = {
+      lsp = {
+        enabled = true,
+        ---@diagnostic disable-next-line: unused-local
+        on_attach = function(client, bufnr)
+        end,
+        actions = true,
+        completion = true,
+        hover = true,
+      },
+    },
+  },
+  {
     'vuki656/package-info.nvim',
-    event = { "BufRead package.json" },
+    event = { 'BufRead package.json' },
     opts = {
       colors = {
         up_to_date = '#a6e3a1',
