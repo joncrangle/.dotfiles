@@ -1,6 +1,6 @@
 return {
   {
-    "iguanacucumber/magazine.nvim",
+    'iguanacucumber/magazine.nvim',
     name = "nvim-cmp", -- Otherwise highlighting gets messed up
     event = { 'InsertEnter', 'CmdlineEnter' },
     dependencies = {
@@ -65,8 +65,8 @@ return {
       },
 
       {
-        "Saecki/crates.nvim",
-        event = { "BufRead Cargo.toml" },
+        'Saecki/crates.nvim',
+        event = { 'BufRead Cargo.toml' },
         opts = {
           completion = {
             cmp = { enabled = true },
