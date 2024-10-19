@@ -4,8 +4,8 @@
 
 **Chat**
 
-- Current chat LLM: [gemma2:9b-instruct-q5_K_M](https://ollama.com/library/gemma2:9b-instruct-q5_K_M)
-- Current coding LLM: [qwen2.5-coder:7b-instruct-q6_K](https://ollama.com/library/qwen2.5-coder:7b-instruct-q6_K) and [deepseek-coder-v2:16b-lite-instruct-q3_K_M](https://ollama.com/library/deepseek-coder-v2:16b-lite-instruct-q3_K_M)
+- Current chat LLM: [Replete-LLM-V2.5-Qwen-14b-q4_K_M](https://huggingface.co/bartowski/Replete-LLM-V2.5-Qwen-14b-GGUF)
+- Current coding LLM: [Qwen2.5-coder:7b-Instruct-q6_K](https://huggingface.co/bartowski/Qwen2.5-Coder-7B-Instruct-GGUF)
 
 **Image Generation**
 
@@ -32,7 +32,7 @@ Install [ComfyUI](https://github.com/comfyanonymous/ComfyUI) and [ComfyUI-Manage
 
 [Custom plist](./llm/com.joncrangle.llm.plist) can be moved to `~/Library/LaunchAgents` to automatically start on login listening on `0.0.0.0` for local network access.
 
-- Current workflow: [Dreamshaper](./dreamshaper-workflow-api.json)
+- Current workflow: [Dreamshaper](./llm/dreamshaper-workflow-api.json)
 - Custom nodes (use ComfyUI-Manager to install):
  - ComfyUI Impact Pack
  - WAS Node Suite
@@ -79,3 +79,7 @@ Install [ComfyUI](https://github.com/comfyanonymous/ComfyUI) and [ComfyUI-Manage
 > FROM deepseek-coder-v2:16b-lite-instruct-q3_K_M
 > PARAMETER num_gpu 99
 > ```
+
+- [Template Modelfile for Qwen2.5](./llm/Modelfile)
+- [Functions Export](./llm/functions.json)
+- [Tools Export](./llm/tools.json)
