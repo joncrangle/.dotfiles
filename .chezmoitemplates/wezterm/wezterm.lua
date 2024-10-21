@@ -56,7 +56,7 @@ config.underline_thickness = 3
 config.underline_position = -6
 config.warn_about_missing_glyphs = false
 config.window_close_confirmation = 'AlwaysPrompt'
-config.window_padding = { left = 6, right = 6, top = 6, bottom = 0 }
+config.window_padding = { left = 2, right = 0, top = 3, bottom = 0 }
 
 local font_size
 local primary_font = 'Berkeley Mono'
