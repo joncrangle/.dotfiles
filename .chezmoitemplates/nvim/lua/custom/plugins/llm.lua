@@ -13,7 +13,7 @@ local function generate_vendor(model)
         body = {
           model = opts.model,
           messages = require('avante.providers').copilot.parse_message(code_opts),
-          max_tokens = 4096,
+          max_tokens = 8192,
           stream = true,
         },
       }

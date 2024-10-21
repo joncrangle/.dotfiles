@@ -170,10 +170,10 @@ return {
       trigger = { signature_help = { enabled = true } },
       windows = {
         autocomplete = {
-          border = "single",
+          border = 'single',
         },
         documentation = {
-          border = "single",
+          border = 'single',
           auto_show = true,
         },
       },

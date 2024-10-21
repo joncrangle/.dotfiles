@@ -17,6 +17,8 @@ vim.g.loaded_matchit = 1
 
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
+-- Global statusline
+vim.opt.laststatus = 3
 
 -- Don't wrap lines
 vim.opt.wrap = false
