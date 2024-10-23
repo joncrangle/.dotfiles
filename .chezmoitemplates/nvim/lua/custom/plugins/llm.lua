@@ -13,6 +13,7 @@ local function generate_vendor(model)
         body = {
           model = opts.model,
           messages = require('avante.providers').copilot.parse_message(code_opts),
+          temperature = 0,
           max_tokens = 8192,
           stream = true,
         },
@@ -33,8 +34,9 @@ return {
     opts = {
       provider = 'qwen',
       vendors = {
-        qwen = generate_vendor('qwen-coder:latest'),
-        deepseek = generate_vendor('deepseek-coder:latest'),
+        ['qwen'] = generate_vendor('qwen-coder:latest'),
+        ['deepseek'] = generate_vendor('deepseek-coder:latest'),
+        ['replete'] = generate_vendor('Replete-LLM-V2.5-Qwen:14b-q4_K_M'),
       },
     }
   },

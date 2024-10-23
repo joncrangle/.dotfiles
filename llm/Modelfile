@@ -1,5 +1,4 @@
 FROM Replete-LLM-V2.5-Qwen-7b-Q6_K_L.gguf
-PARAMETER num_gpu 99
 
 TEMPLATE """{{- if .Suffix }}<|fim_prefix|>{{ .Prompt }}<|fim_suffix|>{{ .Suffix }}<|fim_middle|>
 {{- else if .Messages }}
