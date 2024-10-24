@@ -1,5 +1,80 @@
 {
-  "33": {
+  "2": {
+    "inputs": {
+      "model_version": "argmaxinc/mlx-FLUX.1-schnell-4bit-quantized"
+    },
+    "class_type": "MLXLoadFlux",
+    "_meta": {
+      "title": "MLX Load Flux Model from HF 🤗"
+    }
+  },
+  "3": {
+    "inputs": {
+      "text": "Hyper realistic Photography: Spider-man swinging between skyscrapers in Toronto. Capture his vibrant movement, with the CN Tower visible in the background.",
+      "mlx_conditioning": [
+        "2",
+        2
+      ]
+    },
+    "class_type": "MLXClipTextEncoder",
+    "_meta": {
+      "title": "MLX CLIP Text Encoder"
+    }
+  },
+  "5": {
+    "inputs": {
+      "latent_image": [
+        "9",
+        0
+      ],
+      "mlx_vae": [
+        "2",
+        1
+      ]
+    },
+    "class_type": "MLXDecoder",
+    "_meta": {
+      "title": "MLX Decoder"
+    }
+  },
+  "7": {
+    "inputs": {
+      "filename_prefix": "ComfyUI",
+      "images": [
+        "5",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image"
+    }
+  },
+  "9": {
+    "inputs": {
+      "seed": 3501603197,
+      "steps": 5,
+      "cfg": 0,
+      "denoise": 1,
+      "mlx_model": [
+        "2",
+        0
+      ],
+      "mlx_positive_conditioning": [
+        "3",
+        0
+      ],
+      "latent_image": [
+        "10",
+        0
+      ]
+    },
+    "class_type": "MLXSampler",
+    "_meta": {
+      "title": "MLX Sampler"
+    }
+  },
+  "10": {
     "inputs": {
       "width": 512,
       "height": 512,
@@ -10,79 +85,27 @@
       "title": "Empty Latent Image"
     }
   },
-  "60": {
+  "12": {
     "inputs": {
-      "text": "photo of a cat",
-      "clip": [
-        "73",
-        2
-      ]
+      "ckpt_name": "mlx-FLUX.1-schnell-4bit-quantized.safetensors"
     },
-    "class_type": "MLXClipTextEncoder",
+    "class_type": "CheckpointLoaderSimple",
     "_meta": {
-      "title": "MLX CLIP Text Encoder"
+      "title": "Dummy"
     }
   },
-  "73": {
+  "13": {
     "inputs": {
-      "model_version": "argmaxinc/mlx-FLUX.1-schnell-4bit-quantized"
+      "seed": 0,
+      "steps": 20,
+      "cfg": 8,
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "denoise": 1
     },
-    "class_type": "MLXLoadFlux",
+    "class_type": "KSampler",
     "_meta": {
-      "title": "MLX Load Flux Model"
-    }
-  },
-  "78": {
-    "inputs": {
-      "seed": 1012,
-      "steps": 4,
-      "cfg": 0,
-      "denoise": 1,
-      "model": [
-        "73",
-        0
-      ],
-      "positive": [
-        "60",
-        0
-      ],
-      "latent_image": [
-        "33",
-        0
-      ]
-    },
-    "class_type": "MLXSampler",
-    "_meta": {
-      "title": "MLX Sampler"
-    }
-  },
-  "80": {
-    "inputs": {
-      "latent_image": [
-        "78",
-        0
-      ],
-      "vae": [
-        "73",
-        1
-      ]
-    },
-    "class_type": "MLXDecoder",
-    "_meta": {
-      "title": "MLX Decoder"
-    }
-  },
-  "83": {
-    "inputs": {
-      "filename_prefix": "ComfyUI",
-      "images": [
-        "80",
-        0
-      ]
-    },
-    "class_type": "SaveImage",
-    "_meta": {
-      "title": "Save Image"
+      "title": "Dummy Sampler"
     }
   }
 }
