@@ -17,6 +17,7 @@ return {
       integrations = {
         aerial = true,
         alpha = true,
+        blink_cmp = true,
         cmp = true,
         dashboard = true,
         flash = true,

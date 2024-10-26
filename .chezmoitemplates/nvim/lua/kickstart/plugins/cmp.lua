@@ -164,9 +164,6 @@ return {
     opts = {
       accept = { auto_brackets = { enabled = true } },
       nerd_font_variant = "mono",
-      highlight = {
-        use_nvim_cmp_as_default = true,
-      },
       trigger = { signature_help = { enabled = true } },
       windows = {
         autocomplete = {
