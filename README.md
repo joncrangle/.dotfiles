@@ -151,6 +151,9 @@ iwr -useb https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_win.
 >
 > Within Taskbar Settings, automatically hide the taskbar in Desktop mode.
 
+> [!TIP]
+> To update the Komorebi application rules, run `komorebic fetch-asc`.
+
 ## 🐧 Arch Linux
 
 Install Arch using `archinstall` with a Minimal profile. To connect to wifi, use `iwctl`:
