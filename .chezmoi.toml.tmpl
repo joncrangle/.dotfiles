@@ -7,6 +7,12 @@
 {{- $archAddress := promptStringOnce . "archAddress" "Arch IP address" -}}
 {{- $archUser := promptStringOnce . "archUser" "Arch username" -}}
 
+encryption = "age"
+
+[age]
+    identity = "~/.config/key.txt"
+    recipient = "age1jgcaj9yy8nldpp2969kgxf97re59v6ydnk5ctz02z8anc4522pxswpcqf2"
+
 [git]
     autoCommit = true
     autoPush = true
@@ -26,10 +32,4 @@
     {{ else }}
     keyboard = "desktop"
     {{ end }}
-
-encryption = "age"
-
-[age]
-    identity = "~/.config/key.txt"
-    recipient = "age1jgcaj9yy8nldpp2969kgxf97re59v6ydnk5ctz02z8anc4522pxswpcqf2"
 # vim: ft=toml
