@@ -9,9 +9,9 @@
 -- A GPU-accelerated cross-platform terminal emulator
 -- https://wezfurlong.org/wezterm/
 
-local wezterm = require 'wezterm'
+local wezterm = require 'wezterm' --[[@as Wezterm]]
 wezterm.plugin.update_all()
-local config = wezterm.config_builder()
+local config = wezterm.config_builder() ---@class Config
 wezterm.log_info 'reloading'
 
 -- Modules
