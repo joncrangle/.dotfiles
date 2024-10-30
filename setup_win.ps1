@@ -51,8 +51,8 @@ if (!(Test-Path $scoopDir))
 
 Write-Host "Installing terminal apps..."
 $appsToInstall = @(
-    "age", "chezmoi", "fzf", "gh", "IosevkaTerm-NF", "Maple-Mono",
-    "psfzf", "psreadline", "starship", "terminal-icons", "zoxide"
+    "age", "chezmoi", "fzf", "gh", "innounp-unicode", "IosevkaTerm-NF",
+    "Maple-Mono","psfzf", "psreadline", "starship", "terminal-icons", "zoxide"
 )
 
 try
