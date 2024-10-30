@@ -23,6 +23,9 @@ return {
         },
         signature = { auto_open = { enabled = false } },
       },
+      cmdline = {
+        view = 'cmdline',
+      },
       status = {
         -- Statusline component for LSP progress notifications
         lsp_progress = { event = 'lsp', kind = 'progress' },
