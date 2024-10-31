@@ -61,6 +61,7 @@ return {
           },
           opts = { skip = true },
         },
+        view = 'mini',
       },
       presets = {
         bottom_search = true,
@@ -100,6 +101,15 @@ return {
         mode = { 'i', 'n', 's' },
       },
     },
+    config = function(_, opts)
+      -- HACK: noice shows messages from before it was enabled,
+      -- but this is not ideal when Lazy is installing plugins,
+      -- so clear the messages in this case.
+      if vim.o.filetype == 'lazy' then
+        vim.cmd([[messages clear]])
+      end
+      require('noice').setup(opts)
+    end,
   },
 }
 -- vim: ts=2 sts=2 sw=2 et
