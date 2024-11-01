@@ -1,17 +1,22 @@
 local M = {}
 
-local color = require('catppuccin.palettes').get_palette('mocha').yellow
+local config = {
+  fg = require('catppuccin.palettes').get_palette('mocha').yellow,
+  bg = 'NONE',
+  highlight_group = 'VisualLineNr',
+  priority = 10,
+  debounce_ms = 10,
+}
+
+local ns_id = vim.api.nvim_create_namespace('visual_line_numbers')
 
 local function setup_highlights()
-  vim.api.nvim_set_hl(0, 'VisualLineNr', { fg = color, bg = 'NONE' })
+  vim.api.nvim_set_hl(0, 'VisualLineNr', { fg = config.fg, bg = config.bg })
 end
 
-setup_highlights()
 vim.api.nvim_create_autocmd('ColorScheme', {
   callback = setup_highlights
 })
-
-local ns_id = vim.api.nvim_create_namespace('visual_line_numbers')
 
 local function update_highlights()
   vim.api.nvim_buf_clear_namespace(0, ns_id, 0, -1)
@@ -29,8 +34,8 @@ local function update_highlights()
 
   for line = start_line, end_line do
     vim.api.nvim_buf_set_extmark(0, ns_id, line - 1, 0, {
-      number_hl_group = 'VisualLineNr',
-      priority = 10
+      number_hl_group = config.highlight_group,
+      priority = config.priority,
     })
   end
 end
@@ -40,9 +45,7 @@ local function debounced_update()
   if debounce_timer then
     vim.fn.timer_stop(debounce_timer)
   end
-  debounce_timer = vim.fn.timer_start(10, function()
-    vim.schedule(update_highlights)
-  end)
+  debounce_timer = vim.fn.timer_start(config.debounce_ms, vim.schedule_wrap(update_highlights))
 end
 
 local group = vim.api.nvim_create_augroup('VisualLineNumbers', { clear = true })
