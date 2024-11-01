@@ -165,6 +165,16 @@ return {
       accept = { auto_brackets = { enabled = true } },
       nerd_font_variant = "mono",
       trigger = { signature_help = { enabled = true } },
+      sources = {
+        completion = {
+          enabled_providers = { "lsp", "path", "snippets", "buffer", "lazydev" },
+        },
+        providers = {
+          -- dont show LuaLS require statements when lazydev has items
+          lsp = { fallback_for = { "lazydev" } },
+          lazydev = { name = "LazyDev", module = "lazydev.integrations.blink" },
+        },
+      },
       windows = {
         autocomplete = {
           border = 'single',
