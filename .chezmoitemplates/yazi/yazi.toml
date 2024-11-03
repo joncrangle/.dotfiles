@@ -15,7 +15,7 @@ reveal = [
 	{ run = '''exiv2 "$1"; echo "Press enter to exit"; read _''', block = true, desc = "Show EXIF", for = "unix" },
 ]
 play = [
-	{ run = 'iina "$@"', orphan = true, for = "macos" },
+	{ run = 'iina --no-stdin "$@"', orphan = true, for = "macos" },
 	{ run = 'vlc "%1"', orphan = true, for = "windows" },
 	{ run = 'mpv "$@"', orphan = true, for = "linux" },
 ]
