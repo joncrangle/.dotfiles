@@ -191,8 +191,9 @@ return {
             disableOrganizeImports = true,
             basedpyright = {
               analysis = {
-                ignore = { '*' },
-                -- typeCheckingMode = "off",
+                typeCheckingMode = 'standard',
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
               },
             },
           },
