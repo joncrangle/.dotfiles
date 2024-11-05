@@ -103,7 +103,6 @@ try
     } elseif ($confirm -eq "n")
     {
         Write-Host ":: Skipping SSH key generation."
-        exit
     } else
     {
         Write-Host "Invalid input. Please enter 'y' or 'n'."
@@ -340,17 +339,17 @@ function take
 function up
 {
     param (
-        [int]$count = 1
+        [int]`$count = 1
     )
 
-    if ($count -lt 1)
+    if (`$count -lt 1)
     {
         Write-Host "The number of directories to go up must be a positive integer."
         return
     }
 
-    $path = ('..\' * $count).TrimEnd('\')
-    Set-Location $path
+    `$path = ('..\' * `$count).TrimEnd('\')
+    Set-Location `$path
 }
 
 function x
@@ -528,10 +527,10 @@ foreach ($link in $links)
 {
     try
     {
-        New-Shortcut -targetPath $program.Path -shortcutName $program.Name
+        New-Shortcut -targetPath $link.Path -shortcutName $link.Name
     } catch
     {
-        Write-Host "Failed to create shortcut for $($program.Name): $_"
+        Write-Host "Failed to create shortcut for $($link.Name): $_"
     }
 }
 
@@ -551,7 +550,37 @@ try
     Write-Error "An error occurred: $_"
 }
 
-Copy-Item -Path "$env:USERPROFILE\.config\btop\btop.conf" -Destination "$env:USERPROFILE\scoop\persist\btop\btop.conf" -Force
-Copy-Item -Path "$env:USERPROFILE\.config\btop\themes\catppuccin_mocha.theme" -Destination "$env:USERPROFILE\scoop\persist\btop\themes\catppuccin_mocha.theme" -Force
+$configDestDir = "$env:USERPROFILE\scoop\persist\btop"
+$themesDestDir = "$configDestDir\themes"
+if (!(Test-Path -Path $configDestDir)) {
+    New-Item -Path $configDestDir -ItemType Directory -Force
+}
+if (!(Test-Path -Path $themesDestDir)) {
+    New-Item -Path $themesDestDir -ItemType Directory -Force
+}
+Copy-Item -Path "$env:USERPROFILE\.config\btop\btop.conf" -Destination "$configDestDir\btop.conf" -Force
+Copy-Item -Path "$env:USERPROFILE\.config\btop\themes\catppuccin_mocha.theme" -Destination "$themesDestDir\catppuccin_mocha.theme" -Force
+
+[System.Environment]::SetEnvironmentVariable("KOMOREBI_CONFIG_HOME", "$env:USERPROFILE\.config\komorebi", [System.EnvironmentVariableTarget]::User)
+
+$projectPath = "$env:USERPROFILE\.glzr\zebar\bar"
+Write-Host "Building zebar bar..."
+try
+{
+    Set-Location -Path $projectPath
+    pnpm install
+    pnpm build
+} catch
+{
+    Write-Host "Failed to run pnpm commands in $projectPath: $_"
+} finally
+{
+    Set-Location -Path $PSScriptRoot
+}
+
+Write-Host "NOTE: Until 'zebar' adds a scoop installer, you need to unpack it manually."
+Write-Host "Download the latest installer from https://github.com/glzr-io/zebar/releases"
+Write-Host "Run the command 'msiexec /a C:\Users\CRANGLJ\Downloads\zebar-v2.4.0-opt1-x64.msi /qb TARGETDIR=C:\Users\CRANGLJ\Downloads\zebar'"
+Write-Host "Add the 'zebar' executable path to user PATH environment variable."
 
 Write-Host "Configuration complete. Please restart the terminal."
