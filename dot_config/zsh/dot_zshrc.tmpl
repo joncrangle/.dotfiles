@@ -16,7 +16,6 @@ HISTSIZE=10000
 SAVEHIST=10000
 LISTMAX=1000
 
-WORDCHARS='*?_-[]~&;!#$%^(){}<>|' # Delete word with C-w
 cdpath=("$HOME" .. $HOME/*(N-/) $HOME/.config)
 
 {{ if eq .chezmoi.os "linux" }}
@@ -42,14 +41,14 @@ source "/usr/share/zsh-antidote/antidote.zsh"
 source "$HOMEBREW_DIR/opt/antidote/share/antidote/antidote.zsh"
 {{ end }}
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -s "~/.bun/_bun" ] && source "~/.bun/_bun"
 {{ if eq .chezmoi.os "darwin" }}
 eval "$(/opt/homebrew/bin/brew shellenv)"
 {{ end }}
 eval "$(thefuck --alias)"
-eval "$(fzf --zsh)"
 eval "$(starship init zsh)"
 
 antidote load
+
+source <(fzf --zsh)
 # vim: ft=zsh
