@@ -136,7 +136,8 @@ function Set-UserEnvironmentVariables
 $envVars = @(
     @{ Name = "YAZI_FILE_ONE"; Path = "scoop\apps\git\current\usr\bin\file.exe" },
     @{ Name = "XDG_CONFIG_HOME"; Path = "AppData\Local" },
-    @{ Name = "XDG_DATA_HOME"; Path = "AppData\Local" }
+    @{ Name = "XDG_DATA_HOME"; Path = "AppData\Local" },
+    @{ Name = "KOMOREBI_CONFIG_HOME"; Path = ".config\komorebi" }
 )
 
 Set-UserEnvironmentVariables -variables $envVars
@@ -560,8 +561,6 @@ if (!(Test-Path -Path $themesDestDir)) {
 }
 Copy-Item -Path "$env:USERPROFILE\.config\btop\btop.conf" -Destination "$configDestDir\btop.conf" -Force
 Copy-Item -Path "$env:USERPROFILE\.config\btop\themes\catppuccin_mocha.theme" -Destination "$themesDestDir\catppuccin_mocha.theme" -Force
-
-[System.Environment]::SetEnvironmentVariable("KOMOREBI_CONFIG_HOME", "$env:USERPROFILE\.config\komorebi", [System.EnvironmentVariableTarget]::User)
 
 $projectPath = "$env:USERPROFILE\.glzr\zebar\bar"
 Write-Host "Building zebar bar..."
