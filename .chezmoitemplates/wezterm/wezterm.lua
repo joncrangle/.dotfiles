@@ -51,6 +51,7 @@ config.inactive_pane_hsb = {
   saturation = 0.7,
   brightness = 0.4,
 }
+config.max_fps = 120
 config.scrollback_lines = 5000
 config.underline_thickness = 3
 config.underline_position = -6
