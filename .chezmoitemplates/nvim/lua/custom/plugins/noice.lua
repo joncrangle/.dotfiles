@@ -1,18 +1,10 @@
 return {
   {
-    'rcarriga/nvim-notify',
-    event = 'VimEnter',
-    opts = {
-      background_colour = '#000000',
-    },
-  },
-  {
     'folke/noice.nvim',
     lazy = true,
     event = 'VimEnter',
     dependencies = {
       'MunifTanjim/nui.nvim',
-      'rcarriga/nvim-notify',
     },
     opts = {
       lsp = {
