@@ -2,7 +2,7 @@
 -- used for completion, annotations and signatures of Neovim apis
 return {
   { 'Bilal2453/luvit-meta',        lazy = true, ft = 'lua' },
-  { 'justinsgithub/wezterm-types', lazy = true, ft = 'lua' },
+  { 'gonstoll/wezterm-types', lazy = true, ft = 'lua' },
   {
     'folke/lazydev.nvim',
     ft = 'lua',
