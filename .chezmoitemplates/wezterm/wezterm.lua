@@ -27,6 +27,7 @@ require 'tabline'.tabline()
 config.front_end = 'WebGpu'
 config.cursor_blink_ease_in = 'Constant'
 config.cursor_blink_ease_out = 'Constant'
+config.max_fps = 120
 
 --  Colour scheme and UI
 config.adjust_window_size_when_changing_font_size = false
@@ -51,7 +52,6 @@ config.inactive_pane_hsb = {
   saturation = 0.7,
   brightness = 0.4,
 }
-config.max_fps = 120
 config.scrollback_lines = 5000
 config.underline_thickness = 3
 config.underline_position = -6
