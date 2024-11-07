@@ -12,7 +12,7 @@ local function generate_vendor(port, model)
         },
         body = {
           model = opts.model,
-          messages = require('avante.providers').copilot.parse_message(code_opts),
+          messages = require('avante.providers').copilot.parse_messages(code_opts),
           temperature = 0,
           max_tokens = 8192,
           stream = true,
@@ -20,7 +20,7 @@ local function generate_vendor(port, model)
       }
     end,
     parse_response_data = function(data_stream, event_state, opts)
-      require('avante.providers').openai.parse_response(data_stream, event_state, opts)
+      require('avante.providers').copilot.parse_response(data_stream, event_state, opts)
     end,
   }
 end
