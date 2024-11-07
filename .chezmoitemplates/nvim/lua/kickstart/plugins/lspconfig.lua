@@ -194,6 +194,7 @@ return {
                 typeCheckingMode = 'standard',
                 autoSearchPaths = true,
                 useLibraryCodeForTypes = true,
+                autoImportCompletions = true,
               },
             },
           },
