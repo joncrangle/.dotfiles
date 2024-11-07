@@ -1,5 +1,5 @@
 -- Modified from https://github.com/folke/dot/blob/master/config/wezterm/tabs.lua
-local wezterm = require 'wezterm'
+local wezterm = require 'wezterm' --[[@as Wezterm]]
 
 local M = {}
 M.arrow_solid = wezterm.nerdfonts.cod_triangle_right

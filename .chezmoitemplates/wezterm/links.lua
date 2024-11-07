@@ -1,6 +1,3 @@
----@diagnostic disable-next-line: unused-local
-local wezterm = require 'wezterm'
-
 local M = {}
 
 function M.apply_to_config(config)

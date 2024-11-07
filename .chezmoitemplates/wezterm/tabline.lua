@@ -1,4 +1,4 @@
-local wezterm = require 'wezterm'
+local wezterm = require 'wezterm' --[[@as Wezterm]]
 local colors = wezterm.get_builtin_color_schemes()['Catppuccin Mocha']
 
 local M = {}
