@@ -10,12 +10,10 @@ local config = {
 
 local ns_id = vim.api.nvim_create_namespace('visual_line_numbers')
 
-local function setup_highlights()
-  vim.api.nvim_set_hl(0, 'VisualLineNr', { fg = config.fg, bg = config.bg })
-end
-
 vim.api.nvim_create_autocmd('ColorScheme', {
-  callback = setup_highlights
+  callback = function()
+    vim.api.nvim_set_hl(0, 'VisualLineNr', { fg = config.fg, bg = config.bg })
+  end
 })
 
 local function update_highlights()
@@ -41,6 +39,7 @@ local function update_highlights()
 end
 
 local debounce_timer = nil
+
 local function debounced_update()
   if debounce_timer then
     vim.fn.timer_stop(debounce_timer)
