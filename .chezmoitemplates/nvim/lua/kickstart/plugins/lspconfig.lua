@@ -394,6 +394,7 @@ return {
         'prettierd',
         'shellharden',
         'shfmt',
+        'sqlfluff',
         'stylua',
         'templ',
       })

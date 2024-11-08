@@ -34,6 +34,7 @@ return {
         markdown = { 'markdownlint' },
         python = { 'ruff_format' },
         sh = { 'shfmt', 'shellharden' },
+        sql = { 'sqlfluff' },
         svelte = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
         templ = { 'templ' },
         toml = { 'prettierd', 'prettier', stop_after_first = true },
