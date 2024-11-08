@@ -141,6 +141,7 @@ $envVars = @(
 )
 
 Set-UserEnvironmentVariables -variables $envVars
+$env:XDG_CONFIG_HOME = "$env:USERPROFILE\AppData\Local"
 
 Write-Host "Moving dotfiles..."
 chezmoi init --apply https://github.com/joncrangle/.dotfiles.git
