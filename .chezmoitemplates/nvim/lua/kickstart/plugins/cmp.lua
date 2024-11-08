@@ -163,16 +163,17 @@ return {
     },
     opts = {
       accept = { auto_brackets = { enabled = true } },
-      nerd_font_variant = "mono",
+      nerd_font_variant = 'mono',
       trigger = { signature_help = { enabled = true } },
       sources = {
         completion = {
-          enabled_providers = { "lsp", "path", "snippets", "buffer", "lazydev" },
+          enabled_providers = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev', 'dadbod' },
         },
         providers = {
           -- dont show LuaLS require statements when lazydev has items
-          lsp = { fallback_for = { "lazydev" } },
-          lazydev = { name = "LazyDev", module = "lazydev.integrations.blink" },
+          lsp = { fallback_for = { 'lazydev' } },
+          lazydev = { name = 'LazyDev', module = 'lazydev.integrations.blink' },
+          dadbod = { name = 'Dadbod', module = 'custom.dadbod' },
         },
       },
       windows = {
