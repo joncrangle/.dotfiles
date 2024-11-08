@@ -27,6 +27,7 @@ return {
         'git_config',
         'go',
         'html',
+        'http',
         'hyprlang',
         'javascript',
         'lua',
