@@ -2,18 +2,6 @@
 
 ## 🦙 Ollama
 
-**Chat**
-
-- Current chat LLM: [Replete-LLM-V2.5-Qwen-14b-q4_K_M](https://huggingface.co/bartowski/Replete-LLM-V2.5-Qwen-14b-GGUF)
-- Current coding LLM: [Qwen2.5-coder:7b-Instruct-q6_K](https://huggingface.co/bartowski/Qwen2.5-Coder-7B-Instruct-GGUF)
-
-**Image Generation**
-
-- Current LLM: [Dreamshaper XL 2.1 Turbo](https://civitai.com/models/112902/dreamshaper-xl)
-- LORAs: [Detailed Style XL](https://civitai.com/models/421162/detailed-style-xl-hand-focus-all-in-one-detailed-perfection-style-extension?modelVersionId=469308) and [Detailed Perfection Style XL](https://civitai.com/models/411088/detailed-perfection-style-xl-hands-feet-face-body-all-in-one?modelVersionId=458257)
-- Negative embeddings: [BadDream + UnrealisticDream](https://civitai.com/models/72437?modelVersionId=77173) and [FastNegativeV2](https://civitai.com/models/71961/fast-negative-embedding)
-- Upscaler: RealESRGAN x2
-
 > [!NOTE]
 To expose on local network, edit: `~/Library/LaunchAgents/homebrew.mxcl.ollama.plist` by adding the following:
 ```xml
@@ -34,11 +22,19 @@ To expose on local network, edit: `~/Library/LaunchAgents/homebrew.mxcl.ollama.p
 
 ## 🖼️Comfy UI
 
+**Image Generation**
+
+- Current LLM: [argmaxinc/mlx-FLUX.1-schnell-4bit-quantized](https://huggingface.co/argmaxinc/mlx-FLUX.1-schnell-4bit-quantized)
+- Othr: [Dreamshaper XL 2.1 Turbo](https://civitai.com/models/112902/dreamshaper-xl)
+  - LORAs: [Detailed Style XL](https://civitai.com/models/421162/detailed-style-xl-hand-focus-all-in-one-detailed-perfection-style-extension?modelVersionId=469308) and [Detailed Perfection Style XL](https://civitai.com/models/411088/detailed-perfection-style-xl-hands-feet-face-body-all-in-one?modelVersionId=458257)
+  - Negative embeddings: [BadDream + UnrealisticDream](https://civitai.com/models/72437?modelVersionId=77173) and [FastNegativeV2](https://civitai.com/models/71961/fast-negative-embedding)
+  - Upscaler: RealESRGAN x2
+
 Install [ComfyUI](https://github.com/comfyanonymous/ComfyUI) and [ComfyUI-Manager](https://github.com/ltdrdata/ComfyUI-Manager) according to the instructions. Copy [./llm/pyproject.toml] to the `ComfyUI` directory and run `uv sync`. Enable `Dev Mode`.
 
 [Custom plist](./llm/com.joncrangle.llm.plist) can be moved to `~/Library/LaunchAgents` to automatically start on login listening on `0.0.0.0` for local network access.
 
-- Current workflow: [Dreamshaper](./llm/dreamshaper-workflow-api.json)
+- Current workflow: [Flux.1 Schnell](./llm/flux-workflow-api.json)
 - Custom nodes (use ComfyUI-Manager to install):
  - ComfyUI Impact Pack
  - WAS Node Suite
