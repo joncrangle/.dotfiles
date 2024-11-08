@@ -173,7 +173,7 @@ return {
           -- dont show LuaLS require statements when lazydev has items
           lsp = { fallback_for = { 'lazydev' } },
           lazydev = { name = 'LazyDev', module = 'lazydev.integrations.blink' },
-          dadbod = { name = 'Dadbod', module = 'custom.dadbod' },
+          dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink', score_offset = 3 },
         },
       },
       windows = {
