@@ -12,39 +12,51 @@ local ns_id = vim.api.nvim_create_namespace('visual_line_numbers')
 
 vim.api.nvim_create_autocmd('ColorScheme', {
   callback = function()
-    vim.api.nvim_set_hl(0, 'VisualLineNr', { fg = config.fg, bg = config.bg })
+    local ok, err = pcall(function()
+      vim.api.nvim_set_hl(0, 'VisualLineNr', { fg = config.fg, bg = config.bg })
+    end)
+
+    if not ok then
+      vim.notify('Error setting highlight group: ' .. tostring(err), vim.log.levels.ERROR)
+    end
   end
 })
 
 local function update_highlights()
-  vim.api.nvim_buf_clear_namespace(0, ns_id, 0, -1)
+  local ok, err = pcall(function()
+    vim.api.nvim_buf_clear_namespace(0, ns_id, 0, -1)
 
-  if not vim.fn.mode():match('[vV\x16]') then
-    return
-  end
+    local current_mode = vim.fn.mode()
+    if not current_mode:match('[vV\x16]') then
+      return
+    end
 
-  local start_line = vim.fn.line('v')
-  local end_line = vim.fn.line('.')
+    local start_line = vim.fn.line('v')
+    local end_line = vim.fn.line('.')
 
-  if start_line > end_line then
-    start_line, end_line = end_line, start_line
-  end
+    if start_line > end_line then
+      start_line, end_line = end_line, start_line
+    end
 
-  for line = start_line, end_line do
-    vim.api.nvim_buf_set_extmark(0, ns_id, line - 1, 0, {
-      number_hl_group = config.highlight_group,
-      priority = config.priority,
-    })
+    for line = start_line, end_line do
+      vim.api.nvim_buf_set_extmark(0, ns_id, line - 1, 0, {
+        number_hl_group = config.highlight_group,
+        priority = config.priority,
+      })
+    end
+  end)
+
+  if not ok then
+    vim.notify('Error updating visual line numbers: ' .. tostring(err), vim.log.levels.ERROR)
   end
 end
 
-local debounce_timer = nil
-
+local debounce_timer = vim.uv.new_timer()
 local function debounced_update()
-  if debounce_timer then
-    vim.fn.timer_stop(debounce_timer)
-  end
-  debounce_timer = vim.fn.timer_start(config.debounce_ms, vim.schedule_wrap(update_highlights))
+  debounce_timer:stop()
+  debounce_timer:start(config.debounce_ms, 0, vim.schedule_wrap(function()
+    update_highlights()
+  end))
 end
 
 local group = vim.api.nvim_create_augroup('VisualLineNumbers', { clear = true })
