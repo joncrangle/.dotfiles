@@ -31,6 +31,7 @@ return {
     event = 'VeryLazy',
     build = vim.fn.has 'win32' == 0 and 'make' or
         'pwsh.exe -NoProfile -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false',
+    dependencies = { 'stevearc/dressing.nvim' },
     opts = {
       provider = 'qwen',
       vendors = {
