@@ -41,6 +41,7 @@ Install [ComfyUI](https://github.com/comfyanonymous/ComfyUI) and [ComfyUI-Manage
  - rgthree's ComfyUI Nodes
  - ComfyUI-Custom-Scripts
  - ComfyUI MLX Nodes
+ - ComfyUI Easy Use
 
 ## 💬 OpenWebUI
 
