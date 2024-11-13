@@ -32,6 +32,8 @@ return {
         json = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
         lua = { 'stylua' },
         markdown = { 'markdownlint' },
+        mysql = { 'sqlfluff' },
+        plsql = { 'sqlfluff' },
         python = { 'ruff_format' },
         sh = { 'shfmt', 'shellharden' },
         sql = { 'sqlfluff' },
@@ -42,6 +44,11 @@ return {
         typescriptreact = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
         yaml = { 'prettierd', 'prettier', stop_after_first = true },
         zsh = { 'shfmt' },
+      },
+      formatters = {
+        sqlfluff = {
+          args = { 'format', '--dialect=ansi', '-' },
+        },
       },
     },
     config = function()
