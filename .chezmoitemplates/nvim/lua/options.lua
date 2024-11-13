@@ -32,6 +32,27 @@ vim.opt.virtualedit = 'block'
 --  See `:help 'clipboard'`
 vim.schedule(function()
   vim.opt.clipboard = 'unnamedplus'
+  -- OSC 52 Wezterm clipboard workaround for remote sessions
+  if os.getenv 'SSH_CLIENT' ~= nil or os.getenv 'SSH_TTY' ~= nil then
+    local function my_paste(_)
+      return function(_)
+        local content = vim.fn.getreg '"'
+        return vim.split(content, '\n')
+      end
+    end
+
+    vim.g.clipboard = {
+      name = 'OSC 52',
+      copy = {
+        ['+'] = require('vim.ui.clipboard.osc52').copy '+',
+        ['*'] = require('vim.ui.clipboard.osc52').copy '*',
+      },
+      paste = {
+        ['+'] = my_paste '+',
+        ['*'] = my_paste '*',
+      },
+    }
+  end
 end)
 
 -- Enable break indent
