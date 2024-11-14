@@ -5,9 +5,14 @@ return {
     priority = 1000,
     lazy = false,
     opts = {
+      bigfile = { enabled = true },
       lazygit = {
         configure = false
       },
+      notifier = { enabled = true },
+      quickfile = { enabled = true },
+      statuscolumn = { enabled = true },
+      words = { enabled = true },
       styles = {
         notification = {
           wo = { wrap = true, winblend = 0 }
