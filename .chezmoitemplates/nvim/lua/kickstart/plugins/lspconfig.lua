@@ -282,7 +282,6 @@ return {
         mdx_analyzer = {},
         prismals = {},
         ruff = {},
-        sqlls = {},
         svelte = {},
         tailwindcss = {
           filetypes_exclude = { 'markdown' },
