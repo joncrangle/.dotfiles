@@ -304,6 +304,7 @@ packages=(
     "krita"
     "lazydocker"
     "lazygit"
+    "lazysql"
     "libreoffice"
     "lua"
     "luajit"

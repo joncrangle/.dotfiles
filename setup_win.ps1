@@ -495,6 +495,7 @@ cargo install cargo-update
 cargo install cargo-cache
 cargo install --locked bacon
 pnpm setup
+go install github.com/jorgerojas26/lazysql@latest
 
 # Add apps to Windows startup
 $links = @(
