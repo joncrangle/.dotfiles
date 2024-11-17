@@ -70,7 +70,6 @@ if wezterm.target_triple:find 'windows' then
   config.win32_system_backdrop = 'Acrylic'
   font_size = 11
 elseif wezterm.target_triple:find 'linux' then
-  config.term = 'wezterm'
   config.window_decorations = 'NONE'
   config.enable_wayland = true
   config.webgpu_power_preference = 'LowPower'
