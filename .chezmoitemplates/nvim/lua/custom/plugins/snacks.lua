@@ -6,6 +6,44 @@ return {
     lazy = false,
     opts = {
       bigfile = { enabled = true },
+      dashboard = {
+        enabled = true,
+        preset = {
+          keys = {
+            { action = ':lua Snacks.dashboard.pick("files")', desc = ' Find File', icon = ' ', key = 'f' },
+            { action = ':ene | startinsert', desc = ' New File', icon = ' ', key = 'n' },
+            { action = ':lua Snacks.dashboard.pick("oldfiles")', desc = ' Recent Files', icon = ' ', key = 'r' },
+            { action = ':lua Snacks.dashboard.pick("live_grep")', desc = ' Find Text', icon = ' ', key = 'g' },
+            {
+              action = ':lua Snacks.dashboard.pick("files", {cwd = vim.fn.stdpath("config")})',
+              desc = ' Neovim Config',
+              icon = ' ',
+              key = 'v',
+            },
+            {
+              action = ':lua Snacks.dashboard.pick("files", {cwd = "$XDG_CONFIG_HOME/wezterm" })',
+              desc = ' Wezterm Config',
+              icon = ' ',
+              key = 'w',
+            },
+            {
+              action = ':lua require("telescope").extensions.chezmoi.find_files()',
+              desc = ' Chezmoi',
+              icon = '',
+              key = 'c',
+            },
+            { action = ':lua require("persistence").load()', desc = ' Restore Session', icon = ' ', key = 's' },
+            { action = ':Lazy', desc = ' Lazy', icon = '󰒲 ', key = 'l' },
+            { action = ':Mason', desc = ' Mason', icon = '󱊈 ', key = 'm' },
+            {
+              action = ':qa',
+              desc = ' Quit',
+              icon = ' ',
+              key = 'q',
+            },
+          }
+        },
+      },
       lazygit = {
         configure = false
       },
@@ -35,6 +73,7 @@ return {
       vim.api.nvim_create_autocmd("User", {
         pattern = "VeryLazy",
         callback = function()
+          vim.b.miniindentscope_disable = true
           -- Setup some globals for debugging (lazy-loaded)
           _G.dd = function(...)
             Snacks.debug.inspect(...)
