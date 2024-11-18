@@ -305,6 +305,8 @@ packages=(
     "lazydocker"
     "lazygit"
     "lazysql"
+    "libastal-io-git"
+    "libastal-git"
     "libreoffice"
     "lua"
     "luajit"
