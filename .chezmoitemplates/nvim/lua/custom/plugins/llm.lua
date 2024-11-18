@@ -1,6 +1,6 @@
 local function generate_vendor(port, model)
   return {
-    ['local'] = true,
+    api_key_name = '',
     endpoint = '{{- if eq .chezmoi.os "darwin" -}}127.0.0.1{{- else -}}{{- .MacAddress -}}{{- end -}}',
     model = model,
     parse_curl_args = function(opts, code_opts)
