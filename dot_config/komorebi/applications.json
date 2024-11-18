@@ -192,6 +192,22 @@
       }
     ]
   },
+  "Balabolka": {
+    "ignore": [
+      [
+        {
+          "kind": "Exe",
+          "id": "balabolka.exe",
+          "matching_strategy": "Equals"
+        },
+        {
+          "kind": "Class",
+          "id": "TBalabolkaForm",
+          "matching_strategy": "DoesNotEqual"
+        }
+      ]
+    ]
+  },
   "Beeper": {
     "tray_and_multi_window": [
       {
@@ -771,6 +787,15 @@
       }
     ]
   },
+  "Line": {
+    "floating": [
+      {
+        "kind": "Exe",
+        "id": "LineMediaPlayer.exe",
+        "matching_strategy": "Equals"
+      }
+    ]
+  },
   "LocalSend": {
     "tray_and_multi_window": [
       {
@@ -900,16 +925,18 @@
   },
   "Microsoft Edge": {
     "ignore": [
-      {
-        "kind": "Exe",
-        "id": "msedge.exe",
-        "matching_strategy": "Equals"
-      },
-      {
-        "kind": "Class",
-        "id": "Chrome_WidgetWin_2",
-        "matching_strategy": "Equals"
-      }
+      [
+        {
+          "kind": "Exe",
+          "id": "msedge.exe",
+          "matching_strategy": "Equals"
+        },
+        {
+          "kind": "Class",
+          "id": "Chrome_WidgetWin_2",
+          "matching_strategy": "Equals"
+        }
+      ]
     ]
   },
   "Microsoft Excel": {
@@ -1025,6 +1052,22 @@
         "id": "WINWORD.EXE",
         "matching_strategy": "Equals"
       }
+    ]
+  },
+  "MobaXterm": {
+    "manage": [
+      [
+        {
+          "kind": "Exe",
+          "id": "MobaXterm.exe",
+          "matching_strategy": "Equals"
+        },
+        {
+          "kind": "Class",
+          "id": "TMobaXtermForm",
+          "matching_strategy": "Equals"
+        }
+      ]
     ]
   },
   "Modern Flyouts": {
@@ -1617,6 +1660,15 @@
       }
     ]
   },
+  "TeraCopy": {
+    "ignore": [
+      {
+        "kind": "Exe",
+        "id": "TeraCopy.exe",
+        "matching_strategy": "Equals"
+      }
+    ]
+  },
   "TickTick": {
     "tray_and_multi_window": [
       {
@@ -1726,6 +1778,20 @@
         "id": "UnrealEditor.exe",
         "matching_strategy": "Equals"
       }
+    ],
+    "floating": [
+      [
+        {
+          "kind": "Exe",
+          "id": "UnrealEditor.exe",
+          "matching_strategy": "Equals"
+        },
+        {
+          "kind": "Title",
+          "id": "- Unreal Editor",
+          "matching_strategy": "DoesNotEndWith"
+        }
+      ]
     ]
   },
   "VLC": {
@@ -1878,15 +1944,70 @@
         "matching_strategy": "Equals"
       }
     ],
+    "floating": [
+      [
+        {
+          "kind": "Exe",
+          "id": "devenv.exe",
+          "matching_strategy": "Equals"
+        },
+        {
+          "kind": "Title",
+          "id": "QuickWatch",
+          "matching_strategy": "Equals"
+        }
+      ],
+      [
+        {
+          "kind": "Exe",
+          "id": "devenv.exe",
+          "matching_strategy": "Equals"
+        },
+        {
+          "kind": "Title",
+          "id": " - Microsoft Visual Studio",
+          "matching_strategy": "DoesNotEndWith"
+        }
+      ]
+    ],
     "ignore": [
       {
         "kind": "Exe",
         "id": "VsDebugConsole.exe",
         "matching_strategy": "Equals"
       },
+      [
+        {
+          "kind": "Exe",
+          "id": "iisexpresstray.exe",
+          "matching_strategy": "Equals"
+        },
+        {
+          "kind": "Class",
+          "id": "WindowsForms10.Window",
+          "matching_strategy": "StartsWith"
+        }
+      ],
       {
-        "kind": "Class",
-        "id": "WindowsForms10.Window.8.app.0.13fa1bf_r22_ad1",
+        "kind": "Title",
+        "id": "WindowsFormsParkingWindow",
+        "matching_strategy": "Equals"
+      },
+      [
+        {
+          "kind": "Exe",
+          "id": "devenv.exe",
+          "matching_strategy": "Equals"
+        },
+        {
+          "kind": "Title",
+          "id": "Move files to a new location?",
+          "matching_strategy": "Equals"
+        }
+      ],
+      {
+        "kind": "Exe",
+        "id": "ServiceHub.ThreadedWaitDialog.exe",
         "matching_strategy": "Equals"
       }
     ]
@@ -2246,4 +2367,3 @@
     ]
   }
 }
-
