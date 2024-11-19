@@ -58,16 +58,16 @@ yabai -m config external_bar all:$(sketchybar --query bar | jq -r '.height'):0
  }
  
  setup_space 1 finder
- setup_space 2 wezterm
- setup_space 3 arc
- setup_space 4 obsidian
+ setup_space 2 terminal
+ setup_space 3 browser
+ setup_space 4 scratch
  setup_space 5 other
 
 # Move some apps automatically to specific spaces
 yabai -m rule --add app="^Finder$" space=1
 yabai -m rule --add app="^Podcasts$" space=1
 yabai -m rule --add app="WezTerm" space=2
-yabai -m rule --add app="^Arc$" space=^3
+yabai -m rule --add app="^Zen Browser$" space=^3
 yabai -m rule --add app="Obsidian" space=4
 
 # No tiling
