@@ -52,7 +52,7 @@ if (!(Test-Path $scoopDir))
 Write-Host "Installing terminal apps..."
 $appsToInstall = @(
     "age", "chezmoi", "fzf", "gh", "innounp-unicode", "IosevkaTerm-NF",
-    "Maple-Mono","psfzf", "psreadline", "starship", "terminal-icons", "zoxide"
+    "Maple-Mono", "psfzf", "psreadline", "starship", "terminal-icons", "zoxide"
 )
 
 try
@@ -362,7 +362,7 @@ function x
 function yy
 {
     `$tmp = [System.IO.Path]::GetTempFileName()
-    yazi $args --cwd-file="`$tmp"
+    yazi `$args --cwd-file="`$tmp"
     `$cwd = Get-Content -Path `$tmp
     if (-not [String]::IsNullOrEmpty(`$cwd) -and `$cwd -ne `$PWD.Path)
     {
@@ -473,7 +473,8 @@ $packages = @(
     "lazydocker", "lua", "luarocks", "make", "mariadb", "Meslo-NF", "mingw", "neovim", "nodejs",
     "obsidian", "poppler", "pnpm", "postgresql", "python", "ripgrep", "rustup-gnu", "sqlite",
     "tableplus", "tldr", "topgrade", "tree-sitter", "unar", "unzip", "uv", "vlc", "vcredist2022",
-    "vscode", "wezterm-nightly", "win32yank", "wget", "whkd", "yarn", "yazi", "yq", "zig", "zoom"
+    "vscode", "wezterm-nightly", "win32yank", "wget", "whkd", "yarn", "yazi", "yq", "zebar",
+    "zig", "zoom"
 )
 
 foreach ($package in $packages)
@@ -578,10 +579,5 @@ try
 {
     Set-Location -Path $PSScriptRoot
 }
-
-Write-Host "NOTE: Until 'zebar' adds a scoop installer, you need to unpack it manually."
-Write-Host "Download the latest installer from https://github.com/glzr-io/zebar/releases"
-Write-Host "Run the command 'msiexec /a C:\Users\CRANGLJ\Downloads\zebar-v2.4.0-opt1-x64.msi /qb TARGETDIR=C:\Users\CRANGLJ\Downloads\zebar'"
-Write-Host "Add the 'zebar' executable path to user PATH environment variable."
 
 Write-Host "Configuration complete. Please restart the terminal."
