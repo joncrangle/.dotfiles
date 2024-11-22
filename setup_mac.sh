@@ -82,8 +82,10 @@ cargo install cargo-cache
 cargo install --locked bacon
 ya pack -i
 ya pack -u
-launchctl setenv OLLAMA_HOST "0.0.0.0"
-brew services start ollama
+asdf plugin add nodejs
+asdf install nodejs latest
+asdf global nodejs latest
+asdf local nodejs latest
 
 mkdir -p $HOME/Documents/Code
 # Start yabai, skhd, sketchybar and borders

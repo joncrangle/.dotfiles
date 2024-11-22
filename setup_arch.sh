@@ -254,6 +254,7 @@ echo "Fonts installed successfully."
 
 # Install packages
 packages=(
+    "asdf-vm"
     "audacity"
     "aylurs-gtk-shell-git"
     "bat"
@@ -485,6 +486,15 @@ if [[ $(_isInstalledParu "yazi-git") == 0 ]]; then
     echo ":: Installing yazi plugins..."
     ya pack -i
     ya pack -u
+fi
+
+# Install asdf plugins
+if [[ $(_isInstalledParu "asdf-vm") == 0 ]]; then
+    echo ":: Installing asdf plugins..."
+    asdf plugin add nodejs
+    asdf install nodejs latest
+    asdf global nodejs latest
+    asdf local nodejs latest
 fi
 
 # Check for ttf-ms-fonts
