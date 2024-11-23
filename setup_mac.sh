@@ -86,6 +86,15 @@ asdf plugin add nodejs
 asdf install nodejs latest
 asdf global nodejs latest
 asdf local nodejs latest
+jj config set --user user.name "jonathancrangle"
+jj config set --user user.email "94405204+joncrangle@users.noreply.github.com"
+echo -e '\n[ui]
+pager = "delta"
+editor = "nvim"
+diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
+
+[ui.diff]
+format = "git"' | tee -a "$(jj config path --user)" >/dev/null
 
 mkdir -p $HOME/Documents/Code
 # Start yabai, skhd, sketchybar and borders

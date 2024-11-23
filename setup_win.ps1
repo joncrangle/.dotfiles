@@ -469,7 +469,7 @@ Write-Host "Fonts installed successfully."
 Write-Host "Installing Scoop apps..."
 $packages = @(
     "7zip", "bat", "biome", "bruno", "curl", "delta", "docker", "eza", "fastfetch", "fd",
-    "ffmpeg", "glow", "go", "gzip", "JetBrainsMono-NF", "jq", "komorebi", "krita", "lazygit",
+    "ffmpeg", "glow", "go", "gzip", "JetBrainsMono-NF", "jj", "jq", "komorebi", "krita", "lazygit",
     "lazydocker", "lua", "luarocks", "make", "mariadb", "Meslo-NF", "mingw", "neovim", "nodejs",
     "obsidian", "poppler", "pnpm", "postgresql", "python", "ripgrep", "rustup-gnu", "sqlite",
     "tableplus", "tldr", "topgrade", "tree-sitter", "unar", "unzip", "uv", "vlc", "vcredist2022",
@@ -497,6 +497,17 @@ cargo install cargo-cache
 cargo install --locked bacon
 pnpm setup
 go install github.com/jorgerojas26/lazysql@latest
+jj config set --user user.name "jonathancrangle"
+jj config set --user user.email "94405204+joncrangle@users.noreply.github.com"
+@"
+`n[ui]
+pager = "delta"
+editor = "nvim"
+diff-editor = @("nvim", "-c", "DiffEditor `$left `$right `$output")
+
+[ui.diff]
+format = "git"
+"@ | Out-File -Append -FilePath (jj config path --user) -Encoding utf8
 
 # Add apps to Windows startup
 $links = @(

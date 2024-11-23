@@ -40,6 +40,7 @@ source "/usr/share/zsh-antidote/antidote.zsh"
 {{ else }}
 source "$HOMEBREW_DIR/opt/antidote/share/antidote/antidote.zsh"
 {{ end }}
+source <(jj util completion zsh)
 
 [ -s "~/.bun/_bun" ] && source "~/.bun/_bun"
 {{ if eq .chezmoi.os "darwin" }}

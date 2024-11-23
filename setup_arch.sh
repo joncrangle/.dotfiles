@@ -301,6 +301,7 @@ packages=(
     "hyprpicker-git"
     "imagemagick"
     "imv"
+    "jujutsu"
     "jq"
     "krita"
     "lazydocker"
@@ -495,6 +496,20 @@ if [[ $(_isInstalledParu "asdf-vm") == 0 ]]; then
     asdf install nodejs latest
     asdf global nodejs latest
     asdf local nodejs latest
+fi
+
+# Install asdf plugins
+if [[ $(_isInstalledParu "jujutsu") == 0 ]]; then
+    echo ":: Configuring Jujutsu..."
+    jj config set --user user.name "jonathancrangle"
+    jj config set --user user.email "94405204+joncrangle@users.noreply.github.com"
+    echo -e '\n[ui]
+pager = "delta"
+editor = "nvim"
+diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
+
+[ui.diff]
+format = "git"' | tee -a "$(jj config path --user)" > /dev/null
 fi
 
 # Check for ttf-ms-fonts

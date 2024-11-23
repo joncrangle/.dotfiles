@@ -14,7 +14,7 @@ return {
       natural_order = true,
       ---@diagnostic disable-next-line: unused-local
       is_always_hidden = function(name, bufnr)
-        return name == '.git'
+        return name == '.git' or name == '.jj'
       end,
     },
     win_options = {
