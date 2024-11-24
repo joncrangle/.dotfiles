@@ -2,7 +2,9 @@ local colors = require 'colors'
 
 local front_app = sbar.add('item', 'front_app', {
   icon = {
-    drawing = false
+    background = {
+      drawing = true,
+    },
   },
   label = {
     font = {
@@ -16,6 +18,9 @@ front_app:subscribe('front_app_switched', function(env)
     label = {
       string = env.INFO,
       color = colors.mauve
+    },
+    icon = {
+      background = { image = { string = 'app.' .. env.INFO, scale = 0.8 } },
     }
   })
 end)
