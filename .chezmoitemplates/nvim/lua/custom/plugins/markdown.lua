@@ -19,6 +19,11 @@ return {
     },
   },
   {
+    'OXY2DEV/helpview.nvim',
+    lazy = false,
+    ft = 'help',
+  },
+  {
     'iamcco/markdown-preview.nvim',
     cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
     ft = { 'markdown' },
