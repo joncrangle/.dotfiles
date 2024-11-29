@@ -48,6 +48,9 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 eval "$(thefuck --alias)"
 eval "$(starship init zsh)"
 
+zstyle ':fzf-tab:*' default-color ""
+zstyle ':fzf-tab:*' use-fzf-default-opts yes
+
 antidote load
 
 source <(fzf --zsh)
