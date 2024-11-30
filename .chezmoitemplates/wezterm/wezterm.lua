@@ -15,7 +15,7 @@ local config = wezterm.config_builder() ---@class Config
 wezterm.log_info 'reloading'
 
 -- Modules
-require 'docker'.apply_to_config(config)
+require 'podman'.apply_to_config(config)
 require 'keys'.apply_to_config(config)
 require 'links'.apply_to_config(config)
 require 'mouse'.apply_to_config(config)

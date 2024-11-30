@@ -21,6 +21,11 @@ alias cmu="chezmoi update && chezmoi apply"
 alias dock="docker-compose pull && docker-compose up -d; docker system prune -a -f"
 alias -s git="git clone"
 alias lazy="lazygit"
+{{ if eq .chezmoi.os "linux" }}
+alias lazydocker='DOCKER_HOST=unix:///run/user/1000/podman/podman.sock lazydocker'
+{{ else }}
+alias lazydocker='DOCKER_HOST=unix:///var/folders/73/jfd1wwgs4vq7hfw79_2fdcm00000gn/T/podman/podman-machine-default-api.sock lazydocker'
+{{ end }}
 alias lg="lazygit"
 alias lzg="lazygit"
 alias lzd="lazydocker"
@@ -258,3 +263,4 @@ function yy() {
 	fi
 	rm -f -- "$tmp"
 }
+# vim: ft=zsh

@@ -1,40 +1,41 @@
 local wezterm = require 'wezterm' --[[@as Wezterm]]
+local podman = wezterm.target_triple:find 'darwin' and '/opt/homebrew/bin/podman' or 'podman'
 local M = {}
 
-local function docker_list()
-  local docker_container_list = {}
+local function podman_list()
+  local podman_container_list = {}
   local success, stdout, _ =
-      wezterm.run_child_process({ 'docker', 'container', 'ls', '--format', "{{ "{{.ID}}:{{.Names}}" }}" })
+      wezterm.run_child_process({ podman, 'container', 'ls', '--format', "{{ "{{.ID}}:{{.Names}}" }}" })
   if not success then
-    return docker_container_list
+    return podman_container_list
   end
   for _, line in ipairs(wezterm.split_by_newlines(stdout)) do
     local id, name = line:match("(.-):(.+)")
     if id and name then
-      docker_container_list[id] = name
+      podman_container_list[id] = name
     end
   end
-  return docker_container_list
+  return podman_container_list
 end
 
-local function make_docker_label_func(id)
+local function make_podman_label_func(id)
   return function(name)
     local _, stdout, _ =
-        wezterm.run_child_process({ 'docker', 'inspect', '--format', "{{ "{{.State.Running}}" }}", id })
+        wezterm.run_child_process({ podman, 'inspect', '--format', "{{ "{{.State.Running}}" }}", id })
     local running = stdout == 'true\n'
     local color = running and 'Green' or 'Red'
     return wezterm.format({
       { Foreground = { AnsiColor = color } },
-      { Text = 'docker container named ' .. name },
+      { Text = 'podman container named ' .. name },
     })
   end
 end
 
-local function make_docker_fixup_func(id)
+local function make_podman_fixup_func(id)
   return function(cmd)
     cmd.args = { 'sh' }
     local wrapped = {
-      'docker',
+      podman,
       'exec',
       '-it',
       id,
@@ -53,11 +54,11 @@ end
 
 function M.apply_to_config(config)
   local exec_domains = {}
-  for id, name in pairs(docker_list()) do
+  for id, name in pairs(podman_list()) do
     table.insert(
       exec_domains,
       ---@diagnostic disable-next-line: param-type-mismatch
-      wezterm.exec_domain('docker:' .. name, make_docker_fixup_func(id), make_docker_label_func(id))
+      wezterm.exec_domain('podman:' .. name, make_podman_fixup_func(id), make_podman_label_func(id))
     )
   end
   config.exec_domains = exec_domains

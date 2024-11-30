@@ -388,7 +388,6 @@ New-Alias -Name cat -Value bat
 New-Alias -Name lazy -Value lazygit
 New-Alias -Name lg -Value lazygit
 New-Alias -Name lzg -Value lazygit
-New-Alias -Name lzd -Value lazydocker
 New-Alias -Name tg -Value topgrade
 
 Write-Host "`e[38;5;80m         ___                                           `e[0m"
@@ -468,13 +467,12 @@ Write-Host "Fonts installed successfully."
 # Install Scoop apps
 Write-Host "Installing Scoop apps..."
 $packages = @(
-    "7zip", "bat", "biome", "bruno", "curl", "delta", "docker", "eza", "fastfetch", "fd",
-    "ffmpeg", "glow", "go", "gzip", "JetBrainsMono-NF", "jj", "jq", "komorebi", "krita", "lazygit",
-    "lazydocker", "lua", "luarocks", "make", "mariadb", "Meslo-NF", "mingw", "neovim", "nodejs",
-    "obsidian", "poppler", "pnpm", "postgresql", "python", "ripgrep", "rustup-gnu", "sqlite",
-    "tableplus", "tldr", "topgrade", "tree-sitter", "unar", "unzip", "uv", "vlc", "vcredist2022",
-    "vscode", "wezterm-nightly", "win32yank", "wget", "whkd", "yarn", "yazi", "yq", "zebar",
-    "zig", "zoom"
+    "7zip", "bat", "biome", "bruno", "curl", "delta", "eza", "fastfetch", "fd", "ffmpeg", "glow",
+    "go", "gzip", "JetBrainsMono-NF", "jj", "jq", "komorebi", "krita", "lazygit", "lua", "luarocks",
+    "make", "mariadb", "Meslo-NF", "mingw", "neovim", "nodejs", "obsidian", "poppler", "pnpm",
+    "postgresql", "python", "ripgrep", "rustup-gnu", "sqlite", "tableplus", "tldr", "topgrade",
+    "tree-sitter", "unar", "unzip", "uv", "vlc", "vcredist2022", "vscode", "wezterm-nightly",
+    "win32yank", "wget", "whkd", "yarn", "yazi", "yq", "zebar", "zig", "zoom"
 )
 
 foreach ($package in $packages)

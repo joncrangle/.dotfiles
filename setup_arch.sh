@@ -271,8 +271,6 @@ packages=(
     "cava"
     "cliphist"
     "cmus"
-    "docker"
-    "docker-compose"
     "dropbox"
     "exiv2"
     "eza"
@@ -329,6 +327,8 @@ packages=(
     "pavucontrol"
     "pipewire-audio"
     "pipewire-pulse"
+    "podman"
+    "podman-compose"
     "playerctl"
     "plexamp-appimage"
     "pnpm"
@@ -563,15 +563,6 @@ else
     sudo systemctl enable bluetooth.service
     sudo systemctl start bluetooth.service
     echo ":: bluetooth.service activated successfully."
-fi
-
-# Check for running docker.service
-if [[ $(systemctl list-units --all -t service --full --no-legend "docker.service" | sed 's/^\s*//g' | cut -f1 -d' ') == "docker.service" ]]; then
-    echo ":: docker.service already running."
-else
-    systemctl --user enable docker.service
-    systemctl --user start docker.service
-    echo ":: docker.service activated successfully."
 fi
 
 # Add ssh-key to ssh-agent
