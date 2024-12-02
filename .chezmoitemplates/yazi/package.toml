@@ -1,5 +1,5 @@
 [plugin]
-deps = [{ use = "dedukun/relative-motions", rev = "1d6d686" }, { use = "Reledia/glow", rev = "388e847" }, { use = "Rolv-Apneseth/starship", rev = "77a65f5" }]
+deps = [{ use = "dedukun/relative-motions", rev = "df97039" }, { use = "Reledia/glow", rev = "388e847" }, { use = "Rolv-Apneseth/starship", rev = "247f49d" }]
 
 [flavor]
 deps = []
