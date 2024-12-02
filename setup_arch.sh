@@ -300,6 +300,7 @@ packages=(
     "imagemagick"
     "imv"
     "jujutsu"
+    "just"
     "jq"
     "krita"
     "lazydocker"
