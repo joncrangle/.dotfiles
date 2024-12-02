@@ -176,13 +176,21 @@ return {
           dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink', score_offset = 3 },
         },
       },
-      windows = {
-        autocomplete = {
+      completion = {
+        menu = {
           border = 'single',
         },
         documentation = {
-          border = 'single',
           auto_show = true,
+          window = {
+            border = 'single',
+          },
+        },
+        signature = {
+          enabled = true,
+          window = {
+            border = 'single',
+          },
         },
       },
       keymap = {
