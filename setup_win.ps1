@@ -570,6 +570,7 @@ if (!(Test-Path -Path $themesDestDir)) {
 }
 Copy-Item -Path "$env:USERPROFILE\.config\btop\btop.conf" -Destination "$configDestDir\btop.conf" -Force
 Copy-Item -Path "$env:USERPROFILE\.config\btop\themes\catppuccin_mocha.theme" -Destination "$themesDestDir\catppuccin_mocha.theme" -Force
+bat cache --build
 
 $projectPath = "$env:USERPROFILE\.glzr\zebar\bar"
 Write-Host "Building zebar bar..."
