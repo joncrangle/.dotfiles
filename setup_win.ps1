@@ -171,29 +171,24 @@ Import-Module -Name Terminal-Icons
 
 #Fzf (Import the fuzzy finder and set a shortcut key to begin searching)
 Import-Module PSFzf
-Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+f' -PSReadlineChordReverseHistory 'Ctrl+r'
+Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
 
 `$ENV:EDITOR = "nvim"
 `$ENV:VISUAL = "nvim"
 `$ENV:STARSHIP_CONFIG = "$HOME\.config\starship\starship.toml"
 `$ENV:KOMOREBI_CONFIG_HOME = "$HOME\.config\komorebi"
 
-# Set FZF_DEFAULT_COMMAND
-`$env:FZF_DEFAULT_COMMAND = "fd --type f --hidden --follow --exclude .git"
-
-# Set FZF_CTRL_T_COMMAND to FZF_DEFAULT_COMMAND
-`$env:FZF_CTRL_T_COMMAND = `$env:FZF_DEFAULT_COMMAND
-
-# Set FZF_DEFAULT_OPTS
+# FZF
+`$env:FZF_DEFAULT_COMMAND = "fd --type f --hidden --follow --exclude .git --exclude .jj"
 `$ENV:FZF_DEFAULT_OPTS= " `
 --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 `
 --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc `
 --color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 `
 --color=selected-bg:#45475a `
 --multi"
-
-# Set FZF_ALT_C_OPTS
-`$env:FZF_ALT_C_OPTS = "--preview 'tree -C {} | Select-Object -First 10'"
+`$env:FZF_ALT_C_OPTS = "--walker-skip .git,node_modules,target,.jj --preview 'eza -T --icons {}'"
+`$env:FZF_CTRL_T_OPTS="--walker-skip .git,node_modules,target,.jj --preview 'bat -n --color=always {}' --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+`$env:FZF_CTRL_R_OPTS="--bind 'ctrl-y:execute-silent(echo {} | win32yank -i)+abort' --color header:italic"
 
 # Set BAT_THEME
 `$env:BAT_THEME="Catppuccin Mocha"
