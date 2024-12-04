@@ -583,7 +583,7 @@ try
     pnpm build
 } catch
 {
-    Write-Host "Failed to run pnpm commands in $projectPath: $_"
+    Write-Host "Failed to run pnpm commands in ${projectPath}: $_"
 } finally
 {
     Set-Location -Path $PSScriptRoot
