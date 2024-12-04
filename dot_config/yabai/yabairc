@@ -40,6 +40,7 @@ yabai -m config mouse_action1 move
 yabai -m config mouse_action2 resize
 yabai -m config mouse_drop_action swap
 yabai -m config external_bar all:$(sketchybar --query bar | jq -r '.height'):0
+yabai -m config menubar_opacity 0.0
 
 # Setup spaces
  for _ in $(yabai -m query --spaces | jq '.[].index | select(. > 6)'); do
