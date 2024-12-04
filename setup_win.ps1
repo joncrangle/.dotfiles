@@ -179,14 +179,16 @@ Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory
 `$ENV:KOMOREBI_CONFIG_HOME = "$HOME\.config\komorebi"
 
 # FZF
-`$env:FZF_DEFAULT_COMMAND = "fd --type f --hidden --follow --exclude .git --exclude .jj"
-`$ENV:FZF_DEFAULT_OPTS= " `
+`$env:FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git .jj --color=always"
+`$env:FZF_DEFAULT_OPTS=" `
 --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 `
 --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc `
 --color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 `
 --color=selected-bg:#45475a `
---multi"
-`$env:FZF_ALT_C_OPTS = "--walker-skip .git,node_modules,target,.jj --preview 'eza -T --icons {}'"
+--multi `
+--border=rounded `
+--bind 'ctrl-f:preview-page-down,ctrl-b:preview-page-up'"
+`$env:FZF_ALT_C_OPTS="--walker-skip .git,node_modules,target,.jj --preview 'eza -T --icons --color=always {}'"
 `$env:FZF_CTRL_T_OPTS="--walker-skip .git,node_modules,target,.jj --preview 'bat -n --color=always {}' --bind 'ctrl-/:change-preview-window(down|hidden|)'"
 `$env:FZF_CTRL_R_OPTS="--bind 'ctrl-y:execute-silent(echo {} | win32yank -i)+abort' --color header:italic"
 
