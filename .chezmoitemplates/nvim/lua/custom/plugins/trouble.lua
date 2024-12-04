@@ -1,14 +1,16 @@
 return {
-  'folke/trouble.nvim',
-  lazy = true,
-  opts = {},
-  cmd = 'Trouble',
-  dependencies = { 'echasnovski/mini.nvim' },
-  keys = {
-    {
-      '<leader>x',
-      '<cmd>Trouble diagnostics toggle<cr>',
-      desc = 'Toggle Trouble',
+  {
+    'folke/trouble.nvim',
+    lazy = true,
+    opts = {},
+    cmd = 'Trouble',
+    dependencies = { 'echasnovski/mini.nvim' },
+    keys = {
+      {
+        '<leader>x',
+        '<cmd>Trouble diagnostics toggle<cr>',
+        desc = 'Toggle Trouble',
+      },
     },
   },
   {
@@ -16,8 +18,9 @@ return {
     event = 'LspAttach',
     priority = 1000,
     config = function()
+      vim.diagnostic.config({ virtual_text = false })
       require('tiny-inline-diagnostic').setup()
-    end
+    end,
   },
 }
 -- vim: ts=2 sts=2 sw=2 et
