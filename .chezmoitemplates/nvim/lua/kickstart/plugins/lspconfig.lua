@@ -280,7 +280,6 @@ return {
         },
         marksman = {},
         mdx_analyzer = {},
-        prismals = {},
         ruff = {},
         svelte = {},
         tailwindcss = {
@@ -395,7 +394,6 @@ return {
         'shfmt',
         'sqlfluff',
         'stylua',
-        'templ',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
