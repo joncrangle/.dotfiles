@@ -54,13 +54,18 @@ function App() {
         {output.komorebi && (
           <>
             <div class="workspaces">
-              {output.komorebi.currentWorkspaces.map(workspace => (
-                <button
-                  class={`workspace ${workspace.name === output.komorebi.focusedWorkspace.name && 'focused'}`}
-                >
-                  {workspace.name}
-                </button>
-              ))}
+              {output.komorebi.currentWorkspaces.map(workspace => {
+                const isFocusedWorkspace =
+                  workspace.name === output.komorebi.focusedWorkspace.name &&
+                  output.komorebi.currentMonitor.name === output.komorebi.focusedMonitor.name;
+                return (
+                  <button
+                    class={`workspace ${isFocusedWorkspace && 'focused'}`}
+                  >
+                    {workspace.name}
+                  </button>
+                )
+              })}
             </div>
             <div class="focused-window">
               <span>{parseTitle(output.komorebi.focusedWorkspace.tilingContainers[output.komorebi.focusedWorkspace.focusedContainerIndex]?.windows[0]?.title) ?? "-"}</span>
