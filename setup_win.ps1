@@ -90,16 +90,21 @@ try
     if ($confirm -eq "y")
     {
         Write-Host ":: Generating a new SSH key for GitHub..."
-        ssh-keygen -t ed25519 -C "94425204+joncrangle@users.noreply.github.com" -f "$HOME\.ssh\id_ed25519"
-        $agentOutput = & ssh-agent
-        Invoke-Expression $agentOutput
-        $sshConfigPath = "$HOME\.ssh\config"
-        if (-not (Test-Path $sshConfigPath))
-        {
-            New-Item -Path $sshConfigPath -ItemType File -Force
+        try {
+            $sshDirectoryPath = Join-Path -Path $env:USERPROFILE -ChildPath ".ssh"
+            if (-not (Test-Path -Path $sshDirectoryPath)) {
+                New-Item -ItemType Directory -Path $sshDirectoryPath -Force
+            }
+            $keyPath = Join-Path -Path $sshDirectoryPath -ChildPath "id_ed25519"
+            ssh-keygen -t ed25519 -C "94425204+joncrangle@users.noreply.github.com" -f $keyPath
+            if (Test-Path -Path $keyPath) {
+                Write-Host "SSH key generated successfully at $keyPath"
+            } else {
+                Write-Host "Failed to generate SSH key"
+            }
+        } catch {
+            Write-Host "An error occurred: $_"
         }
-        Add-Content -Path $sshConfigPath -Value "Host *`n  AddKeysToAgent yes`n  IdentityFile $HOME\.ssh\id_ed25519"
-        ssh-add "$HOME\.ssh\id_ed25519"
     } elseif ($confirm -eq "n")
     {
         Write-Host ":: Skipping SSH key generation."
@@ -142,6 +147,7 @@ $envVars = @(
 
 Set-UserEnvironmentVariables -variables $envVars
 $env:XDG_CONFIG_HOME = "$env:USERPROFILE\AppData\Local"
+Set-Location $env:XDG_CONFIG_HOME
 
 Write-Host "Moving dotfiles..."
 chezmoi init --apply https://github.com/joncrangle/.dotfiles.git
@@ -217,12 +223,13 @@ Remove-Item -Path Alias:tg -ErrorAction SilentlyContinue
 
 function cme
 {
-    Set-Location "`$env:LOCALAPPDATA\chezmoi"
+    Set-Location "`$env:XDG_CONFIG_HOME\chezmoi"
 }
 
 function cmu
 {
-    chezmoi update && chezmoi apply
+    chezmoi update
+    chezmoi apply
 }
 
 function copy-line
@@ -492,8 +499,8 @@ rustup component add rust-analyzer
 cargo install cargo-update
 cargo install cargo-cache
 cargo install --locked bacon
-pnpm setup
 go install github.com/jorgerojas26/lazysql@latest
+komorebic fetch-asc
 jj config set --user user.name "jonathancrangle"
 jj config set --user user.email "94405204+joncrangle@users.noreply.github.com"
 @"
