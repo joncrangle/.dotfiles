@@ -54,6 +54,8 @@ alt + shift + r         : komorebic retile
 alt + p                 : komorebic toggle-pause
 
 # Layouts
+alt + oem_3             : komorebic change-layout horizontal-stack # oem_3 is `
+alt + shift + oem_3     : komorebic change-layout vertical-stack # oem_3 is `
 alt + x                 : komorebic flip-layout horizontal
 alt + y                 : komorebic flip-layout vertical
 
