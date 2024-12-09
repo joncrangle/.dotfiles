@@ -19,7 +19,7 @@ disable = [
 {{- if ne .chezmoi.os "linux" -}}
     "system", 
 {{- end -}}
-    "bun","containers","mas","vim","chocolatey","winget"]
+    "bun","containers","mas","vim","chocolatey","winget","microsoft_store"]
 
 # Ignore failures for these steps
 # ignore_failures = ["powershell"]
