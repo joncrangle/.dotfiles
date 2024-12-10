@@ -67,7 +67,7 @@ if wezterm.target_triple:find 'windows' then
   config.default_prog = { 'pwsh.exe', '-NoLogo' }
   config.window_background_opacity = 0.4
   config.window_decorations = 'RESIZE'
-  config.win32_system_backdrop = 'Acrylic'
+  config.win32_system_backdrop = 'Mica'
   font_size = 12
 elseif wezterm.target_triple:find 'linux' then
   config.window_decorations = 'NONE'
