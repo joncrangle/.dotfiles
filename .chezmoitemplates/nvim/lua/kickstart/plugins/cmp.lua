@@ -166,9 +166,7 @@ return {
       nerd_font_variant = 'mono',
       trigger = { signature_help = { enabled = true } },
       sources = {
-        completion = {
-          enabled_providers = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev', 'dadbod' },
-        },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev', 'dadbod' },
         providers = {
           -- dont show LuaLS require statements when lazydev has items
           lsp = { fallback_for = { 'lazydev' } },
