@@ -34,7 +34,7 @@ return {
         { '<leader>s', group = '[S]earch', icon = { icon = '', color = 'green' } },
         { '<leader>t', group = '[T]oggle', icon = { icon = '', color = 'orange' } },
         { '<leader>w', group = '[W]orkspace', icon = { icon = '', color = 'yellow' } },
-        { '<leader>p', group = 'Persistent Sessions', icon = { icon = '', color = 'yellow' } },
+        { '<leader>p', group = '[P]ersistent Sessions', icon = { icon = '', color = 'yellow' } },
         { '<leader>u', '<cmd>Telescope undo<cr>', desc = '[U]ndo history', icon = { icon = '', color = 'green' } },
         { '<leader>z', '<cmd>Telescope zoxide list<cr>', desc = '[Z]oxide list', icon = { icon = ' ', color = 'orange' } },
       }

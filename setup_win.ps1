@@ -508,7 +508,7 @@ jj config set --user user.email "94405204+joncrangle@users.noreply.github.com"
 `n[ui]
 pager = "delta"
 editor = "nvim"
-diff-editor = @("nvim", "-c", "DiffEditor `$left `$right `$output")
+diff-editor = ["nvim", "-c", "DiffEditor `$left `$right `$output"]
 
 [ui.diff]
 format = "git"
