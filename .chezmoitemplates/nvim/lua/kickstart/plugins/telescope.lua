@@ -68,6 +68,7 @@ return {
             'dist',
             'yarn.lock',
             '.git',
+            '.jj',
           },
         },
         pickers = {
