@@ -4,6 +4,16 @@ return {
     dependencies = {
       { 'nvim-treesitter/nvim-treesitter-context', opts = { mode = 'cursor', max_lines = 3 } },
       'nvim-treesitter/nvim-treesitter-textobjects',
+      {
+        "aaronik/treewalker.nvim",
+        opts = {},
+        keys = {
+          { '<C-Down>',  '<cmd>Treewalker Down<cr>',  desc = 'Next node' },
+          { '<C-Right>', '<cmd>Treewalker Right<cr>', desc = 'Next child node' },
+          { '<C-Up>',    '<cmd>Treewalker Up<cr>',    desc = 'Previous node' },
+          { '<C-Left>',  '<cmd>Treewalker Left<cr>',  desc = 'Previous parent node' },
+        },
+      },
     },
     build = ':TSUpdate',
     event = { 'BufReadPre', 'BufNewFile' },
