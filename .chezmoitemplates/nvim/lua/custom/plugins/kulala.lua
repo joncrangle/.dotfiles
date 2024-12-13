@@ -25,7 +25,7 @@ return {
       { '[[',         '<cmd>lua require("kulala").jump_prev()<cr>',   desc = 'Jump to previous request', ft = 'http' },
       { '<leader>Rq', '<cmd>lua require("kulala").close()<cr>',       desc = 'Close window',             ft = 'http' },
       { '<leader>Rr', '<cmd>lua require("kulala").replay()<cr>',      desc = 'Replay the last request',  ft = 'http' },
-      { '<C-r>',      '<cmd>lua require("kulala").run()<cr>',         desc = 'Send the request',         ft = 'http' },
+      { '<C-e>',      '<cmd>lua require("kulala").run()<cr>',         desc = 'Send the request',         ft = 'http' },
       { '<leader>RS', '<cmd>lua require("kulala").show_stats()<cr>',  desc = 'Show stats',               ft = 'http' },
       { '<leader>Rt', '<cmd>lua require("kulala").toggle_view()<cr>', desc = 'Toggle headers/body',      ft = 'http' },
     },
