@@ -65,7 +65,7 @@ local secondary_font = 'IosevkaTerm Nerd Font'
 -- Windows, MacOS and Linux
 if wezterm.target_triple:find 'windows' then
   config.default_prog = { 'pwsh.exe', '-NoLogo' }
-  config.window_background_opacity = 0.4
+  config.window_background_opacity = 0
   config.window_decorations = 'RESIZE'
   config.win32_system_backdrop = 'Mica'
   font_size = 12
