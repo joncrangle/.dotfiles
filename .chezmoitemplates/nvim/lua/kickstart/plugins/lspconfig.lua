@@ -414,7 +414,7 @@ return {
   {
     'mrcjkb/rustaceanvim',
     version = '^5',
-    ft = { "rust" },
+    ft = { 'rust' },
     opts = {
       tools = { float_win_config = { border = 'rounded' } },
       server = {
@@ -438,9 +438,9 @@ return {
             procMacro = {
               enable = true,
               ignored = {
-                ["async-trait"] = { "async_trait" },
-                ["napi-derive"] = { "napi" },
-                ["async-recursion"] = { "async_recursion" },
+                ['async-trait'] = { 'async_trait' },
+                ['napi-derive'] = { 'napi' },
+                ['async-recursion'] = { 'async_recursion' },
               },
             },
           },
