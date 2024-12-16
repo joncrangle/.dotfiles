@@ -64,9 +64,9 @@ return {
     },
     keys = {
       {
-        '<leader>nt',
-        '<cmd>NoiceTelescope<cr>',
-        desc = '[N]oice [T]elescope',
+        '<leader>np',
+        '<cmd>Noice pick<cr>',
+        desc = '[N]oice [P]icker',
       },
       {
         '<C-f>',

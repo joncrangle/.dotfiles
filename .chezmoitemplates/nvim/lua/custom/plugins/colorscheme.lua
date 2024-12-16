@@ -1,5 +1,4 @@
 return {
-  -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
   {
     'catppuccin/nvim',
     enabled = true,
@@ -42,9 +41,6 @@ return {
       neotest = true,
       neotree = true,
       noice = true,
-      telescope = true,
-      treesitter = true,
-      treesitter_context = true,
       which_key = true,
       highlight_overrides = {
         mocha = function(mocha)
@@ -69,6 +65,7 @@ return {
   {
     'scottmckendry/cyberdream.nvim',
     enabled = false,
+    optional = true,
     priority = 1000,
     init = function()
       vim.cmd.colorscheme 'cyberdream'
@@ -82,16 +79,6 @@ return {
             CursorLineNr = { fg = colors.purple },
             LineNrAbove = { fg = colors.grey },
             LineNrBelow = { fg = colors.grey },
-            TelescopeBorder = { fg = colors.cyan, bg = 'NONE' },
-            TelescopeNormal = { bg = 'NONE' },
-            TelescopePreviewBorder = { bg = 'NONE' },
-            TelescopePreviewNormal = { bg = 'NONE' },
-            TelescopePreviewTitle = { fg = colors.bgAlt, bg = colors.green, bold = true },
-            TelescopePromptTitle = { fg = colors.bgAlt, bg = colors.red, bold = true },
-            TelescopePromptBorder = { fg = colors.red, bg = 'NONE' },
-            TelescopeResultsBorder = { fg = 'NONE', bg = 'NONE' },
-            TelescopeResultsNormal = { bg = 'NONE' },
-            TelescopeResultsTitle = { fg = colors.bgAlt, bg = colors.green },
           }
         end,
       },
@@ -100,6 +87,7 @@ return {
   {
     'rebelot/kanagawa.nvim',
     enabled = false,
+    optional = true,
     priority = 1000,
     init = function()
       vim.cmd.colorscheme 'kanagawa-wave'
@@ -120,13 +108,6 @@ return {
           -- set their background accordingly if you wish to keep them dark and borderless
           LazyNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
           MasonNormal = { bg = theme.ui.bg_m3, fg = theme.ui.fg_dim },
-          TelescopeTitle = { fg = theme.ui.special, bold = true },
-          TelescopePromptNormal = { bg = theme.ui.bg_p1 },
-          TelescopePromptBorder = { fg = theme.ui.bg_p1, bg = theme.ui.bg_p1 },
-          TelescopeResultsNormal = { fg = theme.ui.fg_dim, bg = theme.ui.bg_m1 },
-          TelescopeResultsBorder = { fg = theme.ui.bg_m1, bg = theme.ui.bg_m1 },
-          TelescopePreviewNormal = { bg = theme.ui.bg_dim },
-          TelescopePreviewBorder = { bg = theme.ui.bg_dim, fg = theme.ui.bg_dim },
           Pmenu = { fg = theme.ui.shade0, bg = theme.ui.bg_p1 }, -- add `blend = vim.o.pumblend` to enable transparency
           PmenuSel = { fg = 'NONE', bg = theme.ui.bg_p2 },
           PmenuSbar = { bg = theme.ui.bg_m1 },
@@ -138,6 +119,7 @@ return {
   {
     'folke/tokyonight.nvim',
     enabled = false,
+    optional = true,
     priority = 1000,
     init = function()
       vim.cmd.colorscheme 'tokyonight-night'
@@ -153,6 +135,7 @@ return {
   {
     'EdenEast/nightfox.nvim',
     enabled = false,
+    optional = true,
     priority = 1000,
     init = function()
       vim.cmd.colorscheme 'nightfox'
@@ -164,6 +147,7 @@ return {
   {
     'rose-pine/neovim',
     enabled = false,
+    optional = true,
     name = 'rose-pine',
     priority = 1000,
     init = function()
@@ -176,6 +160,7 @@ return {
   {
     'Mofiqul/dracula.nvim',
     enabled = false,
+    optional = true,
     priority = 1000,
     init = function()
       vim.cmd.colorscheme 'dracula'
@@ -187,6 +172,7 @@ return {
   {
     'yorumicolors/yorumi.nvim',
     enabled = false,
+    optional = true,
     init = function()
       vim.cmd.colorscheme 'yorumi'
     end,

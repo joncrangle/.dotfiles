@@ -16,10 +16,11 @@ return {
   {
     'rachartier/tiny-inline-diagnostic.nvim',
     event = 'LspAttach',
+    enabled = false,
     priority = 1000,
+    opts = {},
     config = function()
       vim.diagnostic.config({ virtual_text = false })
-      require('tiny-inline-diagnostic').setup()
     end,
   },
 }

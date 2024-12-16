@@ -27,16 +27,14 @@ return {
         { '<leader>b', group = '[B]uffer', mode = { 'n', 'x' }, icon = { icon = '󰈔 ', color = 'cyan' } },
         { '<leader>c', group = '[C]ode', mode = { 'n', 'x' }, icon = { icon = ' ', color = 'green' } },
         { '<leader>d', group = '[D]ocument', icon = { icon = '󰈙', color = 'green' } },
-        { '<leader>de', '<cmd>Telescope symbols<cr>', desc = '[D]ocument [E]moji picker', icon = { icon = '😀', color = 'green' } },
         { '<leader>g', group = '[G]it', icon = { icon = '', color = 'green' } },
         { '<leader>n', group = '[N]oice', icon = { icon = '󰈸', color = 'orange' } },
         { '<leader>r', group = '[R]ename', icon = { icon = '󰑕', color = 'orange' } },
         { '<leader>s', group = '[S]earch', icon = { icon = '', color = 'green' } },
         { '<leader>t', group = '[T]oggle', icon = { icon = '', color = 'orange' } },
+        { '<leader>u', group = '[U]pdate', icon = { icon = '󰚰', color = 'orange' } },
         { '<leader>w', group = '[W]orkspace', icon = { icon = '', color = 'yellow' } },
         { '<leader>p', group = '[P]ersistent Sessions', icon = { icon = '', color = 'yellow' } },
-        { '<leader>u', '<cmd>Telescope undo<cr>', desc = '[U]ndo history', icon = { icon = '', color = 'green' } },
-        { '<leader>z', '<cmd>Telescope zoxide list<cr>', desc = '[Z]oxide list', icon = { icon = ' ', color = 'orange' } },
       }
 
       -- Add Grapple list items

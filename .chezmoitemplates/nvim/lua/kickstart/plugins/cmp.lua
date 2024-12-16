@@ -2,6 +2,7 @@ return {
   {
     'iguanacucumber/magazine.nvim',
     enabled = false,
+    optional = true,
     name = "nvim-cmp", -- Otherwise highlighting gets messed up
     event = { 'InsertEnter', 'CmdlineEnter' },
     dependencies = {
@@ -177,6 +178,9 @@ return {
       completion = {
         menu = {
           border = 'single',
+          draw = {
+            treesitter = { 'lsp' },
+          },
         },
         documentation = {
           auto_show = true,

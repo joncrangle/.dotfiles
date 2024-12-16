@@ -372,6 +372,7 @@ packages=(
     "unarchiver"
     "unrar"
     "unzip"
+    "viu"
     "vlc"
     "wezterm-git"
     "wf-recorder"

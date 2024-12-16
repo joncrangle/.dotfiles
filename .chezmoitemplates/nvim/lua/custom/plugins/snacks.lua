@@ -26,12 +26,6 @@ return {
               icon = ' ',
               key = 'w',
             },
-            {
-              action = ':lua require("telescope").extensions.chezmoi.find_files()',
-              desc = ' Chezmoi',
-              icon = '',
-              key = 'c',
-            },
             { action = ':lua require("persistence").load()', desc = ' Restore Session', icon = ' ', key = 's' },
             { action = ':Lazy', desc = ' Lazy', icon = '󰒲 ', key = 'l' },
             { action = ':Mason', desc = ' Mason', icon = '󱊈 ', key = 'm' },
