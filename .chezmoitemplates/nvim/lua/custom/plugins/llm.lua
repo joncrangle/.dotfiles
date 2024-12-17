@@ -14,7 +14,7 @@ local function generate_vendor(port, model)
           model = opts.model,
           messages = require('avante.providers').copilot.parse_messages(code_opts),
           temperature = 0,
-          max_tokens = 8192,
+          max_tokens = 30000,
           stream = true,
         },
       }
