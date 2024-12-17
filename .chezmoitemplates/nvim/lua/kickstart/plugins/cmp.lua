@@ -157,25 +157,16 @@ return {
   {
     'saghen/blink.cmp',
     enabled = true,
-    version = 'v0.*',
+    build = 'cargo build --release',
     event = { 'InsertEnter', 'CmdlineEnter' },
     dependencies = {
       { 'rafamadriz/friendly-snippets' },
     },
+    opts_extend = { 'sources.default' },
     opts = {
-      accept = { auto_brackets = { enabled = true } },
-      nerd_font_variant = 'mono',
-      trigger = { signature_help = { enabled = true } },
-      sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev', 'dadbod' },
-        providers = {
-          -- dont show LuaLS require statements when lazydev has items
-          lsp = { fallback_for = { 'lazydev' } },
-          lazydev = { name = 'LazyDev', module = 'lazydev.integrations.blink' },
-          dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink', score_offset = 3 },
-        },
-      },
+      appearance = { nerd_font_variant = 'mono' },
       completion = {
+        accept = { auto_brackets = { enabled = true } },
         menu = {
           border = 'single',
           draw = {
@@ -184,15 +175,23 @@ return {
         },
         documentation = {
           auto_show = true,
+          auto_show_delay_ms = 200,
           window = {
             border = 'single',
           },
         },
-        signature = {
-          enabled = true,
-          window = {
-            border = 'single',
-          },
+      },
+      signature = {
+        enabled = true,
+        window = {
+          border = 'single',
+        },
+      },
+      sources = {
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev', 'dadbod' },
+        providers = {
+          lazydev = { name = 'LazyDev', module = 'lazydev.integrations.blink', score_offset = 100 },
+          dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink', score_offset = 3 },
         },
       },
       keymap = {

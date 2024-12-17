@@ -44,6 +44,7 @@ require('lazy').setup({
       lazy = '💤 ',
     },
   },
+  concurrency = jit.os:find('Windows') and (vim.uv.available_parallelism() * 2) or nil,
   performance = {
     rtp = {
       disabled_plugins = {
