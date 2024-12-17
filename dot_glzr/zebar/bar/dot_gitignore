@@ -1,0 +1,5 @@
+# Ignore node_modules directory and dist
+node_modules/
+dist/
+
+Thumbs.db

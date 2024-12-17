@@ -587,6 +587,7 @@ Write-Host "Building zebar bar..."
 try
 {
     Set-Location -Path $projectPath
+    git init
     pnpm install
     pnpm build
 } catch
