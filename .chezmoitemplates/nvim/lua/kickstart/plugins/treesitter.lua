@@ -17,7 +17,7 @@ return {
     },
     build = ':TSUpdate',
     event = { 'BufReadPre', 'BufNewFile' },
-    cmd = { 'TSInstall', 'TSInstallInfo', 'TSBufEnable', 'TSBufDisable', 'TSEnable', 'TSDisable', 'TSModuleInfo' },
+    cmd = { 'TSInstall', 'TSInstallInfo', 'TSBufEnable', 'TSBufDisable', 'TSEnable', 'TSDisable', 'TSModuleInfo', 'TSUpdate' },
     opts = {
       vim.filetype.add {
         filename = {
