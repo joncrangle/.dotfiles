@@ -1,6 +1,30 @@
 return {
   {
+    'zbirenbaum/copilot.lua',
+    enabled = true,
+    cmd = 'Copilot',
+    build = ':Copilot auth',
+    event = 'InsertEnter',
+    opts = {
+      suggestion = {
+        auto_trigger = true,
+        keymap = {
+          accept = '<Tab>',
+          next = ']]',
+          prev = '[[',
+        },
+      },
+      panel = { enabled = false },
+      filetypes = {
+        yaml = true,
+        markdown = true,
+        help = true,
+      },
+    },
+  },
+  {
     'Exafunction/codeium.vim',
+    enabled = false,
     lazy = true,
     event = 'InsertEnter',
     cmd = 'Codeium',
@@ -19,10 +43,10 @@ return {
       vim.keymap.set('i', '<Tab>', function()
         return vim.fn['codeium#Accept']()
       end, { expr = true, silent = true, desc = 'Codeium Accept' })
-      vim.keymap.set('i', '<C-a>', function()
+      vim.keymap.set('i', ']]', function()
         return vim.fn['codeium#CycleCompletions'](1)
       end, { expr = true, silent = true, desc = 'Codeium Next Completion' })
-      vim.keymap.set('i', '<C-z>', function()
+      vim.keymap.set('i', '[[', function()
         return vim.fn['codeium#CycleCompletions'](-1)
       end, { expr = true, silent = true, desc = 'Codeium Previous Completion' })
       vim.keymap.set('i', '<C-x>', function()
