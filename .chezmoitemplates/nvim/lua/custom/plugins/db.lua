@@ -16,20 +16,20 @@ return {
     end,
   },
   {
-    "kndndrj/nvim-dbee",
-    dependencies = { "MunifTanjim/nui.nvim" },
+    'kndndrj/nvim-dbee',
+    dependencies = { 'MunifTanjim/nui.nvim' },
     build = function()
-      require("dbee").install()
+      require('dbee').install()
     end,
-    cmd = { "Dbee" },
+    cmd = { 'Dbee' },
     opts = {},
     keys = {
       {
-        "<leader>td",
+        '<leader>td',
         function()
-          require("dbee").toggle()
+          require('dbee').toggle()
         end,
-        desc = "[T]oggle [D]bee",
+        desc = '[T]oggle [D]bee',
       },
     },
   },
