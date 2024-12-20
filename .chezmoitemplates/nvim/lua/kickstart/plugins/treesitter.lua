@@ -5,7 +5,7 @@ return {
       { 'nvim-treesitter/nvim-treesitter-context', opts = { mode = 'cursor', max_lines = 3 } },
       'nvim-treesitter/nvim-treesitter-textobjects',
       {
-        "aaronik/treewalker.nvim",
+        'aaronik/treewalker.nvim',
         opts = {},
         keys = {
           { '<Down>',  '<cmd>Treewalker Down<cr>',  desc = 'Next node' },
@@ -13,6 +13,11 @@ return {
           { '<Up>',    '<cmd>Treewalker Up<cr>',    desc = 'Previous node' },
           { '<Left>',  '<cmd>Treewalker Left<cr>',  desc = 'Previous parent node' },
         },
+      },
+      {
+        'Wansmer/treesj',
+        opts = { use_default_keymaps = false, max_join_length = 150 },
+        keys = { { '<leader>j', '<cmd>TSJToggle<cr>', desc = '[J]oin Toggle' } },
       },
     },
     build = ':TSUpdate',
