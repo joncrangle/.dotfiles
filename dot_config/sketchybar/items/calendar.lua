@@ -52,14 +52,16 @@ local function update_calendar_items()
   local function format_line(line)
     local current_day = tonumber(os.date('%e')) or 0
     -- Highlight the current day by adding `|` around it
-    return line:gsub('(%s)(%d+)(%s)', function(before, day, after)
+    return line:gsub('(%s*)(%d+)(%s*)', function(before, day, after)
       local num = tonumber(day)
       if num == current_day then
-        -- Remove spaces around the current day number
-        return before:match('%s') and '|' .. day .. '|' or '|' .. day .. '|' .. after
-      else
-        return before .. day .. after
+        return before:sub(2) .. '|' .. day .. '|' .. after:sub(2)
+      elseif current_day - 1 == num then
+        return before .. day .. after:sub(2)
+      elseif current_day + 1 == num then
+        return before:sub(2) .. day .. after
       end
+      return before .. day .. after
     end)
   end
 
