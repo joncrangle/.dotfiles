@@ -31,6 +31,14 @@ return {
         end,
         desc = '[T]oggle [D]bee',
       },
+      -- Scratch buffer mappings
+      -- "BB" in visual mode = "run_selection"
+      -- "BB" in normal mode = "run_file"
+      -- Result buffer mappings
+      -- next/previous page = "L"/"H"
+      -- first/last page = "F"/"E"
+      -- yank rows as json = "yaj" / yank all rows as json = "yaJ"
+      -- yank rows as csv = "yac" / yank all rows as csv = "yaC"
     },
   },
 }
