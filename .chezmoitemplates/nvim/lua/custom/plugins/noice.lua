@@ -53,6 +53,16 @@ return {
           },
           opts = { skip = true },
         },
+        -- Don't show "Agent service not initialized" message from copilot
+        {
+          filter = {
+            event = 'msg_show',
+            any = {
+              { find = 'Agent service not initialized' },
+            },
+          },
+          opts = { skip = true },
+        },
         view = 'mini',
       },
       presets = {
