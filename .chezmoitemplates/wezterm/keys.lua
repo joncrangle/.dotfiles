@@ -42,6 +42,11 @@ function M.apply_to_config(config)
       action = resurrect.window_state.save_window_action(),
     },
     {
+      mods = "ALT",
+      key = "t",
+      action = resurrect.tab_state.save_tab_action(),
+    },
+    {
       mods = 'ALT',
       key = 'o',
       action = wezterm.action_callback(function(win, pane)
