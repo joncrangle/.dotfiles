@@ -5,18 +5,14 @@ return {
     event = { 'InsertEnter', 'CmdlineEnter' },
     dependencies = {
       { 'rafamadriz/friendly-snippets' },
+      'moyiz/blink-emoji.nvim',
     },
     opts_extend = { 'sources.default' },
     opts = {
       appearance = { nerd_font_variant = 'mono' },
       completion = {
         accept = { auto_brackets = { enabled = true } },
-        menu = {
-          border = 'single',
-          draw = {
-            treesitter = { 'lsp' },
-          },
-        },
+        menu = { border = 'single', draw = { treesitter = { 'lsp' } } },
         documentation = {
           auto_show = true,
           auto_show_delay_ms = 200,
@@ -32,13 +28,14 @@ return {
         },
       },
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev', 'dadbod' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev', 'dadbod', 'emoji' },
         per_filetype = {
           AvanteInput = {},
         },
         providers = {
           lazydev = { name = 'LazyDev', module = 'lazydev.integrations.blink', score_offset = 100 },
           dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink', score_offset = 3 },
+          emoji = { name = 'Emoji', module = 'blink-emoji', score_offset = 3 },
         },
       },
       keymap = {
