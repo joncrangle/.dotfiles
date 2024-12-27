@@ -21,6 +21,7 @@ AppData/
 {{ if and (ne .chezmoi.os "darwin") (ne .chezmoi.os "linux") }}
 .zshenv
 .config/bat/
+.config/ghostty/
 .config/nvim/
 .config/topgrade/
 .config/wezterm/

@@ -87,6 +87,11 @@ yabai -m rule --add app="VLC" sticky=on manage=off
 
 yabai -m rule --apply
 
+yabai -m signal --add app='^Ghostty$' event=window_created action='yabai -m space --layout bsp'
+yabai -m signal --add app='^Ghostty$' event=window_destroyed action='yabai -m space --layout bsp'
+yabai -m signal --add app='^Finder$' event=window_created action='yabai -m space --layout bsp'
+yabai -m signal --add app='^Finder$' event=window_destroyed action='yabai -m space --layout bsp'
+
 # JankyBorders - https://github.com/FelixKratz/JankyBorders 0xff7aa2f7
 borders active_color="gradient(top_left=0xffcba6f7,bottom_right=0xffb4befe)" inactive_color="gradient(top_left=0xfff38ba8,bottom_right=0xffeba0ac)" width=4 2>/dev/null 1>&2 &
 
