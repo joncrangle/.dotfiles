@@ -200,16 +200,17 @@ wezterm connect tnas
 | Switch to Workspace 1 - 9         | `Alt` + `1 - 9`             |
 | Move Window to Workspace 1 - 9    | `Alt` + `Shift` + `1 - 9`   |
 | Move Workspace to monitor         | `Alt` + `F1`, `F2`, `F3`    |
+| Flip Window Layout                | `Alt` + `` ` ``             |
 | Toggle Full Screen                | `Alt` + `Shift` + `f`       |
 | Toggle Float                      | `Alt` + `t`                 |
+| Toggle Monacle                    | `Alt` + `Shift` / `f`       |
 | Retile Windows                    | `Alt` + `Shift` + `r`       |
-| Flip layout horizontal / vertical | `Alt` + `x` / `y`           |
 | Resize: Left / Right              | `Alt` + `-` / `+`           |
 | Resize: Up / Down                 | `Alt` + `Shift` + `-` / `+` |
 | Reload whkd                       | `Alt` + `Shift` + `z`       |
 | Reload Komorebi                   | `Alt` + `z`                 |
 | Launch WezTerm                    | `Alt` + `Enter`             |
-| Launch Chrome                     | `Alt` + `b`                 |
+| Launch Zen                        | `Alt` + `b`                 |
 | Launch Edge                       | `Alt` + `e`                 |
 | Launch Explorer                   | `Alt` + `f`                 |
 

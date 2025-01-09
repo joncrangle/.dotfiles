@@ -8,7 +8,7 @@ alt + z                 : komorebic reload-configuration
 # App shortcuts - these require shell to be pwsh / powershell
 # The apps will be focused if open, or launched if not open
 alt + return            : if ($wshell.AppActivate('Wezterm') -eq $False) { start wezterm-gui }
-alt + b                 : if ($wshell.AppActivate('Chrome') -eq $False) { start chrome }
+alt + b                 : if ($wshell.AppActivate('Zen') -eq $False) { start zen }
 alt + e                 : if ($wshell.AppActivate('Edge') -eq $False) { start edge }
 alt + f                 : if ($wshell.AppActivate('Explorer') -eq $False) { start explorer }
 

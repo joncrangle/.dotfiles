@@ -134,6 +134,15 @@
       }
     ]
   },
+  "ApplicationFrameHost": {
+    "tray_and_multi_window": [
+      {
+        "kind": "Exe",
+        "id": "ApplicationFrameHost.exe",
+        "matching_strategy": "Equals"
+      }
+    ]
+  },
   "ArmCord": {
     "tray_and_multi_window": [
       {
@@ -454,6 +463,15 @@
       {
         "kind": "Exe",
         "id": "Dropbox.exe",
+        "matching_strategy": "Equals"
+      }
+    ]
+  },
+  "EA Desktop": {
+    "tray_and_multi_window": [
+      {
+        "kind": "Exe",
+        "id": "EADesktop.exe",
         "matching_strategy": "Equals"
       }
     ]
@@ -816,6 +834,29 @@
       }
     ]
   },
+  "JetBrains Client": {
+    "ignore": [
+      {
+        "kind": "Class",
+        "id": "SunAwtDialog",
+        "matching_strategy": "Equals"
+      }
+    ],
+    "tray_and_multi_window": [
+      {
+        "kind": "Exe",
+        "id": "jetbrains_client64.exe",
+        "matching_strategy": "Equals"
+      }
+    ],
+    "object_name_change": [
+      {
+        "kind": "Exe",
+        "id": "jetbrains_client64.exe",
+        "matching_strategy": "Equals"
+      }
+    ]
+  },
   "KOOK": {
     "tray_and_multi_window": [
       {
@@ -1082,6 +1123,22 @@
       }
     ]
   },
+  "Microsoft Terminal Services Client": {
+    // mstsc.exe creates these on Windows 11 when a WSL process is launched
+    // https://github.com/LGUG2Z/komorebi/issues/74
+    "ignore": [
+      {
+        "kind": "Class",
+        "id": "OPContainerClass",
+        "matching_strategy": "Equals"
+      },
+      {
+        "kind": "Class",
+        "id": "IHWindowClass",
+        "matching_strategy": "Equals"
+      }
+    ]
+  },
   "Microsoft Teams": {
     "tray_and_multi_window": [
       {
@@ -1198,6 +1255,13 @@
         "id": "firefox.exe",
         "matching_strategy": "Equals"
       }
+    ],
+    "slow_application": [
+      {
+        "kind": "Exe",
+        "id": "firefox.exe",
+        "matching_strategy": "Equals"
+      }
     ]
   },
   "NZXT CAM": {
@@ -1232,6 +1296,22 @@
       {
         "kind": "Exe",
         "id": "NohBoard.exe",
+        "matching_strategy": "Equals"
+      }
+    ]
+  },
+  "Notion": {
+    "ignore": [
+      {
+        "kind": "Title",
+        "id": "Notion - Command Search",
+        "matching_strategy": "Equals"
+      }
+    ],
+    "tray_and_multi_window": [
+      {
+        "kind": "Exe",
+        "id": "Notion.exe",
         "matching_strategy": "Equals"
       }
     ]
@@ -1663,6 +1743,20 @@
     ]
   },
   "Steam": {
+    "layered": [
+      {
+        "kind": "Exe",
+        "id": "steam.exe",
+        "matching_strategy": "Equals"
+      }
+    ],
+    "tray_and_multi_window": [
+      {
+        "kind": "Exe",
+        "id": "steam.exe",
+        "matching_strategy": "Equals"
+      }
+    ],
     "ignore": [
       [
         {
@@ -2245,7 +2339,19 @@
     ]
   },
   "Windows Explorer": {
+    "tray_and_multi_window": [
+      {
+        "kind": "Exe",
+        "id": "explorer.exe",
+        "matching_strategy": "Equals"
+      }
+    ],
     "ignore": [
+      {
+        "kind": "Class",
+        "id": "NativeHWNDHost",
+        "matching_strategy": "Equals"
+      },
       {
         "kind": "Class",
         "id": "OperationStatusWindow",
@@ -2382,6 +2488,15 @@
       {
         "kind": "Exe",
         "id": "Zoom.exe",
+        "matching_strategy": "Equals"
+      }
+    ]
+  },
+  "komorebi-bar": {
+    "ignore": [
+      {
+        "kind": "Exe",
+        "id": "komorebi-bar.exe",
         "matching_strategy": "Equals"
       }
     ]
