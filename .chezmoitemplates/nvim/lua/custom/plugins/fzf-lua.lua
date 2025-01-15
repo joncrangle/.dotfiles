@@ -2,6 +2,7 @@ return {
   {
     'ibhagwan/fzf-lua',
     cmd = 'FzfLua',
+    enabled = false,
     ---@diagnostic disable-next-line: unused-local
     opts = function(_, opts)
       local config = require('fzf-lua.config')

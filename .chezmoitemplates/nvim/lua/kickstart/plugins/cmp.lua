@@ -49,7 +49,6 @@ return {
         ['<C-/>'] = { 'show', 'show_documentation', 'hide_documentation' },
         ['<C-l>'] = { 'snippet_forward', 'fallback' },
         ['<C-h>'] = { 'snippet_backward', 'fallback' },
-        cmdline = { preset = 'super-tab' },
       },
     },
   },
