@@ -114,9 +114,6 @@ curl -L https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_mac.sh
 
 11. Launch the `Stats` app. Configure the Disk, RAM and CPU monitors widgets to be Center aligned with color "Second yellow".
 
-> [!TIP]
-> Download [Podcasts Export App](https://github.com/douglas-watson/podcasts_export_app?tab=readme-ov-file) and install it for sending podcasts to mp3 player.
-
 ## 🪟 Windows
 
 1. Download and run the [setup_win.ps1](https://github.com/joncrangle/.dotfiles/raw/main/setup_win.ps1) PowerShell script.

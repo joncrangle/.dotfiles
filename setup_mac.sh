@@ -86,6 +86,7 @@ asdf plugin add nodejs
 asdf install nodejs latest
 asdf global nodejs latest
 asdf local nodejs latest
+go install github.com/joncrangle/podcasts-sync@latest
 jj config set --user user.name "jonathancrangle"
 jj config set --user user.email "94405204+joncrangle@users.noreply.github.com"
 echo -e '\n[ui]
