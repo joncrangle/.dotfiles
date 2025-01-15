@@ -35,6 +35,7 @@ dependencies = [
     "soundfile>=0.12.1",
     "spandrel>=0.4.0",
     "tokenizers>=0.20.1",
+    "toml>=0.10.2",
     "torch>=2.4.1",
     "torchaudio>=2.4.1",
     "torchsde>=0.2.6",
