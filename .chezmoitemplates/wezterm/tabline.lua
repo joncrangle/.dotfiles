@@ -11,15 +11,21 @@ local process_to_icon = {
 
 function M.tabline()
   local tabline = wezterm.plugin.require 'https://github.com/michaelbrusegard/tabline.wez'
+  local bg = 'rgba(30, 30, 46, 0.8)'
 
   tabline.setup({
     options = {
       icons_enabled = true,
       theme = 'Catppuccin Mocha',
-      color_overrides = {
+      theme_overrides = {
         tab = {
           active = { fg = colors.tab_bar.active_tab.bg_color, bg = colors.tab_bar.new_tab.bg_color },
+          inactive = { fg = colors.tab_bar.inactive_tab.bg_color, bg = bg },
         },
+        normal_mode = { x = { bg = bg } },
+        copy_mode = { x = { bg = bg } },
+        search_mode = { x = { bg = bg } },
+        window_mode = { x = { bg = bg } },
       },
       section_separators = {
         left = wezterm.nerdfonts.pl_left_hard_divider,
