@@ -10,7 +10,7 @@ return {
         enabled = true,
         preset = {
           keys = {
-            { action = ':lua Snacks.dashboard.pick("files")', desc = ' Find File', icon = ' ', key = 'f' },
+            { action = ':lua Snacks.dashboard.pick("smart")', desc = ' Find File', icon = ' ', key = 'f' },
             { action = ':ene | startinsert', desc = ' New File', icon = ' ', key = 'n' },
             { action = ':lua Snacks.dashboard.pick("oldfiles")', desc = ' Recent Files', icon = ' ', key = 'r' },
             { action = ':lua Snacks.dashboard.pick("live_grep")', desc = ' Find Text', icon = ' ', key = 'g' },
@@ -54,7 +54,7 @@ return {
       },
     },
     keys = {
-      { '<leader>un',       function() Snacks.notifier.hide() end,                                                 desc = 'Dismiss All Notifications' },
+      { '<leader>nd',       function() Snacks.notifier.hide() end,                                                 desc = 'Dismiss All Notifications' },
       { '<leader>bd',       function() Snacks.bufdelete() end,                                                     desc = 'Delete Buffer' },
       { '<leader>gg',       function() Snacks.lazygit() end,                                                       desc = 'Lazygit' },
       { '<leader>gb',       function() Snacks.git.blame_line() end,                                                desc = 'Git Blame Line' },
@@ -66,7 +66,7 @@ return {
       -- Picker
       { '<leader><leader>', function() Snacks.picker.buffers() end,                                                desc = '[ ] Find existing buffers' },
       { '<leader>/',        function() Snacks.picker.lines() end,                                                  desc = '[/] Search in current Buffer' },
-      { '<leader>sf',       function() Snacks.picker.files() end,                                                  desc = '[S]earch [F]iles' },
+      { '<leader>sf',       function() Snacks.picker.smart() end,                                                  desc = '[S]earch [F]iles' },
       { '<leader>sF',       function() Snacks.picker.files({ hidden = true }) end,                                 desc = '[S]earch All [F]iles' },
       { '<leader>sg',       function() Snacks.picker.grep() end,                                                   desc = '[S]earch by [G]rep' },
       { '<leader>\\',       function() Snacks.picker.grep_buffers() end,                                           desc = '[\\] Search in open Buffers' },
@@ -88,6 +88,7 @@ return {
       { '<leader>sT',       function() Snacks.picker.todo_comments({ keywords = { 'TODO', 'FIX', 'FIXME' } }) end, desc = 'Narrowly [S]earch [T]odos' },
       { '<leader>sw',       function() Snacks.picker.files({ cwd = '$XDG_CONFIG_HOME/wezterm' }) end,              desc = '[S]earch [W]ezterm files' },
       { '<leader>sq',       function() Snacks.picker.qflist() end,                                                 desc = '[S]earch [Q]uickfix List' },
+      { '<leader>sz',       function() Snacks.picker.zoxide() end,                                                 desc = '[S]earch [Z]oxide List' },
       { '<leader>uC',       function() Snacks.picker.colorschemes() end,                                           desc = '[U]pdate [C]olorschemes' },
       { 'gd',               function() Snacks.picker.lsp_definitions() end,                                        desc = '[G]oto [D]efinition' },
       { 'gD',               function() Snacks.picker.lsp_declarations() end,                                       desc = '[G]oto [D]eclaration' },
