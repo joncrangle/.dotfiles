@@ -47,6 +47,11 @@
         "kind": "Title",
         "id": "Arc picture in picture",
         "matching_strategy": "Equals"
+      },
+      {
+        "kind": "Title",
+        "id": "Arc extension popup",
+        "matching_strategy": "Equals"
       }
     ]
   },
@@ -891,6 +896,22 @@
         "id": "Kotatogram.exe",
         "matching_strategy": "Equals"
       }
+    ]
+  },
+  "LibreCAD": {
+    "ignore": [
+      [
+        {
+          "kind": "Title",
+          "id": "LibreCAD",
+          "matching_strategy": "DoesNotStartWith"
+        },
+        {
+          "kind": "Exe",
+          "id": "LibreCAD.exe",
+          "matching_strategy": "Equals"
+        }
+      ]
     ]
   },
   "LibreOffice": {
