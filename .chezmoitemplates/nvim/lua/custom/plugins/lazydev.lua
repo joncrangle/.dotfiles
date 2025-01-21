@@ -1,7 +1,6 @@
 -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
 -- used for completion, annotations and signatures of Neovim apis
 return {
-  { 'Bilal2453/luvit-meta',        lazy = true, ft = 'lua' },
   { 'gonstoll/wezterm-types', lazy = true, ft = 'lua' },
   {
     'folke/lazydev.nvim',
@@ -10,7 +9,8 @@ return {
     opts = {
       library = {
         -- Load luvit types when the `vim.uv` word is found
-        { path = 'luvit-meta/library',  words = { 'vim%.uv' } },
+        { path = '${3rd}/luv/library',  words = { 'vim%.uv' } },
+        { path = 'snacks.nvim',         words = { 'Snacks' } },
         { path = 'wezterm-types/types', mods = { 'wezterm' } },
       },
     },
