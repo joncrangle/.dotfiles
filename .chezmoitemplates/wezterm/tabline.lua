@@ -4,6 +4,7 @@ local colors = wezterm.get_builtin_color_schemes()['Catppuccin Mocha']
 local M = {}
 
 local process_to_icon = {
+  ['default'] = { wezterm.nerdfonts.md_application, color = { fg = colors.cursor_bg } },
   ['lazysql'] = { wezterm.nerdfonts.cod_database, color = { fg = colors.ansi[4] } },
   ['nvim'] = { color = { fg = colors.compose_cursor } },
   ['ollama'] = { wezterm.nerdfonts.cod_code, color = { fg = colors.cursor_bg } },
