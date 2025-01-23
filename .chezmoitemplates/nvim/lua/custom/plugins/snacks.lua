@@ -77,6 +77,7 @@ return {
       { '<leader>sd',       function() Snacks.picker.diagnostics() end,                                            desc = '[S]earch [D]iagnostics' },
       { '<leader>sh',       function() Snacks.picker.help() end,                                                   desc = '[S]earch [H]elp' },
       { '<leader>sH',       function() Snacks.picker.highlights() end,                                             desc = '[S]earch [H]ighlight Groups' },
+      { '<leader>si',       function() Snacks.picker.icons() end,                                                  desc = '[S]earch [I]cons' },
       { '<leader>sj',       function() Snacks.picker.jumps() end,                                                  desc = '[S]earch [J]umplist' },
       { '<leader>sk',       function() Snacks.picker.keymaps() end,                                                desc = '[S]earch [K]eymaps' },
       { '<leader>sl',       function() Snacks.picker.loclist() end,                                                desc = '[S]earch [L]ocation List' },
