@@ -14,11 +14,12 @@
   model_name: null
   model_config: null
   tokenizer_config: null
-- model_id_or_path: mlx-community/Meta-Llama-3.1-8B-Instruct-8bit
+- model_id_or_path: mlx-community/DeepSeek-R1-Distill-Qwen-14B-4bit
   tokenizer_id_or_path: null
   adapter_path: null
-  quant: q8
+  quant: q4
   revision: null
   model_name: null
   model_config: null
   tokenizer_config: null
+# uv pip install --pre torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/nightly/cpu

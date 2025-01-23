@@ -37,8 +37,7 @@ return {
       vendors = {
         ['qwen'] = generate_vendor('5001', 'qwen2.5-coder-14b-instruct-4bit-q4'),
         ['supernova'] = generate_vendor('5001', 'supernova-medius-4bit-q4'),
-        ['llama'] = generate_vendor('5001', 'meta-llama-3.1-8b-instruct-8bit-q8'),
-        ['replete'] = generate_vendor('11434', 'Replete-LLM-V2.5-Qwen:14b-q4_K_M'),
+        ['deepseek'] = generate_vendor('5001', 'deepseek-r1-distill-qwen-14b-4bit-q4'),
       },
     }
   },
