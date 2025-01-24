@@ -74,11 +74,6 @@ return {
     },
     keys = {
       {
-        '<leader>np',
-        '<cmd>Noice pick<cr>',
-        desc = '[N]oice [P]icker',
-      },
-      {
         '<C-f>',
         function()
           if not require('noice.lsp').scroll(4) then
