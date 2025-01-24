@@ -39,6 +39,7 @@ return {
         ['supernova'] = generate_vendor('5001', 'supernova-medius-4bit-q4'),
         ['deepseek'] = generate_vendor('5001', 'deepseek-r1-distill-qwen-14b-4bit-q4'),
       },
+      file_selector = { provider = "snacks" },
     }
   },
 }
