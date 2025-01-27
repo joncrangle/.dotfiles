@@ -1,13 +1,26 @@
 {
-  "$schema": "https://github.com/glzr-io/zebar/raw/v2.1.0/resources/widget-schema.json",
+  "$schema": "https://github.com/glzr-io/zebar/raw/v2.7.0/resources/widget-schema.json",
   "htmlPath": "./dist/index.html",
   "zOrder": "normal",
   "shownInTaskbar": false,
   "focused": false,
   "resizable": false,
   "transparent": true,
-  "defaultPlacements": [
+  "caching": {
+    "defaultDuration": 604800,
+    "rules": []
+  },
+  "privileges": {
+    "shellCommands": [
+      {
+        "program": "komorebic",
+        "argsRegex": "focus-workspace *"
+      }
+    ]
+  },
+  "presets": [
     {
+      "name": "default",
       "anchor": "top_left",
       "offsetX": "0px",
       "offsetY": "0px",
@@ -15,6 +28,11 @@
       "height": "24px",
       "monitorSelection": {
         "type": "all"
+      },
+      "dockToEdge": {
+        "enabled": false,
+        "edge": null,
+        "windowMargin": "0px"
       }
     }
   ]

@@ -1,6 +1,6 @@
 /* @refresh reload */
 import './index.css';
-import { render } from 'solid-js/web';
+import { For, render, Show } from 'solid-js/web';
 import { createStore } from 'solid-js/store';
 import * as zebar from 'zebar';
 
@@ -51,27 +51,28 @@ function App() {
       <div class="left">
         <i class="logo nf nf-fa-windows"></i>
 
-        {output.komorebi && (
-          <>
-            <div class="workspaces">
-              {output.komorebi.currentWorkspaces.map(workspace => {
+        <Show when={output.komorebi}>
+          <div class="workspaces">
+            <For each={output.komorebi.currentWorkspaces}>
+              {(workspace, index) => {
                 const isFocusedWorkspace =
                   workspace.name === output.komorebi.focusedWorkspace.name &&
                   output.komorebi.currentMonitor.name === output.komorebi.focusedMonitor.name;
                 return (
                   <button
                     class={`workspace ${isFocusedWorkspace && 'focused'}`}
+                    onClick={() => zebar.shellSpawn('komorebic', `focus-workspace ${index().toString()}`)}
                   >
                     {workspace.name}
                   </button>
-                )
-              })}
-            </div>
-            <div class="focused-window">
-              <span>{parseTitle(output.komorebi.focusedWorkspace.tilingContainers[output.komorebi.focusedWorkspace.focusedContainerIndex]?.windows[0]?.title) ?? "-"}</span>
-            </div>
-          </>
-        )}
+                );
+              }}
+            </For>
+          </div>
+          <div class="focused-window">
+            <span>{parseTitle(output.komorebi.focusedWorkspace.tilingContainers[output.komorebi.focusedWorkspace.focusedContainerIndex]?.windows[0]?.title) ?? "-"}</span>
+          </div>
+        </Show>
       </div>
 
       <div class="center">
@@ -80,24 +81,24 @@ function App() {
 
       <div class="right">
         <div class="media-container">
-          {output.media && (
+          <Show when={output.media}>
             <div class="media">
               <i class="nf nf-fa-music"></i>
-              {output.media?.session?.title} -
-              {output.media?.session?.artist}
+              {output.media?.currentSession.title} -
+              {output.media?.currentSession?.artist}
             </div>
-          )}
+          </Show>
         </div>
 
         <div class="stats">
-          {output.memory && (
+          <Show when={output.memory}>
             <div class="memory">
               <i class="nf nf-fae-chip"></i>
               {Math.round(output.memory.usage)}%
             </div>
-          )}
+          </Show>
 
-          {output.cpu && (
+          <Show when={output.cpu}>
             <div class="cpu">
               <span
                 class={output.cpu.usage > 85 ? 'high-usage' : ''}
@@ -106,17 +107,17 @@ function App() {
                 {Math.round(output.cpu.usage)}%
               </span>
             </div>
-          )}
+          </Show>
 
 
-          {output.disk && (
+          <Show when={output.disk}>
             <div class="disk">
               <i class="nf nf-fa-hdd_o"></i>
               {Math.round(100 - output.disk.disks[0].availableSpace.iecValue / output.disk.disks[0].totalSpace.iecValue * 100)}%
             </div>
-          )}
+          </Show>
 
-          {output.battery && (
+          <Show when={output.battery}>
             <div class="battery">
               {output.battery.isCharging && (
                 <i class="nf nf-md-power_plug charging-icon"></i>
@@ -124,7 +125,7 @@ function App() {
               {getBatteryIcon(output.battery)}
               {Math.round(output.battery.chargePercent)}%
             </div>
-          )}
+          </Show>
         </div>
       </div>
     </div>
