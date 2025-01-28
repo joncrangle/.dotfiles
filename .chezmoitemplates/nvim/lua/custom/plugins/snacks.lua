@@ -54,7 +54,6 @@ return {
     },
     keys = {
       { '<leader>nd',       function() Snacks.notifier.hide() end,                                                 desc = 'Dismiss All Notifications' },
-      { '<leader>nh',       function() Snacks.notifier.show_history()() end,                                       desc = 'Notification History' },
       { '<leader>bd',       function() Snacks.bufdelete() end,                                                     desc = 'Delete Buffer' },
       { '<leader>gg',       function() Snacks.lazygit() end,                                                       desc = 'Lazygit' },
       { '<leader>gb',       function() Snacks.git.blame_line() end,                                                desc = 'Git Blame Line' },
@@ -97,6 +96,7 @@ return {
       { 'gI',               function() Snacks.picker.lsp_implementations() end,                                    desc = '[G]oto [I]mplementation' },
       { '<leader>D',        function() Snacks.picker.lsp_type_definitions() end,                                   desc = 'Type [D]efinition' },
       { '<leader>ds',       function() Snacks.picker.lsp_symbols() end,                                            desc = '[D]ocument [S]ymbols' },
+      { '<leader>np',       function() Snacks.picker.notifications() end,                                          desc = '[N]otifications picker' },
     },
     init = function()
       vim.api.nvim_create_autocmd('User', {
