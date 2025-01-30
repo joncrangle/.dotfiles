@@ -86,6 +86,7 @@ return {
       { '<leader>sR',       function() Snacks.picker.resume() end,                                                 desc = '[S]earch [R]esume' },
       { '<leader>st',       function() Snacks.picker.todo_comments() end,                                          desc = '[S]earch [T]odo Comments' },
       { '<leader>sT',       function() Snacks.picker.todo_comments({ keywords = { 'TODO', 'FIX', 'FIXME' } }) end, desc = 'Narrowly [S]earch [T]odos' },
+      { '<leader>su',       function() Snacks.picker.undo() end,                                                   desc = '[S]earch [U]ndo history' },
       { '<leader>sw',       function() Snacks.picker.files({ cwd = '$XDG_CONFIG_HOME/wezterm' }) end,              desc = '[S]earch [W]ezterm files' },
       { '<leader>sq',       function() Snacks.picker.qflist() end,                                                 desc = '[S]earch [Q]uickfix List' },
       { '<leader>sz',       function() Snacks.picker.zoxide() end,                                                 desc = '[S]earch [Z]oxide List' },
