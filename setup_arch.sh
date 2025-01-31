@@ -385,6 +385,7 @@ packages=(
     "xdg-terminal-exec"
     "xdg-user-dirs"
     "xdg-utils"
+    "xh"
     "yazi-git"
     "yt-dlp"
     "yq"

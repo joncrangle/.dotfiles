@@ -478,7 +478,7 @@ $packages = @(
     "komorebi", "krita", "lazygit", "lua", "luarocks", "make", "mariadb", "Meslo-NF", "mingw", "neovim",
     "nodejs", "obsidian", "podman", "poppler", "pnpm", "postgresql", "python", "ripgrep", "rustup-gnu",
     "sqlite", "tldr", "topgrade", "tree-sitter", "unar", "unzip", "uv", "vlc", "vcredist2022", "vscode",
-    "wezterm-nightly", "win32yank", "wget", "whkd", "yazi", "yq", "zebar", "zig", "zoom"
+    "wezterm-nightly", "win32yank", "wget", "whkd", "xh", "yazi", "yq", "zebar", "zig", "zoom"
 )
 
 foreach ($package in $packages)
