@@ -34,7 +34,7 @@ return {
         },
       },
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev', 'dadbod', 'emoji' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'omni', 'lazydev', 'dadbod', 'emoji' },
         per_filetype = {
           AvanteInput = {},
         },
