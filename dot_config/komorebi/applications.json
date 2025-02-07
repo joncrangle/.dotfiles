@@ -692,6 +692,15 @@
       }
     ]
   },
+  "Godot Engine": {
+    "object_name_change": [
+      {
+        "kind": "Exe",
+        "id": "Godot_v",
+        "matching_strategy": "StartsWith"
+      }
+    ]
+  },
   "Godot Manager": {
     "manage": [
       {
@@ -896,6 +905,22 @@
         "id": "Kotatogram.exe",
         "matching_strategy": "Equals"
       }
+    ]
+  },
+  "Lens": {
+    "ignore": [
+      [
+        {
+          "kind": "Exe",
+          "id": "Lens.exe",
+          "matching_strategy": "Equals"
+        },
+        {
+          "kind": "Title",
+          "id": "Loading",
+          "matching_strategy": "Equals"
+        }
+      ]
     ]
   },
   "LibreCAD": {
@@ -1333,6 +1358,15 @@
       {
         "kind": "Exe",
         "id": "Notion.exe",
+        "matching_strategy": "Equals"
+      }
+    ]
+  },
+  "Notion Calendar": {
+    "tray_and_multi_window": [
+      {
+        "kind": "Exe",
+        "id": "Notion Calendar.exe",
         "matching_strategy": "Equals"
       }
     ]
@@ -2141,6 +2175,18 @@
           "id": "Plugins and extensions",
           "matching_strategy": "Equals"
         }
+      ],
+      [
+        {
+          "kind": "Exe",
+          "id": "vlc.exe",
+          "matching_strategy": "Equals"
+        },
+        {
+          "kind": "Title",
+          "id": "Building font cache",
+          "matching_strategy": "Equals"
+        }
       ]
     ]
   },
@@ -2623,6 +2669,15 @@
       {
         "kind": "Class",
         "id": "VISIOA",
+        "matching_strategy": "Equals"
+      }
+    ]
+  },
+  "Stremio Desktop Community": {
+    "tray_and_multi_window": [
+      {
+        "kind": "Exe",
+        "id": "stremio-shell-ng.exe",
         "matching_strategy": "Equals"
       }
     ]
