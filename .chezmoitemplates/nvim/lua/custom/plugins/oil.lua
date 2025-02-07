@@ -1,6 +1,6 @@
 return {
   'stevearc/oil.nvim',
-  enabled = 'false',
+  enabled = false,
   event = 'VeryLazy',
   dependencies = { 'echasnovski/mini.nvim' },
   opts = {
