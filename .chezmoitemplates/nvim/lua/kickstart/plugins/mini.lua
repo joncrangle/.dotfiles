@@ -31,23 +31,23 @@ return {
         vim.keymap.set('n', '<leader>go', '<cmd>lua MiniDiff.toggle_overlay(0)<cr>', { desc = 'Toggle [G]it mini.diff [O]verlay' }),
       }
 
-      require('mini.files').setup({
-        mappings = {
-          go_in = 'L',
-          go_in_plus = 'l',
-          go_out = 'H',
-          go_out_plus = 'h',
-        },
-        options = {
-          use_as_default_explorer = true,
-        },
-        windows = {
-          preview = true,
-          width_focus = 30,
-          width_preview = 30,
-        },
-        vim.keymap.set('n', '\\', '<cmd>lua MiniFiles.open()<cr>', { desc = 'Open mini.files' }),
-      })
+      -- require('mini.files').setup({
+      --   mappings = {
+      --     go_in = 'L',
+      --     go_in_plus = 'l',
+      --     go_out = 'H',
+      --     go_out_plus = 'h',
+      --   },
+      --   options = {
+      --     use_as_default_explorer = true,
+      --   },
+      --   windows = {
+      --     preview = true,
+      --     width_focus = 30,
+      --     width_preview = 30,
+      --   },
+      --   vim.keymap.set('n', '\\', '<cmd>lua MiniFiles.open()<cr>', { desc = 'Open mini.files' }),
+      -- })
 
       -- Adapt LazyVim autopair config
       local pairs_opts = {
