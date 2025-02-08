@@ -1,27 +1,11 @@
-local function generate_vendor(port, model)
+local function generate_vendor(model)
   return {
+    __inherited_from = 'openai',
     api_key_name = '',
-    endpoint = '{{- if eq .chezmoi.os "darwin" -}}127.0.0.1{{- else -}}{{- .MacAddress -}}{{- end -}}',
+    endpoint = '{{- if eq .chezmoi.os "darwin" -}}127.0.0.1:5001/v1{{- else -}}{{- .MacAddress -}}:5001/v1{{- end -}}',
+    temperature = 0,
+    max_tokens = 8192,
     model = model,
-    parse_curl_args = function(opts, code_opts)
-      return {
-        url = opts.endpoint .. ':' .. port .. '/v1/chat/completions',
-        headers = {
-          ['Accept'] = 'application/json',
-          ['Content-Type'] = 'application/json',
-        },
-        body = {
-          model = opts.model,
-          messages = require('avante.providers').copilot.parse_messages(code_opts),
-          temperature = 0,
-          max_tokens = 30000,
-          stream = true,
-        },
-      }
-    end,
-    parse_response_data = function(data_stream, event_state, opts)
-      require('avante.providers').copilot.parse_response(data_stream, event_state, opts)
-    end,
   }
 end
 
@@ -35,11 +19,11 @@ return {
     opts = {
       provider = 'qwen',
       vendors = {
-        ['qwen'] = generate_vendor('5001', 'qwen2.5-coder-14b-instruct-4bit-q4'),
-        ['supernova'] = generate_vendor('5001', 'supernova-medius-4bit-q4'),
-        ['deepseek'] = generate_vendor('5001', 'deepseek-r1-distill-qwen-14b-4bit-q4'),
+        ['qwen'] = generate_vendor('qwen2.5-coder-14b-instruct-mlx'),
+        ['supernova'] = generate_vendor('supernova-medius'),
+        ['deepseek'] = generate_vendor('deepseek-r1-distill-qwen-14b'),
       },
-      file_selector = { provider = "snacks" },
+      file_selector = { provider = 'snacks' },
     }
   },
 }

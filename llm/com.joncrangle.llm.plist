@@ -17,10 +17,7 @@
     <array>
 	<string>/bin/sh</string>
         <string>-c</string>
-	<string>
-	    cd /Users/jonathancrangle/Documents/Code/MLX-Textgen/ && /opt/homebrew/bin/uv run mlx_textgen.server --config-file ./model_configs.yaml --port 5001 --host 0.0.0.0 &
-	    cd /Users/jonathancrangle/Documents/Code/ComfyUI/ && /opt/homebrew/bin/uv run main.py --listen 0.0.0.0
-	</string>
+	<string>cd /Users/jonathancrangle/Documents/Code/ComfyUI/ && /opt/homebrew/bin/uv run main.py --listen 0.0.0.0</string>
     </array>
     <key>RunAtLoad</key>
     <true/>

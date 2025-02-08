@@ -14,11 +14,9 @@ To expose on local network, edit: `~/Library/LaunchAgents/homebrew.mxcl.ollama.p
 
 [Ollama](https://github.com/ollama/ollama) can be started as a service by running `brew services start ollama`.
 
-## 💻 MLX-Textgen
+## 💻 LM-Studio
 
-[MLX-Textgen](https://github.com/nath1295/MLX-Textgen) is started automatically by [Custom plist](./llm/com.joncrangle.llm.plist) to expose a server on the local network using port `5001`.
-
-[model_configs.yaml](./llm/model_configs.yaml) is used to configure the model to use MLX models. This file should be moved into the `MLX-Textgen` directory before starting the server.
+[LM-Studio](https://lmstudio.ai/) should be configured to start a server on port `5001`.
 
 ## 🖼️Comfy UI
 
