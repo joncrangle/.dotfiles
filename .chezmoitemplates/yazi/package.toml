@@ -1,5 +1,17 @@
-[plugin]
-deps = [{ use = "dedukun/relative-motions", rev = "df97039" }, { use = "Reledia/glow", rev = "c2ed51e" }, { use = "Rolv-Apneseth/starship", rev = "247f49d" }]
+[[plugin.deps]]
+use = "dedukun/relative-motions"
+rev = "0d9c8cf"
+hash = "561ad872c77b95360c2657c5e8d395ed"
+
+[[plugin.deps]]
+use = "Reledia/glow"
+rev = "5ce76dc"
+hash = "52e5f5c602962e7cbf874da28f52ba45"
+
+[[plugin.deps]]
+use = "Rolv-Apneseth/starship"
+rev = "d1cd0a3"
+hash = "d1fee6d0f74cb52d4e031dc6b9207f31"
 
 [flavor]
 deps = []
