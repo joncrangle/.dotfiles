@@ -15,7 +15,6 @@ return {
     event = 'VeryLazy',
     build = vim.fn.has 'win32' == 0 and 'make' or
         'pwsh.exe -NoProfile -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false',
-    dependencies = { 'stevearc/dressing.nvim' },
     opts = {
       provider = 'qwen',
       vendors = {
@@ -24,7 +23,7 @@ return {
         ['deepseek'] = generate_vendor('deepseek-r1-distill-qwen-14b'),
       },
       file_selector = { provider = 'snacks' },
-    }
+    },
   },
 }
 -- vim: ts=2 sts=2 sw=2 et
