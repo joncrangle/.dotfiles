@@ -475,11 +475,11 @@ Write-Host "Fonts installed successfully."
 Write-Host "Installing Scoop apps..."
 $packages = @(
     "7zip", "bat", "biome", "bruno", "chafa", "charm-gum", "curl", "delta", "dbeaver", "diffutils",
-    "eza", "fastfetch", "fd", "ffmpeg", "glow", "go", "gzip", "JetBrainsMono-NF", "jj", "jq", "just",
-    "komorebi", "krita", "lazygit", "lua", "luarocks", "make", "mariadb", "Meslo-NF", "mingw", "neovim",
-    "nodejs", "obsidian", "podman", "poppler", "pnpm", "postgresql", "python", "ripgrep", "rustup-gnu",
-    "sqlite", "tldr", "topgrade", "tree-sitter", "unar", "unzip", "uv", "vlc", "vcredist2022", "vscode",
-    "wezterm-nightly", "win32yank", "wget", "whkd", "xh", "yazi", "yq", "zebar", "zig", "zoom"
+    "eza", "fastfetch", "fd", "ffmpeg", "ghostscript", "glow", "go", "gzip", "imagemagick", "JetBrainsMono-NF",
+    "jj", "jq", "just","komorebi", "krita", "lazygit", "lua", "luarocks", "make", "mariadb", "Meslo-NF",
+    "mingw", "neovim","nodejs", "obsidian", "podman", "poppler", "pnpm", "postgresql", "python", "ripgrep",
+    "rustup-gnu", "sqlite", "tldr", "topgrade", "tree-sitter", "unar", "unzip", "uv", "vlc", "vcredist2022",
+    "vscode", "wezterm-nightly", "win32yank", "wget", "whkd", "xh", "yazi", "yq", "zebar", "zig", "zoom"
 )
 
 foreach ($package in $packages)

@@ -38,6 +38,7 @@ return {
         },
       },
       explorer = { replace_netrw = true },
+      image = { enabled = true },
       input = { enabled = true },
       lazygit = {
         configure = false
