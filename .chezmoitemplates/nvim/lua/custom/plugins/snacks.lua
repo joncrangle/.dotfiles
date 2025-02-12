@@ -69,7 +69,7 @@ return {
       { ']]',               function() Snacks.words.jump(vim.v.count1) end,                                        desc = 'Next Reference' },
       { '[[',               function() Snacks.words.jump(-vim.v.count1) end,                                       desc = 'Prev Reference' },
       -- Pickers
-      { '\\',               function() Snacks.explorer() end,                                                      desc = 'File Explorer' },
+      { '\\',               function() Snacks.explorer({ hidden = true }) end,                                     desc = 'File Explorer' },
       { '<leader><leader>', function() Snacks.picker.buffers() end,                                                desc = '[ ] Find existing buffers' },
       { '<leader>/',        function() Snacks.picker.lines() end,                                                  desc = '[/] Search in current Buffer' },
       { '<leader>sf',       function() Snacks.picker.smart() end,                                                  desc = '[S]earch [F]iles' },
