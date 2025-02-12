@@ -18,9 +18,8 @@ return {
           clear_in_insert_mode = true,
           only_render_image_at_cursor = true,
         },
-        neorg = {
-          enabled = false,
-        },
+        neorg = { enabled = false },
+        typst = { enabled = false },
       },
     },
   },
