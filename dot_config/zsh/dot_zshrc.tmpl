@@ -23,6 +23,7 @@ FPATH="/usr/share/zsh/site-functions:${FPATH}"
 {{ else }}
 FPATH="opt/homebrew/share/zsh/site-functions:${FPATH}"
 {{ end }}
+COREPACK_ENABLE_AUTO_PIN=0
 
 function zvm_config() {
   ZVM_VI_SURROUND_BINDKEY=s-prefix

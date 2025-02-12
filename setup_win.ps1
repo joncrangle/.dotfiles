@@ -179,10 +179,11 @@ Import-Module -Name Terminal-Icons
 Import-Module PSFzf
 Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
 
-`$ENV:EDITOR = "nvim"
-`$ENV:VISUAL = "nvim"
-`$ENV:STARSHIP_CONFIG = "$HOME\.config\starship\starship.toml"
-`$ENV:KOMOREBI_CONFIG_HOME = "$HOME\.config\komorebi"
+`$env:EDITOR = "nvim"
+`$env:VISUAL = "nvim"
+`$env:STARSHIP_CONFIG = "$HOME\.config\starship\starship.toml"
+`$env:KOMOREBI_CONFIG_HOME = "$HOME\.config\komorebi"
+`$env:COREPACK_ENABLE_AUTO_PIN = "0"
 
 # FZF
 `$env:FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git .jj --color=always"
