@@ -234,6 +234,15 @@
       ]
     ]
   },
+  "Barrier": {
+    "floating": [
+      {
+        "kind": "Exe",
+        "id": "barrier.exe",
+        "matching_strategy": "Equals"
+      }
+    ]
+  },
   "Beeper": {
     "tray_and_multi_window": [
       {
@@ -417,6 +426,15 @@
         "kind": "Class",
         "id": "TWizardForm",
         "matching_strategy": "Legacy"
+      }
+    ]
+  },
+  "DesktopMate": {
+    "ignore": [
+      {
+        "kind": "Exe",
+        "id": "DesktopMate.exe",
+        "matching_strategy": "Equals"
       }
     ]
   },
@@ -1512,6 +1530,15 @@
       {
         "kind": "Exe",
         "id": "PowerToys.PowerAccent.exe",
+        "matching_strategy": "Equals"
+      }
+    ]
+  },
+  "Prime95": {
+    "floating": [
+      {
+        "kind": "Exe",
+        "id": "prime95.exe",
         "matching_strategy": "Equals"
       }
     ]
@@ -2680,6 +2707,22 @@
         "id": "stremio-shell-ng.exe",
         "matching_strategy": "Equals"
       }
+    ]
+  },
+  "Mod Organizer 2": {
+    "ignore": [
+      [
+        {
+          "kind": "Exe",
+          "id": "ModOrganizer.exe",
+          "matching_strategy": "Equals"
+        },
+        {
+          "kind": "Title",
+          "id": "Extracting files",
+          "matching_strategy": "Equals"
+        }
+      ]
     ]
   }
 }
