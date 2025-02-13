@@ -6,6 +6,7 @@
 {{- $tnasUser := promptStringOnce . "tnasUser" "TNAS username" -}}
 {{- $archAddress := promptStringOnce . "archAddress" "Arch IP address" -}}
 {{- $archUser := promptStringOnce . "archUser" "Arch username" -}}
+{{- $geminiKey := promptStringOnce . "geminiKey" "Gemini API Key" -}}
 
 encryption = "age"
 
@@ -26,6 +27,7 @@ encryption = "age"
     TnasUser = {{ $tnasUser | quote }}
     ArchAddress = {{ $archAddress | quote }}
     ArchUser = {{ $archUser | quote }}
+    GeminiKey = {{ $geminiKey | quote }}
     {{ if eq .chezmoi.os "linux" }}
     {{- $keyboard := promptStringOnce . "keyboard" "Enter 'laptop' or 'desktop' ..." -}}
     keyboard = {{ $keyboard | quote }}

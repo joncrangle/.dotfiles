@@ -70,6 +70,10 @@ case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
+export COREPACK_ENABLE_AUTO_PIN=0
+
+# Gemini
+export GEMINI_API_KEY={{- .GeminiKey }}
 
 # Path
 path=(

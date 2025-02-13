@@ -16,7 +16,11 @@ return {
     build = vim.fn.has 'win32' == 0 and 'make' or
         'pwsh.exe -NoProfile -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false',
     opts = {
-      provider = 'qwen',
+      provider = 'gemini',
+      gemini = {
+        model = 'gemini-2.0-pro-exp-02-05',
+        -- model = 'gemini-2.0-flash-thinking-exp-01-21',
+      },
       vendors = {
         ['qwen'] = generate_vendor('qwen2.5-coder-14b-instruct-mlx'),
         ['supernova'] = generate_vendor('supernova-medius'),
