@@ -27,6 +27,7 @@ require 'tabline'.tabline()
 config.front_end = 'WebGpu'
 config.cursor_blink_ease_in = 'Constant'
 config.cursor_blink_ease_out = 'Constant'
+config.enable_kitty_graphics = true
 config.max_fps = 120
 
 --  Colour scheme and UI
