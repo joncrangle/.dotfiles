@@ -118,14 +118,14 @@ config.harfbuzz_features = { 'ss06' }
 local resurrect = wezterm.plugin.require 'https://github.com/MLFlexer/resurrect.wezterm'
 local separator = wezterm.target_triple:find 'windows' and '\\' or '/'
 local encryption_method = wezterm.target_triple:find 'darwin' and '/opt/homebrew/bin/age' or 'age'
-resurrect.set_encryption {
+resurrect.state_manager.set_encryption {
   enable = true,
   method = encryption_method,
   private_key = wezterm.home_dir .. separator .. '.config' .. separator .. 'key.txt',
   public_key = '{{- .chezmoi.config.age.recipient -}}',
 }
-resurrect.periodic_save()
-resurrect.set_max_nlines(1000)
+resurrect.state_manager.periodic_save()
+resurrect.state_manager.set_max_nlines(1000)
 
 --Workspaces
 local workspace_switcher = wezterm.plugin.require 'https://github.com/MLFlexer/smart_workspace_switcher.wezterm'
@@ -145,10 +145,10 @@ end
 
 local resurrect_event_listeners = {
   'resurrect.error',
-  'resurrect.save_state.finished',
+  'resurrect.state_manager.save_state.finished',
 }
 local is_periodic_save = false
-wezterm.on('resurrect.periodic_save', function()
+wezterm.on('resurrect.state_manager.periodic_save', function()
   is_periodic_save = true
 end)
 for _, event in ipairs(resurrect_event_listeners) do
@@ -173,7 +173,7 @@ wezterm.on('smart_workspace_switcher.workspace_switcher.created', function(windo
     { Foreground = { Color = scheme.ansi[5] } },
     { Text = basename(path) .. '  ' },
   })
-  workspace_state.restore_workspace(resurrect.load_state(label, 'workspace'), {
+  workspace_state.restore_workspace(resurrect.state_manager.load_state(label, 'workspace'), {
     window = window,
     relative = true,
     restore_text = true,
@@ -192,7 +192,7 @@ end)
 
 ---@diagnostic disable-next-line: unused-local
 wezterm.on('smart_workspace_switcher.workspace_switcher.selected', function(window, path, label)
-  resurrect.save_state(workspace_state.get_workspace_state())
+  resurrect.state_manager.save_state(workspace_state.get_workspace_state())
 end)
 
 -- Domains
