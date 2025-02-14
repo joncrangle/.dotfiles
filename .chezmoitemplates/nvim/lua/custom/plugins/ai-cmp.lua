@@ -1,4 +1,5 @@
 return {
+  ---@module 'copilot'
   {
     'zbirenbaum/copilot.lua',
     enabled = true,
@@ -22,6 +23,7 @@ return {
       },
     },
   },
+  ---@module 'codeium'
   {
     'Exafunction/codeium.vim',
     enabled = false,

@@ -10,9 +10,10 @@ local function generate_vendor(model)
 end
 
 return {
+  ---@module 'avante'
   {
     'yetone/avante.nvim',
-    event = 'VeryLazy',
+    event = { 'BufReadPost', 'BufWritePost', 'BufNewFile' },
     build = vim.fn.has 'win32' == 0 and 'make' or
         'pwsh.exe -NoProfile -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false',
     opts = {

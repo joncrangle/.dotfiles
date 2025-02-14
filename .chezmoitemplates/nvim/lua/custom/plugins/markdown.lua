@@ -1,4 +1,5 @@
 return {
+  ---@module 'render-markdown'
   {
     'MeanderingProgrammer/render-markdown.nvim',
     dependencies = {
@@ -18,6 +19,7 @@ return {
       },
     },
   },
+  ---@module 'helpview'
   {
     'OXY2DEV/helpview.nvim',
     lazy = false,

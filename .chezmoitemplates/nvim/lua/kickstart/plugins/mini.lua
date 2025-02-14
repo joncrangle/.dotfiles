@@ -1,4 +1,5 @@
 return {
+  ---@module 'mini'
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
     lazy = true,
@@ -209,7 +210,7 @@ return {
       vim.api.nvim_create_autocmd("User", {
         pattern = "MiniFilesActionRename",
         callback = function(event)
-          Snacks.rename.on_rename_file(event.data.from, event.data.to)
+          require('snacks').rename.on_rename_file(event.data.from, event.data.to)
         end,
       })
     end,

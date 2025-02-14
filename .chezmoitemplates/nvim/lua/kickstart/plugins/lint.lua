@@ -1,5 +1,5 @@
 return {
-
+  ---@module 'nvim-lint'
   { -- Linting
     'mfussenegger/nvim-lint',
     lazy = true,

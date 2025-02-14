@@ -1,4 +1,5 @@
 return {
+  ---@module 'blink.cmp'
   {
     'saghen/blink.cmp',
     build = 'cargo build --release',

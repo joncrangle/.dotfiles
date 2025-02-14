@@ -1,4 +1,5 @@
 return {
+  ---@module 'diffview'
   {
     'sindrets/diffview.nvim',
     cmd = { 'DiffviewOpen', 'DiffviewClose' },
@@ -17,12 +18,11 @@ return {
       },
     },
   },
+  ---@module 'hunk'
   {
     "julienvincent/hunk.nvim",
     cmd = { "DiffEditor" },
-    config = function()
-      require("hunk").setup()
-    end,
+    opts = {},
   }
 }
 -- vim: ts=2 sts=2 sw=2 et

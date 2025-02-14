@@ -1,4 +1,5 @@
 return {
+  ---@module 'nvim-treesitter'
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
@@ -50,6 +51,7 @@ return {
         'markdown',
         'markdown_inline',
         'query',
+        'regex',
         'rust',
         'ron',
         'typescript',
@@ -125,8 +127,6 @@ return {
     },
     config = function(_, opts)
       -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
-
-      ---@diagnostic disable-next-line: missing-fields
       require('nvim-treesitter.configs').setup(opts)
 
       local ts_repeat_move = require 'nvim-treesitter.textobjects.repeatable_move'
@@ -139,6 +139,7 @@ return {
       vim.keymap.set({ 'n', 'x', 'o' }, 'T', ts_repeat_move.builtin_T_expr, { expr = true })
     end,
   },
+  ---@module 'nvim-ts-autotag'
   {
     'windwp/nvim-ts-autotag',
     lazy = true,

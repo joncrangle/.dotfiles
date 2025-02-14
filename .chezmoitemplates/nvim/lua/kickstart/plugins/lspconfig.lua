@@ -1,4 +1,5 @@
 return {
+  ---@module 'nvim-lspconfig'
   { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     event = { 'BufReadPre', 'BufNewFile' },
@@ -398,6 +399,8 @@ return {
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
+        automatic_installation = true,
+        ensure_installed = servers,
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
@@ -411,6 +414,7 @@ return {
       }
     end,
   },
+  ---@module 'rustaceanvim'
   {
     'mrcjkb/rustaceanvim',
     version = '^5',
@@ -455,21 +459,20 @@ return {
       end
     end,
   },
+  ---@module 'crates'
   {
     'Saecki/crates.nvim',
     event = { 'BufRead Cargo.toml' },
     opts = {
       lsp = {
         enabled = true,
-        ---@diagnostic disable-next-line: unused-local
-        on_attach = function(client, bufnr)
-        end,
         actions = true,
         completion = true,
         hover = true,
       },
     },
   },
+  ---@module 'package-info'
   {
     'vuki656/package-info.nvim',
     event = { 'BufRead package.json' },

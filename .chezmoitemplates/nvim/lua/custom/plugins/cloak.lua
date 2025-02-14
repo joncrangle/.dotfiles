@@ -1,6 +1,8 @@
 return {
+  ---@module 'cloak'
   {
     'laytan/cloak.nvim',
+    event = { 'BufReadPre *.env', 'BufReadPre *.http' },
     opts = {
       cloak_length = 12,
       patterns = {

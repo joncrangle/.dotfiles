@@ -1,4 +1,5 @@
 return {
+  ---@module 'conform'
   {
     'stevearc/conform.nvim',
     event = { 'BufWritePre' },

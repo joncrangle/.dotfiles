@@ -3,6 +3,7 @@ local enabled = function()
 end
 
 return {
+  ---@module 'image'
   {
     '3rd/image.nvim',
     -- Disable for Windows until image.nvim support is added

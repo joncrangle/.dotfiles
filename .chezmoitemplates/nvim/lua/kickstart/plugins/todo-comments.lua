@@ -1,5 +1,6 @@
 -- Highlight todo, notes, etc in comments
 return {
+  ---@module 'todo-comments'
   {
     'folke/todo-comments.nvim',
     lazy = true,

@@ -1,4 +1,5 @@
 return {
+  ---@module 'quicker'
   {
     'stevearc/quicker.nvim',
     lazy = true,

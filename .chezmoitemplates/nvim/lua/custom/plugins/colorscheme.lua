@@ -1,4 +1,5 @@
 return {
+  ---@module 'catppuccin'
   {
     'catppuccin/nvim',
     enabled = true,
@@ -54,6 +55,7 @@ return {
       },
     },
   },
+  ---@module 'nvim-highlight-colors'
   {
     'brenoprata10/nvim-highlight-colors',
     lazy = true,

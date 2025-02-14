@@ -1,4 +1,5 @@
 return {
+  ---@module 'snacks'
   {
     'folke/snacks.nvim',
     priority = 1000,
@@ -89,6 +90,7 @@ return {
       { '<leader>sk',       function() Snacks.picker.keymaps() end,                                                desc = '[S]earch [K]eymaps' },
       { '<leader>sl',       function() Snacks.picker.loclist() end,                                                desc = '[S]earch [L]ocation List' },
       { '<leader>sm',       function() Snacks.picker.man() end,                                                    desc = '[S]earch [M]an Pages' },
+      ---@diagnostic disable-next-line: assign-type-mismatch
       { '<leader>sn',       function() Snacks.picker.files({ cwd = vim.fn.stdpath('config') }) end,                desc = '[S]earch [N]eovim files' },
       { '<leader>sR',       function() Snacks.picker.resume() end,                                                 desc = '[S]earch [R]esume' },
       { '<leader>st',       function() Snacks.picker.todo_comments() end,                                          desc = '[S]earch [T]odo Comments' },

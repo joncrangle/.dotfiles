@@ -1,4 +1,5 @@
 return {
+  ---@module 'lualine'
   {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'echasnovski/mini.nvim' },

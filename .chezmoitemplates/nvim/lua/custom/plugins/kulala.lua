@@ -1,4 +1,5 @@
 return {
+  ---@module 'kulala'
   {
     'mistweaverco/kulala.nvim',
     ft = { 'http' },

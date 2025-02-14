@@ -1,4 +1,5 @@
 return {
+  ---@module 'noice'
   {
     'folke/noice.nvim',
     lazy = true,
