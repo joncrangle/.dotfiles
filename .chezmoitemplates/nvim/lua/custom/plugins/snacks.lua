@@ -40,6 +40,7 @@ return {
       },
       explorer = { replace_netrw = true },
       image = { enabled = true },
+      indent = { enabled = true, indent = { only_scope = true } },
       input = { enabled = true },
       lazygit = {
         configure = false

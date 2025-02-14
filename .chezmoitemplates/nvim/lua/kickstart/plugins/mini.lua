@@ -5,20 +5,17 @@ return {
     lazy = true,
     event = { 'BufReadPost', 'BufNewFile', 'CmdlineEnter' },
     config = function()
-      -- Better Around/Inside textobjects
-      --
+      require('mini.ai').setup { n_lines = 500 }
       -- Examples:
       --  - va)  - [V]isually select [A]round [)]paren
       --  - yinq - [Y]ank [I]nside [N]ext [Q]uote
       --  - ci'  - [C]hange [I]nside [']quote
-      require('mini.ai').setup { n_lines = 500 }
 
-      -- Add/delete/replace surroundings (brackets, quotes, etc.)
-      --
+      require('mini.surround').setup()
+      -- Examples:
       -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
-      require('mini.surround').setup()
 
       require('mini.diff').setup {
         view = {
@@ -31,24 +28,6 @@ return {
         },
         vim.keymap.set('n', '<leader>go', '<cmd>lua MiniDiff.toggle_overlay(0)<cr>', { desc = 'Toggle [G]it mini.diff [O]verlay' }),
       }
-
-      -- require('mini.files').setup({
-      --   mappings = {
-      --     go_in = 'L',
-      --     go_in_plus = 'l',
-      --     go_out = 'H',
-      --     go_out_plus = 'h',
-      --   },
-      --   options = {
-      --     use_as_default_explorer = true,
-      --   },
-      --   windows = {
-      --     preview = true,
-      --     width_focus = 30,
-      --     width_preview = 30,
-      --   },
-      --   vim.keymap.set('n', '\\', '<cmd>lua MiniFiles.open()<cr>', { desc = 'Open mini.files' }),
-      -- })
 
       -- Adapt LazyVim autopair config
       local pairs_opts = {
@@ -152,67 +131,6 @@ return {
       }
       -- Until other plugins support mini.icons natively
       MiniIcons.mock_nvim_web_devicons()
-
-      require('mini.indentscope').setup {
-        symbol = '│',
-        options = { try_as_border = true },
-        draw = {
-          delay = 30,
-          -- animation = require('mini.indentscope').gen_animation.none(),
-        },
-      }
-    end,
-    init = function()
-      vim.api.nvim_create_autocmd('FileType', {
-        pattern = {
-          'alpha',
-          'dashboard',
-          'fzf',
-          'help',
-          'lazy',
-          'mason',
-          'neo-tree',
-          'notify',
-          'snacks_notif',
-          'snacks_terminal',
-          'snacks_win',
-          'toggleterm',
-          'trouble',
-          'Trouble',
-        },
-        callback = function()
-          vim.b.miniindentscope_disable = true
-        end,
-      })
-
-      local show_dotfiles = true
-
-      local filter_show = function(_) return true end
-
-      local filter_hide = function(fs_entry)
-        return not vim.startswith(fs_entry.name, ".")
-      end
-
-      local toggle_dotfiles = function()
-        show_dotfiles = not show_dotfiles
-        local new_filter = show_dotfiles and filter_show or filter_hide
-        require("mini.files").refresh { content = { filter = new_filter } }
-      end
-
-      vim.api.nvim_create_autocmd("User", {
-        pattern = "MiniFilesBufferCreate",
-        callback = function(args)
-          local buf_id = args.data.buf_id
-          vim.keymap.set("n", "g.", toggle_dotfiles, { buffer = buf_id, desc = 'Toggle dotfiles' })
-        end,
-      })
-
-      vim.api.nvim_create_autocmd("User", {
-        pattern = "MiniFilesActionRename",
-        callback = function(event)
-          require('snacks').rename.on_rename_file(event.data.from, event.data.to)
-        end,
-      })
     end,
   },
 }
