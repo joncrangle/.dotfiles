@@ -3,12 +3,10 @@ vim.opt.relativenumber = true
 vim.opt.mouse = 'a'
 vim.g.loaded_matchit = 1
 vim.opt.showmode = false
--- Global statusline
-vim.opt.laststatus = 3
--- Don't wrap lines
-vim.opt.wrap = false
--- Enable virtual edit in block mode
-vim.opt.virtualedit = 'block'
+vim.opt.termguicolors = true
+vim.opt.laststatus = 3        -- Global statusline
+vim.opt.wrap = false          -- Don't wrap lines
+vim.opt.virtualedit = 'block' -- Enable virtual edit in block mode
 
 -- Sync clipboard between OS and Neovim.
 -- Function to set OSC 52 clipboard
@@ -92,17 +90,26 @@ vim.opt.timeoutlen = 300
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
--- Sets how neovim will display certain whitespace characters in the editor.
---  See `:help 'list'`
---  and `:help 'listchars'`
-vim.opt.list = false
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+vim.opt.list = true
+vim.opt.fillchars = {
+  foldopen = '',
+  foldclose = '',
+  fold = ' ',
+  foldsep = ' ',
+  diff = '╱',
+  eob = ' ',
+}
+vim.opt.foldlevel = 99
+vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+vim.opt.foldmethod = 'expr'
+vim.opt.foldtext = ''
 
 -- Preview substitutions live while typing
 vim.opt.inccommand = 'split'
 
 vim.opt.cursorline = true
 vim.opt.scrolloff = 10
+vim.opt.smoothscroll = true
 
 -- Tab spacing
 vim.opt.tabstop = 4
