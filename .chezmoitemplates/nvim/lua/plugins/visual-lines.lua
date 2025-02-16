@@ -1,7 +1,7 @@
 return {
   {
     'visual-lines',
-    event = 'BufEnter',
+    event = { 'BufReadPre', 'BufNewFile' },
     dev = true,
     ---@type VisualLineNumbersOptions
     opts = {},

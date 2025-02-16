@@ -6,8 +6,13 @@
 ---@field debounce_ms number?
 local M = {}
 
+local function get_warning_fg()
+  local hl = vim.api.nvim_get_hl(0, { name = 'CursorLineNr' })
+  return hl.fg or 'NONE'
+end
+
 local defaults = {
-  fg = '#f9e2af',
+  fg = get_warning_fg(),
   bg = 'NONE',
   highlight_group = 'VisualLineNr',
   priority = 10,
