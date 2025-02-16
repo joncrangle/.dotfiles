@@ -2,6 +2,7 @@ return {
   ---@module 'grapple'
   {
     'cbochs/grapple.nvim',
+    event = { 'BufReadPost', 'BufNewFile' },
     dependencies = { 'echasnovski/mini.nvim' },
     ---@type grapple.options
     opts = {
