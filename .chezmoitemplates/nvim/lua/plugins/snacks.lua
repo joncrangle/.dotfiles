@@ -78,6 +78,7 @@ return {
       { ']]',               function() Snacks.words.jump(vim.v.count1) end,                                                desc = 'Next Reference' },
       { '[[',               function() Snacks.words.jump(-vim.v.count1) end,                                               desc = 'Prev Reference' },
       { "<leader>.",        function() Snacks.scratch() end,                                                               desc = "Toggle Scratch Buffer" },
+      { "<leader>y",        function() Snacks.terminal('yazi', { win = { style = 'lazygit' } }) end,                       desc = "Open [Y]azi" },
       -- Pickers
       { '\\',               function() Snacks.explorer({ hidden = true }) end,                                             desc = 'File Explorer' },
       { '<leader><leader>', function() Snacks.picker.buffers() end,                                                        desc = '[ ] Find existing buffers' },
