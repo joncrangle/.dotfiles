@@ -43,8 +43,7 @@ return {
       },
       ---@type snacks.explorer.Config
       explorer = { replace_netrw = true },
-      ---@type snacks.image.Config
-      image = { markdown = { inline = false } },
+      image = {},
       ---@type snacks.indent.Config
       indent = { indent = { only_scope = true } },
       input = {},
@@ -78,6 +77,7 @@ return {
       { '<leader>gl',       function() Snacks.lazygit.log() end,                                                           desc = 'Lazygit Log (cwd)' },
       { ']]',               function() Snacks.words.jump(vim.v.count1) end,                                                desc = 'Next Reference' },
       { '[[',               function() Snacks.words.jump(-vim.v.count1) end,                                               desc = 'Prev Reference' },
+      { "<leader>.",        function() Snacks.scratch() end,                                                               desc = "Toggle Scratch Buffer" },
       -- Pickers
       { '\\',               function() Snacks.explorer({ hidden = true }) end,                                             desc = 'File Explorer' },
       { '<leader><leader>', function() Snacks.picker.buffers() end,                                                        desc = '[ ] Find existing buffers' },
@@ -102,6 +102,7 @@ return {
       ---@diagnostic disable-next-line: assign-type-mismatch
       { '<leader>sn',       function() Snacks.picker.files({ cwd = wezterm_dir }) end,                                     desc = '[S]earch [N]eovim files' },
       { '<leader>sR',       function() Snacks.picker.resume() end,                                                         desc = '[S]earch [R]esume' },
+      { "<leader>ss",       function() Snacks.scratch.select() end,                                                        desc = "[S]earch [S]cratch Buffer" },
       ---@diagnostic disable-next-line: undefined-field
       { '<leader>st',       function() Snacks.picker.todo_comments() end,                                                  desc = '[S]earch [T]odo Comments' },
       ---@diagnostic disable-next-line: undefined-field
