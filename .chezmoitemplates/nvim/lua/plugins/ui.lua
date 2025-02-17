@@ -12,6 +12,7 @@ return {
       flavour = 'mocha',
       transparent_background = true,
       integrations = {
+        avante = true,
         blink_cmp = true,
         dadbod_ui = true,
         indent_blankline = { enabled = true },
