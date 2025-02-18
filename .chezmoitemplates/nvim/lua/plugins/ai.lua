@@ -54,7 +54,7 @@ fib(5)]],
 }
 
 local gemini_chat_input_template =
-'{{{language}}}\n{{{tab}}}\n<contextBeforeCursor>\n{{{context_before_cursor}}}<cursorPosition>\n<contextAfterCursor>\n{{{context_after_cursor}}}'
+'{{ printf "{{{language}}}" }}\n{{ printf "{{{tab}}}" }}\n<contextBeforeCursor>\n{{ printf "{{{context_before_cursor}}}" }}<cursorPosition>\n<contextAfterCursor>\n{{ printf "{{{context_after_cursor}}}" }}'
 
 return {
   ---@module 'avante'
