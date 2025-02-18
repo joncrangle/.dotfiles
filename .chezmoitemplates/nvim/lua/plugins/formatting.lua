@@ -1,5 +1,4 @@
 return {
-  { 'tpope/vim-sleuth', event = { 'BufReadPre', 'BufNewFile' } },
   ---@module 'conform'
   {
     'stevearc/conform.nvim',
