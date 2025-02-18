@@ -36,9 +36,11 @@ return {
         },
       },
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer', 'omni', 'lazydev', 'dadbod', 'emoji' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'omni', 'lazydev', 'emoji' },
         per_filetype = {
           AvanteInput = {},
+          sql = { 'snippets', 'dadbod', 'buffer' },
+          lua = { 'lsp', 'path', 'snippets', 'buffer', 'omni', 'lazydev' }
         },
         providers = {
           lazydev = { name = 'LazyDev', module = 'lazydev.integrations.blink', score_offset = 100 },
