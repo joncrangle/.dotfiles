@@ -1,4 +1,5 @@
 return {
+  ---@module 'nvim-treesitter'
   {
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
@@ -23,6 +24,7 @@ return {
     build = ':TSUpdate',
     event = { 'BufReadPre', 'BufNewFile' },
     cmd = { 'TSInstall', 'TSInstallInfo', 'TSBufEnable', 'TSBufDisable', 'TSEnable', 'TSDisable', 'TSModuleInfo', 'TSUpdate' },
+    ---@type TSConfig|{}
     opts = {
       vim.filetype.add {
         filename = {
@@ -46,6 +48,7 @@ return {
         'javascript',
         'lua',
         'luadoc',
+        'lua_patterns',
         'markdown',
         'markdown_inline',
         'query',
@@ -123,6 +126,17 @@ return {
       },
     },
     config = function(_, opts)
+      ---@type table<string, ParserInfo|{}>
+      local parser_configs = require('nvim-treesitter.parsers').get_parser_configs();
+
+      parser_configs.lua_patterns = {
+        install_info = {
+          url = 'https://github.com/OXY2DEV/tree-sitter-lua_patterns',
+          files = { 'src/parser.c' },
+          branch = 'main',
+        },
+      }
+
       require('nvim-treesitter.configs').setup(opts)
 
       local ts_repeat_move = require 'nvim-treesitter.textobjects.repeatable_move'

@@ -170,5 +170,12 @@ return {
       { '<leader>Rt', '<cmd>lua require("kulala").toggle_view()<cr>', desc = 'Toggle headers/body',      ft = 'http' },
     },
   },
+  {
+    "OXY2DEV/patterns.nvim",
+    cmd = 'Patterns',
+    keys = {
+      { '<leader>tr', '<cmd>Patterns explain<cr>', desc = '[T]oggle [R]egex explain' },
+    },
+  },
 }
 -- vim: ts=2 sts=2 sw=2 et
