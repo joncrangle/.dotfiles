@@ -19,6 +19,9 @@ disable = [
 {{- if ne .chezmoi.os "linux" -}}
     "system", 
 {{- end -}}
+{{- if eq .chezmoi.os "windows" -}}
+    "rustup", 
+{{- end -}}
     "bun","containers","mas","vim","chocolatey","winget","microsoft_store","yarn"]
 
 # Ignore failures for these steps
