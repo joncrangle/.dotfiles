@@ -36,16 +36,16 @@ return {
         },
       },
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer', 'omni', 'lazydev', 'emoji' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'omni', 'emoji' },
         per_filetype = {
           AvanteInput = {},
+          lua = { 'lsp', 'path', 'snippets', 'buffer', 'omni', 'lazydev', 'emoji' },
           sql = { 'snippets', 'dadbod', 'buffer' },
-          lua = { 'lsp', 'path', 'snippets', 'buffer', 'omni', 'lazydev' }
         },
         providers = {
-          lazydev = { name = 'LazyDev', module = 'lazydev.integrations.blink', score_offset = 100 },
           dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink', score_offset = 3 },
           emoji = { name = 'Emoji', module = 'blink-emoji', score_offset = 3 },
+          lazydev = { name = 'LazyDev', module = 'lazydev.integrations.blink', score_offset = 100 },
         },
       },
       keymap = {
