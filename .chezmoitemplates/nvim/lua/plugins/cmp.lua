@@ -36,13 +36,14 @@ return {
         },
       },
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer', 'omni', 'emoji' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'emoji' },
         per_filetype = {
-          AvanteInput = {},
-          lua = { 'lsp', 'path', 'snippets', 'buffer', 'omni', 'lazydev', 'emoji' },
+          AvanteInput = { 'avante' },
+          lua = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev', 'emoji' },
           sql = { 'snippets', 'dadbod', 'buffer' },
         },
         providers = {
+          avante = { name = 'Avante', module = 'blink-cmp-avante' },
           dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink', score_offset = 3 },
           emoji = { name = 'Emoji', module = 'blink-emoji', score_offset = 3 },
           lazydev = { name = 'LazyDev', module = 'lazydev.integrations.blink', score_offset = 100 },
