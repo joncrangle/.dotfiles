@@ -7,19 +7,26 @@ return {
     dependencies = {
       { 'rafamadriz/friendly-snippets' },
       'moyiz/blink-emoji.nvim',
+      'Kaiser-Yang/blink-cmp-avante',
     },
     opts_extend = { 'sources.default' },
     ---@type blink.cmp.Config
     opts = {
       appearance = { nerd_font_variant = 'mono' },
+      cmdline = {
+        completion = {
+          menu = {
+            auto_show = function()
+              return not vim.tbl_contains({ '/', '?' }, vim.fn.getcmdtype())
+            end,
+          },
+        },
+      },
       completion = {
         accept = { auto_brackets = { enabled = true } },
         menu = {
           border = 'single',
           draw = { treesitter = { 'lsp' } },
-          auto_show = function(ctx)
-            return ctx.mode ~= 'cmdline' or not vim.tbl_contains({ '/', '?' }, vim.fn.getcmdtype())
-          end,
         },
         documentation = {
           auto_show = true,
