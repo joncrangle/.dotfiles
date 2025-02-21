@@ -69,7 +69,7 @@ Features include:
     - Turn off system. Hold power button until "Loading startup options" appears. Click "Options" then click "Continue"
     - In the menu bar, choose `Utilities`, then `Terminal`
 
-    ```zsh
+    ```sh
     # If you're on Apple Silicon macOS 13.x.x
     # Requires Filesystem Protections, Debugging Restrictions and NVRAM Protection to be disabled
     # (printed warning can be safely ignored)
@@ -78,7 +78,7 @@ Features include:
 
     - Reboot. For Apple Silicon, need to enable non-Apple-signed arm64e binaries.
 
-    ```zsh
+    ```sh
     # Open a terminal and run the below command, then reboot
     sudo nvram boot-args=-arm64e_preview_abi
     ```
@@ -91,14 +91,14 @@ Features include:
 
 5. Download and run the [setup_mac.sh](https://github.com/joncrangle/.dotfiles/raw/main/setup_mac.sh) shell script.
 
-```zsh
+```sh
 curl -L https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_mac.sh | sh
 ```
 
 > [!TIP]
 > If needed, make the script executable with
 >
-> ```zsh
+> ```sh
 > chmod +x setup_mac.sh
 > ```
 
@@ -155,7 +155,7 @@ iwr -useb https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_win.
 
 Install Arch using `archinstall` with a Minimal profile. To connect to wifi, use `iwctl`:
 
-```bash
+```sh
 iwctl
 device list
 station wlan0 scan
@@ -167,10 +167,10 @@ archinstall
 
 Once installed, connect to wifi and run the setup script:
 
-```bash
+```sh
 nmcli device wifi list
 nmcli device wifi connect SSID password PASSWORD
-bash <(curl -s https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_arch.sh)
+sh <(curl -s https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_arch.sh)
 ```
 
 > [!TIP]
@@ -182,7 +182,7 @@ bash <(curl -s https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup
 >
 > 1. Create a `launch.sh` script in `/usr/share/wayland-sessions` and make it executable with `chmod +x launch.sh`:
 >
-> ```bash
+> ```sh
 > #!/bin/sh
 > if [ -z "$1" ]; then
 >      echo "Usage: $0 <config_directory> <command>"
@@ -198,14 +198,14 @@ bash <(curl -s https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup
 >
 > 2. Edit `plasma.desktop` in `/usr/share/wayland-sessions`:
 >
-> ```bash
+> ```sh
 > # Comment out existing Exec and TryExec lines and add:
 > Exec=/usr/share/wayland-sessions/launch.sh .kdeconfig /usr/lib/plasma-dbus-run-session-if-needed /usr/bin/startplasma-wayland
 >```
 >
 > 3. Edit `hyprland.desktop` in `/usr/share/wayland-sessions`:
 >
-> ```bash
+> ```sh
 > # Comment out existing Exec line and add:
 > Exec=/usr/share/wayland-sessions/launch.sh .config Hyprland
 > ```
@@ -213,17 +213,17 @@ bash <(curl -s https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup
 ### Paru commands
 
 Install a package
-```
+```sh
 paru -S <package>
 ```
 
 Clean package cache
-```
+```sh
 paru -Scd
 ```
 
 Remove orphaned packages
-```
+```sh
 paru -Qdtq | paru -Rns
 ```
 

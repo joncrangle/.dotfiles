@@ -47,47 +47,44 @@ return {
       },
     },
     keys = {
-      {
-        '<leader>q',
-        function()
-          require('quicker').toggle()
-        end,
-        desc = 'Toggle [Q]uicker',
-        mode = 'n',
-      },
+      { '<leader>q', function() require('quicker').toggle() end, desc = 'Toggle [Q]uicker', mode = 'n' },
     },
   },
-  ---@module 'render-markdown'
+  ---@module 'markview'
   {
-    'MeanderingProgrammer/render-markdown.nvim',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter',
-      'echasnovski/mini.nvim',
-    },
+    'OXY2DEV/markview.nvim',
     ft = { 'markdown', 'Avante' },
-    ---@type render.md.Config|{}
-    opts = {
-      file_types = { 'markdown', 'Avante' },
-    },
+    opts = function()
+      require('markview.extras.checkboxes').setup()
+      local presets = require('markview.presets')
+      ---@type mkv.config
+      return {
+        ---@type config.markdown|{}
+        markdown = { headings = presets.headings.marker },
+        preview = {
+          filetypes = { 'Avante', 'md', 'markdown' },
+          icon_provider = 'mini',
+          ignore_buftypes = {},
+        },
+      }
+    end,
     keys = {
-      {
-        '<leader>tm',
-        '<cmd>RenderMarkdown toggle<cr>',
-        ft = 'markdown',
-        desc = '[T]oggle [M]arkdown',
-      },
+      { '<leader>tm', '<cmd>Markview toggle<cr>',                                    desc = '[T]oggle [M]arkview',    ft = 'markdown' },
+      { '<leader>tc', '<cmd>Checkbox toggle<cr>',                                    desc = '[T]oggle [C]heckbox',    ft = 'markdown' },
+      { '<<',         function() require('markview.extras.headings').decrease() end, desc = 'Decrease heading level', ft = 'markdown' },
+      { '>>',         function() require('markview.extras.headings').increase() end, desc = 'Increase heading level', ft = 'markdown' },
     },
   },
   {
     'iamcco/markdown-preview.nvim',
     cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
-    ft = { 'markdown' },
+    ft = 'markdown',
     build = 'cd app && npm install && git restore .',
     init = function()
       vim.g.mkdp_filetypes = { 'markdown' }
     end,
     keys = {
-      { '<leader>tp', '<cmd>MarkdownPreviewToggle<cr>', desc = '[T]oggle Markdown [P]review' },
+      { '<leader>tp', '<cmd>MarkdownPreviewToggle<cr>', desc = '[T]oggle Markdown [P]review', ft = 'markdown' },
     },
   },
   {

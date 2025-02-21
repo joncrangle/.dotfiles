@@ -146,14 +146,12 @@ return {
       },
     },
   },
-  ---@module 'copilot'
   {
     'zbirenbaum/copilot.lua',
     enabled = false,
     cmd = 'Copilot',
     build = ':Copilot auth',
     event = 'InsertEnter',
-    ---@type copilot_config|{}
     opts = {
       suggestion = {
         auto_trigger = true,
