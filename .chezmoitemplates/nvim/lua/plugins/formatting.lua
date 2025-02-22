@@ -29,6 +29,7 @@ return {
         css = { 'prettierd', 'prettier', stop_after_first = true },
         go = { 'goimports', 'goimports-reviser', 'golines', 'gofumpt' },
         html = { 'prettierd', 'prettier', stop_after_first = true },
+        http = { 'kulala ' },
         javascript = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
         javascriptreact = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
         json = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
@@ -48,6 +49,11 @@ return {
         zsh = { 'shfmt' },
       },
       formatters = {
+        kulala = {
+          command = "kulala-fmt",
+          args = { "format", "$FILENAME" },
+          stdin = false,
+        },
         sqlfluff = {
           args = { 'format', '--dialect=ansi', '-' },
         },
