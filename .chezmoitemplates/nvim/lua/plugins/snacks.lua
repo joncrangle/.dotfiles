@@ -43,7 +43,8 @@ return {
       },
       ---@type snacks.explorer.Config
       explorer = { replace_netrw = true },
-      image = {},
+      ---@type snacks.image.Config|{}
+      image = { doc = { inline = false } },
       ---@type snacks.indent.Config
       indent = { indent = { only_scope = true } },
       input = {},
