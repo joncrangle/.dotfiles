@@ -29,7 +29,7 @@ return {
         css = { 'prettierd', 'prettier', stop_after_first = true },
         go = { 'goimports', 'goimports-reviser', 'golines', 'gofumpt' },
         html = { 'prettierd', 'prettier', stop_after_first = true },
-        http = { 'kulala ' },
+        http = { 'kulala' },
         javascript = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
         javascriptreact = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
         json = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
@@ -50,24 +50,23 @@ return {
       },
       formatters = {
         kulala = {
-          command = "kulala-fmt",
-          args = { "format", "$FILENAME" },
+          command = 'kulala-fmt',
+          args = { 'format', '$FILENAME' },
           stdin = false,
         },
         sqlfluff = {
           args = { 'format', '--dialect=ansi', '-' },
         },
       },
+      format_on_save = function(bufnr)
+        if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+          return
+        end
+        return { timeout_ms = 500, lsp_format = 'fallback' }
+      end,
     },
-    config = function()
-      require('conform').setup {
-        format_on_save = function(bufnr)
-          if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
-            return
-          end
-          return { timeout_ms = 500, lsp_format = 'fallback' }
-        end,
-      }
+    config = function(_, opts)
+      require('conform').setup(opts)
 
       vim.api.nvim_create_user_command('FormatToggle', function()
         if vim.g.disable_autoformat then

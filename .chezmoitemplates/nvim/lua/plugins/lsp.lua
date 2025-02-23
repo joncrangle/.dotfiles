@@ -4,12 +4,20 @@ return {
     'neovim/nvim-lspconfig',
     event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
-      { 'williamboman/mason.nvim', cmd = 'Mason', config = true },
-      'williamboman/mason-lspconfig.nvim',
+      {
+        'williamboman/mason.nvim',
+        cmd = 'Mason',
+        opts = {
+          registries = {
+            'github:mason-org/mason-registry',
+            'github:mistweaverco/zana-registry',
+          },
+        },
+      },
+      { 'williamboman/mason-lspconfig.nvim', config = function() end },
       'WhoIsSethDaniel/mason-tool-installer.nvim',
-      { 'j-hui/fidget.nvim',       opts = {} },
-      { 'saghen/blink.cmp' },
-      { 'b0o/schemastore.nvim',    lazy = true,   opts = nil },
+      { 'j-hui/fidget.nvim', opts = {} },
+      { 'b0o/schemastore.nvim', lazy = true, opts = nil },
     },
     config = function()
       ---@type lspconfig.Config
@@ -75,14 +83,13 @@ return {
           end
 
           if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
-            map("<leader>ti", function()
+            map('<leader>ti', function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
-            end, "[T]oggle [I]nlay Hints")
+            end, '[T]oggle [I]nlay Hints')
           end
         end,
       })
 
-      local capabilities = require('blink.cmp').get_lsp_capabilities()
       local servers = {
         astro = {},
         basedpyright = {
@@ -140,9 +147,7 @@ return {
           directoryFilters = { '-.git', '-.vscode', '-.idea', '-.vscode-test', '-node_modules' },
           semanticTokens = true,
         },
-        harper_ls = {
-          filetypes = { "markdown" },
-        },
+        harper_ls = { filetypes = { 'markdown' } },
         html = {},
         jqls = {},
         jsonls = {
@@ -160,6 +165,7 @@ return {
             },
           },
         },
+        kulala_ls = { mason = false },
         lua_ls = {
           settings = {
             Lua = {
@@ -241,8 +247,7 @@ return {
           },
           -- lazy-load schemastore when needed
           on_new_config = function(new_config)
-            new_config.settings.yaml.schemas = vim.tbl_deep_extend('force', new_config.settings.yaml.schemas or {},
-              require('schemastore').yaml.schemas())
+            new_config.settings.yaml.schemas = vim.tbl_deep_extend('force', new_config.settings.yaml.schemas or {}, require('schemastore').yaml.schemas())
           end,
           settings = {
             redhat = { telemetry = { enabled = false } },
@@ -265,9 +270,37 @@ return {
         zls = {},
       }
 
-      require('mason').setup()
+      local has_blink, blink = pcall(require, 'blink.cmp')
+      local capabilities = vim.tbl_deep_extend('force', {}, vim.lsp.protocol.make_client_capabilities(), has_blink and blink.get_lsp_capabilities() or {})
 
-      local ensure_installed = vim.tbl_keys(servers or {})
+      local function setup(server)
+        local server_opts = vim.tbl_deep_extend('force', {
+          capabilities = vim.deepcopy(capabilities),
+        }, servers[server] or {})
+        if server_opts.enabled == false then
+          return
+        end
+
+        require('lspconfig')[server].setup(server_opts)
+      end
+
+      local all_mslp_servers = vim.tbl_keys(require('mason-lspconfig.mappings.server').lspconfig_to_package)
+
+      local ensure_installed = {} ---@type string[]
+      for server, server_opts in pairs(servers) do
+        if server_opts then
+          server_opts = server_opts == true and {} or server_opts
+          if server_opts.enabled ~= false then
+            -- run manual setup if mason=false or if this is a server that cannot be installed with mason-lspconfig
+            if server_opts.mason == false or not vim.tbl_contains(all_mslp_servers, server) then
+              setup(server)
+            end
+          else
+            ensure_installed[#ensure_installed + 1] = server
+          end
+        end
+      end
+
       vim.list_extend(ensure_installed, {
         'codelldb',
         'delve',
@@ -277,6 +310,7 @@ return {
         'golines',
         'gomodifytags',
         'impl',
+        'kulala-fmt',
         'markdownlint-cli2',
         'markdown-toc',
         'prettier',
@@ -294,16 +328,7 @@ return {
       require('mason-lspconfig').setup {
         automatic_installation = true,
         ensure_installed = servers,
-        handlers = {
-          function(server_name)
-            local server = servers[server_name] or {}
-            -- This handles overriding only values explicitly passed
-            -- by the server configuration above. Useful when disabling
-            -- certain features of an LSP (for example, turning off formatting for ts_ls)
-            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
-          end,
-        },
+        handlers = { setup },
       }
     end,
   },
@@ -318,7 +343,7 @@ return {
       server = {
         on_attach = function(_, bufnr)
           vim.keymap.set('n', '<leader>dr', function()
-            vim.cmd.RustLsp('debuggables')
+            vim.cmd.RustLsp 'debuggables'
           end, { desc = 'Rust Debuggables', buffer = bufnr })
         end,
         default_settings = {
@@ -347,9 +372,8 @@ return {
     },
     config = function(_, opts)
       vim.g.rustaceanvim = vim.tbl_deep_extend('keep', vim.g.rustaceanvim or {}, opts or {})
-      if vim.fn.executable('rust-analyzer') == 0 then
-        vim.notify('rust-analyzer not found in PATH, please install it.\nhttps://rust-analyzer.github.io/',
-          vim.log.levels.ERROR, { title = 'rustaceanvim' })
+      if vim.fn.executable 'rust-analyzer' == 0 then
+        vim.notify('rust-analyzer not found in PATH, please install it.\nhttps://rust-analyzer.github.io/', vim.log.levels.ERROR, { title = 'rustaceanvim' })
       end
     end,
   },
