@@ -110,6 +110,17 @@ return {
         biome = {},
         clangd = {},
         cssls = {},
+        denols = {
+          root_dir = require('lspconfig').util.root_pattern { 'deno.json', 'deno.jsonc' },
+          single_file_support = false,
+          settings = {
+            init_options = {
+              enable = true,
+              lint = true,
+              unstable = true,
+            },
+          },
+        },
         docker_compose_language_service = {},
         dockerls = {},
         eslint = {},
@@ -194,6 +205,8 @@ return {
         },
         templ = {},
         vtsls = {
+          root_dir = require('lspconfig').util.root_pattern { 'package.json', 'tsconfig.json' },
+          single_file_support = false,
           settings = {
             complete_function_calls = true,
             vtsls = {

@@ -475,7 +475,7 @@ Write-Host "Fonts installed successfully."
 # Install Scoop apps
 Write-Host "Installing Scoop apps..."
 $packages = @(
-    "7zip", "bat", "biome", "bruno", "chafa", "charm-gum", "curl", "delta", "dbeaver", "diffutils",
+    "7zip", "bat", "biome", "bruno", "chafa", "charm-gum", "curl", "delta", "deno", "dbeaver", "diffutils",
     "eza", "fastfetch", "fd", "ffmpeg", "ghostscript", "glow", "go", "gzip", "imagemagick", "JetBrainsMono-NF",
     "jj", "jq", "just","komorebi", "krita", "lazygit", "lua", "luarocks", "make", "mariadb", "Meslo-NF",
     "mingw", "neovim","nodejs", "obsidian", "podman", "poppler", "pnpm", "postgresql", "python", "ripgrep",

@@ -271,6 +271,7 @@ packages=(
     "cava"
     "cliphist"
     "cmus"
+    "deno"
     "dropbox"
     "exiv2"
     "eza"
@@ -417,7 +418,7 @@ if [[ $(_isInstalledParu "nwg-look") -eq 0 ]]; then
 fi
 
 THEME_DIR="/usr/share/themes/catppuccin-mocha-mauve-standard+default"
-if [[ -d "${THEME_DIR}" ]]; then
+if [[ -d "$THEME_DIR" ]]; then
     mkdir -p "${HOME}/.config/gtk-4.0"
     ln -sf "${THEME_DIR}/gtk-4.0/assets" "${HOME}/.config/gtk-4.0/assets"
     ln -sf "${THEME_DIR}/gtk-4.0/gtk.css" "${HOME}/.config/gtk-4.0/gtk.css"
