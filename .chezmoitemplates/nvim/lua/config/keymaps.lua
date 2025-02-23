@@ -9,8 +9,7 @@ vim.keymap.set('n', '<Tab>', '<cmd>tabnext<CR>', { desc = 'Next tab page' })
 vim.keymap.set('n', '<C-q>', '<cmd>tabclose<CR>', { desc = 'Close tab page' })
 
 -- Replace current word
-vim.keymap.set('n', '<leader>rw', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>',
-  { desc = '[R]eplace current [w]ord' })
+vim.keymap.set('n', '<leader>rw', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>', { desc = '[R]eplace current [w]ord' })
 
 -- Keep cursor in place when joining lines, moving or searching
 vim.keymap.set('n', 'J', 'mzJ`z', { desc = 'Join lines' })

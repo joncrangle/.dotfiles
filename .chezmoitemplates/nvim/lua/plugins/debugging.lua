@@ -6,11 +6,7 @@ return {
     cmd = 'Trouble',
     dependencies = { 'echasnovski/mini.nvim' },
     keys = {
-      {
-        '<leader>x',
-        '<cmd>Trouble diagnostics toggle<cr>',
-        desc = 'Toggle Trouble',
-      },
+      { '<leader>x', '<cmd>Trouble diagnostics toggle<cr>', desc = 'Toggle Trouble' },
     },
   },
   {
@@ -19,7 +15,7 @@ return {
     priority = 1000,
     config = function()
       require('tiny-inline-diagnostic').setup()
-      vim.diagnostic.config({ virtual_text = false })
+      vim.diagnostic.config { virtual_text = false }
     end,
   },
   ---@module 'neotest'
@@ -47,11 +43,12 @@ return {
         },
       }
     end,
+    -- stylua: ignore
     keys = {
-      { '<leader>tn', function() require('neotest').run.run() end,                   desc = '[T]est [N]earest' },
-      { '<leader>ta', function() require('neotest').run.run(vim.uv.cwd()) end,       desc = '[T]est [A]ll' },
-      { '<leader>tb', function() require('neotest').run.run(vim.fn.expand("%")) end, desc = '[T]est Current [B]uffer' },
-      { '<leader>ts', function() require('neotest').summary.toggle() end,            desc = '[T]est [S]ummary' },
+      { '<leader>tn', function() require('neotest').run.run() end,                  desc = '[T]est [N]earest' },
+      { '<leader>ta', function() require('neotest').run.run(vim.uv.cwd()) end,      desc = '[T]est [A]ll' },
+      { '<leader>tb', function() require('neotest').run.run(vim.fn.expand '%') end, desc = '[T]est Current [B]uffer' },
+      { '<leader>ts', function() require('neotest').summary.toggle() end,           desc = '[T]est [S]ummary' },
     },
   },
   {
@@ -69,21 +66,16 @@ return {
     keys = function(_, keys)
       local dap = require 'dap'
       local dapui = require 'dapui'
+      -- stylua: ignore
       return {
-        { '<F5>',      dap.continue,          desc = 'Debug: Start/Continue' },
-        { '<F1>',      dap.step_into,         desc = 'Debug: Step Into' },
-        { '<F2>',      dap.step_over,         desc = 'Debug: Step Over' },
-        { '<F3>',      dap.step_out,          desc = 'Debug: Step Out' },
-        { '<leader>b', dap.toggle_breakpoint, desc = 'Debug: Toggle Breakpoint' },
-        {
-          '<leader>B',
-          function()
-            dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
-          end,
-          desc = 'Debug: Set Breakpoint',
-        },
+        { '<F5>', dap.continue,                                                                  desc = 'Debug: Start/Continue' },
+        { '<F1>', dap.step_into,                                                                 desc = 'Debug: Step Into' },
+        { '<F2>', dap.step_over,                                                                 desc = 'Debug: Step Over' },
+        { '<F3>', dap.step_out,                                                                  desc = 'Debug: Step Out' },
+        { '<leader>b', dap.toggle_breakpoint,                                                    desc = 'Debug: Toggle Breakpoint' },
+        { '<leader>B', function() dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ') end, desc = 'Debug: Set Breakpoint' },
         -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
-        { '<F7>', dapui.toggle, desc = 'Debug: See last session result.' },
+        { '<F7>', dapui.toggle,                                                                  desc = 'Debug: See last session result.' },
         unpack(keys),
       }
     end,

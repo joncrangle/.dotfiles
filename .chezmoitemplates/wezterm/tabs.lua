@@ -156,18 +156,18 @@ function M.apply_to_config(config)
   wezterm.on('update-status', function(window, pane)
     local colors = wezterm.get_builtin_color_schemes()['Catppuccin Mocha']
 
-    window:set_left_status(wezterm.format({
+    window:set_left_status(wezterm.format {
       { Foreground = { Color = colors.ansi[6] } },
       { Text = ' ' .. wezterm.nerdfonts.cod_terminal_tmux },
       { Attribute = { Italic = true } },
       { Text = ' ' .. window:active_workspace() },
       { Attribute = { Italic = false } },
       { Text = ' ' .. wezterm.nerdfonts.pl_left_soft_divider .. ' ' },
-    }))
+    })
   end)
 
   local event_listeners = {
-    { event = 'resurrect.fuzzy_load',                        text = 'Resurrect ' .. wezterm.nerdfonts.md_sleep_off .. ' ' },
+    { event = 'resurrect.fuzzy_load', text = 'Resurrect ' .. wezterm.nerdfonts.md_sleep_off .. ' ' },
     { event = 'smart_workspace_switcher.workspace_switcher', text = 'Smart Workspace Switcher ' .. wezterm.nerdfonts.cod_terminal_tmux .. ' ' },
   }
 
@@ -175,15 +175,15 @@ function M.apply_to_config(config)
     wezterm.on(v.event .. '.start', function(window, _)
       local colors = wezterm.get_builtin_color_schemes()['Catppuccin Mocha']
 
-      window:set_right_status(wezterm.format({
+      window:set_right_status(wezterm.format {
         { Foreground = { Color = colors.ansi[5] } },
         { Text = v.text },
-      }))
+      })
     end)
     wezterm.on(v.event .. '.finished', function(window, _)
-      window:set_right_status(wezterm.format({
+      window:set_right_status(wezterm.format {
         { Text = '' },
-      }))
+      })
     end)
   end
 end

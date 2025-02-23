@@ -14,7 +14,7 @@ function M.tabline()
   local tabline = wezterm.plugin.require 'https://github.com/michaelbrusegard/tabline.wez'
   local bg = 'rgba(30, 30, 46, 0.8)'
 
-  tabline.setup({
+  tabline.setup {
     options = {
       icons_enabled = true,
       theme = 'Catppuccin Mocha',
@@ -47,8 +47,8 @@ function M.tabline()
       tabline_c = { '' },
       tab_active = {
         { Text = wezterm.nerdfonts.cod_triangle_right .. ' ' },
-        { 'zoomed',                                          padding = 0 },
-        { 'tab_index',                                       padding = { left = 0, right = 1 } },
+        { 'zoomed', padding = 0 },
+        { 'tab_index', padding = { left = 0, right = 1 } },
         {
           'process',
           padding = { left = 0, right = 1 },
@@ -58,8 +58,8 @@ function M.tabline()
       },
       tab_inactive = {
         { Text = wezterm.nerdfonts.cod_chevron_right .. ' ' },
-        { 'zoomed',                                         padding = 0 },
-        { 'tab_index',                                      padding = { left = 0, right = 1 } },
+        { 'zoomed', padding = 0 },
+        { 'tab_index', padding = { left = 0, right = 1 } },
         {
           'process',
           padding = { left = 0, right = 1 },
@@ -72,7 +72,7 @@ function M.tabline()
       tabline_z = { { 'datetime', style = '%I:%M %p' } },
     },
     extensions = { 'resurrect', 'smart_workspace_switcher', 'quick_domains' },
-  })
+  }
 end
 
 function M.apply_to_config(config)

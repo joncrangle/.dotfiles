@@ -4,8 +4,8 @@ vim.opt.mouse = 'a'
 vim.g.loaded_matchit = 1
 vim.opt.showmode = false
 vim.opt.termguicolors = true
-vim.opt.laststatus = 3        -- Global statusline
-vim.opt.wrap = false          -- Don't wrap lines
+vim.opt.laststatus = 3 -- Global statusline
+vim.opt.wrap = false -- Don't wrap lines
 vim.opt.virtualedit = 'block' -- Enable virtual edit in block mode
 
 -- Sync clipboard between OS and Neovim.
@@ -25,15 +25,15 @@ local function set_osc52_clipboard()
       ['*'] = require('vim.ui.clipboard.osc52').copy '*',
     },
     paste = {
-      ['+'] = my_paste('+'),
-      ['*'] = my_paste('*'),
+      ['+'] = my_paste '+',
+      ['*'] = my_paste '*',
     },
   }
 end
 
 -- Function to check for "via proxy pid" asynchronously
 local function check_wezterm_remote_clipboard(callback)
-  if vim.fn.executable('wezterm') == 0 then
+  if vim.fn.executable 'wezterm' == 0 then
     callback(false) -- wezterm CLI not in PATH
     return
   end
@@ -45,7 +45,7 @@ local function check_wezterm_remote_clipboard(callback)
       local success, clients = pcall(vim.json.decode, table.concat(data, '\n'))
       if success and type(clients) == 'table' then
         for _, client in ipairs(clients) do
-          if client.hostname and client.hostname:find("via proxy pid") then
+          if client.hostname and client.hostname:find 'via proxy pid' then
             callback(true)
             return
           end
@@ -64,7 +64,7 @@ vim.schedule(function()
   vim.opt.clipboard:append 'unnamedplus'
 
   -- Standard SSH session handling
-  if os.getenv('SSH_CLIENT') ~= nil or os.getenv('SSH_TTY') ~= nil then
+  if os.getenv 'SSH_CLIENT' ~= nil or os.getenv 'SSH_TTY' ~= nil then
     set_osc52_clipboard()
   else
     -- Check for WezTerm remote session asynchronously

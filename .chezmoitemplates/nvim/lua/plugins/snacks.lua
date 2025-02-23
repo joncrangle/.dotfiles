@@ -1,4 +1,4 @@
-local wezterm_dir = vim.fn.expand('$XDG_CONFIG_HOME') .. '/wezterm'
+local wezterm_dir = vim.fn.expand '$XDG_CONFIG_HOME' .. '/wezterm'
 return {
   ---@module 'snacks'
   {
@@ -12,33 +12,19 @@ return {
       dashboard = {
         enabled = true,
         preset = {
+          -- stylua: ignore
           keys = {
-            { action = ':lua Snacks.dashboard.pick("smart")', desc = ' Find File', icon = ' ', key = 'f' },
-            { action = ':ene | startinsert', desc = ' New File', icon = ' ', key = 'n' },
-            { action = ':lua Snacks.dashboard.pick("oldfiles")', desc = ' Recent Files', icon = ' ', key = 'r' },
-            { action = ':lua Snacks.dashboard.pick("live_grep")', desc = ' Find Text', icon = ' ', key = 'g' },
-            {
-              action = ':lua Snacks.dashboard.pick("files", {cwd = vim.fn.stdpath("config")})',
-              desc = ' Neovim Config',
-              icon = ' ',
-              key = 'v',
-            },
-            {
-              action = ':lua Snacks.dashboard.pick("files", {cwd = "' .. wezterm_dir .. '"})',
-              desc = ' Wezterm Config',
-              icon = ' ',
-              key = 'w',
-            },
-            { action = ':lua require("persistence").load()', desc = ' Restore Session', icon = ' ', key = 's' },
-            { action = ':Lazy', desc = ' Lazy', icon = '󰒲 ', key = 'l' },
-            { action = ':Mason', desc = ' Mason', icon = '󱊈 ', key = 'm' },
-            {
-              action = ':qa',
-              desc = ' Quit',
-              icon = ' ',
-              key = 'q',
-            },
-          }
+            { action = ':lua Snacks.dashboard.pick("smart")',                                   desc = ' Find File',       icon = ' ', key = 'f' },
+            { action = ':ene | startinsert',                                                    desc = ' New File',        icon = ' ', key = 'n' },
+            { action = ':lua Snacks.dashboard.pick("oldfiles")',                                desc = ' Recent Files',    icon = ' ', key = 'r' },
+            { action = ':lua Snacks.dashboard.pick("live_grep")',                               desc = ' Find Text',       icon = ' ', key = 'g' },
+            { action = ':lua Snacks.dashboard.pick("files", {cwd = vim.fn.stdpath("config")})', desc = ' Neovim Config',   icon = ' ', key = 'v' },
+            { action = ':lua Snacks.dashboard.pick("files", {cwd = "' .. wezterm_dir .. '"})',  desc = ' Wezterm Config',  icon = ' ', key = 'w' },
+            { action = ':lua require("persistence").load()',                                    desc = ' Restore Session', icon = ' ', key = 's' },
+            { action = ':Lazy',                                                                 desc = ' Lazy',            icon = '󰒲 ', key = 'l' },
+            { action = ':Mason',                                                                desc = ' Mason',           icon = '󱊈 ', key = 'm' },
+            { action = ':qa',                                                                   desc = ' Quit',            icon = ' ', key = 'q' },
+          },
         },
       },
       ---@type snacks.explorer.Config
@@ -64,10 +50,11 @@ return {
       styles = {
         notification = {
           relative = 'editor',
-          wo = { wrap = true, winblend = 0 }
+          wo = { wrap = true, winblend = 0 },
         },
       },
     },
+    -- stylua: ignore
     keys = {
       { '<leader>nd',       function() Snacks.notifier.hide() end,                                                         desc = 'Dismiss All Notifications' },
       { '<leader>bd',       function() Snacks.bufdelete() end,                                                             desc = 'Delete Buffer' },
@@ -134,9 +121,9 @@ return {
             Snacks.debug.backtrace()
           end
           vim.print = _G.dd -- Override print to use snacks for `:=` command
-        end
+        end,
       })
-    end
-  }
+    end,
+  },
 }
 -- vim: ts=2 sts=2 sw=2 et

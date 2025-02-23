@@ -8,6 +8,7 @@ return {
       {
         'aaronik/treewalker.nvim',
         opts = {},
+        -- stylua: ignore
         keys = {
           { '<Down>',  '<cmd>Treewalker Down<cr>',  desc = 'Next node' },
           { '<Right>', '<cmd>Treewalker Right<cr>', desc = 'Next child node' },
@@ -127,7 +128,7 @@ return {
     },
     config = function(_, opts)
       ---@type table<string, ParserInfo|{}>
-      local parser_configs = require('nvim-treesitter.parsers').get_parser_configs();
+      local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
 
       parser_configs.lua_patterns = {
         install_info = {
@@ -141,8 +142,7 @@ return {
 
       local ts_repeat_move = require 'nvim-treesitter.textobjects.repeatable_move'
       vim.keymap.set({ 'n', 'x', 'o' }, ';', ts_repeat_move.repeat_last_move, { desc = 'Repeat last move' })
-      vim.keymap.set({ 'n', 'x', 'o' }, ',', ts_repeat_move.repeat_last_move_opposite,
-        { desc = 'Repeat last move (opposite)' })
+      vim.keymap.set({ 'n', 'x', 'o' }, ',', ts_repeat_move.repeat_last_move_opposite, { desc = 'Repeat last move (opposite)' })
       vim.keymap.set({ 'n', 'x', 'o' }, 'f', ts_repeat_move.builtin_f_expr, { expr = true })
       vim.keymap.set({ 'n', 'x', 'o' }, 'F', ts_repeat_move.builtin_F_expr, { expr = true })
       vim.keymap.set({ 'n', 'x', 'o' }, 't', ts_repeat_move.builtin_t_expr, { expr = true })

@@ -18,8 +18,8 @@ return {
     },
   },
   {
-    "julienvincent/hunk.nvim",
-    cmd = { "DiffEditor" },
+    'julienvincent/hunk.nvim',
+    cmd = { 'DiffEditor' },
     opts = {},
   },
 }

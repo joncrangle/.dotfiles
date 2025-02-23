@@ -3,7 +3,7 @@ local act = wezterm.action
 
 local resurrect = wezterm.plugin.require 'https://github.com/MLFlexer/resurrect.wezterm'
 local workspace_switcher = wezterm.plugin.require 'https://github.com/MLFlexer/smart_workspace_switcher.wezterm'
-local domains = wezterm.plugin.require "https://github.com/DavidRR-F/quick_domains.wezterm"
+local domains = wezterm.plugin.require 'https://github.com/DavidRR-F/quick_domains.wezterm'
 
 local M = {}
 
@@ -22,6 +22,7 @@ end)
 
 function M.apply_to_config(config)
   config.disable_default_key_bindings = true
+  -- stylua: ignore
   config.keys = {
     -- Window
     { mods = 'ALT',        key = 'Enter', action = act.ToggleFullScreen },
@@ -145,28 +146,25 @@ function M.apply_to_config(config)
   end
 
   -- Domains
-  domains.apply_to_config(
-    config,
-    {
-      keys = {
-        attach = {
-          key  = 'D',
-          mods = 'ALT|SHIFT',
-          tbl  = ''
-        },
-        vsplit = {
-          key  = 'v',
-          mods = 'ALT|SHIFT',
-          tbl  = ''
-        },
-        hsplit = {
-          key  = 'h',
-          mods = 'ALT|SHIFT',
-          tbl  = ''
-        },
+  domains.apply_to_config(config, {
+    keys = {
+      attach = {
+        key = 'D',
+        mods = 'ALT|SHIFT',
+        tbl = '',
       },
-    }
-  )
+      vsplit = {
+        key = 'v',
+        mods = 'ALT|SHIFT',
+        tbl = '',
+      },
+      hsplit = {
+        key = 'h',
+        mods = 'ALT|SHIFT',
+        tbl = '',
+      },
+    },
+  })
 end
 
 return M

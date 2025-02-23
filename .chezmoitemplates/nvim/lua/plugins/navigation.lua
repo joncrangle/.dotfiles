@@ -8,16 +8,18 @@ return {
     opts = {
       scope = 'cwd',
       icons = true,
-      tag_title = function() return 'Grapple Tags' end,
+      tag_title = function()
+        return 'Grapple Tags'
+      end,
       win_opts = {
         width = 60,
         height = 12,
         border = 'rounded',
-      }
+      },
     },
     config = function(_, opts)
-      local wk = require('which-key')
-      local grapple = require('grapple')
+      local wk = require 'which-key'
+      local grapple = require 'grapple'
 
       local keys = {}
       for i = 1, 9 do
@@ -28,6 +30,7 @@ return {
           hidden = true,
         })
       end
+      -- stylua: ignore
       wk.add({
         { '<leader>#', desc = 'Grapple tag item [1-9]' },
         { '<leader>h', function() grapple.toggle() end,      desc = 'Grapple a file' },
@@ -42,6 +45,7 @@ return {
     lazy = false,
     keys = function()
       local smart_splits = require 'smart-splits'
+      -- stylua: ignore
       local keys = {
         { '<A-h>', smart_splits.resize_left,       { desc = 'Resize split left' } },
         { '<A-j>', smart_splits.resize_down,       { desc = 'Resize split down' } },
@@ -60,7 +64,8 @@ return {
     event = 'BufReadPre',
     opts = { options = vim.opt.sessionoptions:get() },
     keys = function()
-      local wk = require('which-key')
+      local wk = require 'which-key'
+      -- stylua: ignore
       wk.add({
         { '<leader>p', group = '[P]ersistent Sessions', icon = { icon = '', color = 'yellow' } },
         { '<leader>ps', function() require('persistence').load() end, desc = 'Restore Session' },

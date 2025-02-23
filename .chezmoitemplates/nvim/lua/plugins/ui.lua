@@ -67,18 +67,19 @@ return {
       preset = 'modern',
     },
     config = function(_, opts)
-      local wk = require('which-key')
-      wk.add({
+      local wk = require 'which-key'
+      -- stylua: ignore
+      wk.add {
         { '<leader>b', group = '[B]uffer', mode = { 'n', 'x' }, icon = { icon = '󰈔 ', color = 'cyan' } },
-        { '<leader>c', group = '[C]ode', mode = { 'n', 'x' }, icon = { icon = ' ', color = 'green' } },
-        { '<leader>d', group = '[D]ocument', icon = { icon = '󰈙', color = 'green' } },
-        { '<leader>g', group = '[G]it', icon = { icon = '', color = 'green' } },
-        { '<leader>r', group = '[R]ename', icon = { icon = '󰑕', color = 'orange' } },
-        { '<leader>s', group = '[S]earch', icon = { icon = '', color = 'green' } },
-        { '<leader>t', group = '[T]oggle/[T]est', icon = { icon = '', color = 'orange' } },
-        { '<leader>u', group = '[U]pdate', icon = { icon = '󰚰', color = 'orange' } },
-        { '<leader>w', group = '[W]orkspace', icon = { icon = '', color = 'yellow' } },
-      })
+        { '<leader>c', group = '[C]ode',   mode = { 'n', 'x' }, icon = { icon = ' ', color = 'green' } },
+        { '<leader>d', group = '[D]ocument',                    icon = { icon = '󰈙', color = 'green' } },
+        { '<leader>g', group = '[G]it',                         icon = { icon = '', color = 'green' } },
+        { '<leader>r', group = '[R]ename',                      icon = { icon = '󰑕', color = 'orange' } },
+        { '<leader>s', group = '[S]earch',                      icon = { icon = '', color = 'green' } },
+        { '<leader>t', group = '[T]oggle/[T]est',               icon = { icon = '', color = 'orange' } },
+        { '<leader>u', group = '[U]pdate',                      icon = { icon = '󰚰', color = 'orange' } },
+        { '<leader>w', group = '[W]orkspace',                   icon = { icon = '', color = 'yellow' } },
+      }
       wk.setup(opts)
     end,
   },
@@ -153,8 +154,8 @@ return {
       },
     },
     keys = function()
-      local wk = require('which-key')
-      wk.add({ '<leader>n', group = '[N]oice', icon = { icon = '󰈸', color = 'orange' } })
+      local wk = require 'which-key'
+      wk.add { '<leader>n', group = '[N]oice', icon = { icon = '󰈸', color = 'orange' } }
       return {
         {
           '<C-f>',
@@ -179,7 +180,7 @@ return {
           expr = true,
           desc = 'Scroll backward',
           mode = { 'i', 'n', 's' },
-        }
+        },
       }
     end,
     config = function(_, opts)
@@ -187,7 +188,7 @@ return {
       -- but this is not ideal when Lazy is installing plugins,
       -- so clear the messages in this case.
       if vim.o.filetype == 'lazy' then
-        vim.cmd([[messages clear]])
+        vim.cmd [[messages clear]]
       end
       require('noice').setup(opts)
     end,

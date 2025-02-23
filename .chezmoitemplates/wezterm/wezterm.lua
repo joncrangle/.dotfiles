@@ -15,13 +15,13 @@ local config = wezterm.config_builder() ---@class Config
 wezterm.log_info 'reloading'
 
 -- Modules
-require 'podman'.apply_to_config(config)
-require 'keys'.apply_to_config(config)
-require 'links'.apply_to_config(config)
-require 'mouse'.apply_to_config(config)
+require('podman').apply_to_config(config)
+require('keys').apply_to_config(config)
+require('links').apply_to_config(config)
+require('mouse').apply_to_config(config)
 -- require 'tabs'.apply_to_config(config)
-require 'tabline'.apply_to_config(config)
-require 'tabline'.tabline()
+require('tabline').apply_to_config(config)
+require('tabline').tabline()
 
 -- Graphics config
 config.front_end = 'WebGpu'
@@ -43,7 +43,7 @@ config.command_palette_fg_color = modal_fg_color
 config.char_select_bg_color = modal_bg_color
 config.char_select_fg_color = modal_fg_color
 config.color_schemes = {
-  ['Catppuccin Mocha'] = scheme
+  ['Catppuccin Mocha'] = scheme,
 }
 config.cursor_thickness = 2
 config.default_cursor_style = 'BlinkingBar'
@@ -91,8 +91,8 @@ config.char_select_font_size = font_size
 
 -- Fonts
 config.font = wezterm.font_with_fallback {
-  { family = primary_font,             weight = 'Regular' },
-  { family = secondary_font,           weight = 'Regular' },
+  { family = primary_font, weight = 'Regular' },
+  { family = secondary_font, weight = 'Regular' },
   { family = 'Symbols Nerd Font Mono', weight = 'Regular' },
 }
 config.font_rules = {
@@ -196,13 +196,13 @@ wezterm.on('smart_workspace_switcher.workspace_switcher.selected', function(wind
 end)
 
 -- Domains
-local domains = wezterm.plugin.require "https://github.com/DavidRR-F/quick_domains.wezterm"
+local domains = wezterm.plugin.require 'https://github.com/DavidRR-F/quick_domains.wezterm'
 domains.formatter = function(icon, name)
-  return wezterm.format({
+  return wezterm.format {
     { Foreground = { Color = scheme.ansi[5] } },
     { Background = { Color = scheme.background } },
     { Text = icon .. ' ' .. name },
-  })
+  }
 end
 
 ---@diagnostic disable-next-line: unused-local

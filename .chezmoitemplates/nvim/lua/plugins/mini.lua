@@ -43,14 +43,14 @@ return {
       }
 
       local function custom_pairs(opts)
-        local pairs = require('mini.pairs')
+        local pairs = require 'mini.pairs'
         pairs.setup(opts)
 
         -- Overriding the open function
         local open = pairs.open
         ---@diagnostic disable-next-line: duplicate-set-field
         pairs.open = function(pair, neigh_pattern)
-          if vim.fn.getcmdline() ~= "" then
+          if vim.fn.getcmdline() ~= '' then
             return open(pair, neigh_pattern)
           end
           local o, c = pair:sub(1, 1), pair:sub(2, 2)
@@ -60,12 +60,12 @@ return {
           local before = line:sub(1, cursor[2])
 
           -- Handle markdown code blocks
-          if opts.markdown and o == '`' and vim.bo.filetype == 'markdown' and before:match("^%s*``") then
-            return "`\n```" .. vim.api.nvim_replace_termcodes("<up>", true, true, true)
+          if opts.markdown and o == '`' and vim.bo.filetype == 'markdown' and before:match '^%s*``' then
+            return '`\n```' .. vim.api.nvim_replace_termcodes('<up>', true, true, true)
           end
 
           -- Skip autopair if the next character matches skip_next pattern
-          if opts.skip_next and next ~= "" and next:match(opts.skip_next) then
+          if opts.skip_next and next ~= '' and next:match(opts.skip_next) then
             return o
           end
 
@@ -81,8 +81,8 @@ return {
 
           -- Skip autopair if unbalanced and next character is a closing pair
           if opts.skip_unbalanced and next == c and c ~= o then
-            local _, count_open = line:gsub(vim.pesc(pair:sub(1, 1)), "")
-            local _, count_close = line:gsub(vim.pesc(pair:sub(2, 2)), "")
+            local _, count_open = line:gsub(vim.pesc(pair:sub(1, 1)), '')
+            local _, count_close = line:gsub(vim.pesc(pair:sub(2, 2)), '')
             if count_close > count_open then
               return o
             end

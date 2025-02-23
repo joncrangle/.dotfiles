@@ -54,15 +54,14 @@ fib(5)]],
 }
 
 local gemini_chat_input_template =
-'{{ printf "{{{language}}}" }}\n{{ printf "{{{tab}}}" }}\n<contextBeforeCursor>\n{{ printf "{{{context_before_cursor}}}" }}<cursorPosition>\n<contextAfterCursor>\n{{ printf "{{{context_after_cursor}}}" }}'
+  '{{ printf "{{{language}}}" }}\n{{ printf "{{{tab}}}" }}\n<contextBeforeCursor>\n{{ printf "{{{context_before_cursor}}}" }}<cursorPosition>\n<contextAfterCursor>\n{{ printf "{{{context_after_cursor}}}" }}'
 
 return {
   ---@module 'avante'
   {
     'yetone/avante.nvim',
     event = { 'BufReadPost', 'BufWritePost', 'BufNewFile' },
-    build = vim.fn.has 'win32' == 0 and 'make' or
-        'pwsh.exe -NoProfile -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false',
+    build = vim.fn.has 'win32' == 0 and 'make' or 'pwsh.exe -NoProfile -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false',
     ---@type avante.Config
     opts = {
       provider = 'gemini',
@@ -72,18 +71,18 @@ return {
         -- model = 'gemini-2.0-flash-thinking-exp-01-21',
       },
       vendors = {
-        ['qwen'] = generate_vendor('qwen2.5-coder-14b-instruct-mlx'),
-        ['supernova'] = generate_vendor('supernova-medius'),
-        ['deepseek'] = generate_vendor('deepseek-r1-distill-qwen-14b'),
+        ['qwen'] = generate_vendor 'qwen2.5-coder-14b-instruct-mlx',
+        ['supernova'] = generate_vendor 'supernova-medius',
+        ['deepseek'] = generate_vendor 'deepseek-r1-distill-qwen-14b',
       },
       file_selector = { provider = 'snacks' },
     },
     keys = function()
-      local wk = require('which-key')
-      wk.add({
+      local wk = require 'which-key'
+      wk.add {
         { '<leader>a', group = '[A]vante', mode = { 'n', 'x' }, icon = { icon = ' ', color = 'green' } },
-      })
-    end
+      }
+    end,
   },
   {
     'milanglacier/minuet-ai.nvim',

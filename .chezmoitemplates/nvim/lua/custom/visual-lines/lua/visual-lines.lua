@@ -22,7 +22,7 @@ local defaults = {
 local options = {}
 local initialized = false
 local last_range = { start = nil, finish = nil }
-local ns_id = vim.api.nvim_create_namespace('visual_line_numbers')
+local ns_id = vim.api.nvim_create_namespace 'visual_line_numbers'
 
 local function init()
   if initialized then
@@ -39,7 +39,7 @@ local function init()
 
   local function update_highlights()
     local current_mode = vim.fn.mode()
-    if not current_mode:match('[vV\x16]') then
+    if not current_mode:match '[vV\x16]' then
       if last_range.start and last_range.finish then
         vim.api.nvim_buf_clear_namespace(0, ns_id, 0, -1)
       end
@@ -47,8 +47,8 @@ local function init()
       return
     end
 
-    local start_line = vim.fn.line('v')
-    local end_line = vim.fn.line('.')
+    local start_line = vim.fn.line 'v'
+    local end_line = vim.fn.line '.'
     if start_line > end_line then
       start_line, end_line = end_line, start_line
     end
@@ -82,7 +82,7 @@ local function init()
         if not success then
           vim.notify('Error setting highlight group: ' .. tostring(error_msg), vim.log.levels.ERROR)
         end
-      end
+      end,
     })
 
     vim.api.nvim_create_autocmd({ 'ModeChanged', 'CursorMoved', 'TextChanged', 'TextChangedI' }, {
@@ -95,7 +95,7 @@ local function init()
       pattern = { '*', '[vV\x16]*:*' },
       callback = function()
         vim.api.nvim_buf_clear_namespace(0, ns_id, 0, -1)
-      end
+      end,
     })
   end
 
@@ -106,8 +106,8 @@ end
 M.setup = function(opts)
   options = vim.tbl_deep_extend('force', defaults, opts or {})
 
-  vim.api.nvim_create_autocmd("ModeChanged", {
-    pattern = "*:[vV\x16]*",
+  vim.api.nvim_create_autocmd('ModeChanged', {
+    pattern = '*:[vV\x16]*',
     once = true,
     callback = init,
   })
