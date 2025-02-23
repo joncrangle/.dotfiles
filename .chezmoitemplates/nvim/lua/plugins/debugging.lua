@@ -15,10 +15,10 @@ return {
   },
   {
     'rachartier/tiny-inline-diagnostic.nvim',
-    event = 'LspAttach',
+    event = { 'BufReadPost', 'BufNewFile' },
     priority = 1000,
-    opts = {},
-    init = function()
+    config = function()
+      require('tiny-inline-diagnostic').setup()
       vim.diagnostic.config({ virtual_text = false })
     end,
   },
