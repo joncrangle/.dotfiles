@@ -15,6 +15,7 @@ return {
         avante = true,
         blink_cmp = true,
         dadbod_ui = true,
+        grug_far = true,
         indent_blankline = { enabled = true },
         lsp_trouble = true,
         mason = true,
