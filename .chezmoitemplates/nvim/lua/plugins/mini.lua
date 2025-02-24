@@ -93,7 +93,6 @@ return {
       end
 
       -- Load mini.pairs with the custom configuration
-      require('mini.pairs').setup(pairs_opts)
       custom_pairs(pairs_opts)
 
       require('mini.icons').setup {
