@@ -76,7 +76,6 @@ vim.schedule(function()
   end
 end)
 
-vim.opt.breakindent = true
 vim.opt.undofile = true
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
@@ -112,9 +111,9 @@ vim.opt.scrolloff = 10
 vim.opt.smoothscroll = true
 
 -- Tab spacing
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.shiftround = true
 vim.opt.expandtab = true
 vim.opt.smartindent = true
 
