@@ -97,6 +97,8 @@ return {
         ['<C-b>'] = 'actions.preview_scroll_up',
         ['q'] = { 'actions.close', mode = 'n' },
       },
+      ---@type oil.FloatWindowConfig|{}
+      float = { max_width = 0.85, max_height = 0.85 },
       skip_confirm_for_simple_edits = true,
       ---@type oil.ViewOptions|{}
       view_options = {
