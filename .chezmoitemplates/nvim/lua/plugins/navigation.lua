@@ -74,5 +74,49 @@ return {
       })
     end,
   },
+  ---@module 'snacks'
+  ---@module 'oil'
+  {
+    'stevearc/oil.nvim',
+    cmd = 'Oil',
+    init = function()
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'OilActionsPost',
+        callback = function(event)
+          if event.data.actions.type == 'move' then
+            Snacks.rename.on_rename_file(event.data.actions.src_url, event.data.actions.dest_url)
+          end
+        end,
+      })
+    end,
+    ---@type oil.Config|{}
+    opts = {
+      default_file_explorer = false,
+      keymaps = {
+        ['<C-f>'] = 'actions.preview_scroll_down',
+        ['<C-b>'] = 'actions.preview_scroll_up',
+        ['q'] = { 'actions.close', mode = 'n' },
+      },
+      skip_confirm_for_simple_edits = true,
+      ---@type oil.ViewOptions|{}
+      view_options = {
+        show_hidden = true,
+        natural_order = true,
+        is_always_hidden = function(name, _)
+          return name == '.git' or name == '.jj'
+        end,
+      },
+      win_options = {
+        wrap = true,
+      },
+    },
+    keys = {
+      {
+        '<leader>-',
+        '<cmd>Oil --float<cr>',
+        desc = 'Open parent directory in oil.nvim',
+      },
+    },
+  },
 }
 -- vim: ts=2 sts=2 sw=2 et
