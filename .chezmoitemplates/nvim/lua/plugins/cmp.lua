@@ -17,7 +17,7 @@ return {
         completion = {
           menu = {
             auto_show = function()
-              return not vim.tbl_contains({ '/', '?' }, vim.fn.getcmdtype())
+              return vim.fn.getcmdtype() == ':'
             end,
           },
         },
