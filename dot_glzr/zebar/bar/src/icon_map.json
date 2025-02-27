@@ -1,0 +1,1067 @@
+[
+	{
+		"iconName": ":ableton:",
+		"appNames": ["Live"]
+	},
+	{
+		"iconName": ":activity_monitor:",
+		"appNames": ["Activity Monitor"]
+	},
+	{
+		"iconName": ":adobe_bridge:",
+		"appNames": ["Adobe Bridge*"]
+	},
+	{
+		"iconName": ":affinity_designer:",
+		"appNames": ["Affinity Designer"]
+	},
+	{
+		"iconName": ":affinity_designer_2:",
+		"appNames": ["Affinity Designer 2"]
+	},
+	{
+		"iconName": ":affinity_photo:",
+		"appNames": ["Affinity Photo"]
+	},
+	{
+		"iconName": ":affinity_photo_2:",
+		"appNames": ["Affinity Photo 2"]
+	},
+	{
+		"iconName": ":affinity_publisher:",
+		"appNames": ["Affinity Publisher"]
+	},
+	{
+		"iconName": ":affinity_publisher_2:",
+		"appNames": ["Affinity Publisher 2"]
+	},
+	{
+		"iconName": ":airmail:",
+		"appNames": ["Airmail"]
+	},
+	{
+		"iconName": ":alacritty:",
+		"appNames": ["Alacritty"]
+	},
+	{
+		"iconName": ":alfred:",
+		"appNames": ["Alfred"]
+	},
+	{
+		"iconName": ":android_messages:",
+		"appNames": ["Android Messages"]
+	},
+	{
+		"iconName": ":android_studio:",
+		"appNames": ["Android Studio"]
+	},
+	{
+		"iconName": ":anki:",
+		"appNames": ["Anki"]
+	},
+	{
+		"iconName": ":anytype:",
+		"appNames": ["Anytype"]
+	},
+	{
+		"iconName": ":app_eraser:",
+		"appNames": ["App Eraser"]
+	},
+	{
+		"iconName": ":app_store:",
+		"appNames": ["App Store"]
+	},
+	{
+		"iconName": ":arc:",
+		"appNames": ["Arc"]
+	},
+	{
+		"iconName": ":arduino:",
+		"appNames": ["Arduino", "Arduino IDE"]
+	},
+	{
+		"iconName": ":atom:",
+		"appNames": ["Atom"]
+	},
+	{
+		"iconName": ":audacity:",
+		"appNames": ["Audacity"]
+	},
+	{
+		"iconName": ":bambu_studio:",
+		"appNames": ["Bambu Studio"]
+	},
+	{
+		"iconName": ":bank:",
+		"appNames": ["MoneyMoney"]
+	},
+	{
+		"iconName": ":battle_net:",
+		"appNames": ["Battle.net"]
+	},
+	{
+		"iconName": ":bear:",
+		"appNames": ["Bear"]
+	},
+	{
+		"iconName": ":bettertouchtool:",
+		"appNames": ["BetterTouchTool"]
+	},
+	{
+		"iconName": ":bilibili:",
+		"appNames": ["Bilibili", "哔哩哔哩"]
+	},
+	{
+		"iconName": ":bit_warden:",
+		"appNames": ["Bitwarden"]
+	},
+	{
+		"iconName": ":blender:",
+		"appNames": ["Blender"]
+	},
+	{
+		"iconName": ":bluos_controller:",
+		"appNames": ["BluOS Controller"]
+	},
+	{
+		"iconName": ":book:",
+		"appNames": ["Calibre"]
+	},
+	{
+		"iconName": ":brave_browser:",
+		"appNames": ["Brave Browser"]
+	},
+	{
+		"iconName": ":busycal:",
+		"appNames": ["BusyCal"]
+	},
+	{
+		"iconName": ":calculator:",
+		"appNames": ["Calculator", "Calculette"]
+	},
+	{
+		"iconName": ":calendar:",
+		"appNames": [
+			"Calendar",
+			"日历",
+			"Fantastical",
+			"Cron",
+			"Amie",
+			"Calendrier",
+			"カレンダー",
+			"Notion Calendar"
+		]
+	},
+	{
+		"iconName": ":calibre:",
+		"appNames": ["calibre"]
+	},
+	{
+		"iconName": ":caprine:",
+		"appNames": ["Caprine"]
+	},
+	{
+		"iconName": ":chime:",
+		"appNames": ["Amazon Chime"]
+	},
+	{
+		"iconName": ":citrix:",
+		"appNames": ["Citrix Workspace", "Citrix Viewer"]
+	},
+	{
+		"iconName": ":claude:",
+		"appNames": ["Claude"]
+	},
+	{
+		"iconName": ":click_up:",
+		"appNames": ["ClickUp"]
+	},
+	{
+		"iconName": ":code:",
+		"appNames": ["Code", "Code - Insiders"]
+	},
+	{
+		"iconName": ":cold_turkey_blocker:",
+		"appNames": ["Cold Turkey Blocker"]
+	},
+	{
+		"iconName": ":color_picker:",
+		"appNames": ["Color Picker", "数码测色计"]
+	},
+	{
+		"iconName": ":copilot:",
+		"appNames": ["Copilot"]
+	},
+	{
+		"iconName": ":coteditor:",
+		"appNames": ["CotEditor"]
+	},
+	{
+		"iconName": ":creative_cloud:",
+		"appNames": ["Creative Cloud"]
+	},
+	{
+		"iconName": ":cursor:",
+		"appNames": ["Cursor"]
+	},
+	{
+		"iconName": ":cypress:",
+		"appNames": ["Cypress"]
+	},
+	{
+		"iconName": ":datagrip:",
+		"appNames": ["DataGrip"]
+	},
+	{
+		"iconName": ":dataspell:",
+		"appNames": ["DataSpell"]
+	},
+	{
+		"iconName": ":davinciresolve:",
+		"appNames": ["DaVinci Resolve"]
+	},
+	{
+		"iconName": ":dbeaver:",
+		"appNames": ["DBeaver"]
+	},
+	{
+		"iconName": ":deezer:",
+		"appNames": ["Deezer"]
+	},
+	{
+		"iconName": ":default:",
+		"appNames": ["Default"]
+	},
+	{
+		"iconName": ":desktop:",
+		"appNames": ["CleanMyMac X"]
+	},
+	{
+		"iconName": ":devonthink3:",
+		"appNames": ["DEVONthink 3"]
+	},
+	{
+		"iconName": ":dingtalk:",
+		"appNames": ["DingTalk", "钉钉", "阿里钉"]
+	},
+	{
+		"iconName": ":discord:",
+		"appNames": ["Discord", "Discord Canary", "Discord PTB"]
+	},
+	{
+		"iconName": ":docker:",
+		"appNames": ["Docker", "Docker Desktop"]
+	},
+	{
+		"iconName": ":dollar:",
+		"appNames": ["GrandTotal", "Receipts"]
+	},
+	{
+		"iconName": ":doublecmd:",
+		"appNames": ["Double Commander"]
+	},
+	{
+		"iconName": ":drafts:",
+		"appNames": ["Drafts"]
+	},
+	{
+		"iconName": ":draw_io:",
+		"appNames": ["draw.io"]
+	},
+	{
+		"iconName": ":dropbox:",
+		"appNames": ["Dropbox"]
+	},
+	{
+		"iconName": ":element:",
+		"appNames": ["Element"]
+	},
+	{
+		"iconName": ":emacs:",
+		"appNames": ["Emacs"]
+	},
+	{
+		"iconName": ":evernote_legacy:",
+		"appNames": ["Evernote Legacy"]
+	},
+	{
+		"iconName": ":face_time:",
+		"appNames": ["FaceTime", "FaceTime 通话"]
+	},
+	{
+		"iconName": ":figma:",
+		"appNames": ["Figma"]
+	},
+	{
+		"iconName": ":final_cut_pro:",
+		"appNames": ["Final Cut Pro"]
+	},
+	{
+		"iconName": ":finder:",
+		"appNames": ["Finder", "访达", "EXPLORER"]
+	},
+	{
+		"iconName": ":firefox:",
+		"appNames": ["Firefox"]
+	},
+	{
+		"iconName": ":firefox_developer_edition:",
+		"appNames": ["Firefox Developer Edition", "Firefox Nightly"]
+	},
+	{
+		"iconName": ":folx:",
+		"appNames": ["Folx"]
+	},
+	{
+		"iconName": ":fork:",
+		"appNames": ["Fork"]
+	},
+	{
+		"iconName": ":freeform:",
+		"appNames": ["Freeform"]
+	},
+	{
+		"iconName": ":freetube:",
+		"appNames": ["FreeTube"]
+	},
+	{
+		"iconName": ":fusion:",
+		"appNames": ["Fusion"]
+	},
+	{
+		"iconName": ":gear:",
+		"appNames": [
+			"System Preferences",
+			"System Settings",
+			"系统设置",
+			"Réglages Système",
+			"システム設定"
+		]
+	},
+	{
+		"iconName": ":ghostty:",
+		"appNames": ["Ghostty"]
+	},
+	{
+		"iconName": ":git_hub:",
+		"appNames": ["GitHub Desktop"]
+	},
+	{
+		"iconName": ":godot:",
+		"appNames": ["Godot"]
+	},
+	{
+		"iconName": ":goland:",
+		"appNames": ["GoLand"]
+	},
+	{
+		"iconName": ":google_chrome:",
+		"appNames": ["Chromium", "Google Chrome", "Google Chrome Canary"]
+	},
+	{
+		"iconName": ":grammarly:",
+		"appNames": ["Grammarly Editor"]
+	},
+	{
+		"iconName": ":home_assistant:",
+		"appNames": ["Home Assistant"]
+	},
+	{
+		"iconName": ":hyper:",
+		"appNames": ["Hyper"]
+	},
+	{
+		"iconName": ":idea:",
+		"appNames": ["IntelliJ IDEA"]
+	},
+	{
+		"iconName": ":iina:",
+		"appNames": ["IINA"]
+	},
+	{
+		"iconName": ":illustrator:",
+		"appNames": ["Adobe Illustrator*", "Illustrator"]
+	},
+	{
+		"iconName": ":indesign:",
+		"appNames": ["Adobe InDesign*", "InDesign"]
+	},
+	{
+		"iconName": ":infuse:",
+		"appNames": ["Infuse"]
+	},
+	{
+		"iconName": ":inkdrop:",
+		"appNames": ["Inkdrop"]
+	},
+	{
+		"iconName": ":inkscape:",
+		"appNames": ["Inkscape"]
+	},
+	{
+		"iconName": ":insomnia:",
+		"appNames": ["Insomnia"]
+	},
+	{
+		"iconName": ":iphone_mirroring:",
+		"appNames": ["iPhone Mirroring"]
+	},
+	{
+		"iconName": ":iris:",
+		"appNames": ["Iris"]
+	},
+	{
+		"iconName": ":iterm:",
+		"appNames": ["iTerm", "iTerm2"]
+	},
+	{
+		"iconName": ":jellyfin:",
+		"appNames": ["Jellyfin Media Player"]
+	},
+	{
+		"iconName": ":joplin:",
+		"appNames": ["Joplin"]
+	},
+	{
+		"iconName": ":kakaotalk:",
+		"appNames": ["카카오톡", "KakaoTalk"]
+	},
+	{
+		"iconName": ":kakoune:",
+		"appNames": ["Kakoune"]
+	},
+	{
+		"iconName": ":kee_pass_x_c:",
+		"appNames": ["KeePassXC"]
+	},
+	{
+		"iconName": ":keyboard_maestro:",
+		"appNames": ["Keyboard Maestro"]
+	},
+	{
+		"iconName": ":keynote:",
+		"appNames": ["Keynote", "Keynote 讲演"]
+	},
+	{
+		"iconName": ":kitty:",
+		"appNames": ["kitty"]
+	},
+	{
+		"iconName": ":kodi:",
+		"appNames": ["Kodi"]
+	},
+	{
+		"iconName": ":languagetool_for_desktop:",
+		"appNames": ["LanguageTool for Desktop"]
+	},
+	{
+		"iconName": ":league_of_legends:",
+		"appNames": ["League of Legends"]
+	},
+	{
+		"iconName": ":libre_wolf:",
+		"appNames": ["LibreWolf"]
+	},
+	{
+		"iconName": ":lightroom:",
+		"appNames": ["Adobe Lightroom"]
+	},
+	{
+		"iconName": ":lightroomclassic:",
+		"appNames": ["Lightroom Classic"]
+	},
+	{
+		"iconName": ":line:",
+		"appNames": ["LINE"]
+	},
+	{
+		"iconName": ":linear:",
+		"appNames": ["Linear"]
+	},
+	{
+		"iconName": ":lm_studio:",
+		"appNames": ["LM Studio"]
+	},
+	{
+		"iconName": ":localsend:",
+		"appNames": ["LocalSend"]
+	},
+	{
+		"iconName": ":logicpro:",
+		"appNames": ["Logic Pro"]
+	},
+	{
+		"iconName": ":logseq:",
+		"appNames": ["Logseq"]
+	},
+	{
+		"iconName": ":mail:",
+		"appNames": [
+			"Canary Mail",
+			"HEY",
+			"Mail",
+			"Mailspring",
+			"MailMate",
+			"Superhuman",
+			"Spark",
+			"邮件",
+			"メール"
+		]
+	},
+	{
+		"iconName": ":mamp:",
+		"appNames": ["MAMP", "MAMP PRO"]
+	},
+	{
+		"iconName": ":maps:",
+		"appNames": ["Maps", "Google Maps", "マップ"]
+	},
+	{
+		"iconName": ":marta:",
+		"appNames": ["Marta"]
+	},
+	{
+		"iconName": ":matlab:",
+		"appNames": ["Matlab"]
+	},
+	{
+		"iconName": ":mattermost:",
+		"appNames": ["Mattermost"]
+	},
+	{
+		"iconName": ":messages:",
+		"appNames": ["Messages", "信息", "Nachrichten", "メッセージ"]
+	},
+	{
+		"iconName": ":messenger:",
+		"appNames": ["Messenger"]
+	},
+	{
+		"iconName": ":microsoft_edge:",
+		"appNames": ["Microsoft Edge", "EDGE"]
+	},
+	{
+		"iconName": ":microsoft_excel:",
+		"appNames": ["Microsoft Excel", "EXCEL"]
+	},
+	{
+		"iconName": ":microsoft_outlook:",
+		"appNames": ["Microsoft Outlook", "OUTLOOK"]
+	},
+	{
+		"iconName": ":microsoft_power_point:",
+		"appNames": ["Microsoft PowerPoint", "POWERPOINT"]
+	},
+	{
+		"iconName": ":microsoft_remote_desktop:",
+		"appNames": ["Microsoft Remote Desktop"]
+	},
+	{
+		"iconName": ":microsoft_teams:",
+		"appNames": ["Microsoft Teams", "Microsoft Teams (work or school)"]
+	},
+	{
+		"iconName": ":microsoft_word:",
+		"appNames": ["Microsoft Word", "WINWORD"]
+	},
+	{
+		"iconName": ":min_browser:",
+		"appNames": ["Min"]
+	},
+	{
+		"iconName": ":miro:",
+		"appNames": ["Miro"]
+	},
+	{
+		"iconName": ":mongodb:",
+		"appNames": ["MongoDB Compass*"]
+	},
+	{
+		"iconName": ":moonlight:",
+		"appNames": ["Moonlight"]
+	},
+	{
+		"iconName": ":mpv:",
+		"appNames": ["mpv"]
+	},
+	{
+		"iconName": ":mullvad_browser:",
+		"appNames": ["Mullvad Browser"]
+	},
+	{
+		"iconName": ":music:",
+		"appNames": ["Music", "音乐", "Musique", "ミュージック"]
+	},
+	{
+		"iconName": ":neovide:",
+		"appNames": ["Neovide", "neovide"]
+	},
+	{
+		"iconName": ":neovim:",
+		"appNames": ["Neovim", "neovim", "nvim"]
+	},
+	{
+		"iconName": ":netease_music:",
+		"appNames": ["网易云音乐"]
+	},
+	{
+		"iconName": ":noodl:",
+		"appNames": ["Noodl", "Noodl Editor"]
+	},
+	{
+		"iconName": ":nord_vpn:",
+		"appNames": ["NordVPN"]
+	},
+	{
+		"iconName": ":notability:",
+		"appNames": ["Notability"]
+	},
+	{
+		"iconName": ":notes:",
+		"appNames": ["Notes", "备忘录", "メモ"]
+	},
+	{
+		"iconName": ":notion:",
+		"appNames": ["Notion"]
+	},
+	{
+		"iconName": ":nova:",
+		"appNames": ["Nova"]
+	},
+	{
+		"iconName": ":numbers:",
+		"appNames": ["Numbers", "Numbers 表格"]
+	},
+	{
+		"iconName": ":obsidian:",
+		"appNames": ["Obsidian"]
+	},
+	{
+		"iconName": ":obsstudio:",
+		"appNames": ["OBS"]
+	},
+	{
+		"iconName": ":omni_focus:",
+		"appNames": ["OmniFocus"]
+	},
+	{
+		"iconName": ":one_password:",
+		"appNames": ["1Password"]
+	},
+	{
+		"iconName": ":open_video_downloader:",
+		"appNames": ["Open Video Downloader"]
+	},
+	{
+		"iconName": ":openai:",
+		"appNames": ["ChatGPT"]
+	},
+	{
+		"iconName": ":openai_translator:",
+		"appNames": ["OpenAI Translator"]
+	},
+	{
+		"iconName": ":openvpn_connect:",
+		"appNames": ["OpenVPN Connect"]
+	},
+	{
+		"iconName": ":opera:",
+		"appNames": ["Opera"]
+	},
+	{
+		"iconName": ":orbstack:",
+		"appNames": ["OrbStack"]
+	},
+	{
+		"iconName": ":orcaslicer:",
+		"appNames": ["OrcaSlicer"]
+	},
+	{
+		"iconName": ":orion:",
+		"appNames": ["Orion", "Orion RC"]
+	},
+	{
+		"iconName": ":pages:",
+		"appNames": ["Pages", "Pages 文稿"]
+	},
+	{
+		"iconName": ":parallels:",
+		"appNames": ["Parallels Desktop"]
+	},
+	{
+		"iconName": ":parsec:",
+		"appNames": ["Parsec"]
+	},
+	{
+		"iconName": ":passwords:",
+		"appNames": ["Passwords"]
+	},
+	{
+		"iconName": ":pdf:",
+		"appNames": ["Preview", "预览", "Skim", "zathura", "Aperçu", "プレビュー"]
+	},
+	{
+		"iconName": ":pdf_expert:",
+		"appNames": ["PDF Expert"]
+	},
+	{
+		"iconName": ":pearcleaner:",
+		"appNames": ["Pearcleaner"]
+	},
+	{
+		"iconName": ":phoenix_slides:",
+		"appNames": ["Phoenix Slides"]
+	},
+	{
+		"iconName": ":photos:",
+		"appNames": ["Photos"]
+	},
+	{
+		"iconName": ":photoshop:",
+		"appNames": ["Adobe Photoshop*"]
+	},
+	{
+		"iconName": ":php_storm:",
+		"appNames": ["PhpStorm"]
+	},
+	{
+		"iconName": ":pihole:",
+		"appNames": ["Pi-hole Remote"]
+	},
+	{
+		"iconName": ":pine:",
+		"appNames": ["Pine"]
+	},
+	{
+		"iconName": ":plex:",
+		"appNames": ["Plex"]
+	},
+	{
+		"iconName": ":plexamp:",
+		"appNames": ["Plexamp"]
+	},
+	{
+		"iconName": ":podcasts:",
+		"appNames": ["Podcasts", "播客"]
+	},
+	{
+		"iconName": ":pomodone:",
+		"appNames": ["PomoDone App"]
+	},
+	{
+		"iconName": ":postman:",
+		"appNames": ["Postman"]
+	},
+	{
+		"iconName": ":proton_mail:",
+		"appNames": ["Proton Mail", "Proton Mail Bridge"]
+	},
+	{
+		"iconName": ":proton_vpn:",
+		"appNames": ["Proton VPN", "ProtonVPN"]
+	},
+	{
+		"iconName": ":prusaslicer:",
+		"appNames": ["PrusaSlicer", "SuperSlicer"]
+	},
+	{
+		"iconName": ":pycharm:",
+		"appNames": ["PyCharm"]
+	},
+	{
+		"iconName": ":qq:",
+		"appNames": ["QQ"]
+	},
+	{
+		"iconName": ":qqmusic:",
+		"appNames": ["QQ音乐", "QQMusic"]
+	},
+	{
+		"iconName": ":quantumult_x:",
+		"appNames": ["Quantumult X"]
+	},
+	{
+		"iconName": ":qute_browser:",
+		"appNames": ["qutebrowser"]
+	},
+	{
+		"iconName": ":raindrop_io:",
+		"appNames": ["Raindrop.io"]
+	},
+	{
+		"iconName": ":reeder5:",
+		"appNames": ["Reeder"]
+	},
+	{
+		"iconName": ":reminders:",
+		"appNames": ["Reminders", "提醒事项", "Rappels", "リマインダー"]
+	},
+	{
+		"iconName": ":replit:",
+		"appNames": ["Replit"]
+	},
+	{
+		"iconName": ":repo_prompt:",
+		"appNames": ["Repo Prompt"]
+	},
+	{
+		"iconName": ":rider:",
+		"appNames": ["Rider", "JetBrains Rider"]
+	},
+	{
+		"iconName": ":rio:",
+		"appNames": ["Rio"]
+	},
+	{
+		"iconName": ":royaltsx:",
+		"appNames": ["Royal TSX"]
+	},
+	{
+		"iconName": ":rustdesk:",
+		"appNames": ["RustDesk"]
+	},
+	{
+		"iconName": ":safari:",
+		"appNames": ["Safari", "Safari浏览器", "Safari Technology Preview"]
+	},
+	{
+		"iconName": ":sequel_ace:",
+		"appNames": ["Sequel Ace"]
+	},
+	{
+		"iconName": ":sequel_pro:",
+		"appNames": ["Sequel Pro"]
+	},
+	{
+		"iconName": ":session:",
+		"appNames": ["Session"]
+	},
+	{
+		"iconName": ":setapp:",
+		"appNames": ["Setapp"]
+	},
+	{
+		"iconName": ":sf_symbols:",
+		"appNames": ["SF Symbols"]
+	},
+	{
+		"iconName": ":signal:",
+		"appNames": ["Signal"]
+	},
+	{
+		"iconName": ":sioyek:",
+		"appNames": ["sioyek"]
+	},
+	{
+		"iconName": ":sketch:",
+		"appNames": ["Sketch"]
+	},
+	{
+		"iconName": ":skype:",
+		"appNames": ["Skype"]
+	},
+	{
+		"iconName": ":slack:",
+		"appNames": ["Slack"]
+	},
+	{
+		"iconName": ":spark:",
+		"appNames": ["Spark Desktop"]
+	},
+	{
+		"iconName": ":spotify:",
+		"appNames": ["Spotify"]
+	},
+	{
+		"iconName": ":spotlight:",
+		"appNames": ["Spotlight"]
+	},
+	{
+		"iconName": ":studio_3t:",
+		"appNames": ["Studio 3T"]
+	},
+	{
+		"iconName": ":sublime_text:",
+		"appNames": ["Sublime Text"]
+	},
+	{
+		"iconName": ":superproductivity:",
+		"appNames": ["superProductivity"]
+	},
+	{
+		"iconName": ":surfshark:",
+		"appNames": ["Surfshark"]
+	},
+	{
+		"iconName": ":tabby:",
+		"appNames": ["Tabby"]
+	},
+	{
+		"iconName": ":tableplus:",
+		"appNames": ["TablePlus"]
+	},
+	{
+		"iconName": ":tana:",
+		"appNames": ["Tana"]
+	},
+	{
+		"iconName": ":team_speak:",
+		"appNames": ["TeamSpeak 3"]
+	},
+	{
+		"iconName": ":telegram:",
+		"appNames": ["Telegram"]
+	},
+	{
+		"iconName": ":terminal:",
+		"appNames": ["Terminal", "终端", "ターミナル"]
+	},
+	{
+		"iconName": ":text:",
+		"appNames": ["Typora"]
+	},
+	{
+		"iconName": ":textedit:",
+		"appNames": ["TextEdit"]
+	},
+	{
+		"iconName": ":things:",
+		"appNames": ["Microsoft To Do", "Things"]
+	},
+	{
+		"iconName": ":thunderbird:",
+		"appNames": ["Thunderbird"]
+	},
+	{
+		"iconName": ":tick_tick:",
+		"appNames": ["TickTick"]
+	},
+	{
+		"iconName": ":tidal:",
+		"appNames": ["TIDAL"]
+	},
+	{
+		"iconName": ":tinyrdm:",
+		"appNames": ["Tiny RDM"]
+	},
+	{
+		"iconName": ":todoist:",
+		"appNames": ["Todoist"]
+	},
+	{
+		"iconName": ":toggl_track:",
+		"appNames": ["Toggl Track"]
+	},
+	{
+		"iconName": ":tor_browser:",
+		"appNames": ["Tor Browser"]
+	},
+	{
+		"iconName": ":tower:",
+		"appNames": ["Tower"]
+	},
+	{
+		"iconName": ":transmit:",
+		"appNames": ["Transmit"]
+	},
+	{
+		"iconName": ":trello:",
+		"appNames": ["Trello"]
+	},
+	{
+		"iconName": ":twitter:",
+		"appNames": ["Tweetbot", "Twitter"]
+	},
+	{
+		"iconName": ":utm:",
+		"appNames": ["UTM"]
+	},
+	{
+		"iconName": ":vim:",
+		"appNames": ["MacVim", "Vim", "VimR"]
+	},
+	{
+		"iconName": ":vivaldi:",
+		"appNames": ["Vivaldi"]
+	},
+	{
+		"iconName": ":vlc:",
+		"appNames": ["VLC"]
+	},
+	{
+		"iconName": ":vmware_fusion:",
+		"appNames": ["VMware Fusion"]
+	},
+	{
+		"iconName": ":vscodium:",
+		"appNames": ["VSCodium"]
+	},
+	{
+		"iconName": ":warp:",
+		"appNames": ["Warp"]
+	},
+	{
+		"iconName": ":weather:",
+		"appNames": ["Weather"]
+	},
+	{
+		"iconName": ":web_storm:",
+		"appNames": ["WebStorm"]
+	},
+	{
+		"iconName": ":wechat:",
+		"appNames": ["微信", "WeChat"]
+	},
+	{
+		"iconName": ":wecom:",
+		"appNames": ["企业微信", "WeCom"]
+	},
+	{
+		"iconName": ":wezterm:",
+		"appNames": ["WezTerm"]
+	},
+	{
+		"iconName": ":whats_app:",
+		"appNames": ["WhatsApp", "�WhatsApp"]
+	},
+	{
+		"iconName": ":xcode:",
+		"appNames": ["Xcode"]
+	},
+	{
+		"iconName": ":yandex_bower:",
+		"appNames": ["Yandex Browser ", "Yandex Browser", "Yandex"]
+	},
+	{
+		"iconName": ":yandex_music:",
+		"appNames": ["Yandex Music"]
+	},
+	{
+		"iconName": ":yuque:",
+		"appNames": ["Yuque", "语雀"]
+	},
+	{
+		"iconName": ":zed:",
+		"appNames": ["Zed"]
+	},
+	{
+		"iconName": ":zen_browser:",
+		"appNames": ["Zen Browser", "Zen"]
+	},
+	{
+		"iconName": ":zeplin:",
+		"appNames": ["Zeplin"]
+	},
+	{
+		"iconName": ":zoom:",
+		"appNames": ["zoom.us"]
+	},
+	{
+		"iconName": ":zotero:",
+		"appNames": ["Zotero"]
+	},
+	{
+		"iconName": ":zulip:",
+		"appNames": ["Zulip"]
+	}
+]

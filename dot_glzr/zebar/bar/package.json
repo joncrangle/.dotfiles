@@ -1,19 +1,22 @@
 {
-  "name": "solidjs-ts",
-  "version": "0.0.0",
-  "description": "",
-  "type": "module",
-  "scripts": {
-    "build": "vite build",
-    "dev": "vite build --watch"
-  },
-  "dependencies": {
-    "solid-js": "^1.9.4",
-    "zebar": "^2.7.0"
-  },
-  "devDependencies": {
-    "typescript": "^5.7.3",
-    "vite": "^6.1.1",
-    "vite-plugin-solid": "^2.11.2"
-  }
+	"name": "solidjs-ts",
+	"version": "0.0.0",
+	"description": "",
+	"type": "module",
+	"scripts": {
+		"build": "vite build",
+		"dev": "vite build --watch"
+	},
+	"dependencies": {
+		"solid-js": "^1.9.5",
+		"zebar": "^2.7.0"
+	},
+	"devDependencies": {
+		"typescript": "^5.7.3",
+		"vite": "^6.2.0",
+		"vite-plugin-solid": "^2.11.5"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": ["esbuild"]
+	}
 }

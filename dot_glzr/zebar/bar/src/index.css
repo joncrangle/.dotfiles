@@ -2,7 +2,7 @@
  * Import the Nerdfonts icon font.
  * Ref https://www.nerdfonts.com/cheat-sheet for a cheatsheet of available Nerdfonts icons.
  */
-@import 'https://www.nerdfonts.com/assets/css/webfont.css';
+@import "https://www.nerdfonts.com/assets/css/webfont.css";
 
 i {
   padding: 0 4px;
@@ -97,19 +97,23 @@ body,
 }
 
 .focused-window {
+  display: flex;
   line-height: 1.5;
   font-size: 10px;
+  align-items: center;
   margin-left: 12px;
   max-width: 250px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: default;
+}
 
-  &:hover {
-    font-weight: bold;
-    text-decoration: underline;
-  }
+.sketchy-icon {
+  font-family: "sketchybar-app-font", sans-serif;
+  line-height: 1.5;
+  font-size: 1.5em;
+  margin-right: 0.3rem;
 }
 
 .date {
