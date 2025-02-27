@@ -5,6 +5,9 @@
 #   '-..-'|   ||   |
 #   '-..-'|_.-''-._|
 
+Write-Host "Setting execution policy..."
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
 try
 {
     Write-Host "Installing PowerShell, Windows Terminal and Windows PowerToys..."
@@ -28,9 +31,6 @@ try
         exit
     }
 }
-
-Write-Host "Setting execution policy..."
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 Write-Host "Installing Scoop..."
 $scoopDir = "$env:USERPROFILE\scoop"
@@ -502,7 +502,6 @@ cargo install cargo-update
 cargo install cargo-cache
 cargo install --locked bacon
 go install github.com/jorgerojas26/lazysql@latest
-pnpm install -g pnpm #FIX: ugly topgrade error
 komorebic fetch-asc
 jj config set --user user.name "jonathancrangle"
 jj config set --user user.email "94405204+joncrangle@users.noreply.github.com"
