@@ -24,19 +24,19 @@ type IconMapEntry = {
 render(() => <App />, document.getElementById("root")!);
 
 function App() {
-	function parseTitle(input: string) {
-		// Regular expression to match strings ending with a file path to an executable
-		const regex = /(\[\d+\/\d+\])\s.*\\([\w\d\-]+\.\w{2,4})$/;
+	const parseTitle = (input: string) => {
+		// Regular expression to match strings with a file path to an executable
+		const regex = /\\([\w\d\-]+\.exe)$/i;
 
 		const match = input.match(regex);
 		if (match) {
-			return `${match[1]} ${match[2]}`;
+			return match[1];
 		}
 
 		return input;
-	}
+	};
 
-	function getBatteryIcon(batteryOutput: zebar.BatteryOutput) {
+	const getBatteryIcon = (batteryOutput: zebar.BatteryOutput) => {
 		if (batteryOutput.chargePercent > 90)
 			return <i class="nf nf-fa-battery_4"></i>;
 		if (batteryOutput.chargePercent > 70)
@@ -46,7 +46,7 @@ function App() {
 		if (batteryOutput.chargePercent > 20)
 			return <i class="nf nf-fa-battery_1"></i>;
 		return <i class="nf nf-fa-battery_0"></i>;
-	}
+	};
 
 	const getAppIcon = (title: string, exe: string) => {
 		if (!Array.isArray(iconMap)) {
@@ -122,13 +122,15 @@ function App() {
 					<div class="workspaces">
 						<For each={output.komorebi.currentWorkspaces}>
 							{(workspace, index) => {
-								const isFocusedWorkspace =
-									workspace.name === output.komorebi.focusedWorkspace.name &&
-									output.komorebi.currentMonitor.name ===
-										output.komorebi.focusedMonitor.name;
+								const isFocusedWorkspace = createMemo(
+									() =>
+										workspace.name === output.komorebi.focusedWorkspace.name &&
+										output.komorebi.currentMonitor.name ===
+											output.komorebi.focusedMonitor.name,
+								);
 								return (
 									<button
-										class={`workspace ${isFocusedWorkspace && "focused"}`}
+										class={`workspace ${isFocusedWorkspace() && "focused"}`}
 										onClick={() =>
 											zebar.shellSpawn(
 												"komorebic",
