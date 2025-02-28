@@ -264,9 +264,10 @@ return {
             end,
           },
           { title = 'Neotest Output', ft = 'neotest-output-panel', size = { height = 15 } },
+          { title = 'DB Query Result', ft = 'dbout' },
         },
         left = {
-          { title = 'DBUI', ft = 'dbui' },
+          { title = 'DBUI', ft = 'dbui', size = { width = 0.3 } },
         },
         right = {
           { title = 'Grug Far', ft = 'grug-far', size = { width = 0.4 } },
