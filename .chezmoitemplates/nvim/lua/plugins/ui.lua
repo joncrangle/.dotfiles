@@ -269,9 +269,6 @@ return {
           { title = 'DBUI', ft = 'dbui' },
         },
         right = {
-          { title = 'Avante (Input)', ft = 'AvanteInput', size = { height = 9 } },
-          { title = 'Avante (Selected Files)', ft = 'AvanteSelectedFiles', size = { height = 4 } },
-          { title = 'Avante', ft = 'Avante', size = { width = 0.4 } },
           { title = 'Grug Far', ft = 'grug-far', size = { width = 0.4 } },
           { title = 'Neotest Summary', ft = 'neotest-summary' },
         },

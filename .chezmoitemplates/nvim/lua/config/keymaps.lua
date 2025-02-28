@@ -43,6 +43,9 @@ vim.api.nvim_create_autocmd('FileType', {
   group = vim.api.nvim_create_augroup('close-with-q', { clear = true }),
   pattern = {
     'PlenaryTestPopup',
+    'Avante',
+    'AvanteInput',
+    'AvanteSelectedFiles',
     'checkhealth',
     'dbout',
     'grug-far',

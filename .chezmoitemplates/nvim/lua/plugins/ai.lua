@@ -77,6 +77,7 @@ return {
         ['deepseek'] = generate_vendor 'deepseek-r1-distill-qwen-14b',
       },
       file_selector = { provider = 'snacks' },
+      windows = { sidebar_header = { rounded = false } },
     },
     keys = function()
       local wk = require 'which-key'
