@@ -36,7 +36,7 @@ Features include:
 
 - [Yabai](https://github.com/koekeishiya/yabai) window manager
 - [skhd](https://github.com/koekeishiya/skhd) keyboard shortcuts
-- [SketchyBar](https://github.com/FelixKratz/SketchyBar) bar 
+- [SketchyBar](https://github.com/FelixKratz/SketchyBar) bar
 - [JankyBorders](https://github.com/FelixKratz/JankyBorders) border styling
 - [Raycast](https://www.raycast.com/) launcher
 - [Homebrew](https://brew.sh/) package management
@@ -213,16 +213,19 @@ sh <(curl -s https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_a
 ### Paru commands
 
 Install a package
+
 ```sh
 paru -S <package>
 ```
 
 Clean package cache
+
 ```sh
 paru -Scd
 ```
 
 Remove orphaned packages
+
 ```sh
 paru -Qdtq | paru -Rns
 ```
