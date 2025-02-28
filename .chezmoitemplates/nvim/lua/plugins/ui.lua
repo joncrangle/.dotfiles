@@ -20,6 +20,8 @@ return {
         mason = true,
         markdown = true,
         mini = { enabled = true },
+        neotest = true,
+        noice = true,
         snacks = true,
         which_key = true,
       },
@@ -32,11 +34,6 @@ return {
           information = { 'undercurl' },
         },
       },
-      navic = { enabled = true, custom_bg = 'lualine' },
-      neotest = true,
-      neotree = true,
-      noice = true,
-      which_key = true,
       highlight_overrides = {
         mocha = function(mocha)
           return {
