@@ -54,7 +54,6 @@ return {
         preview = {
           filetypes = { 'Avante', 'md', 'markdown' },
           icon_provider = 'mini',
-          ignore_buftypes = {},
         },
       }
     end,
