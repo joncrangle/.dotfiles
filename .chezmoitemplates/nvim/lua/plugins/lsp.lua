@@ -322,7 +322,6 @@ return {
         'goimports',
         'goimports-reviser',
         'gofumpt',
-        'golines',
         'gomodifytags',
         'impl',
         'kulala-fmt',

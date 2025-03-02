@@ -27,7 +27,7 @@ return {
         astro = { 'prettierd', 'prettier', stop_after_first = true },
         bash = { 'shfmt' },
         css = { 'prettierd', 'prettier', stop_after_first = true },
-        go = { 'goimports', 'goimports-reviser', 'golines', 'gofumpt' },
+        go = { 'goimports', 'goimports-reviser', 'gofumpt' },
         html = { 'prettierd', 'prettier', stop_after_first = true },
         http = { 'kulala' },
         javascript = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
