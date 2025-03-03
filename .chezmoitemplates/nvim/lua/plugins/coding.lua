@@ -78,15 +78,24 @@ return {
     },
   },
   {
-    'iamcco/markdown-preview.nvim',
-    cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
+    'toppair/peek.nvim',
     ft = 'markdown',
-    build = 'cd app && npm install && git restore .',
-    init = function()
-      vim.g.mkdp_filetypes = { 'markdown' }
-    end,
+    build = 'deno task --quiet build:fast',
+    opts = {},
     keys = {
-      { '<leader>tp', '<cmd>MarkdownPreviewToggle<cr>', desc = '[T]oggle Markdown [P]review', ft = 'markdown' },
+      {
+        '<leader>tp',
+        function()
+          local peek = require 'peek'
+          if peek.is_open() then
+            peek.close()
+          else
+            peek.open()
+          end
+        end,
+        desc = '[T]oggle Markdown [P]review',
+        ft = 'markdown',
+      },
     },
   },
   {
