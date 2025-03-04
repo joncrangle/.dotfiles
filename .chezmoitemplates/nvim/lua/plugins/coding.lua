@@ -50,22 +50,20 @@ return {
       ---@type mkv.config
       return {
         ---@type config.markdown|{}
-        markdown = { headings = presets.headings.marker },
+        markdown = {
+          ---@type markdown.code_blocks|{}
+          code_blocks = {
+            enable = true,
+            sign = function(buffer)
+              return vim.bo[buffer].bt ~= 'nofile'
+            end,
+          },
+          headings = presets.headings.marker,
+        },
         preview = {
           filetypes = { 'Avante', 'md', 'markdown' },
           icon_provider = 'mini',
           ignore_buftypes = {},
-          condition = function(buffer)
-            local ft, bt = vim.bo[buffer].ft, vim.bo[buffer].bt
-
-            if bt == 'nofile' and ft == 'Avante' then
-              return true
-            elseif bt == 'nofile' then
-              return false
-            else
-              return true
-            end
-          end,
         },
       }
     end,
