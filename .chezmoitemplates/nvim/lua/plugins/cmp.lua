@@ -5,9 +5,10 @@ return {
     build = 'cargo build --release',
     event = { 'InsertEnter', 'CmdlineEnter' },
     dependencies = {
-      { 'rafamadriz/friendly-snippets' },
+      'rafamadriz/friendly-snippets',
       'moyiz/blink-emoji.nvim',
       'Kaiser-Yang/blink-cmp-avante',
+      'giuxtaposition/blink-cmp-copilot',
     },
     opts_extend = { 'sources.default' },
     ---@type blink.cmp.Config
@@ -25,7 +26,7 @@ return {
       completion = {
         accept = { auto_brackets = { enabled = true } },
         menu = {
-          border = 'single',
+          border = 'rounded',
           draw = { treesitter = { 'lsp' } },
         },
         documentation = {
@@ -35,6 +36,7 @@ return {
             border = 'single',
           },
         },
+        ghost_text = { enabled = true },
       },
       signature = {
         enabled = true,
@@ -43,14 +45,15 @@ return {
         },
       },
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer', 'emoji' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'emoji', 'copilot' },
         per_filetype = {
           AvanteInput = { 'avante' },
-          lua = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev', 'emoji' },
-          sql = { 'snippets', 'dadbod', 'buffer' },
+          lua = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev', 'emoji', 'copilot' },
+          sql = { 'snippets', 'dadbod', 'buffer', 'copilot' },
         },
         providers = {
           avante = { name = 'Avante', module = 'blink-cmp-avante' },
+          copilot = { name = 'copilot', module = 'blink-cmp-copilot', score_offset = 100, async = true },
           dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink', score_offset = 3 },
           emoji = { name = 'Emoji', module = 'blink-emoji', score_offset = 3 },
           lazydev = { name = 'LazyDev', module = 'lazydev.integrations.blink', score_offset = 100 },

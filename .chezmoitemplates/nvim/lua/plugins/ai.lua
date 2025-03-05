@@ -88,7 +88,7 @@ return {
   },
   {
     'milanglacier/minuet-ai.nvim',
-    enabled = true,
+    enabled = false,
     event = 'BufReadPre',
     dependencies = { 'nvim-lua/plenary.nvim' },
     opts = {
@@ -149,17 +149,19 @@ return {
   },
   {
     'zbirenbaum/copilot.lua',
-    enabled = false,
+    enabled = true,
     cmd = 'Copilot',
     build = ':Copilot auth',
     event = 'InsertEnter',
     opts = {
       suggestion = {
+        enabled = false,
         auto_trigger = true,
+        hide_during_completion = true,
         keymap = {
-          accept = '<Tab>',
-          next = ']]',
-          prev = '[[',
+          accept = false,
+          next = '<M-]>',
+          prev = '<M-[>',
         },
       },
       panel = { enabled = false },
