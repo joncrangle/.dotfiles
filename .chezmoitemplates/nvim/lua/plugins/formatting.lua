@@ -4,22 +4,6 @@ return {
     'stevearc/conform.nvim',
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
-    keys = {
-      {
-        '<leader>f',
-        function()
-          require('conform').format { async = true, lsp_format = 'fallback' }
-        end,
-        mode = '',
-        desc = '[F]ormat buffer',
-      },
-      {
-        '<leader>tf',
-        '<cmd>FormatToggle<cr>',
-        mode = 'n',
-        desc = '[T]oggle [F]ormat on save',
-      },
-    },
     ---@type conform.setupOpts
     opts = {
       notify_on_error = false,
@@ -86,9 +70,7 @@ return {
         return { timeout_ms = 500, lsp_format = 'fallback' }
       end,
     },
-    config = function(_, opts)
-      require('conform').setup(opts)
-
+    keys = function()
       vim.api.nvim_create_user_command('FormatToggle', function()
         if vim.g.disable_autoformat then
           vim.g.disable_autoformat = false
@@ -100,6 +82,22 @@ return {
       end, {
         desc = 'Toggle autoformat-on-save',
       })
+      return {
+        {
+          '<leader>f',
+          function()
+            require('conform').format { async = true, lsp_format = 'fallback' }
+          end,
+          mode = '',
+          desc = '[F]ormat buffer',
+        },
+        {
+          '<leader>tf',
+          '<cmd>FormatToggle<cr>',
+          mode = 'n',
+          desc = '[T]oggle [F]ormat on save',
+        },
+      }
     end,
     init = function()
       vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
