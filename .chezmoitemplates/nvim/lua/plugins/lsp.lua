@@ -18,6 +18,30 @@ return {
       'WhoIsSethDaniel/mason-tool-installer.nvim',
       { 'j-hui/fidget.nvim', opts = {} },
       { 'b0o/schemastore.nvim', lazy = true, opts = nil },
+      {
+        'jmbuhr/otter.nvim',
+        ft = 'markdown',
+        opts = {},
+        keys = function()
+          vim.api.nvim_create_user_command('OtterToggle', function()
+            local otter = require 'otter'
+            if not vim.g.enable_otter then
+              vim.g.enable_otter = true
+              otter.activate()
+              vim.notify('Otter enabled', vim.log.levels.INFO)
+            else
+              vim.g.enable_otter = false
+              otter.deactivate()
+              vim.notify('Otter disabled', vim.log.levels.INFO)
+            end
+          end, {
+            desc = 'Toggle Otter',
+          })
+          return {
+            { '<leader>to', '<cmd>OtterToggle<cr>', desc = '[T]oggle [O]tter' },
+          }
+        end,
+      },
     },
     config = function()
       ---@type lspconfig.Config
