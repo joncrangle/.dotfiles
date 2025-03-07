@@ -147,36 +147,33 @@ return {
         long_message_to_split = true,
       },
     },
-    keys = function()
-      local wk = require 'which-key'
-      wk.add { '<leader>n', group = '[N]oice', icon = { icon = '󰈸', color = 'orange' } }
-      return {
-        {
-          '<C-f>',
-          function()
-            if not require('noice.lsp').scroll(4) then
-              return '<C-f>'
-            end
-          end,
-          silent = true,
-          expr = true,
-          desc = 'Scroll forward',
-          mode = { 'i', 'n', 's' },
-        },
-        {
-          '<C-b>',
-          function()
-            if not require('noice.lsp').scroll(-4) then
-              return '<C-b>'
-            end
-          end,
-          silent = true,
-          expr = true,
-          desc = 'Scroll backward',
-          mode = { 'i', 'n', 's' },
-        },
-      }
-    end,
+    keys = {
+      {
+        '<C-f>',
+        function()
+          if not require('noice.lsp').scroll(4) then
+            return '<C-f>'
+          end
+        end,
+        silent = true,
+        expr = true,
+        desc = 'Scroll forward',
+        mode = { 'i', 'n', 's' },
+      },
+      {
+        '<C-b>',
+        function()
+          if not require('noice.lsp').scroll(-4) then
+            return '<C-b>'
+          end
+        end,
+        silent = true,
+        expr = true,
+        desc = 'Scroll backward',
+        mode = { 'i', 'n', 's' },
+      },
+      { '<leader>n', '<cmd>Noice<cr>', desc = '[N]otifications' },
+    },
     config = function(_, opts)
       -- HACK: noice shows messages from before it was enabled,
       -- but this is not ideal when Lazy is installing plugins,
