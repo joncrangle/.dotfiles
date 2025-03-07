@@ -92,12 +92,17 @@ return {
       vim.api.nvim_create_user_command('FormatToggle', function()
         if vim.g.disable_autoformat then
           vim.g.disable_autoformat = false
+          vim.notify('Autoformat-on-save enabled', vim.log.levels.INFO)
         else
           vim.g.disable_autoformat = true
+          vim.notify('Autoformat-on-save disabled', vim.log.levels.INFO)
         end
       end, {
         desc = 'Toggle autoformat-on-save',
       })
+    end,
+    init = function()
+      vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
     end,
   },
 }
