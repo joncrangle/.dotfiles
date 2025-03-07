@@ -52,12 +52,7 @@ return {
         ---@type config.markdown|{}
         markdown = {
           ---@type markdown.code_blocks|{}
-          code_blocks = {
-            enable = true,
-            sign = function(buffer)
-              return vim.bo[buffer].bt ~= 'nofile'
-            end,
-          },
+          code_blocks = { sign = false },
           headings = presets.headings.marker,
         },
         preview = {

@@ -18,7 +18,6 @@ return {
         grug_far = true,
         lsp_trouble = true,
         mason = true,
-        markdown = true,
         mini = { enabled = true },
         neotest = true,
         noice = true,
