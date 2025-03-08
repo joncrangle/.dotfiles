@@ -69,7 +69,7 @@ Features include:
     - Turn off system. Hold power button until "Loading startup options" appears. Click "Options" then click "Continue"
     - In the menu bar, choose `Utilities`, then `Terminal`
 
-    ```sh
+    ```zsh
     # If you're on Apple Silicon macOS 13.x.x
     # Requires Filesystem Protections, Debugging Restrictions and NVRAM Protection to be disabled
     # (printed warning can be safely ignored)
@@ -78,7 +78,7 @@ Features include:
 
     - Reboot. For Apple Silicon, need to enable non-Apple-signed arm64e binaries.
 
-    ```sh
+    ```zsh
     # Open a terminal and run the below command, then reboot
     sudo nvram boot-args=-arm64e_preview_abi
     ```
@@ -91,14 +91,14 @@ Features include:
 
 5. Download and run the [setup_mac.sh](https://github.com/joncrangle/.dotfiles/raw/main/setup_mac.sh) shell script.
 
-```sh
+```zsh
 curl -L https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_mac.sh | sh
 ```
 
 > [!TIP]
 > If needed, make the script executable with
 >
-> ```sh
+> ```zsh
 > chmod +x setup_mac.sh
 > ```
 
@@ -118,14 +118,14 @@ curl -L https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_mac.sh
 
 1. Download and run the [setup_win.ps1](https://github.com/joncrangle/.dotfiles/raw/main/setup_win.ps1) PowerShell script.
 
-```pwsh
+```ps1
 iwr -useb https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_win.ps1 | iex
 ```
 
 > [!TIP]
 > You might need to change the execution policy to `RemoteSigned` before running the script.
 >
-> ```pwsh
+> ```ps1
 > Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
 > ```
 
@@ -155,7 +155,7 @@ iwr -useb https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_win.
 
 Install Arch using `archinstall` with a Minimal profile. To connect to wifi, use `iwctl`:
 
-```sh
+```bash
 iwctl
 device list
 station wlan0 scan
@@ -167,7 +167,7 @@ archinstall
 
 Once installed, connect to wifi and run the setup script:
 
-```sh
+```bash
 nmcli device wifi list
 nmcli device wifi connect SSID password PASSWORD
 sh <(curl -s https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_arch.sh)
@@ -182,7 +182,7 @@ sh <(curl -s https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_a
 >
 > 1. Create a `launch.sh` script in `/usr/share/wayland-sessions` and make it executable with `chmod +x launch.sh`:
 >
-> ```sh
+> ```zsh
 > #!/bin/sh
 > if [ -z "$1" ]; then
 >      echo "Usage: $0 <config_directory> <command>"
@@ -198,7 +198,7 @@ sh <(curl -s https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_a
 >
 > 2. Edit `plasma.desktop` in `/usr/share/wayland-sessions`:
 >
-> ```sh
+> ```zsh
 > # Comment out existing Exec and TryExec lines and add:
 > Exec=/usr/share/wayland-sessions/launch.sh .kdeconfig /usr/lib/plasma-dbus-run-session-if-needed /usr/bin/startplasma-wayland
 >```
@@ -214,19 +214,19 @@ sh <(curl -s https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_a
 
 Install a package
 
-```sh
+```zsh
 paru -S <package>
 ```
 
 Clean package cache
 
-```sh
+```zsh
 paru -Scd
 ```
 
 Remove orphaned packages
 
-```sh
+```zsh
 paru -Qdtq | paru -Rns
 ```
 

@@ -4,6 +4,7 @@
 
 > [!NOTE]
 To expose on local network, edit: `~/Library/LaunchAgents/homebrew.mxcl.ollama.plist` by adding the following:
+
 ```xml
 <key>EnvironmentVariables</key>
 <dict>
@@ -34,12 +35,12 @@ Install [ComfyUI](https://github.com/comfyanonymous/ComfyUI) and [ComfyUI-Manage
 
 - Current workflow: [Flux.1 Schnell](./llm/flux-workflow-api.json)
 - Custom nodes (use ComfyUI-Manager to install):
- - ComfyUI Impact Pack
- - WAS Node Suite
- - rgthree's ComfyUI Nodes
- - ComfyUI-Custom-Scripts
- - ComfyUI MLX Nodes
- - ComfyUI Easy Use
+- ComfyUI Impact Pack
+- WAS Node Suite
+- rgthree's ComfyUI Nodes
+- ComfyUI-Custom-Scripts
+- ComfyUI MLX Nodes
+- ComfyUI Easy Use
 
 ## 💬 OpenWebUI
 
@@ -76,6 +77,7 @@ Install [ComfyUI](https://github.com/comfyanonymous/ComfyUI) and [ComfyUI-Manage
 
 > [!TIP]
 > Generate Ollama Modelfiles for the LLMs with the following format to use multiple GPU threads:
+>
 > ```
 > FROM deepseek-coder-v2:16b-lite-instruct-q3_K_M
 > PARAMETER num_gpu 99
@@ -86,11 +88,13 @@ Install [ComfyUI](https://github.com/comfyanonymous/ComfyUI) and [ComfyUI-Manage
 - [Tools Export](./llm/tools.json)
 
 ### `Documents` Settings for embeddings
+
 - Select embedding model. Current model is `sentence-transformers/all-MiniLM-L6-v2`.
 - `Top K` is set to `10`, `Chunk Size` is set to `2000`, `Chunk Overlap` is set to `500`.
 
 Prompt:
-```
+
+```text
 **Generate Response to User Query**
 **Step 1: Parse Context Information**
 Extract and utilize relevant knowledge from the provided context within `<context></context>` XML tags.
