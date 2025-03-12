@@ -65,6 +65,7 @@ return {
     ---@type avante.Config
     opts = {
       provider = 'gemini',
+      behaviour = { enable_cursor_planning_mode = true },
       gemini = {
         api_key_name = 'GEMINI_API_KEY',
         model = 'gemini-2.0-pro-exp-02-05',
