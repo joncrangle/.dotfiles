@@ -8,7 +8,8 @@ return {
     ---@type lazydev.Config
     opts = {
       library = {
-        -- Load luvit types when the `vim.uv` word is found
+        { path = '${3rd}/busted/library', words = { 'describe' } },
+        { path = '${3rd}/luassert/library', words = { 'assert' } },
         { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
         { path = 'wezterm-types/types', mods = { 'wezterm' } },
       },
