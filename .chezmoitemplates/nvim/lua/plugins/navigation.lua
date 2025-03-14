@@ -34,7 +34,7 @@ return {
       wk.add({
         { '<leader>#', desc = 'Grapple tag item [1-9]' },
         { '<leader>h', function() grapple.toggle() end,      desc = 'Grapple a file' },
-        { '<leader>H', function() grapple.toggle_tags() end, desc = 'Toggle Grapple menu' },
+        { '<C-a>', function() grapple.toggle_tags() end, desc = 'Toggle Grapple menu' },
         keys,
       })
       grapple.setup(opts)
