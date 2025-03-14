@@ -350,7 +350,6 @@ packages=(
     "starship"
     "swww-git"
     "system-config-printer"
-    "thefuck"
     "thunar"
     "thunar-archive-plugin"
     "tldr"

@@ -45,7 +45,6 @@ source "$HOMEBREW_DIR/opt/antidote/share/antidote/antidote.zsh"
 {{ if eq .chezmoi.os "darwin" }}
 eval "$(/opt/homebrew/bin/brew shellenv)"
 {{ end }}
-eval "$(thefuck --alias)"
 eval "$(starship init zsh)"
 
 zstyle ':fzf-tab:*' default-color ""
