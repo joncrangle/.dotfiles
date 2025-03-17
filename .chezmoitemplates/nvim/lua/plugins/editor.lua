@@ -53,6 +53,8 @@ return {
     enabled = false,
     event = 'VeryLazy',
     dependencies = {
+      -- TODO: test nvim-dap-view once nvim is on 0.11
+      { 'igorlfs/nvim-dap-view', opts = {}, keys = { { '<F7>', '<cmd>DapViewToggle<cr>', desc = 'Toggle DAP View' } } },
       'rcarriga/nvim-dap-ui',
       { 'theHamsta/nvim-dap-virtual-text', opts = {} },
       'nvim-neotest/nvim-nio',
