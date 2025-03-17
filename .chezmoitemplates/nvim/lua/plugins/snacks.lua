@@ -88,7 +88,7 @@ return {
       { '<leader>sl',       function() Snacks.picker.loclist() end,                                                        desc = '[S]earch [L]ocation List' },
       { '<leader>sm',       function() Snacks.picker.man() end,                                                            desc = '[S]earch [M]an Pages' },
       ---@diagnostic disable-next-line: assign-type-mismatch
-      { '<leader>sn',       function() Snacks.picker.files({ cwd = wezterm_dir }) end,                                     desc = '[S]earch [N]eovim files' },
+      { '<leader>sn',       function() Snacks.picker.files({cwd = vim.fn.stdpath("config")}) end,                          desc = '[S]earch [N]eovim files' },
       { '<leader>sR',       function() Snacks.picker.resume() end,                                                         desc = '[S]earch [R]esume' },
       { "<leader>ss",       function() Snacks.scratch.select() end,                                                        desc = "[S]earch [S]cratch Buffer" },
       ---@diagnostic disable-next-line: undefined-field
@@ -96,13 +96,13 @@ return {
       ---@diagnostic disable-next-line: undefined-field
       { '<leader>sT',       function() Snacks.picker.todo_comments({ keywords = { 'TODO', 'FIX', 'FIXME' } }) end,         desc = 'Narrowly [S]earch [T]odos' },
       { '<leader>su',       function() Snacks.picker.undo() end,                                                           desc = '[S]earch [U]ndo history' },
-      { '<leader>sw',       function() Snacks.picker.files({ cwd = vim.fn.expand('$XDG_CONFIG_HOME') .. '/wezterm' }) end, desc = '[S]earch [W]ezterm files' },
+      { '<leader>sw',       function() Snacks.picker.files({ cwd = wezterm_dir }) end,                                     desc = '[S]earch [W]ezterm files' },
       { '<leader>sq',       function() Snacks.picker.qflist() end,                                                         desc = '[S]earch [Q]uickfix List' },
       { '<leader>sz',       function() Snacks.picker.zoxide() end,                                                         desc = '[S]earch [Z]oxide List' },
       { '<leader>uC',       function() Snacks.picker.colorschemes() end,                                                   desc = '[U]pdate [C]olorschemes' },
       { 'gd',               function() Snacks.picker.lsp_definitions() end,                                                desc = '[G]oto [D]efinition' },
       { 'gD',               function() Snacks.picker.lsp_declarations() end,                                               desc = '[G]oto [D]eclaration' },
-      { 'gr',               function() Snacks.picker.lsp_references() end,                                                 nowait = true,                        desc = '[G]oto [R]eferences' },
+      { 'gr',               function() Snacks.picker.lsp_references() end,           nowait = true,                        desc = '[G]oto [R]eferences' },
       { 'gI',               function() Snacks.picker.lsp_implementations() end,                                            desc = '[G]oto [I]mplementation' },
       { '<leader>D',        function() Snacks.picker.lsp_type_definitions() end,                                           desc = 'Type [D]efinition' },
       { '<leader>ds',       function() Snacks.picker.lsp_symbols() end,                                                    desc = '[D]ocument [S]ymbols' },
