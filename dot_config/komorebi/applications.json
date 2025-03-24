@@ -20,7 +20,19 @@
         "kind": "Class",
         "id": "Vst3PlugWindow",
         "matching_strategy": "Legacy"
-      }
+      },
+      [
+        {
+          "kind": "Class",
+          "id": "Ableton Live Window Class",
+          "matching_strategy": "Equals"
+        },
+        {
+          "kind": "Title",
+          "id": "Ableton",
+          "matching_strategy": "DoesNotContain"
+        }
+      ]
     ]
   },
   "Adobe Creative Cloud": {
@@ -29,6 +41,15 @@
         "kind": "Class",
         "id": "CreativeCloudDesktopWindowClass",
         "matching_strategy": "Legacy"
+      }
+    ]
+  },
+  "Adobe Photshop": {
+    "ignore": [
+      {
+        "kind": "Class",
+        "id": "PSDialogBox",
+        "matching_strategy": "Equals"
       }
     ]
   },
@@ -261,6 +282,29 @@
       }
     ]
   },
+  "Blender": {
+    "floating": [
+      [
+        {
+          "kind": "Exe",
+          "id": "blender.exe",
+          "matching_strategy": "Equals"
+        },
+        {
+          "kind": "Title",
+          "id": "Blender",
+          "matching_strategy": "DoesNotContain"
+        }
+      ]
+    ],
+    "slow_application": [
+      {
+        "kind": "Exe",
+        "id": "blender.exe",
+        "matching_strategy": "Equals"
+      }
+    ]
+  },
   "Blitz": {
     "tray_and_multi_window": [
       {
@@ -350,6 +394,15 @@
       {
         "kind": "Exe",
         "id": "clementine.exe",
+        "matching_strategy": "Equals"
+      }
+    ]
+  },
+  "Clumsy": {
+    "floating": [
+      {
+        "kind": "Exe",
+        "id": "clumsy.exe",
         "matching_strategy": "Equals"
       }
     ]
@@ -508,6 +561,15 @@
       }
     ]
   },
+  "Eclipse SWT": {
+    "object_name_change": [
+      {
+        "kind": "Class",
+        "id": "SWT_Window",
+        "matching_strategy": "StartsWith"
+      }
+    ]
+  },
   "ElectronMail": {
     "tray_and_multi_window": [
       {
@@ -648,6 +710,22 @@
       ]
     ]
   },
+  "FreeCAD": {
+    "floating": [
+      [
+        {
+          "kind": "Exe",
+          "id": "freecad.exe",
+          "matching_strategy": "Equals"
+        },
+        {
+          "kind": "Class",
+          "id": "Qt51515QWindowIcon",
+          "matching_strategy": "Equals"
+        }
+      ]
+    ]
+  },
   "GIMP": {
     "floating": [
       [
@@ -665,6 +743,18 @@
           "kind": "Title",
           "id": "GIMP",
           "matching_strategy": "DoesNotEndWith"
+        }
+      ],
+      [
+        {
+          "kind": "Exe",
+          "id": "gimp",
+          "matching_strategy": "StartsWith"
+        },
+        {
+          "kind": "Title",
+          "id": "About GIMP",
+          "matching_strategy": "Equals"
         }
       ]
     ]
@@ -863,6 +953,15 @@
         "kind": "Exe",
         "id": "itch.exe",
         "matching_strategy": "Equals"
+      }
+    ]
+  },
+  "JavaFX": {
+    "object_name_change": [
+      {
+        "kind": "Class",
+        "id": "GlassWndClass-GlassWindowClass",
+        "matching_strategy": "StartsWith"
       }
     ]
   },
@@ -1187,9 +1286,21 @@
       }
     ]
   },
+  "Microsoft SQL Server Management Studio": {
+    "floating": [
+      {
+        "kind": "Exe",
+        "id": "Ssms.exe",
+        "matching_strategy": "Equals"
+      },
+      {
+        "kind": "Class",
+        "id": "WindowsForms10.Window.8.app",
+        "matching_strategy": "StartsWith"
+      }
+    ]
+  },
   "Microsoft Terminal Services Client": {
-    // mstsc.exe creates these on Windows 11 when a WSL process is launched
-    // https://github.com/LGUG2Z/komorebi/issues/74
     "ignore": [
       {
         "kind": "Class",
@@ -1277,6 +1388,15 @@
       {
         "kind": "Exe",
         "id": "ModernFlyoutsHost.exe",
+        "matching_strategy": "Equals"
+      }
+    ]
+  },
+  "MOTU M-Series": {
+    "floating": [
+      {
+        "kind": "Exe",
+        "id": "MOTUMSeries.exe",
         "matching_strategy": "Equals"
       }
     ]
@@ -1531,6 +1651,11 @@
         "kind": "Exe",
         "id": "PowerToys.PowerAccent.exe",
         "matching_strategy": "Equals"
+      },
+      {
+        "kind": "Exe",
+        "id": "PowerToys.AdvancedPaste.exe",
+        "matching_strategy": "Equals"
       }
     ]
   },
@@ -1541,6 +1666,22 @@
         "id": "prime95.exe",
         "matching_strategy": "Equals"
       }
+    ]
+  },
+  "Prism Launcher": {
+    "floating": [
+      [
+        {
+          "kind": "Exe",
+          "id": "prismlauncher.exe",
+          "matching_strategy": "Equals"
+        },
+        {
+          "kind": "Title",
+          "id": "- Prism Launcher",
+          "matching_strategy": "Contains"
+        }
+      ]
     ]
   },
   "Process Hacker": {
@@ -1852,6 +1993,20 @@
           "matching_strategy": "DoesNotEqual"
         }
       ]
+    ],
+    "floating": [
+      [
+        {
+          "kind": "Exe",
+          "id": "steam.exe",
+          "matching_strategy": "Equals"
+        },
+        {
+          "kind": "Class",
+          "id": "BootstrapUpdateUIClass",
+          "matching_strategy": "Equals"
+        }
+      ]
     ]
   },
   "Steam Beta": {
@@ -2082,6 +2237,13 @@
     ]
   },
   "VLC": {
+    "object_name_change": [
+      {
+        "kind": "Exe",
+        "id": "vlc.exe",
+        "matching_strategy": "Equals"
+      }
+    ],
     "ignore": [
       [
         {
@@ -2116,7 +2278,7 @@
         {
           "kind": "Title",
           "id": "Preferences",
-          "matching_strategy": "Equals"
+          "matching_strategy": "Contains"
         }
       ],
       [
