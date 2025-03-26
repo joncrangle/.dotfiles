@@ -34,7 +34,7 @@ return {
       ---@type snacks.indent.Config
       indent = { indent = { only_scope = true } },
       input = {},
-      ---@type snacks.lazygit.Config
+      ---@type snacks.lazygit.Config|{}
       lazygit = { configure = false },
       notifier = {},
       ---@type snacks.picker.Config
@@ -44,6 +44,7 @@ return {
         },
       },
       quickfile = {},
+      scratch = {},
       statuscolumn = {},
       words = {},
       ---@type table<string, snacks.win.Config>
@@ -88,7 +89,7 @@ return {
       { '<leader>sl',       function() Snacks.picker.loclist() end,                                                        desc = '[S]earch [L]ocation List' },
       { '<leader>sm',       function() Snacks.picker.man() end,                                                            desc = '[S]earch [M]an Pages' },
       ---@diagnostic disable-next-line: assign-type-mismatch
-      { '<leader>sn',       function() Snacks.picker.files({cwd = vim.fn.stdpath("config")}) end,                          desc = '[S]earch [N]eovim files' },
+      { '<leader>sn',       function() Snacks.picker.files({cwd = vim.fn.stdpath('config')}) end,                          desc = '[S]earch [N]eovim files' },
       { '<leader>sR',       function() Snacks.picker.resume() end,                                                         desc = '[S]earch [R]esume' },
       { "<leader>ss",       function() Snacks.scratch.select() end,                                                        desc = "[S]earch [S]cratch Buffer" },
       ---@diagnostic disable-next-line: undefined-field

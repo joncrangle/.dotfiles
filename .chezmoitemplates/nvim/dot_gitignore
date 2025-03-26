@@ -4,6 +4,7 @@ test.sh
 nvim
 .DS_Store
 
+lua/custom/**
 spell/
 lazy-lock.json
 # vim: ft=gitignore

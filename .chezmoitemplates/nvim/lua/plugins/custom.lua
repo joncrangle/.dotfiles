@@ -1,9 +1,9 @@
 return {
   {
-    'visual-lines',
+    'joncrangle/visual-lines.nvim',
+    -- 'visual-lines.nvim',
+    -- dev = true,
     event = { 'BufReadPre', 'BufNewFile' },
-    dev = true,
-    ---@type VisualLineNumbersOptions
     opts = {},
   },
 }
