@@ -9,12 +9,6 @@ return {
       { '<leader>x', '<cmd>Trouble diagnostics toggle<cr>', desc = 'Toggle Trouble' },
     },
   },
-  {
-    'rachartier/tiny-inline-diagnostic.nvim',
-    event = { 'BufReadPost', 'BufNewFile' },
-    priority = 1000,
-    opts = {},
-  },
   ---@module 'neotest'
   {
     'nvim-neotest/neotest',

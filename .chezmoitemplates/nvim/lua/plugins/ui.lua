@@ -81,9 +81,7 @@ return {
     'folke/noice.nvim',
     lazy = true,
     event = 'VimEnter',
-    dependencies = {
-      'MunifTanjim/nui.nvim',
-    },
+    dependencies = { 'MunifTanjim/nui.nvim' },
     ---@type NoiceConfig
     opts = {
       lsp = {
