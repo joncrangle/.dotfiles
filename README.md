@@ -153,6 +153,10 @@ iwr -useb https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_win.
 
 ## 🐧 Arch Linux
 
+> [!WARNING]
+> This Arch Linux portion is currently unmaintained.
+> An update would include configuring [HyperPanel](https://hyprpanel.com/) to replace the previously used `Ags v1` config.
+
 Install Arch using `archinstall` with a Minimal profile. To connect to wifi, use `iwctl`:
 
 ```bash
