@@ -11,11 +11,9 @@ vim.opt.virtualedit = 'block' -- Enable virtual edit in block mode
 -- Sync clipboard between OS and Neovim.
 -- Function to set OSC 52 clipboard
 local function set_osc52_clipboard()
-  local function my_paste(_)
-    return function()
-      local content = vim.fn.getreg '"'
-      return vim.split(content, '\n')
-    end
+  local function my_paste()
+    local content = vim.fn.getreg '"'
+    return vim.split(content, '\n')
   end
 
   vim.g.clipboard = {
@@ -25,38 +23,21 @@ local function set_osc52_clipboard()
       ['*'] = require('vim.ui.clipboard.osc52').copy '*',
     },
     paste = {
-      ['+'] = my_paste '+',
-      ['*'] = my_paste '*',
+      ['+'] = my_paste,
+      ['*'] = my_paste,
     },
   }
 end
 
--- Function to check for "via proxy pid" asynchronously
+-- Check if the current session is a remote WezTerm session based on the WezTerm executable
 local function check_wezterm_remote_clipboard(callback)
-  if vim.fn.executable 'wezterm' == 0 then
-    callback(false) -- wezterm CLI not in PATH
-    return
-  end
+  local wezterm_executable = vim.uv.os_getenv 'WEZTERM_EXECUTABLE'
 
-  -- Run wezterm CLI asynchronously
-  vim.fn.jobstart({ 'wezterm', 'cli', 'list-clients', '--format', 'json' }, {
-    stdout_buffered = true,
-    on_stdout = function(_, data)
-      local success, clients = pcall(vim.json.decode, table.concat(data, '\n'))
-      if success and type(clients) == 'table' then
-        for _, client in ipairs(clients) do
-          if client.hostname and client.hostname:find 'via proxy pid' then
-            callback(true)
-            return
-          end
-        end
-      end
-      callback(false)
-    end,
-    on_stderr = function()
-      callback(false) -- Error occurred
-    end,
-  })
+  if wezterm_executable and wezterm_executable:find('wezterm-mux-server', 1, true) then
+    callback(true) -- Remote WezTerm session found
+  else
+    callback(false) -- No remote WezTerm session
+  end
 end
 
 -- Schedule the setting after `UiEnter` because it can increase startup-time.
@@ -64,10 +45,9 @@ vim.schedule(function()
   vim.opt.clipboard:append 'unnamedplus'
 
   -- Standard SSH session handling
-  if os.getenv 'SSH_CLIENT' ~= nil or os.getenv 'SSH_TTY' ~= nil then
+  if vim.uv.os_getenv 'SSH_CLIENT' ~= nil or vim.uv.os_getenv 'SSH_TTY' ~= nil then
     set_osc52_clipboard()
   else
-    -- Check for WezTerm remote session asynchronously
     check_wezterm_remote_clipboard(function(is_remote_wezterm)
       if is_remote_wezterm then
         set_osc52_clipboard()
