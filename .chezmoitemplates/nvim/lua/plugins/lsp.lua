@@ -14,7 +14,7 @@ return {
           },
         },
       },
-      { 'williamboman/mason-lspconfig.nvim', config = function() end },
+      'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
       { 'j-hui/fidget.nvim', opts = {} },
       { 'b0o/schemastore.nvim', lazy = true, opts = nil },
@@ -326,12 +326,9 @@ return {
       local ensure_installed = {} ---@type string[]
       for server, server_opts in pairs(servers) do
         if server_opts then
-          server_opts = server_opts == true and {} or server_opts
-          if server_opts.enabled ~= false then
-            -- run manual setup if mason=false or if this is a server that cannot be installed with mason-lspconfig
-            if server_opts.mason == false or not vim.tbl_contains(all_mslp_servers, server) then
-              setup(server)
-            end
+          -- run manual setup if mason=false or if this is a server that cannot be installed with mason-lspconfig
+          if server_opts.mason == false or not vim.tbl_contains(all_mslp_servers, server) then
+            setup(server)
           else
             ensure_installed[#ensure_installed + 1] = server
           end
@@ -363,8 +360,8 @@ return {
       ---@module 'mason-lspconfig'
       ---@type MasonLspconfigSettings
       require('mason-lspconfig').setup {
-        automatic_installation = true,
-        ensure_installed = servers,
+        automatic_installation = false,
+        ensure_installed = {},
         handlers = { setup },
       }
     end,
