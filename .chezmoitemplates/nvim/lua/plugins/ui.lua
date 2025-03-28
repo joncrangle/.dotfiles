@@ -57,7 +57,7 @@ return {
     event = 'VimEnter',
     ---@type wk.Config|{}
     opts = {
-      preset = 'modern',
+      preset = 'helix',
     },
     config = function(_, opts)
       local wk = require 'which-key'
