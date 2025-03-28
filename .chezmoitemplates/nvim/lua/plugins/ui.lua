@@ -54,7 +54,7 @@ return {
   ---@module 'which-key'
   {
     'folke/which-key.nvim',
-    event = 'VimEnter',
+    event = 'VeryLazy',
     ---@type wk.Config|{}
     opts = {
       preset = 'helix',
@@ -80,7 +80,7 @@ return {
   {
     'folke/noice.nvim',
     lazy = true,
-    event = 'VimEnter',
+    event = 'VeryLazy',
     dependencies = { 'MunifTanjim/nui.nvim' },
     ---@type NoiceConfig
     opts = {

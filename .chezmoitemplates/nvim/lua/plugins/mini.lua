@@ -1,7 +1,6 @@
 return {
   {
     'echasnovski/mini.nvim',
-    lazy = true,
     event = { 'BufReadPost', 'BufNewFile', 'CmdlineEnter' },
     config = function()
       require('mini.ai').setup { n_lines = 500 }
