@@ -12,6 +12,7 @@ return {
         { path = '${3rd}/luassert/library', words = { 'assert' } },
         { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
         { path = 'wezterm-types/types', mods = { 'wezterm' } },
+        { path = 'snacks.nvim', words = { 'Snacks' } },
       },
     },
   },

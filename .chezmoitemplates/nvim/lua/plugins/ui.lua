@@ -184,7 +184,7 @@ return {
   {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'echasnovski/mini.nvim' },
-    event = { 'BufReadPost', 'BufNewFile' },
+    event = 'VeryLazy',
     init = function()
       vim.g.lualine_laststatus = vim.o.laststatus
       if vim.fn.argc(-1) > 0 then
@@ -195,41 +195,164 @@ return {
         vim.o.laststatus = 0
       end
     end,
-    opts = {
-      options = {
-        theme = 'auto',
-        globalstatus = true,
+    opts = function()
+      -- Custom lualine extension for grapple and snacks
+      local function get_statusline()
+        local filetype = vim.bo.filetype
+        local title = filetype
+        local meta = ''
+
+        if filetype == 'grapple' then
+          title = 'Grapple'
+          meta = require('grapple').statusline() or ''
+        elseif filetype == 'snacks_terminal' then
+          title = ' Terminal'
+          meta = vim.fn.expand('%:t'):match '.*:(%S+)$' or vim.fn.expand '%:t'
+        elseif filetype == 'snacks_picker_list' then
+          title = '🍿 Explorer'
+          meta = vim.fn.fnamemodify(vim.fn.getcwd(), ':~')
+        elseif filetype == 'snacks_picker_input' then
+          title = '🍿 Picker'
+          meta = ''
+        end
+
+        return title, meta
+      end
+
+      local lualine_custom = {
+        sections = {
+          lualine_a = {
+            function()
+              local title, _ = get_statusline()
+              return title
+            end,
+          },
+          lualine_b = {
+            function()
+              local _, meta = get_statusline()
+              return meta
+            end,
+          },
+        },
+        filetypes = {
+          'grapple',
+          'snacks_picker_input',
+          'snacks_picker_list',
+          'snacks_terminal',
+        },
+      }
+
+      return {
+        options = {
+          theme = 'auto',
+          always_show_tabline = false,
+          -- section_separators = { left = '', right = '' },
+          globalstatus = true,
+          disabled_filetypes = { statusline = { 'snacks_dashboard', 'lazygit' } },
+        },
         extensions = {
+          lualine_custom,
           'lazy',
           'mason',
-          'neo-tree',
           'nvim-dap-ui',
           'oil',
           'quickfix',
           'trouble',
         },
-        disabled_filetypes = { statusline = { 'dashboard', 'lazygit' } },
-      },
-    },
-  },
-  ---@module 'bufferline'
-  {
-    'akinsho/bufferline.nvim',
-    version = '*',
-    lazy = true,
-    event = { 'BufReadPost', 'BufNewFile' },
-    dependencies = {
-      'echasnovski/mini.nvim',
-      'catppuccin',
-    },
-    opts = function()
-      local highlights = require('catppuccin.groups.integrations.bufferline').get()
-      return {
-        highlights = highlights,
-        ---@type bufferline.Options
-        options = {
-          mode = 'tabs',
-          always_show_bufferline = false,
+        sections = {
+          lualine_a = { 'mode' },
+          lualine_b = { 'branch' },
+          lualine_c = {
+            { 'diagnostics' },
+            { 'filetype', icon_only = true, separator = '', padding = { left = 1, right = 0 } },
+            {
+              function()
+                local function truncate_path(path, max_length)
+                  local parts = vim.split(path, '[\\/]')
+
+                  if #parts > max_length then
+                    parts = { parts[1], '…', unpack(parts, #parts - max_length + 2, #parts) }
+                  end
+
+                  return table.concat(parts, package.config:sub(1, 1))
+                end
+
+                local filename = vim.fn.expand '%:t' --[[@as string]]
+                local filepath = vim.fn.expand '%:.' --[[@as string]]
+                local dir = filepath:gsub(filename, '')
+                local truncated_dir = truncate_path(dir, 3)
+                local filename_hl = vim.bo.modified and '%#MatchParen#' or '%#Title#'
+                local readonly_icon = vim.bo.readonly and ' 󰌾 ' or ''
+                local grapple = ''
+
+                if package.loaded['grapple'] then
+                  grapple = require('grapple').exists() and ' 󰛢 ' .. require('grapple').name_or_index() or ''
+                end
+
+                return '%#Italic#'
+                  .. truncated_dir
+                  .. '%#Normal#'
+                  .. filename_hl
+                  .. filename
+                  .. '%#Normal#'
+                  .. (grapple ~= '' and '%#GrappleName#' .. grapple or '')
+                  .. '%#Normal#'
+                  .. readonly_icon
+              end,
+              padding = { left = 0, right = 1 },
+            },
+          },
+          lualine_x = {
+            {
+              function()
+                return '  ' .. require('dap').status()
+              end,
+              cond = function()
+                return package.loaded['dap'] and require('dap').status() ~= ''
+              end,
+              color = function()
+                return { fg = Snacks.util.color 'Debug' }
+              end,
+            },
+            { 'diff' },
+            { 'lsp_status', icon = '󰅩' },
+          },
+          lualine_y = { 'progress' },
+          lualine_z = { 'location' },
+        },
+        tabline = {
+          lualine_a = {
+            {
+              function()
+                return '󰈙'
+              end,
+            },
+          },
+          lualine_b = {
+            {
+              'tabs',
+              mode = 1,
+              max_length = function()
+                return vim.o.columns
+              end,
+              component_separators = { left = '', right = '' },
+              section_separators = { left = '', right = '' },
+              symbols = { modified = '' },
+              show_modified_status = false,
+              fmt = function(name, context)
+                local buflist = vim.fn.tabpagebuflist(context.tabnr)
+                local winnr = vim.fn.tabpagewinnr(context.tabnr)
+                local bufnr = buflist[winnr]
+                local mod = vim.fn.getbufvar(bufnr, '&mod')
+                local name_hl = mod == 1 and '%#MatchParen#' or ''
+                if name == '[No Name]' then
+                  name = context.filetype
+                end
+
+                return name_hl .. name
+              end,
+            },
+          },
         },
       }
     end,
