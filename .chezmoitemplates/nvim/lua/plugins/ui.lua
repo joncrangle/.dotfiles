@@ -1,3 +1,49 @@
+-- Custom lualine extension for grapple and snacks
+local function get_statusline()
+  local filetype = vim.bo.filetype
+  local title = filetype
+  local meta = ''
+
+  if filetype == 'grapple' then
+    title = 'Grapple'
+    meta = require('grapple').statusline() or ''
+  elseif filetype == 'snacks_terminal' then
+    title = ' Terminal'
+    meta = vim.fn.expand('%:t'):match '.*:(%S+)$' or vim.fn.expand '%:t'
+  elseif filetype == 'snacks_picker_list' then
+    title = '🍿 Explorer'
+    meta = vim.fn.fnamemodify(vim.fn.getcwd(), ':~')
+  elseif filetype == 'snacks_picker_input' then
+    title = '🍿 Picker'
+    meta = ''
+  end
+
+  return title, meta
+end
+
+local lualine_custom = {
+  sections = {
+    lualine_a = {
+      function()
+        local title, _ = get_statusline()
+        return title
+      end,
+    },
+    lualine_b = {
+      function()
+        local _, meta = get_statusline()
+        return meta
+      end,
+    },
+  },
+  filetypes = {
+    'grapple',
+    'snacks_picker_input',
+    'snacks_picker_list',
+    'snacks_terminal',
+  },
+}
+
 return {
   ---@module 'catppuccin'
   {
@@ -202,6 +248,7 @@ return {
         disabled_filetypes = { statusline = { 'snacks_dashboard', 'lazygit' } },
       },
       extensions = {
+        lualine_custom,
         'lazy',
         'mason',
         'nvim-dap-ui',
