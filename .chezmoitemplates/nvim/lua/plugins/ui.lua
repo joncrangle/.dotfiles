@@ -184,7 +184,7 @@ return {
   {
     'nvim-lualine/lualine.nvim',
     dependencies = { 'echasnovski/mini.nvim' },
-    event = { 'BufReadPost', 'BufNewFile' },
+    event = 'VeryLazy',
     init = function()
       vim.g.lualine_laststatus = vim.o.laststatus
       if vim.fn.argc(-1) > 0 then
@@ -199,16 +199,79 @@ return {
       options = {
         theme = 'auto',
         globalstatus = true,
-        extensions = {
-          'lazy',
-          'mason',
-          'neo-tree',
-          'nvim-dap-ui',
-          'oil',
-          'quickfix',
-          'trouble',
+        disabled_filetypes = { statusline = { 'snacks_dashboard', 'lazygit' } },
+      },
+      extensions = {
+        'lazy',
+        'mason',
+        'nvim-dap-ui',
+        'oil',
+        'quickfix',
+        'trouble',
+      },
+      sections = {
+        lualine_a = { 'mode' },
+        lualine_b = { 'branch' },
+        lualine_c = {
+          { 'diagnostics' },
+          { 'filetype', icon_only = true, separator = '', padding = { left = 1, right = 0 } },
+          {
+            function()
+              local function truncate_path(path, max_length)
+                local parts = vim.split(path, '[\\/]')
+
+                if #parts > max_length then
+                  parts = { parts[1], '…', unpack(parts, #parts - max_length + 2, #parts) }
+                end
+
+                return table.concat(parts, package.config:sub(1, 1))
+              end
+
+              local filename = vim.fn.expand '%:t' --[[@as string]]
+              local filepath = vim.fn.expand '%:.' --[[@as string]]
+              local dir = filepath:gsub(filename, '')
+              local truncated_dir = truncate_path(dir, 3)
+              local readonly_icon = vim.bo.readonly and ' 󰌾 ' or ''
+              local grapple = ''
+
+              if package.loaded['grapple'] then
+                grapple = require('grapple').exists() and ' 󰛢 ' .. require('grapple').name_or_index() or ''
+              end
+
+              -- Highlight group for filename based on whether the file is modified
+              local filename_hl = vim.bo.modified and 'MatchParen' or 'Bold'
+
+              return '%#Italic#'
+                .. truncated_dir
+                .. '%#Normal#'
+                .. '%#'
+                .. filename_hl
+                .. '#'
+                .. filename
+                .. '%#Normal#'
+                .. (grapple ~= '' and '%#GrappleName#' .. grapple or '')
+                .. '%#Normal#'
+                .. readonly_icon
+            end,
+            padding = { left = 0, right = 1 },
+          },
         },
-        disabled_filetypes = { statusline = { 'dashboard', 'lazygit' } },
+        lualine_x = {
+          {
+            function()
+              return '  ' .. require('dap').status()
+            end,
+            cond = function()
+              return package.loaded['dap'] and require('dap').status() ~= ''
+            end,
+            color = function()
+              return { fg = Snacks.util.color 'Debug' }
+            end,
+          },
+          { 'diff' },
+        },
+        lualine_y = { 'progress' },
+        lualine_z = { 'location' },
       },
     },
   },
