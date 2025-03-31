@@ -4,9 +4,6 @@ return {
     'catppuccin/nvim',
     name = 'catppuccin',
     priority = 1000,
-    init = function()
-      vim.cmd.colorscheme 'catppuccin-mocha'
-    end,
     ---@type CatppuccinOptions
     opts = {
       flavour = 'mocha',
@@ -40,6 +37,7 @@ return {
             CursorLineNr = { fg = mocha.yellow },
             LineNrAbove = { fg = mocha.overlay1 },
             LineNrBelow = { fg = mocha.overlay1 },
+            SnacksIndentScope = { fg = mocha.lavender },
           }
         end,
       },

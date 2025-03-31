@@ -45,7 +45,7 @@ return {
       },
       quickfile = {},
       scratch = {},
-      statuscolumn = {},
+      statuscolumn = { left = { 'sign' } },
       words = {},
       ---@type table<string, snacks.win.Config>
       styles = {
