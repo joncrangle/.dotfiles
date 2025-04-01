@@ -88,6 +88,7 @@ return {
           ['vim.lsp.util.stylize_markdown'] = true,
           ['cmp.entry.get_documentation'] = true,
         },
+        progress = { enabled = false },
         signature = { auto_open = { enabled = false } },
       },
       cmdline = { view = 'cmdline' },
@@ -98,22 +99,26 @@ return {
           filter = {
             event = 'msg_show',
             any = {
-              { find = '%d+L, %d+B' },
-              { find = '; after #%d+' },
-              { find = '; before #%d+' },
               { find = '%d fewer lines' },
               { find = '%d more lines' },
+              { find = 'lines yanked$' },
             },
           },
           opts = { skip = true },
         },
-        -- Don't show lsp status messages in default view
         {
           filter = {
-            event = 'lsp',
-            kind = 'progress',
+            event = 'msg_show',
+            any = {
+              { find = '%d+L, %d+B' },
+              { find = '; after #%d+' },
+              { find = '; before #%d+' },
+              { find = '%-%-No lines in buffer%-%-' },
+              { find = 'No more valid diagnostics to move to' },
+              { find = 'DB: Query' },
+            },
           },
-          opts = { skip = true },
+          view = 'mini',
         },
         -- Don't show "No Information Available" hover message
         {
@@ -122,6 +127,15 @@ return {
             find = 'No information available',
           },
           opts = { skip = true },
+        },
+        {
+          filter = {
+            event = 'notify',
+            any = {
+              { find = 'No hunks to go to' },
+            },
+          },
+          view = 'mini',
         },
         -- Don't show "Agent service not initialized" message from copilot
         {
