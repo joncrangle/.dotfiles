@@ -115,7 +115,26 @@ vim.diagnostic.config {
       [vim.diagnostic.severity.HINT] = '󰌶 ',
     },
   } or {},
-  virtual_text = { current_line = true },
+  virtual_text = function(_, bufnr)
+    local full_diagnostic_fts = {
+      'lazy',
+      'mason',
+    }
+    if full_diagnostic_fts[vim.bo[bufnr].filetype] then
+      return { current_line = false }
+    end
+    return {
+      current_line = true,
+      severity = {
+        max = vim.diagnostic.severity.WARN,
+      },
+    }
+  end,
+  virtual_lines = {
+    severity = {
+      min = vim.diagnostic.severity.ERROR,
+    },
+  },
 }
 
 -- Show cursor line only in active window
