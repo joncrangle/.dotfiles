@@ -2,22 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <!-- Note: to run at startup, save to ~/Library/LaunchAgents/ -->
-    <!-- Run: launchctl load ~/Library/LaunchAgents/com.joncrangle.llm.plist -->
-    <!-- Edit: ~/Library/LaunchAgents/homebrew.mxcl.ollama.plist -->
-    <!-- Add the following to the plist: -->
-	<!--<key>EnvironmentVariables</key>-->
-	<!--<dict>-->
-	<!--	<key>OLLAMA_HOST</key>-->
-	<!--	<string>0.0.0.0</string>-->
-	<!--</dict>-->
     <key>Label</key>
     <string>com.joncrangle.llm</string>
     <key>ProgramArguments</key>
     <array>
-	<string>/bin/sh</string>
-        <string>-c</string>
-	<string>cd /Users/jonathancrangle/Documents/Code/ComfyUI/ && /opt/homebrew/bin/uv run main.py --listen 0.0.0.0</string>
+	<string>sh</string>
+	<string>-c</string>
+	<string>cd /Users/jonathancrangle/Documents/Code/ComfyUI/ &amp;&amp; /opt/homebrew/bin/uv run main.py --listen 0.0.0.0</string>
     </array>
     <key>RunAtLoad</key>
     <true/>
