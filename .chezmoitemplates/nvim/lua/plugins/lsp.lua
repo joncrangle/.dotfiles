@@ -127,6 +127,7 @@ return {
                 autoImportCompletions = true,
               },
             },
+            python = { venvPath = '.' },
           },
         },
         bashls = {},
@@ -181,7 +182,13 @@ return {
           directoryFilters = { '-.git', '-.vscode', '-.idea', '-.vscode-test', '-node_modules' },
           semanticTokens = true,
         },
-        harper_ls = { filetypes = { 'markdown' } },
+        harper_ls = {
+          settings = {
+            ['harper-ls'] = {
+              dialect = 'Canadian',
+            },
+          },
+        },
         html = {},
         jqls = {},
         jsonls = {
