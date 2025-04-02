@@ -357,7 +357,7 @@ return {
                 local bufnr = buflist[winnr]
                 local mod = vim.fn.getbufvar(bufnr, '&mod')
                 local name_hl = mod == 1 and '%#MatchParen#' or ''
-                if name == '[No Name]' then
+                if name == '[No Name]' or name == '' then
                   name = context.filetype
                 end
 
