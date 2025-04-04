@@ -3,7 +3,14 @@ return {
   {
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
-      { 'nvim-treesitter/nvim-treesitter-context', opts = { mode = 'cursor', max_lines = 3 } },
+      {
+        'nvim-treesitter/nvim-treesitter-context',
+        opts = { mode = 'cursor', max_lines = 3 },
+        -- stylua: ignore
+        keys = {
+          { '[c', function() require('treesitter-context').go_to_context() end, desc = 'Goto context' },
+        },
+      },
       'nvim-treesitter/nvim-treesitter-textobjects',
       {
         'aaronik/treewalker.nvim',
