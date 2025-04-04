@@ -258,7 +258,6 @@ return {
         options = {
           theme = 'auto',
           always_show_tabline = false,
-          -- section_separators = { left = '', right = '' },
           globalstatus = true,
           disabled_filetypes = { statusline = { 'snacks_dashboard', 'lazygit' } },
         },
@@ -293,6 +292,9 @@ return {
                 local filepath = vim.fn.expand '%:.' --[[@as string]]
                 local dir = filepath:gsub(filename, '')
                 local truncated_dir = truncate_path(dir, 3)
+                if filename == '' then
+                  filename = vim.bo.filetype
+                end
                 local filename_hl = vim.bo.modified and '%#MatchParen#' or '%#Title#'
                 local readonly_icon = vim.bo.readonly and ' 󰌾 ' or ''
                 local grapple = ''
@@ -327,7 +329,8 @@ return {
               end,
             },
             { 'diff' },
-            { 'lsp_status', icon = '󰅩' },
+            { 'lsp_status', icon = '󰅩', separator = '', padding = { left = 1, right = 0 } },
+            { require 'mcphub.extensions.lualine' },
           },
           lualine_y = { 'progress' },
           lualine_z = { 'location' },
