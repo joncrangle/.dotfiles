@@ -330,7 +330,6 @@ return {
             },
             { 'diff' },
             { 'lsp_status', icon = '󰅩', separator = '', padding = { left = 1, right = 0 } },
-            { require 'mcphub.extensions.lualine' },
           },
           lualine_y = { 'progress' },
           lualine_z = { 'location' },
