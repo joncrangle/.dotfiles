@@ -1,4 +1,3 @@
-local wezterm_dir = vim.fn.expand '$XDG_CONFIG_HOME' .. '/wezterm'
 return {
   ---@module 'snacks'
   {
@@ -14,16 +13,16 @@ return {
         preset = {
           -- stylua: ignore
           keys = {
-            { action = ':lua Snacks.dashboard.pick("smart")',                                   desc = ' Find File',       icon = ' ', key = 'f' },
-            { action = ':ene | startinsert',                                                    desc = ' New File',        icon = ' ', key = 'n' },
-            { action = ':lua Snacks.dashboard.pick("oldfiles")',                                desc = ' Recent Files',    icon = ' ', key = 'r' },
-            { action = ':lua Snacks.dashboard.pick("live_grep")',                               desc = ' Find Text',       icon = ' ', key = 'g' },
-            { action = ':lua Snacks.dashboard.pick("files", {cwd = vim.fn.stdpath("config")})', desc = ' Neovim Config',   icon = ' ', key = 'v' },
-            { action = ':lua Snacks.dashboard.pick("files", {cwd = "' .. wezterm_dir .. '"})',  desc = ' Wezterm Config',  icon = ' ', key = 'w' },
-            { action = ':lua require("persistence").load()',                                    desc = ' Restore Session', icon = ' ', key = 's' },
-            { action = ':Lazy',                                                                 desc = ' Lazy',            icon = '󰒲 ', key = 'l' },
-            { action = ':Mason',                                                                desc = ' Mason',           icon = '󱊈 ', key = 'm' },
-            { action = ':qa',                                                                   desc = ' Quit',            icon = ' ', key = 'q' },
+            { action = ':lua Snacks.dashboard.pick("smart")',                                                     desc = ' Find File',       icon = ' ', key = 'f' },
+            { action = ':ene | startinsert',                                                                      desc = ' New File',        icon = ' ', key = 'n' },
+            { action = ':lua Snacks.dashboard.pick("oldfiles")',                                                  desc = ' Recent Files',    icon = ' ', key = 'r' },
+            { action = ':lua Snacks.dashboard.pick("live_grep")',                                                 desc = ' Find Text',       icon = ' ', key = 'g' },
+            { action = ':lua Snacks.dashboard.pick("files", {cwd = vim.fn.stdpath("config")})',                   desc = ' Neovim Config',   icon = ' ', key = 'v' },
+            { action = ':lua Snacks.dashboard.pick("files", {cwd = vim.fn.expand("$XDG_CONFIG_HOME/wezterm")})',  desc = ' Wezterm Config',  icon = ' ', key = 'w' },
+            { action = ':lua require("persistence").load()',                                                      desc = ' Restore Session', icon = ' ', key = 's' },
+            { action = ':Lazy',                                                                                   desc = ' Lazy',            icon = '󰒲 ', key = 'l' },
+            { action = ':Mason',                                                                                  desc = ' Mason',           icon = '󱊈 ', key = 'm' },
+            { action = ':qa',                                                                                     desc = ' Quit',            icon = ' ', key = 'q' },
           },
         },
       },
@@ -97,7 +96,7 @@ return {
       ---@diagnostic disable-next-line: undefined-field
       { '<leader>sT',       function() Snacks.picker.todo_comments({ keywords = { 'TODO', 'FIX', 'FIXME' } }) end,         desc = 'Narrowly [S]earch [T]odos' },
       { '<leader>su',       function() Snacks.picker.undo() end,                                                           desc = '[S]earch [U]ndo history' },
-      { '<leader>sw',       function() Snacks.picker.files({ cwd = wezterm_dir }) end,                                     desc = '[S]earch [W]ezterm files' },
+      { '<leader>sw',       function() Snacks.picker.files({ cwd = vim.fn.expand '$XDG_CONFIG_HOME/wezterm' }) end,        desc = '[S]earch [W]ezterm files' },
       { '<leader>sq',       function() Snacks.picker.qflist() end,                                                         desc = '[S]earch [Q]uickfix List' },
       { '<leader>sz',       function() Snacks.picker.zoxide() end,                                                         desc = '[S]earch [Z]oxide List' },
       { '<leader>uC',       function() Snacks.picker.colorschemes() end,                                                   desc = '[U]pdate [C]olorschemes' },
