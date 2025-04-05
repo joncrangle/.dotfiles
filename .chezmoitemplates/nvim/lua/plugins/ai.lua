@@ -5,7 +5,11 @@ return {
     event = { 'BufReadPost', 'BufWritePost', 'BufNewFile' },
     build = vim.fn.has 'win32' == 0 and 'make' or 'pwsh.exe -NoProfile -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false',
     opts = function()
-      local function generate_vendor(model)
+      --- Generate an Avante vendor configuration
+      ---@param model string model name
+      ---@param name? string display name
+      ---@return AvanteProvider
+      local function generate_vendor(model, name)
         return {
           __inherited_from = 'openai',
           api_key_name = '',
@@ -13,6 +17,7 @@ return {
           temperature = 0,
           max_tokens = 8192,
           model = model,
+          display_name = name,
         }
       end
 
@@ -20,26 +25,58 @@ return {
       return {
         provider = 'gemini',
         behaviour = { enable_cursor_planning_mode = true },
+        aihubmix = { hide_in_model_selector = true },
+        ['aihubmix-claude'] = { hide_in_model_selector = true },
+        bedrock = { hide_in_model_selector = true },
+        claude = { hide_in_model_selector = true },
+        ['claude-haiku'] = { hide_in_model_selector = true },
+        ['claude-opus'] = { hide_in_model_selector = true },
+        cohere = { hide_in_model_selector = true },
+        copilot = { display_name = 'OpenAI GPT 4o' },
+        deepseek = { hide_in_model_selector = true },
         gemini = {
           api_key_name = 'GEMINI_API_KEY',
           model = 'gemini-2.0-flash',
           temperature = 0,
+          display_name = 'Gemini 2.0 Flash',
         },
-        copilot = {
-          model = 'claude-3.5-sonnet',
-        },
+        openai = { hide_in_model_selector = true },
+        ['openai-gpt-4o-mini'] = { hide_in_model_selector = true },
+        vertex = { hide_in_model_selector = true },
+        vertex_claude = { hide_in_model_selector = true },
         vendors = {
-          ['qwen'] = generate_vendor 'qwen2.5-coder-14b-instruct-mlx',
-          ['supernova'] = generate_vendor 'supernova-medius',
-          ['deepseek'] = generate_vendor 'deepseek-r1-distill-qwen-14b',
+          ['qwen'] = generate_vendor('qwen2.5-coder-14b-instruct-mlx', 'Qwen 2.5 Coder 14B Instruct'),
+          ['supernova'] = generate_vendor('supernova-medius', 'Supernova Medius 14B'),
+          ['deepseek'] = generate_vendor('deepseek-r1-distill-qwen-14b', 'Deepseek R1 Distill Qwen 14B'),
+          ['claude-3.5-sonnet'] = {
+            __inherited_from = 'copilot',
+            model = 'claude-3.5-sonnet',
+            display_name = 'Claude 3.5 Sonnet',
+          },
+          ['claude-3.7-sonnet'] = {
+            __inherited_from = 'copilot',
+            model = 'claude-3.7-sonnet',
+            display_name = 'Claude 3.7 Sonnet',
+          },
+          ['claude-3.7-sonnet-thought'] = {
+            __inherited_from = 'copilot',
+            model = 'claude-3.7-sonnet-thought',
+            display_name = 'Claude 3.7 Sonnet Thought',
+          },
+          ['o3-mini'] = {
+            __inherited_from = 'copilot',
+            model = 'o3-mini',
+            display_name = 'OpenAI O3 Mini',
+          },
           ['gemini-2.5-pro'] = {
             __inherited_from = 'gemini',
             model = 'gemini-2.5-pro-exp-03-25',
             temperature = 0,
+            display_name = 'Gemini 2.5 Pro',
           },
         },
         file_selector = { provider = 'snacks' },
-        windows = { sidebar_header = { rounded = false } },
+        windows = { sidebar_header = { rounded = false }, ask = { start_insert = false } },
         system_prompt = function()
           local hub = require('mcphub').get_hub_instance()
           if hub == nil then
@@ -118,7 +155,7 @@ return {
         end,
       })
     end,
-    opts = { auto_approve = true },
+    opts = { auto_approve = true, cmd = vim.fn.exepath 'mcp-hub' },
   },
   {
     'milanglacier/minuet-ai.nvim',
