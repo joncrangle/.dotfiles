@@ -39,7 +39,7 @@ return {
       ---@type snacks.picker.Config
       picker = {
         sources = {
-          explorer = { auto_close = true },
+          explorer = { auto_close = true, layout = { layout = { position = 'right' } } },
         },
       },
       quickfile = {},
