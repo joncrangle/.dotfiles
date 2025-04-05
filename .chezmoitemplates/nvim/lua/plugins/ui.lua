@@ -222,10 +222,22 @@ return {
           meta = vim.fn.expand('%:t'):match '.*:(%S+)$' or vim.fn.expand '%:t'
         elseif filetype == 'snacks_picker_list' then
           title = '🍿 Explorer'
-          meta = vim.fn.fnamemodify(vim.fn.getcwd(), ':~')
+          local picker = Snacks.picker.get()[1]
+          if picker then
+            meta = vim.fn.fnamemodify(picker:dir(), ':~')
+          else
+            meta = vim.fn.fnamemodify(vim.fn.getcwd(), ':~')
+          end
         elseif filetype == 'snacks_picker_input' then
           title = '🍿 Picker'
-          meta = ''
+          local picker = Snacks.picker.get()[1]
+          if picker then
+            local input = picker.input and picker.input:get() or ''
+            local count = #picker:items()
+            meta = input ~= '' and (' ' .. input .. ': ' .. count .. ' results') or (count .. ' results')
+          else
+            meta = ''
+          end
         end
 
         return title, meta
