@@ -7,6 +7,7 @@
 {{- $archAddress := promptStringOnce . "archAddress" "Arch IP address" -}}
 {{- $archUser := promptStringOnce . "archUser" "Arch username" -}}
 {{- $geminiKey := promptStringOnce . "geminiKey" "Gemini API Key" -}}
+{{- $githubKey := promptStringOnce . "githubKey" "Github PAT" -}}
 
 encryption = "age"
 
@@ -28,6 +29,7 @@ encryption = "age"
     ArchAddress = {{ $archAddress | quote }}
     ArchUser = {{ $archUser | quote }}
     GeminiKey = {{ $geminiKey | quote }}
+    GithubKey = {{ $githubKey | quote }}
     {{ if eq .chezmoi.os "linux" }}
     {{- $keyboard := promptStringOnce . "keyboard" "Enter 'laptop' or 'desktop' ..." -}}
     keyboard = {{ $keyboard | quote }}
