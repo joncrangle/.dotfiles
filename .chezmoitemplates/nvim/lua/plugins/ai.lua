@@ -15,7 +15,7 @@ return {
           api_key_name = '',
           endpoint = '{{- if eq .chezmoi.os "darwin" -}}127.0.0.1:5001/v1{{- else -}}{{- .MacAddress -}}:5001/v1{{- end -}}',
           temperature = 0,
-          max_tokens = 8192,
+          max_tokens = 32000,
           model = model,
           display_name = name,
         }
@@ -45,9 +45,10 @@ return {
         vertex = { hide_in_model_selector = true },
         vertex_claude = { hide_in_model_selector = true },
         vendors = {
-          ['qwen'] = generate_vendor('qwen2.5-coder-14b-instruct-mlx', 'Qwen 2.5 Coder 14B Instruct'),
-          ['supernova'] = generate_vendor('supernova-medius', 'Supernova Medius 14B'),
-          ['deepseek'] = generate_vendor('deepseek-r1-distill-qwen-14b', 'Deepseek R1 Distill Qwen 14B'),
+          ['qwen-coder-14b'] = generate_vendor('qwen2.5-coder-14b-instruct-mlx', 'Qwen 2.5 Coder 14B Instruct'),
+          ['qwen-coder-7b'] = generate_vendor('qwen2.5-coder-7b-instruct-mlx', 'Qwen 2.5 Coder 7B Instruct'),
+          ['deepseek-r1'] = generate_vendor('deepseek-r1-distill-qwen-14b', 'Deepseek R1 Distill Qwen 14B'),
+          ['gemma-3'] = generate_vendor('gemma-3-4b-it', 'Gemma 3 4B'),
           ['claude-3.5-sonnet'] = {
             __inherited_from = 'copilot',
             model = 'claude-3.5-sonnet',
