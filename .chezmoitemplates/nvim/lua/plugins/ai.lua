@@ -47,6 +47,7 @@ return {
         vendors = {
           ['qwen-coder-14b'] = generate_vendor('qwen2.5-coder-14b-instruct-mlx', 'Qwen 2.5 Coder 14B Instruct'),
           ['qwen-coder-7b'] = generate_vendor('qwen2.5-coder-7b-instruct-mlx', 'Qwen 2.5 Coder 7B Instruct'),
+          ['qwen-7b-1m'] = generate_vendor('qwen2.5-7b-instruct-1m', 'Qwen 2.5 7B Instruct 1M'),
           ['deepseek-r1'] = generate_vendor('deepseek-r1-distill-qwen-14b', 'Deepseek R1 Distill Qwen 14B'),
           ['gemma-3'] = generate_vendor('gemma-3-4b-it', 'Gemma 3 4B'),
           ['claude-3.5-sonnet'] = {
