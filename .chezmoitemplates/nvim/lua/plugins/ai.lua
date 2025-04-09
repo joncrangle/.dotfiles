@@ -119,45 +119,23 @@ return {
       'nvim-lua/plenary.nvim',
     },
     cmd = 'MCPHub',
+    event = 'FileType AvanteInput',
     build = 'npm install -g mcp-hub@latest',
-    init = function()
-      vim.api.nvim_create_autocmd('FileType', {
-        pattern = 'AvanteInput',
-        callback = function()
-          if not package.loaded['mcphub'] then
-            require('lazy').load { plugins = { 'mcphub.nvim' } }
-          end
-
-          local ok, mcphub = pcall(require, 'mcphub')
-          if not ok then
-            return
-          end
-          mcphub.setup { auto_approve = true }
-
-          local lualine_ok, lualine = pcall(require, 'lualine')
-          if not lualine_ok then
-            return
-          end
-
-          local config = lualine.get_config()
-          local ext = require 'mcphub.extensions.lualine'
-
-          local already_added = false
-          for _, section in ipairs(config.sections.lualine_x or {}) do
-            if section == ext then
-              already_added = true
-              break
-            end
-          end
-
-          if not already_added then
-            table.insert(config.sections.lualine_x, ext)
-            lualine.setup(config)
-          end
-        end,
-      })
+    opts = function()
+      local lualine_ok, lualine = pcall(require, 'lualine')
+      if lualine_ok then
+        local config = lualine.get_config()
+        local ext = require 'mcphub.extensions.lualine'
+        if not vim.tbl_contains(config.sections.lualine_x, ext) then
+          table.insert(config.sections.lualine_x, ext)
+          lualine.setup(config)
+        end
+      end
+      return {
+        auto_approve = true,
+        cmd = vim.fn.exepath 'mcp-hub',
+      }
     end,
-    opts = { auto_approve = true, cmd = vim.fn.exepath 'mcp-hub' },
   },
   {
     'milanglacier/minuet-ai.nvim',
