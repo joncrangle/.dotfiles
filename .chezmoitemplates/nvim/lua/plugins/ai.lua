@@ -47,9 +47,10 @@ return {
         vendors = {
           ['qwen-coder-14b'] = generate_vendor('qwen2.5-coder-14b-instruct-mlx', 'Qwen 2.5 Coder 14B Instruct'),
           ['qwen-coder-7b'] = generate_vendor('qwen2.5-coder-7b-instruct-mlx', 'Qwen 2.5 Coder 7B Instruct'),
+          ['cogito-v1-preview-14b'] = generate_vendor('deepcogito-cogito-v1-preview-qwen-14b', 'Cogito V1 Preview Qwen 14B'),
           ['qwen-7b-1m'] = generate_vendor('qwen2.5-7b-instruct-1m', 'Qwen 2.5 7B Instruct 1M'),
           ['deepseek-r1'] = generate_vendor('deepseek-r1-distill-qwen-14b', 'Deepseek R1 Distill Qwen 14B'),
-          ['gemma-3'] = generate_vendor('gemma-3-4b-it', 'Gemma 3 4B'),
+          ['deepcoder-14b'] = generate_vendor('deepcoder-14b-preview', 'Deepcoder 14B Preview'),
           ['claude-3.5-sonnet'] = {
             __inherited_from = 'copilot',
             model = 'claude-3.5-sonnet',
@@ -131,10 +132,7 @@ return {
           lualine.setup(config)
         end
       end
-      return {
-        auto_approve = true,
-        cmd = vim.fn.exepath 'mcp-hub',
-      }
+      return { auto_approve = true }
     end,
   },
   {
