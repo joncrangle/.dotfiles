@@ -1,5 +1,4 @@
 return {
-  ---@module 'nvim-lspconfig'
   {
     'neovim/nvim-lspconfig',
     event = { 'BufReadPre', 'BufNewFile' },
@@ -14,7 +13,6 @@ return {
           },
         },
       },
-      'williamboman/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
       { 'b0o/schemastore.nvim', lazy = true, opts = nil },
       {
@@ -43,7 +41,6 @@ return {
       },
     },
     config = function()
-      ---@type lspconfig.Config
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
@@ -135,8 +132,7 @@ return {
         clangd = {},
         cssls = {},
         denols = {
-          root_dir = require('lspconfig').util.root_pattern { 'deno.json', 'deno.jsonc' },
-          single_file_support = false,
+          root_markers = { 'deno.json', 'deno.jsonc' },
           settings = {
             init_options = {
               enable = true,
@@ -235,8 +231,6 @@ return {
         },
         templ = {},
         vtsls = {
-          root_dir = require('lspconfig').util.root_pattern { 'package.json', 'tsconfig.json' },
-          single_file_support = false,
           settings = {
             complete_function_calls = true,
             vtsls = {
@@ -324,21 +318,28 @@ return {
           return
         end
 
-        require('lspconfig')[server].setup(server_opts)
+        vim.lsp.config(server, server_opts)
+        local is_enabled = true
+        if server_opts.root_markers then
+          is_enabled = false
+          local cwd = vim.fn.getcwd()
+          for _, marker in ipairs(server_opts.root_markers) do
+            local marker_path = cwd .. '/' .. marker
+            if vim.fn.filereadable(marker_path) == 1 then
+              is_enabled = true
+              break
+            end
+          end
+        end
+        vim.lsp.enable(server, is_enabled)
       end
-
-      local all_mslp_servers = vim.tbl_keys(require('mason-lspconfig.mappings.server').lspconfig_to_package)
 
       local ensure_installed = {} ---@type string[]
       for server, server_opts in pairs(servers) do
-        if server_opts then
-          -- run manual setup if mason=false or if this is a server that cannot be installed with mason-lspconfig
-          if server_opts.mason == false or not vim.tbl_contains(all_mslp_servers, server) then
-            setup(server)
-          else
-            ensure_installed[#ensure_installed + 1] = server
-          end
+        if server_opts and server_opts.mason ~= false then
+          ensure_installed[#ensure_installed + 1] = server
         end
+        setup(server)
       end
 
       vim.list_extend(ensure_installed, {
@@ -362,14 +363,6 @@ return {
       })
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
-
-      ---@module 'mason-lspconfig'
-      ---@type MasonLspconfigSettings
-      require('mason-lspconfig').setup {
-        automatic_installation = false,
-        ensure_installed = {},
-        handlers = { setup },
-      }
     end,
   },
   ---@module 'rustaceanvim'
