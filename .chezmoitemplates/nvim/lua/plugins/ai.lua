@@ -14,8 +14,6 @@ return {
           __inherited_from = 'openai',
           api_key_name = '',
           endpoint = '{{- if eq .chezmoi.os "darwin" -}}127.0.0.1:5001/v1{{- else -}}{{- .MacAddress -}}:5001/v1{{- end -}}',
-          temperature = 0,
-          max_tokens = 32000,
           model = model,
           display_name = name,
         }
@@ -132,7 +130,7 @@ return {
           lualine.setup(config)
         end
       end
-      return { auto_approve = true }
+      return {}
     end,
   },
   {
