@@ -14,6 +14,7 @@ return {
         },
       },
       'WhoIsSethDaniel/mason-tool-installer.nvim',
+      'williamboman/mason-lspconfig.nvim',
       { 'b0o/schemastore.nvim', lazy = true, opts = nil },
       {
         'jmbuhr/otter.nvim',
