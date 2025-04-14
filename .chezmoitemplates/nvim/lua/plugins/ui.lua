@@ -56,6 +56,7 @@ return {
     ---@type wk.Config|{}
     opts = {
       preset = 'helix',
+      delay = 600,
     },
     config = function(_, opts)
       local wk = require 'which-key'
