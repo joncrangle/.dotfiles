@@ -19,6 +19,12 @@ return {
         }
       end
 
+      ---@param num number
+      ---@return number
+      local function tokens(num)
+        return num * 1024
+      end
+
       ---@type avante.Config|{}
       return {
         provider = 'gemini',
@@ -34,9 +40,10 @@ return {
         deepseek = { hide_in_model_selector = true },
         gemini = {
           api_key_name = 'GEMINI_API_KEY',
-          model = 'gemini-2.0-flash',
+          model = 'gemini-2.5-pro-exp-03-25',
           temperature = 0,
-          display_name = 'Gemini 2.0 Flash',
+          max_tokens = tokens(256),
+          display_name = 'Gemini 2.5 Pro',
         },
         openai = { hide_in_model_selector = true },
         ['openai-gpt-4o-mini'] = { hide_in_model_selector = true },
@@ -52,28 +59,32 @@ return {
           ['claude-3.5-sonnet'] = {
             __inherited_from = 'copilot',
             model = 'claude-3.5-sonnet',
+            max_tokens = tokens(64),
             display_name = 'Claude 3.5 Sonnet',
           },
           ['claude-3.7-sonnet'] = {
             __inherited_from = 'copilot',
             model = 'claude-3.7-sonnet',
+            max_tokens = tokens(64),
             display_name = 'Claude 3.7 Sonnet',
           },
           ['claude-3.7-sonnet-thought'] = {
             __inherited_from = 'copilot',
             model = 'claude-3.7-sonnet-thought',
+            max_tokens = tokens(64),
             display_name = 'Claude 3.7 Sonnet Thought',
           },
-          ['o3-mini'] = {
+          ['gpt-4.1'] = {
             __inherited_from = 'copilot',
-            model = 'o3-mini',
-            display_name = 'OpenAI O3 Mini',
+            model = 'gpt-4.1',
+            max_tokens = tokens(256),
+            display_name = 'OpenAI Chat GPT 4.1',
           },
-          ['gemini-2.5-pro'] = {
+          ['gemini-2.0-flash'] = {
             __inherited_from = 'gemini',
-            model = 'gemini-2.5-pro-exp-03-25',
-            temperature = 0,
-            display_name = 'Gemini 2.5 Pro',
+            model = 'gemini-2.0-flash',
+            max_tokens = tokens(64),
+            display_name = 'Gemini 2.0 Flash',
           },
         },
         file_selector = { provider = 'snacks' },
