@@ -105,7 +105,7 @@ return {
         },
         {
           file_pattern = '*.http',
-          cloak_pattern = '(@[%w_]+=).+',
+          cloak_pattern = '(@[%w_]+)%s*=%s*(.+)',
           replace = '%1',
         },
       },
