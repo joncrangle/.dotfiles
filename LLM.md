@@ -1,5 +1,19 @@
 # 📝LLM
 
+## ⌨️ Copilot Models
+
+```http
+@COPILOT_API_KEY = `:Copilot auth info`
+
+###
+
+# Get available models
+GET https://api.githubcopilot.com/models HTTP/1.1
+Authorization: Bearer {{COPILOT_API_KEY}}
+Copilot-Integration-Id: vscode-chat
+Content-Type: application/json
+```
+
 ## 🦙 Ollama
 
 > [!NOTE]
