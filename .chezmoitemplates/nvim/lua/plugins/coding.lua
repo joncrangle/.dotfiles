@@ -66,30 +66,33 @@ return {
     end,
     -- stylua: ignore
     keys = {
-      { '<leader>tm', '<cmd>Markview toggle<cr>',                                    desc = '[T]oggle [M]arkview',    ft = 'markdown' },
       { '<leader>tc', '<cmd>Checkbox toggle<cr>',                                    desc = '[T]oggle [C]heckbox',    ft = 'markdown' },
       { '<<',         function() require('markview.extras.headings').decrease() end, desc = 'Decrease heading level', ft = 'markdown' },
       { '>>',         function() require('markview.extras.headings').increase() end, desc = 'Increase heading level', ft = 'markdown' },
     },
   },
   {
-    'toppair/peek.nvim',
-    ft = 'markdown',
-    build = 'deno task --quiet build:fast',
+    'sylvanfranklin/omni-preview.nvim',
+    cmd = { 'OmniPreview' },
+    dependencies = {
+      { 'chomosuke/typst-preview.nvim', ft = 'typst' },
+      { 'hat0uma/csvview.nvim', ft = 'csv' },
+      { 'toppair/peek.nvim', ft = 'markdown', build = 'deno task --quiet build:fast' },
+      {
+        'barrett-ruth/live-server.nvim',
+        ft = 'html',
+        build = 'pnpm add -g live-server',
+        cmd = { 'LiveServerStart', 'LiveServerStop' },
+        opts = {},
+      },
+    },
     opts = {},
     keys = {
       {
         '<leader>tp',
-        function()
-          local peek = require 'peek'
-          if peek.is_open() then
-            peek.close()
-          else
-            peek.open()
-          end
-        end,
-        desc = '[T]oggle Markdown [P]review',
-        ft = 'markdown',
+        '<cmd>OmniPreview start<cr>',
+        desc = '[T]oggle [P]review',
+        ft = { 'markdown', 'typst', 'csv', 'html' },
       },
     },
   },

@@ -231,6 +231,10 @@ return {
           filetypes_include = {},
         },
         templ = {},
+        tinymist = {
+          formatterMode = 'typstyle',
+          exportPdf = 'never',
+        },
         vtsls = {
           settings = {
             complete_function_calls = true,
@@ -361,6 +365,7 @@ return {
         'shfmt',
         'sqlfluff',
         'stylua',
+        'typstyle',
       })
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }

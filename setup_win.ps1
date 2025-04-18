@@ -479,7 +479,7 @@ $packages = @(
     "eza", "fastfetch", "fd", "ffmpeg", "ghostscript", "glow", "go", "gzip", "imagemagick", "JetBrainsMono-NF",
     "jj", "jq", "just","komorebi", "krita", "lazygit", "lua", "luarocks", "make", "mariadb", "Meslo-NF",
     "mingw", "neovim","nodejs", "obsidian", "podman", "poppler", "pnpm", "postgresql", "python", "ripgrep",
-    "rustup-gnu", "sqlite", "tldr", "topgrade", "tree-sitter", "unar", "unzip", "uv", "vlc", "vcredist2022",
+    "rustup-gnu", "sqlite", "tldr", "topgrade", "tree-sitter", "typst", "unar", "unzip", "uv", "vlc", "vcredist2022",
     "vscode", "wezterm-nightly", "win32yank", "wget", "whkd", "xh", "yazi", "yq", "zebar", "zig", "zoom"
 )
 

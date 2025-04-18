@@ -373,6 +373,7 @@ packages=(
     "ttf-meslo-nerd-font-powerlevel10k"
     "ttf-nerd-fonts-symbols-mono"
     "tumbler"
+    "typst"
     "udiskie"
     "unarchiver"
     "unrar"
