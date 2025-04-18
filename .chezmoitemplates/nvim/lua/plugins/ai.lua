@@ -4,6 +4,10 @@ return {
     'yetone/avante.nvim',
     event = { 'BufReadPost', 'BufWritePost', 'BufNewFile' },
     build = vim.fn.has 'win32' == 0 and 'make' or 'pwsh.exe -NoProfile -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false',
+    init = function()
+      local searxng_url = '{{- .TnasAddress -}}'
+      vim.env.SEARXNG_API_URL = string.gsub(searxng_url, ':.*$', ':8090')
+    end,
     opts = function()
       --- Generate an Avante vendor configuration
       ---@param model string model name
@@ -78,7 +82,13 @@ return {
             __inherited_from = 'copilot',
             model = 'gpt-4.1',
             max_tokens = tokens(256),
-            display_name = 'OpenAI Chat GPT 4.1',
+            display_name = 'OpenAI GPT 4.1',
+          },
+          ['o4-mini'] = {
+            __inherited_from = 'copilot',
+            model = 'o4-mini',
+            max_tokens = tokens(256),
+            display_name = 'OpenAI O4 Mini',
           },
           ['gemini-2.0-flash'] = {
             __inherited_from = 'gemini',
@@ -88,6 +98,7 @@ return {
           },
         },
         file_selector = { provider = 'snacks' },
+        web_search_engine = { provider = 'searxng' },
         windows = { sidebar_header = { rounded = false }, ask = { start_insert = false } },
         system_prompt = function()
           local hub = require('mcphub').get_hub_instance()
