@@ -23,9 +23,9 @@ sudo -v
 
 # Keep-alive: update existing `sudo` time stamp until `.macos` has finished
 while true; do
-	sudo -n true
-	sleep 60
-	kill -0 "$$" || exit
+  sudo -n true
+  sleep 60
+  kill -0 "$$" || exit
 done 2>/dev/null &
 
 ###############################################################################
@@ -377,9 +377,9 @@ chflags nohidden ~/Library && xattr -d com.apple.FinderInfo ~/Library 2>/dev/nul
 # Expand the following File Info panes:
 # “General”, “Open with”, and “Sharing & Permissions”
 defaults write com.apple.finder FXInfoPanesExpanded -dict \
-	General -bool true \
-	OpenWith -bool true \
-	Privileges -bool true
+  General -bool true \
+  OpenWith -bool true \
+  Privileges -bool true
 
 ###############################################################################
 # Dock, Dashboard, and hot corners                                            #
@@ -402,7 +402,7 @@ defaults write com.apple.dock minimize-to-application -bool true
 #  left
 #  bottom
 #  right
-defaults write com.apple.dock "orientation" -string "right"
+defaults write com.apple.dock "orientation" -string "bottom"
 
 # Enable spring loading for all Dock items
 # defaults write com.apple.dock enable-spring-load-actions-on-all-items -bool true
@@ -966,8 +966,8 @@ sudo launchctl disable 'system/com.apple.assistantd'
 launchctl disable "user/$UID/com.apple.Siri.agent"
 launchctl disable "gui/$UID/com.apple.Siri.agent"
 sudo launchctl disable 'system/com.apple.Siri.agent'
-if [ $(/usr/bin/csrutil status | awk '/status/ {print $5}' | sed 's/\.$//') = "enabled" ]; then
-	>&2 echo 'This script requires SIP to be disabled. Read more: \
+if [ "$(/usr/bin/csrutil status | awk '/status/ {print $5}' | sed 's/\.$//')" = "enabled" ]; then
+  >&2 echo 'This script requires SIP to be disabled. Read more: \
     https://developer.apple.com/documentation/security/disabling_and_enabling_system_integrity_protection'
 fi
 
@@ -992,27 +992,27 @@ defaults write com.apple.CrashReporter DialogType none
 ###############################################################################
 
 for app in "Activity Monitor" \
-	"Address Book" \
-	"Calendar" \
-	"cfprefsd" \
-	"Contacts" \
-	"Dock" \
-	"Finder" \
-	"Google Chrome Canary" \
-	"Google Chrome" \
-	"Mail" \
-	"Messages" \
-	"Opera" \
-	"Photos" \
-	"Safari" \
-	"SizeUp" \
-	"Spectacle" \
-	"SystemUIServer" \
-	"Terminal" \
-	"Transmission" \
-	"Tweetbot" \
-	"Twitter" \
-	"iCal"; do
-	killall "${app}" &>/dev/null
+  "Address Book" \
+  "Calendar" \
+  "cfprefsd" \
+  "Contacts" \
+  "Dock" \
+  "Finder" \
+  "Google Chrome Canary" \
+  "Google Chrome" \
+  "Mail" \
+  "Messages" \
+  "Opera" \
+  "Photos" \
+  "Safari" \
+  "SizeUp" \
+  "Spectacle" \
+  "SystemUIServer" \
+  "Terminal" \
+  "Transmission" \
+  "Tweetbot" \
+  "Twitter" \
+  "iCal"; do
+  killall "$app" &>/dev/null
 done
 echo "Done. Note that some of these changes require a logout/restart to take effect."
