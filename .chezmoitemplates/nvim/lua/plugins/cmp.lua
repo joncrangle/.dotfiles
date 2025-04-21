@@ -8,7 +8,7 @@ return {
       'rafamadriz/friendly-snippets',
       'moyiz/blink-emoji.nvim',
       'Kaiser-Yang/blink-cmp-avante',
-      'giuxtaposition/blink-cmp-copilot',
+      'fang2hou/blink-copilot',
     },
     opts_extend = { 'sources.default' },
     ---@type blink.cmp.Config
@@ -53,7 +53,7 @@ return {
         },
         providers = {
           avante = { name = 'Avante', module = 'blink-cmp-avante' },
-          copilot = { name = 'copilot', module = 'blink-cmp-copilot', score_offset = 100, async = true },
+          copilot = { name = 'Copilot', module = 'blink-copilot', score_offset = 100, async = true },
           dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink', score_offset = 3 },
           emoji = { name = 'Emoji', module = 'blink-emoji', score_offset = 3 },
           lazydev = { name = 'LazyDev', module = 'lazydev.integrations.blink', score_offset = 100 },
@@ -61,7 +61,6 @@ return {
       },
       keymap = {
         preset = 'default',
-        ['<C-/>'] = { 'show', 'show_documentation', 'hide_documentation' },
         ['<C-l>'] = { 'snippet_forward', 'fallback' },
         ['<C-h>'] = { 'snippet_backward', 'fallback' },
       },
