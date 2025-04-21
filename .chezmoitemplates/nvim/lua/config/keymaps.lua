@@ -3,9 +3,6 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
--- Switching and closing tab pages
-vim.keymap.set('n', '<S-Tab>', '<cmd>tabprevious<CR>', { desc = 'Previous tab page' })
-vim.keymap.set('n', '<Tab>', '<cmd>tabnext<CR>', { desc = 'Next tab page' })
 vim.keymap.set('n', '<C-q>', '<cmd>tabclose<CR>', { desc = 'Close tab page' })
 
 -- Replace current word
