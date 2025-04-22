@@ -3,7 +3,7 @@
 ## ⌨️ Copilot Models
 
 ```http
-@COPILOT_API_KEY = `:Copilot auth info`
+@COPILOT_API_KEY = api_key
 
 ###
 

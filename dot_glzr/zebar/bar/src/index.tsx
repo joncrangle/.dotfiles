@@ -21,7 +21,7 @@ type IconMapEntry = {
 	iconName: string;
 };
 
-render(() => <App />, document.getElementById("root")!);
+render(() => <App />, document.getElementById("root"));
 
 function App() {
 	const parseTitle = (input: string) => {
@@ -38,14 +38,14 @@ function App() {
 
 	const getBatteryIcon = (batteryOutput: zebar.BatteryOutput) => {
 		if (batteryOutput.chargePercent > 90)
-			return <i class="nf nf-fa-battery_4"></i>;
+			return <i class="nf nf-fa-battery_4" />;
 		if (batteryOutput.chargePercent > 70)
-			return <i class="nf nf-fa-battery_3"></i>;
+			return <i class="nf nf-fa-battery_3" />;
 		if (batteryOutput.chargePercent > 40)
-			return <i class="nf nf-fa-battery_2"></i>;
+			return <i class="nf nf-fa-battery_2" />;
 		if (batteryOutput.chargePercent > 20)
-			return <i class="nf nf-fa-battery_1"></i>;
-		return <i class="nf nf-fa-battery_0"></i>;
+			return <i class="nf nf-fa-battery_1" />;
+		return <i class="nf nf-fa-battery_0" />;
 	};
 
 	const getAppIcon = (title: string, exe: string) => {
@@ -116,7 +116,7 @@ function App() {
 	return (
 		<div class="app">
 			<div class="left">
-				<i class="logo nf nf-fa-windows"></i>
+				<i class="logo nf nf-fa-windows" />
 
 				<Show when={output.komorebi}>
 					<div class="workspaces">
@@ -130,6 +130,7 @@ function App() {
 								);
 								return (
 									<button
+										type="button"
 										class={`workspace ${isFocusedWorkspace() && "focused"}`}
 										onClick={() =>
 											zebar.shellSpawn(
@@ -159,7 +160,7 @@ function App() {
 				<div class="media-container">
 					<Show when={output.media}>
 						<div class="media">
-							<i class="nf nf-fa-music"></i>
+							<i class="nf nf-fa-music" />
 							{output.media?.currentSession.title} -
 							{output.media?.currentSession?.artist}
 						</div>
@@ -169,7 +170,7 @@ function App() {
 				<div class="stats">
 					<Show when={output.memory}>
 						<div class="memory">
-							<i class="nf nf-fae-chip"></i>
+							<i class="nf nf-fae-chip" />
 							{Math.round(output.memory.usage)}%
 						</div>
 					</Show>
@@ -177,7 +178,7 @@ function App() {
 					<Show when={output.cpu}>
 						<div class="cpu">
 							<span class={output.cpu.usage > 85 ? "high-usage" : ""}>
-								<i class="nf nf-oct-cpu"></i>
+								<i class="nf nf-oct-cpu" />
 								{Math.round(output.cpu.usage)}%
 							</span>
 						</div>
@@ -185,7 +186,7 @@ function App() {
 
 					<Show when={output.disk}>
 						<div class="disk">
-							<i class="nf nf-fa-hdd_o"></i>
+							<i class="nf nf-fa-hdd_o" />
 							{Math.round(
 								100 -
 									(output.disk.disks[0].availableSpace.iecValue /
@@ -199,7 +200,7 @@ function App() {
 					<Show when={output.battery}>
 						<div class="battery">
 							{output.battery.isCharging && (
-								<i class="nf nf-md-power_plug charging-icon"></i>
+								<i class="nf nf-md-power_plug charging-icon" />
 							)}
 							{getBatteryIcon(output.battery)}
 							{Math.round(output.battery.chargePercent)}%

@@ -131,6 +131,7 @@ return {
         bashls = {},
         biome = {},
         clangd = {},
+        ['copilot-language-server'] = { mason = false },
         cssls = {},
         denols = {
           root_markers = { 'deno.json', 'deno.jsonc' },

@@ -1,12 +1,12 @@
 {
-	"$schema": "https://raw.githubusercontent.com/LGUG2Z/komorebi/v0.1.35/schema.json",
+	"$schema": "https://raw.githubusercontent.com/LGUG2Z/komorebi/v0.1.36/schema.json",
 	"app_specific_configuration_path": "$Env:KOMOREBI_CONFIG_HOME/applications.json",
 	"window_hiding_behaviour": "Cloak",
 	"cross_monitor_move_behaviour": "Insert",
 	"default_workspace_padding": 6,
 	"default_container_padding": 6,
 	"border": true,
-	"border_width": 2,
+	"border_width": 3,
 	"border_offset": -1,
 	"border_colours": {
 		"single": "#cba6f7",
@@ -14,23 +14,13 @@
 		"monocle": "#eba0ac",
 		"unfocused": "#fab387"
 	},
-	"mouse_follows_focus": false,
-	"stackbar": {
-		"height": 40,
-		"mode": "Never",
-		"tabs": {
-			"width": 300,
-			"focused_text": "#a6e3a1",
-			"unfocused_text": "#6c7086",
-			"background": "#1e1e2e"
-		}
-	},
 	"global_work_area_offset": {
 		"bottom": 15,
 		"left": 0,
 		"right": 0,
 		"top": 15
 	},
+	"mouse_follows_focus": false,
 	"ignore_rules": [
 		{
 			"kind": "Exe",
