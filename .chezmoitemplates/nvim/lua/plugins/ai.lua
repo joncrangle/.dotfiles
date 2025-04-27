@@ -140,6 +140,46 @@ return {
       }
     end,
   },
+  ---@module 'codecompanion'
+  {
+    'olimorris/codecompanion.nvim',
+    enabled = false,
+    init = function()
+      vim.cmd [[cab cc CodeCompanion]]
+    end,
+    opts = {
+      adapters = {
+        copilot = function()
+          return require('codecompanion.adapters').extend('copilot', {
+            schema = {
+              model = {
+                default = 'claude-3.7-sonnet',
+              },
+            },
+          })
+        end,
+      },
+      strategies = {
+        chat = {
+          tools = {
+            ['mcp'] = {
+              callback = function()
+                return require 'mcphub.extensions.codecompanion'
+              end,
+              description = 'Call tools and resources from the MCP Servers',
+            },
+          },
+        },
+      },
+    },
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-treesitter/nvim-treesitter',
+    },
+    keys = {
+      { '<leader>a', '<cmd>CodeCompanionChat Toggle<cr>', desc = 'chat' },
+    },
+  },
   {
     'ravitemer/mcphub.nvim',
     dependencies = {
@@ -158,7 +198,7 @@ return {
           lualine.setup(config)
         end
       end
-      return {}
+      return { auto_approve = true }
     end,
   },
   {
