@@ -204,7 +204,6 @@ return {
             },
           },
         },
-        kulala_ls = { mason = false },
         lua_ls = {
           settings = {
             Lua = {
