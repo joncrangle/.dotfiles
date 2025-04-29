@@ -160,15 +160,13 @@ return {
           })
         end,
       },
-      strategies = {
-        chat = {
-          tools = {
-            ['mcp'] = {
-              callback = function()
-                return require 'mcphub.extensions.codecompanion'
-              end,
-              description = 'Call tools and resources from the MCP Servers',
-            },
+      extensions = {
+        mcphub = {
+          callback = 'mcphub.extensions.codecompanion',
+          opts = {
+            make_vars = true,
+            make_slash_commands = true,
+            show_result_in_chat = true,
           },
         },
       },
