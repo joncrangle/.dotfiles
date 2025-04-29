@@ -2,6 +2,7 @@ return {
   ---@module 'avante'
   {
     'yetone/avante.nvim',
+    enabled = true,
     event = { 'BufReadPost', 'BufWritePost', 'BufNewFile' },
     build = vim.fn.has 'win32' == 0 and 'make' or 'pwsh.exe -NoProfile -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false',
     init = function()
@@ -55,9 +56,9 @@ return {
         vertex = { hide_in_model_selector = true },
         vertex_claude = { hide_in_model_selector = true },
         vendors = {
-          ['qwen-coder-14b'] = generate_vendor('qwen2.5-coder-14b-instruct-mlx', 'Qwen 2.5 Coder 14B Instruct'),
-          ['qwen-coder-7b'] = generate_vendor('qwen2.5-coder-7b-instruct-mlx', 'Qwen 2.5 Coder 7B Instruct'),
-          ['deepseek-r1'] = generate_vendor('deepseek-r1-distill-qwen-14b', 'Deepseek R1 Distill Qwen 14B'),
+          ['qwen3-30b-a3b'] = generate_vendor('qwen3-30b-a3b', 'Qwen 3 30B A3B'),
+          ['qwen3-8b'] = generate_vendor('qwen3-8b-mlx', 'Qwen 3 8B'),
+          ['qwen3-4b'] = generate_vendor('qwen3-4b-mlx', 'Qwen 3 4B'),
           ['gemma-3-12b-it-qat'] = generate_vendor('gemma-3-12b-it-qat', 'Gemma 3 12B'),
           ['gemma-3-4b-it-qat'] = generate_vendor('gemma-3-4b-it-qat', 'Gemma 3 4B'),
           ['claude-3.5-sonnet'] = {

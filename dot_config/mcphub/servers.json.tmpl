@@ -1,43 +1,97 @@
 {
-  "mcpServers": {
-    "time": {
-      "command": "uvx",
-      "args": [
-        "mcp-server-time",
-        "--local-timezone=America/New_York"
-      ]
+  "nativeMCPServers": {
+    "neovim": {
+      "disabled_prompts": [
+        "parrot"
+      ],
+      "disabled_tools": [
+        "execute_lua"
+      ],
+      "disabled": true
     },
+    "mcphub": {
+      "disabled_resources": [
+        "mcphub://docs",
+        "mcphub://native_server_guide",
+        "mcphub://changelog"
+      ],
+      "disabled_prompts": [
+        "create_native_server"
+      ],
+      "disabled": false
+    }
+  },
+  "mcpServers": {
     "memory": {
-      "command": "pnpm",
       "args": [
         "dlx",
         "@modelcontextprotocol/server-memory"
-      ]
-    },
-    "fetch": {
-      "command": "uvx",
-      "args": [
-        "mcp-server-fetch"
-      ]
-    },
-    "sequentialthinking": {
+      ],
       "command": "pnpm",
-      "args": [
-        "dlx",
-        "@modelcontextprotocol/server-sequential-thinking"
-      ]
+      "disabled": true
     },
     "github": {
-      "command": "github-mcp-server",
       "args": [
         "stdio"
       ],
+      "disabled_tools": [
+        "add_issue_comment",
+        "create_branch",
+        "create_issue",
+        "create_or_update_file",
+        "create_pull_request",
+        "create_pull_request_review",
+        "create_repository",
+        "fork_repository",
+        "get_code_scanning_alert",
+        "get_file_contents",
+        "get_issue",
+        "get_issue_comments",
+        "get_me",
+        "get_pull_request",
+        "get_pull_request_comments",
+        "get_pull_request_files",
+        "get_pull_request_reviews",
+        "get_pull_request_status",
+        "list_code_scanning_alerts",
+        "list_commits",
+        "list_issues",
+        "list_pull_requests",
+        "merge_pull_request",
+        "push_files",
+        "search_issues",
+        "search_users",
+        "update_issue",
+        "update_pull_request_branch"
+      ],
+      "disabled": true,
+      "command": "github-mcp-server",
       "env": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "{{- .GithubKey -}}"
       }
+    },
+    "sequentialthinking": {
+      "args": [
+        "dlx",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ],
+      "command": "pnpm",
+      "disabled": true
+    },
+    "time": {
+      "args": [
+        "mcp-server-time",
+        "--local-timezone=America/New_York"
+      ],
+      "command": "uvx",
+      "disabled": true
+    },
+    "fetch": {
+      "args": [
+        "mcp-server-fetch"
+      ],
+      "command": "uvx",
+      "disabled": true
     }
-  },
-  "nativeMCPServers": [
-    
-  ]
+  }
 }
