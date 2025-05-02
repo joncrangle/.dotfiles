@@ -430,6 +430,7 @@ function Invoke-Starship-PreCommand {
 }
 Invoke-Expression (&starship init powershell)
 Invoke-Expression (& { (zoxide init powershell | Out-String) })
+fnm env --use-on-cd --shell powershell | Out-String | Invoke-Expression
 "@
     $profileContent | Out-File -FilePath $PROFILE
 } catch
@@ -476,9 +477,9 @@ Write-Host "Fonts installed successfully."
 Write-Host "Installing Scoop apps..."
 $packages = @(
     "7zip", "bat", "biome", "bruno", "chafa", "charm-gum", "curl", "delta", "deno", "dbeaver", "diffutils",
-    "eza", "fastfetch", "fd", "ffmpeg", "ghostscript", "glow", "go", "gzip", "imagemagick", "JetBrainsMono-NF",
-    "jj", "jq", "just","komorebi", "krita", "lazygit", "lua", "luarocks", "make", "mariadb", "Meslo-NF",
-    "mingw", "neovim","nodejs", "obsidian", "podman", "poppler", "pnpm", "postgresql", "python", "ripgrep",
+    "eza", "fastfetch", "fd", "ffmpeg", "fnm", "ghostscript", "glow", "go", "gzip", "imagemagick",
+    "JetBrainsMono-NF", "jj", "jq", "just","komorebi", "krita", "lazygit", "lua", "luarocks", "make", "mariadb",
+    "Meslo-NF", "mingw", "neovim", "obsidian", "podman", "poppler", "pnpm", "postgresql", "python", "ripgrep",
     "rustup-gnu", "sqlite", "tldr", "topgrade", "tree-sitter", "typst", "unar", "unzip", "uv", "vlc", "vcredist2022",
     "vscode", "wezterm-nightly", "win32yank", "wget", "whkd", "xh", "yazi", "yq", "zebar", "zig", "zoom"
 )
