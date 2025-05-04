@@ -46,6 +46,7 @@ source "$HOMEBREW_DIR/opt/antidote/share/antidote/antidote.zsh"
 eval "$(/opt/homebrew/bin/brew shellenv)"
 {{ end }}
 eval "$(starship init zsh)"
+eval "$(fnm env --use-on-cd --shell zsh)"
 
 zstyle ':fzf-tab:*' default-color ""
 zstyle ':fzf-tab:*' use-fzf-default-opts yes

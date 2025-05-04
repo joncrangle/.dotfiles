@@ -83,10 +83,10 @@ cargo install --locked bacon
 luarocks install busted
 ya pack -i
 ya pack -u
-asdf plugin add nodejs
-asdf install nodejs latest
-asdf global nodejs latest
-asdf local nodejs latest
+eval "$(fnm env)"
+fnm install 22
+fnm install 23
+corepack enable pnpm
 go install github.com/joncrangle/podcasts-sync@latest
 jj config set --user user.name "jonathancrangle"
 jj config set --user user.email "94405204+joncrangle@users.noreply.github.com"

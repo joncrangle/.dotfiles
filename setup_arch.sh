@@ -255,7 +255,6 @@ echo "Fonts installed successfully."
 # Install packages
 packages=(
     "ags-hyprpanel-git"
-    "asdf-vm"
     "audacity"
     "aylurs-gtk-shell-git"
     "bat"
@@ -282,6 +281,7 @@ packages=(
     "feh"
     "ffmpeg"
     "ffmpegthumbnailer"
+    "fnm"
     "fzf"
     "gcc"
     "gimp"
@@ -325,7 +325,6 @@ packages=(
     "nodejs"
     "noto-fonts"
     "noto-fonts-emoji"
-    "npm"
     "nwg-look"
     "obsidian"
     "otf-font-awesome"
@@ -338,7 +337,6 @@ packages=(
     "podman-compose"
     "playerctl"
     "plexamp-appimage"
-    "pnpm"
     "polkit-gnome"
     "poppler"
     "power-profiles-daemon"
@@ -499,16 +497,16 @@ if [[ $(_isInstalledParu "yazi-git") == 0 ]]; then
     ya pack -u
 fi
 
-# Install asdf plugins
-if [[ $(_isInstalledParu "asdf-vm") == 0 ]]; then
-    echo ":: Installing asdf plugins..."
-    asdf plugin add nodejs
-    asdf install nodejs latest
-    asdf global nodejs latest
-    asdf local nodejs latest
+# Install nodejs and pnpm
+if [[ $(_isInstalledParu "fnm") == 0 ]]; then
+    echo ":: Installing node and pnpm..."
+    eval "$(fnm env)"
+    fnm install 22
+    fnm install 23
+    corepack enable pnpm
 fi
 
-# Install asdf plugins
+# Install jujutsu
 if [[ $(_isInstalledParu "jujutsu") == 0 ]]; then
     echo ":: Configuring Jujutsu..."
     jj config set --user user.name "jonathancrangle"
