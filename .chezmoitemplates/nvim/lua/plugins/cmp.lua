@@ -22,6 +22,7 @@ return {
             end,
           },
         },
+        keymap = { preset = 'inherit' },
       },
       completion = {
         accept = { auto_brackets = { enabled = true } },
@@ -49,11 +50,12 @@ return {
         },
       },
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer', 'emoji', 'copilot' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot' },
         per_filetype = {
           AvanteInput = { 'avante' },
-          lua = { 'lsp', 'path', 'snippets', 'buffer', 'lazydev', 'emoji', 'copilot' },
-          sql = { 'snippets', 'dadbod', 'buffer', 'copilot' },
+          lua = { inherits_default = true, 'lazydev' },
+          markdown = { inherits_default = true, 'emoji' },
+          sql = { inherits_default = true, 'dadbod' },
         },
         providers = {
           avante = { name = 'Avante', module = 'blink-cmp-avante' },
