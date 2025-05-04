@@ -1,39 +1,44 @@
 {
   "nativeMCPServers": {
+    "mcphub": {
+      "disabled": false,
+      "disabled_prompts": [
+        "create_native_server"
+      ],
+      "disabled_resources": [
+        "mcphub://docs",
+        "mcphub://native_server_guide",
+        "mcphub://changelog"
+      ]
+    },
     "neovim": {
+      "disabled": true,
       "disabled_prompts": [
         "parrot"
       ],
       "disabled_tools": [
         "execute_lua"
-      ],
-      "disabled": true
-    },
-    "mcphub": {
-      "disabled_resources": [
-        "mcphub://docs",
-        "mcphub://native_server_guide",
-        "mcphub://changelog"
-      ],
-      "disabled_prompts": [
-        "create_native_server"
-      ],
-      "disabled": false
+      ]
     }
   },
   "mcpServers": {
-    "memory": {
+    "sequentialthinking": {
+      "command": "pnpm",
       "args": [
         "dlx",
-        "@modelcontextprotocol/server-memory"
+        "@modelcontextprotocol/server-sequential-thinking"
       ],
-      "command": "pnpm",
       "disabled": true
     },
     "github": {
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "{{- .GithubKey -}}"
+      },
       "args": [
         "stdio"
       ],
+      "command": "github-mcp-server",
+      "disabled": true,
       "disabled_tools": [
         "add_issue_comment",
         "create_branch",
@@ -63,34 +68,37 @@
         "search_users",
         "update_issue",
         "update_pull_request_branch"
-      ],
-      "disabled": true,
-      "command": "github-mcp-server",
-      "env": {
-        "GITHUB_PERSONAL_ACCESS_TOKEN": "{{- .GithubKey -}}"
-      }
+      ]
     },
-    "sequentialthinking": {
+    "fetch": {
+      "command": "uvx",
       "args": [
-        "dlx",
-        "@modelcontextprotocol/server-sequential-thinking"
+        "mcp-server-fetch"
       ],
-      "command": "pnpm",
       "disabled": true
     },
     "time": {
+      "command": "uvx",
       "args": [
         "mcp-server-time",
         "--local-timezone=America/New_York"
       ],
-      "command": "uvx",
       "disabled": true
     },
-    "fetch": {
+    "memory": {
+      "command": "pnpm",
       "args": [
-        "mcp-server-fetch"
+        "dlx",
+        "@modelcontextprotocol/server-memory"
       ],
-      "command": "uvx",
+      "disabled": true
+    },
+    "context7": {
+      "command": "pnpm",
+      "args": [
+        "dlx",
+        "@upstash/context7-mcp@latest"
+      ],
       "disabled": true
     }
   }
