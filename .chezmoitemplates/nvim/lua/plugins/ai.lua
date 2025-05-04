@@ -239,6 +239,7 @@ return {
   },
   {
     'copilotlsp-nvim/copilot-lsp',
+    event = { 'BufReadPre', 'BufNewFile' },
     enabled = true,
     init = function()
       vim.g.copilot_nes_debounce = 500
