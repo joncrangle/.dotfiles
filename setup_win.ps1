@@ -183,11 +183,10 @@ Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory
 `$env:VISUAL = "nvim"
 `$env:STARSHIP_CONFIG = "$HOME\.config\starship\starship.toml"
 `$env:KOMOREBI_CONFIG_HOME = "$HOME\.config\komorebi"
-`$env:COREPACK_ENABLE_AUTO_PIN = "0"
 `$env:GEMINI_API_KEY={{- .GeminiKey }}
 
 # FZF
-`$env:FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git .jj --color=always"
+`$env:FZF_DEFAULT_COMMAND="rg --files --no-ignore-vcs --hidden --follow --glob ""!.git/"" --glob ""!.jj/"""
 `$env:FZF_DEFAULT_OPTS=" `
 --color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 `
 --color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc `
@@ -479,7 +478,7 @@ $packages = @(
     "7zip", "bat", "biome", "bruno", "chafa", "charm-gum", "curl", "delta", "deno", "dbeaver", "diffutils",
     "eza", "fastfetch", "fd", "ffmpeg", "fnm", "ghostscript", "glow", "go", "gzip", "imagemagick",
     "JetBrainsMono-NF", "jj", "jq", "just","komorebi", "krita", "lazygit", "lua", "luarocks", "make", "mariadb",
-    "Meslo-NF", "mingw", "neovim", "obsidian", "podman", "poppler", "pnpm", "postgresql", "python", "ripgrep",
+    "Meslo-NF", "mingw", "neovim", "obsidian", "podman", "poppler", "postgresql", "python", "ripgrep",
     "rustup-gnu", "sqlite", "tldr", "topgrade", "tree-sitter", "typst", "unar", "unzip", "uv", "vlc", "vcredist2022",
     "vscode", "wezterm-nightly", "win32yank", "wget", "whkd", "xh", "yazi", "yq", "zebar", "zig", "zoom"
 )
@@ -502,6 +501,9 @@ rustup component add rust-analyzer
 cargo install cargo-update
 cargo install cargo-cache
 cargo install --locked bacon
+fnm install 22
+fnm install 23
+corepack enable pnpm
 go install github.com/jorgerojas26/lazysql@latest
 komorebic fetch-asc
 jj config set --user user.name "jonathancrangle"
