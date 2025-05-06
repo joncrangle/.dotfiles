@@ -53,9 +53,9 @@ return {
         default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot' },
         per_filetype = {
           AvanteInput = { 'avante' },
-          lua = { inherits_default = true, 'lazydev' },
-          markdown = { inherits_default = true, 'emoji' },
-          sql = { inherits_default = true, 'dadbod' },
+          lua = { inherit_defaults = true, 'lazydev' },
+          markdown = { inherit_defaults = true, 'emoji' },
+          sql = { inherit_defaults = true, 'dadbod' },
         },
         providers = {
           avante = { name = 'Avante', module = 'blink-cmp-avante' },

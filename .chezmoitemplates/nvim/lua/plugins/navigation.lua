@@ -93,16 +93,6 @@ return {
   {
     'stevearc/oil.nvim',
     cmd = 'Oil',
-    init = function()
-      vim.api.nvim_create_autocmd('User', {
-        pattern = 'OilActionsPost',
-        callback = function(event)
-          if event.data.actions[1].type == 'move' then
-            Snacks.rename.on_rename_file(event.data.actions[1].src_url, event.data.actions[1].dest_url)
-          end
-        end,
-      })
-    end,
     ---@type oil.Config|{}
     opts = {
       default_file_explorer = false,
@@ -113,6 +103,8 @@ return {
       },
       ---@type oil.FloatWindowConfig|{}
       float = { max_width = 0.85, max_height = 0.85 },
+      ---@type oil.LspFileMethods|{}
+      lsp_file_methods = { autosave_changes = 'unmodified' },
       skip_confirm_for_simple_edits = true,
       ---@type oil.ViewOptions|{}
       view_options = {
