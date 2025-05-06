@@ -4,7 +4,7 @@ return {
     event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
       {
-        'williamboman/mason.nvim',
+        'mason-org/mason.nvim',
         cmd = 'Mason',
         opts = {
           registries = {
@@ -14,7 +14,7 @@ return {
         },
       },
       'WhoIsSethDaniel/mason-tool-installer.nvim',
-      'williamboman/mason-lspconfig.nvim',
+      'mason-org/mason-lspconfig.nvim',
       { 'b0o/schemastore.nvim', lazy = true, opts = nil },
       {
         'jmbuhr/otter.nvim',
