@@ -14,7 +14,7 @@ return {
         },
       },
       'WhoIsSethDaniel/mason-tool-installer.nvim',
-      'mason-org/mason-lspconfig.nvim',
+      { 'mason-org/mason-lspconfig.nvim', opts = {} },
       { 'b0o/schemastore.nvim', lazy = true, opts = nil },
       {
         'jmbuhr/otter.nvim',
@@ -326,12 +326,11 @@ return {
         vim.lsp.config(server, server_opts)
         local is_enabled = true
         if server_opts.root_markers then
-          is_enabled = false
           local cwd = vim.fn.getcwd()
           for _, marker in ipairs(server_opts.root_markers) do
             local marker_path = cwd .. '/' .. marker
-            if vim.fn.filereadable(marker_path) == 1 then
-              is_enabled = true
+            if vim.fn.filereadable(marker_path) ~= 1 then
+              is_enabled = false
               break
             end
           end
