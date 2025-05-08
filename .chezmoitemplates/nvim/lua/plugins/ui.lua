@@ -283,7 +283,21 @@ return {
         },
         sections = {
           lualine_a = { 'mode' },
-          lualine_b = { 'branch' },
+          lualine_b = {
+            {
+              'macro',
+              fmt = function()
+                local reg = vim.fn.reg_recording()
+                if reg ~= '' then
+                  return 'Recording @' .. reg
+                end
+                return nil
+              end,
+              color = { fg = '#fab387' },
+              draw_empty = false,
+            },
+            'branch',
+          },
           lualine_c = {
             { 'diagnostics' },
             { 'filetype', icon_only = true, separator = '', padding = { left = 1, right = 0 } },
