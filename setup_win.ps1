@@ -183,6 +183,7 @@ Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory
 `$env:VISUAL = "nvim"
 `$env:STARSHIP_CONFIG = "$HOME\.config\starship\starship.toml"
 `$env:KOMOREBI_CONFIG_HOME = "$HOME\.config\komorebi"
+`$env:COREPACK_ENABLE_AUTO_PIN = "0"
 `$env:GEMINI_API_KEY={{- .GeminiKey }}
 
 # FZF
