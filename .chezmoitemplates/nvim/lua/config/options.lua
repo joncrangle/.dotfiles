@@ -1,12 +1,12 @@
-vim.opt.number = true
-vim.opt.relativenumber = true
-vim.opt.mouse = 'a'
+vim.o.number = true
+vim.o.relativenumber = true
+vim.o.mouse = 'a'
 vim.g.loaded_matchit = 1
-vim.opt.showmode = false
-vim.opt.termguicolors = true
-vim.opt.laststatus = 3 -- Global statusline
-vim.opt.wrap = false -- Don't wrap lines
-vim.opt.virtualedit = 'block' -- Enable virtual edit in block mode
+vim.o.showmode = false
+vim.o.termguicolors = true
+vim.o.laststatus = 3 -- Global statusline
+vim.o.wrap = false -- Don't wrap lines
+vim.o.virtualedit = 'block' -- Enable virtual edit in block mode
 
 -- Sync clipboard between OS and Neovim.
 -- Function to set OSC 52 clipboard
@@ -56,20 +56,20 @@ vim.schedule(function()
   end
 end)
 
-vim.opt.undofile = true
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
-vim.opt.signcolumn = 'yes'
-vim.opt.updatetime = 250
+vim.o.undofile = true
+vim.o.ignorecase = true
+vim.o.smartcase = true
+vim.o.signcolumn = 'yes'
+vim.o.updatetime = 250
 
 -- Decrease mapped sequence wait time
 -- Displays which-key popup sooner
-vim.opt.timeoutlen = 300
+vim.o.timeoutlen = 300
 
-vim.opt.splitright = true
-vim.opt.splitbelow = true
+vim.o.splitright = true
+vim.o.splitbelow = true
 
-vim.opt.list = true
+vim.o.list = true
 vim.opt.fillchars = {
   foldopen = '',
   foldclose = '',
@@ -78,11 +78,11 @@ vim.opt.fillchars = {
   diff = '╱',
   eob = ' ',
 }
-vim.opt.foldlevel = 99
-vim.opt.foldtext = ''
-vim.opt.foldmethod = 'expr'
+vim.o.foldlevel = 99
+vim.o.foldtext = ''
+vim.o.foldmethod = 'expr'
 -- Default to treesitter folding
-vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 -- Prefer LSP folding if client supports it
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
@@ -95,23 +95,23 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 -- Preview substitutions live while typing
-vim.opt.inccommand = 'split'
+vim.o.inccommand = 'split'
 
-vim.opt.cursorline = true
-vim.opt.scrolloff = 10
-vim.opt.smoothscroll = true
+vim.o.cursorline = true
+vim.o.scrolloff = 10
+vim.o.smoothscroll = true
 
 -- Tab spacing
-vim.opt.tabstop = 2
-vim.opt.shiftwidth = 2
-vim.opt.shiftround = true
-vim.opt.expandtab = true
-vim.opt.smartindent = true
+vim.o.tabstop = 2
+vim.o.shiftwidth = 2
+vim.o.shiftround = true
+vim.o.expandtab = true
+vim.o.smartindent = true
 
 -- Don't highlight search results, but highlight incremental search
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
-vim.opt.incsearch = true
+vim.o.incsearch = true
 
 -- Set diagnostic configuration
 vim.diagnostic.config {
