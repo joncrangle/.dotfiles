@@ -3,43 +3,10 @@ return {
     'neovim/nvim-lspconfig',
     event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
-      {
-        'mason-org/mason.nvim',
-        cmd = 'Mason',
-        opts = {
-          registries = {
-            'github:mason-org/mason-registry',
-            'github:mistweaverco/zana-registry',
-          },
-        },
-      },
-      'WhoIsSethDaniel/mason-tool-installer.nvim',
+      { 'mason-org/mason.nvim', cmd = 'Mason', opts = {} },
       { 'mason-org/mason-lspconfig.nvim', opts = {} },
+      'WhoIsSethDaniel/mason-tool-installer.nvim',
       { 'b0o/schemastore.nvim', lazy = true, opts = nil },
-      {
-        'jmbuhr/otter.nvim',
-        ft = 'markdown',
-        opts = {},
-        keys = function()
-          vim.api.nvim_create_user_command('OtterToggle', function()
-            local otter = require 'otter'
-            if not vim.g.enable_otter then
-              vim.g.enable_otter = true
-              otter.activate()
-              vim.notify('Otter enabled', vim.log.levels.INFO)
-            else
-              vim.g.enable_otter = false
-              otter.deactivate()
-              vim.notify('Otter disabled', vim.log.levels.INFO)
-            end
-          end, {
-            desc = 'Toggle Otter',
-          })
-          return {
-            { '<leader>to', '<cmd>OtterToggle<cr>', desc = '[T]oggle [O]tter' },
-          }
-        end,
-      },
     },
     config = function()
       vim.api.nvim_create_autocmd('LspAttach', {
@@ -131,7 +98,7 @@ return {
         bashls = {},
         biome = {},
         clangd = {},
-        ['copilot-language-server'] = { mason = false },
+        ['copilot-language-server'] = {},
         cssls = {},
         denols = {
           root_markers = { 'deno.json', 'deno.jsonc' },
@@ -312,40 +279,7 @@ return {
         zls = {},
       }
 
-      local has_blink, blink = pcall(require, 'blink.cmp')
-      local capabilities = vim.tbl_deep_extend('force', {}, vim.lsp.protocol.make_client_capabilities(), has_blink and blink.get_lsp_capabilities() or {})
-
-      local function setup(server)
-        local server_opts = vim.tbl_deep_extend('force', {
-          capabilities = vim.deepcopy(capabilities),
-        }, servers[server] or {})
-        if server_opts.enabled == false then
-          return
-        end
-
-        vim.lsp.config(server, server_opts)
-        local is_enabled = true
-        if server_opts.root_markers then
-          local cwd = vim.fn.getcwd()
-          for _, marker in ipairs(server_opts.root_markers) do
-            local marker_path = cwd .. '/' .. marker
-            if vim.fn.filereadable(marker_path) ~= 1 then
-              is_enabled = false
-              break
-            end
-          end
-        end
-        vim.lsp.enable(server, is_enabled)
-      end
-
-      local ensure_installed = {} ---@type string[]
-      for server, server_opts in pairs(servers) do
-        if server_opts and server_opts.mason ~= false then
-          ensure_installed[#ensure_installed + 1] = server
-        end
-        setup(server)
-      end
-
+      local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'codelldb',
         'delve',
@@ -366,8 +300,30 @@ return {
         'stylua',
         'typstyle',
       })
-
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+
+      -- Check if the server should be enabled based on custom root markers
+      local function is_enabled(server_opts)
+        if not server_opts.root_markers or #server_opts.root_markers == 0 then
+          return true
+        end
+
+        local cwd = vim.fn.getcwd()
+        for _, marker in ipairs(server_opts.root_markers) do
+          if vim.fn.filereadable(cwd .. '/' .. marker) == 1 then
+            return true
+          end
+        end
+
+        return false
+      end
+
+      for server, server_opts in pairs(servers) do
+        vim.lsp.config(server, server_opts)
+        if is_enabled(server_opts) == false then
+          vim.lsp.enable(server, false)
+        end
+      end
     end,
   },
   ---@module 'rustaceanvim'
@@ -445,6 +401,30 @@ return {
       vim.cmd([[highlight PackageInfoUpToDateVersion guifg=]] .. opts.colors.up_to_date)
       vim.cmd([[highlight PackageInfoOutdatedVersion guifg=]] .. opts.colors.outdated)
       vim.cmd([[highlight PackageInfoInErrorVersion guifg=]] .. opts.colors.invalid)
+    end,
+  },
+  {
+    'jmbuhr/otter.nvim',
+    ft = 'markdown',
+    opts = {},
+    keys = function()
+      vim.api.nvim_create_user_command('OtterToggle', function()
+        local otter = require 'otter'
+        if not vim.g.enable_otter then
+          vim.g.enable_otter = true
+          otter.activate()
+          vim.notify('Otter enabled', vim.log.levels.INFO)
+        else
+          vim.g.enable_otter = false
+          otter.deactivate()
+          vim.notify('Otter disabled', vim.log.levels.INFO)
+        end
+      end, {
+        desc = 'Toggle Otter',
+      })
+      return {
+        { '<leader>to', '<cmd>OtterToggle<cr>', desc = '[T]oggle [O]tter' },
+      }
     end,
   },
 }
