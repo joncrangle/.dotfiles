@@ -32,8 +32,7 @@ return {
 
       ---@type avante.Config|{}
       return {
-        provider = 'gemini',
-        behaviour = { enable_cursor_planning_mode = true },
+        provider = 'copilot',
         aihubmix = { hide_in_model_selector = true },
         ['aihubmix-claude'] = { hide_in_model_selector = true },
         bedrock = { hide_in_model_selector = true },
@@ -42,14 +41,18 @@ return {
         ['claude-haiku'] = { hide_in_model_selector = true },
         ['claude-opus'] = { hide_in_model_selector = true },
         cohere = { hide_in_model_selector = true },
-        copilot = { display_name = 'OpenAI GPT 4o' },
+        copilot = {
+          model = 'gpt-4.1',
+          temperature = 0.2,
+          max_tokens = tokens(256),
+          display_name = 'OpenAI GPT 4.1',
+        },
         deepseek = { hide_in_model_selector = true },
         gemini = {
-          api_key_name = 'GEMINI_API_KEY',
-          model = 'gemini-2.5-pro-exp-03-25',
-          temperature = 0.7,
+          model = 'gemini-2.5-flash-preview-04-17',
+          temperature = 0,
           max_tokens = tokens(256),
-          display_name = 'Gemini 2.5 Pro',
+          display_name = 'Gemini 2.5 Flash Preview',
         },
         openai = { hide_in_model_selector = true },
         ['openai-gpt-4o-mini'] = { hide_in_model_selector = true },
@@ -82,13 +85,6 @@ return {
             max_tokens = tokens(64),
             display_name = 'Claude 3.7 Sonnet Thought',
           },
-          ['gpt-4.1'] = {
-            __inherited_from = 'copilot',
-            model = 'gpt-4.1',
-            temperature = 0.2,
-            max_tokens = tokens(256),
-            display_name = 'OpenAI GPT 4.1',
-          },
           ['o4-mini'] = {
             __inherited_from = 'copilot',
             model = 'o4-mini',
@@ -96,12 +92,12 @@ return {
             max_tokens = tokens(256),
             display_name = 'OpenAI O4 Mini',
           },
-          ['gemini-2.0-flash'] = {
+          ['gemini-2.5-pro-preview'] = {
             __inherited_from = 'gemini',
-            model = 'gemini-2.5-flash-preview-04-17',
-            temperature = 0,
+            model = 'gemini-2.5-pro-preview-05-06',
+            temperature = 0.7,
             max_tokens = tokens(256),
-            display_name = 'Gemini 2.5 Flash Preview',
+            display_name = 'Gemini 2.5 Pro Preview',
           },
         },
         file_selector = { provider = 'snacks' },
@@ -141,44 +137,6 @@ return {
       }
     end,
   },
-  ---@module 'codecompanion'
-  {
-    'olimorris/codecompanion.nvim',
-    enabled = false,
-    init = function()
-      vim.cmd [[cab cc CodeCompanion]]
-    end,
-    opts = {
-      adapters = {
-        copilot = function()
-          return require('codecompanion.adapters').extend('copilot', {
-            schema = {
-              model = {
-                default = 'claude-3.7-sonnet',
-              },
-            },
-          })
-        end,
-      },
-      extensions = {
-        mcphub = {
-          callback = 'mcphub.extensions.codecompanion',
-          opts = {
-            make_vars = true,
-            make_slash_commands = true,
-            show_result_in_chat = true,
-          },
-        },
-      },
-    },
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'nvim-treesitter/nvim-treesitter',
-    },
-    keys = {
-      { '<leader>a', '<cmd>CodeCompanionChat Toggle<cr>', desc = 'chat' },
-    },
-  },
   {
     'ravitemer/mcphub.nvim',
     dependencies = {
@@ -199,43 +157,6 @@ return {
       end
       return { auto_approve = true }
     end,
-  },
-  {
-    'milanglacier/minuet-ai.nvim',
-    enabled = false,
-    event = 'BufReadPre',
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    opts = {
-      provider = 'gemini',
-      provider_options = {
-        gemini = {
-          model = 'gemini-2.0-flash',
-          optional = {
-            generationConfig = {
-              maxOutputTokens = 256,
-            },
-            safetySettings = {
-              {
-                category = 'HARM_CATEGORY_DANGEROUS_CONTENT',
-                threshold = 'BLOCK_NONE',
-              },
-              {
-                category = 'HARM_CATEGORY_HATE_SPEECH',
-                threshold = 'BLOCK_NONE',
-              },
-              {
-                category = 'HARM_CATEGORY_HARASSMENT',
-                threshold = 'BLOCK_NONE',
-              },
-              {
-                category = 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
-                threshold = 'BLOCK_NONE',
-              },
-            },
-          },
-        },
-      },
-    },
   },
   {
     'copilotlsp-nvim/copilot-lsp',
