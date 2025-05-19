@@ -14,6 +14,7 @@ return {
         dadbod_ui = true,
         grug_far = true,
         lsp_trouble = true,
+        markview = true,
         mason = true,
         mini = { enabled = true },
         neotest = true,
