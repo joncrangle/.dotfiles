@@ -19,7 +19,7 @@ return {
         mini = { enabled = true },
         neotest = true,
         noice = true,
-        snacks = true,
+        snacks = { enabled = true, indent_scope_color = 'lavender' },
         which_key = true,
       },
       native_lsp = {
@@ -38,7 +38,6 @@ return {
             CursorLineNr = { fg = mocha.yellow },
             LineNrAbove = { fg = mocha.overlay1 },
             LineNrBelow = { fg = mocha.overlay1 },
-            SnacksIndentScope = { fg = mocha.lavender },
           }
         end,
       },
