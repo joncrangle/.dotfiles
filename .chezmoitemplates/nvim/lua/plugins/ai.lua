@@ -10,24 +10,25 @@ return {
       vim.env.SEARXNG_API_URL = string.gsub(searxng_url, ':.*$', ':8090')
     end,
     opts = function()
-      --- Generate an Avante vendor configuration
-      ---@param model string model name
-      ---@param name? string display name
-      ---@return AvanteProvider
-      local function generate_vendor(model, name)
-        return {
-          __inherited_from = 'openai',
-          api_key_name = '',
-          endpoint = '{{- if eq .chezmoi.os "darwin" -}}127.0.0.1:5001/v1{{- else -}}{{- .MacAddress -}}:5001/v1{{- end -}}',
-          model = model,
-          display_name = name,
-        }
-      end
-
       ---@param num number
       ---@return number
       local function tokens(num)
         return num * 1024
+      end
+
+      --- Generate an Avante vendor configuration
+      ---@param opts { model: string, name?: string, temperature?: number, max_tokens?: number }
+      ---@return AvanteProvider
+      local function generate_vendor(opts)
+        return {
+          __inherited_from = 'openai',
+          api_key_name = '',
+          endpoint = '{{- if eq .chezmoi.os "darwin" -}}127.0.0.1:5001/v1{{- else -}}{{- .MacAddress -}}:5001/v1{{- end -}}',
+          model = opts.model,
+          display_name = opts.name,
+          temperature = opts.temperature or 0,
+          max_tokens = opts.max_tokens or tokens(32),
+        }
       end
 
       ---@type avante.Config|{}
@@ -59,11 +60,10 @@ return {
         vertex = { hide_in_model_selector = true },
         vertex_claude = { hide_in_model_selector = true },
         vendors = {
-          ['qwen3-30b-a3b'] = generate_vendor('qwen3-30b-a3b', 'Qwen 3 30B A3B'),
-          ['qwen3-8b'] = generate_vendor('qwen3-8b-mlx', 'Qwen 3 8B'),
-          ['qwen3-4b'] = generate_vendor('qwen3-4b-mlx', 'Qwen 3 4B'),
-          ['gemma-3-12b-it-qat'] = generate_vendor('gemma-3-12b-it-qat', 'Gemma 3 12B'),
-          ['gemma-3-4b-it-qat'] = generate_vendor('gemma-3-4b-it-qat', 'Gemma 3 4B'),
+          ['qwen3-8b'] = generate_vendor { model = 'qwen3-8b-mlx', name = 'Qwen 3 8B', temperature = 0.7 },
+          ['qwen3-4b'] = generate_vendor { model = 'qwen3-4b-mlx', name = 'Qwen 3 4B', temperature = 0.7 },
+          ['gemma-3-12b-it-qat'] = generate_vendor { model = 'gemma-3-12b-it-qat', name = 'Gemma 3 12B', temperature = 1 },
+          ['gemma-3-4b-it-qat'] = generate_vendor { model = 'gemma-3-4b-it-qat', name = 'Gemma 3 4B', temperature = 1 },
           ['claude-3.5-sonnet'] = {
             __inherited_from = 'copilot',
             model = 'claude-3.5-sonnet',
