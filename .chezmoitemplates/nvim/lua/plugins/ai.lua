@@ -50,7 +50,7 @@ return {
         },
         deepseek = { hide_in_model_selector = true },
         gemini = {
-          model = 'gemini-2.5-flash-preview-04-17',
+          model = 'gemini-2.5-flash-preview-05-20',
           temperature = 0,
           max_tokens = tokens(256),
           display_name = 'Gemini 2.5 Flash Preview',
