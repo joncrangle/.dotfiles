@@ -23,6 +23,35 @@ type IconMapEntry = {
 
 render(() => <App />, document.getElementById("root"));
 
+function WorkspaceList(props: {
+	workspaces: { name: string }[];
+	focusedWorkspaceName?: string;
+	currentMonitorName?: string;
+	focusedMonitorName?: string;
+	onWorkspaceClick: (index: number) => void;
+}) {
+	return (
+		<div class="workspaces">
+			<For each={props.workspaces}>
+				{(workspace, index) => {
+					const isFocused = () =>
+						workspace.name === props.focusedWorkspaceName &&
+						props.currentMonitorName === props.focusedMonitorName;
+					return (
+						<button
+							type="button"
+							class={`workspace ${isFocused() && "focused"}`}
+							onClick={() => props.onWorkspaceClick(index())}
+						>
+							{workspace.name}
+						</button>
+					);
+				}}
+			</For>
+		</div>
+	);
+}
+
 function App() {
 	const parseTitle = (input: string) => {
 		// Regular expression to match strings with a file path to an executable
@@ -118,37 +147,34 @@ function App() {
 			<div class="left">
 				<i class="logo nf nf-fa-windows" />
 
-				<Show when={output.komorebi}>
-					<div class="workspaces">
-						<For each={output.komorebi.currentWorkspaces}>
-							{(workspace, index) => {
-								const isFocusedWorkspace = createMemo(
-									() =>
-										workspace.name === output.komorebi.focusedWorkspace.name &&
-										output.komorebi.currentMonitor.name ===
-											output.komorebi.focusedMonitor.name,
-								);
-								return (
-									<button
-										type="button"
-										class={`workspace ${isFocusedWorkspace() && "focused"}`}
-										onClick={() =>
-											zebar.shellSpawn(
-												"komorebic",
-												`focus-workspace ${index().toString()}`,
-											)
-										}
-									>
-										{workspace.name}
-									</button>
-								);
-							}}
-						</For>
-					</div>
-					<div class="focused-window">
-						<span class="sketchy-icon">{windowIcon()}</span>
-						<span>{windowTitle()}</span>
-					</div>
+				<Show
+					when={output.komorebi}
+					fallback={
+						<WorkspaceList
+							workspaces={[
+								{ name: "1" },
+								{ name: "2" },
+								{ name: "3" },
+								{ name: "4" },
+								{ name: "5" },
+							]}
+							currentMonitorName="main"
+							focusedMonitorName="main"
+							onWorkspaceClick={(idx) =>
+								zebar.shellSpawn("komorebic", `focus-workspace ${idx}`)
+							}
+						/>
+					}
+				>
+					<WorkspaceList
+						workspaces={output.komorebi.currentWorkspaces ?? []}
+						focusedWorkspaceName={output.komorebi?.focusedWorkspace?.name}
+						currentMonitorName={output.komorebi?.currentMonitor?.name}
+						focusedMonitorName={output.komorebi?.focusedMonitor?.name}
+						onWorkspaceClick={(idx) =>
+							zebar.shellSpawn("komorebic", `focus-workspace ${idx}`)
+						}
+					/>
 				</Show>
 			</div>
 

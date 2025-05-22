@@ -8,7 +8,7 @@
 		"dev": "vite build --watch"
 	},
 	"dependencies": {
-		"solid-js": "^1.9.6",
+		"solid-js": "^1.9.7",
 		"zebar": "^2.7.0"
 	},
 	"devDependencies": {
