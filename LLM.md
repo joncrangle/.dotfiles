@@ -1,5 +1,61 @@
 # 📝LLM
 
+## 🪛 MLX Omni Server
+
+[MLX Omni Server](https://github.com/madroidmaq/mlx-omni-server)
+
+```sh
+# install
+uv tool install --python=python3.12 mlx-omni-server@latest
+# upgrade
+uv tool upgrade --all
+# start on default port 10240
+mlx-omni-server
+```
+
+Current models:
+- Text - mlx-community/Qwen3-4B-4bit, mlx-community/Qwen3-8B-4bit-DWQ, mlx-community/gemme-3-4b-it-4bit-DWQ, mlx-community/gemma-3-12b-it-4bit-DWQ
+- TTS - mlx-community/Dia-1.6B-4bit
+- STT - mlx-community/whisper-large-v3-turbo
+- Image - dhairyashil/FLUX.1-schnell-mflux-4bit
+- Embeddings - mlx-community/all-MiniLM-L6-v2-4bit
+
+## 💬 Open WebUI
+
+[Open WebUI](https://openwebui.com/) and [MCPO](https://github.com/open-webui/mcpo) can be hosted as docker containers.
+
+> [!TIP]
+> Each tool needs to be added individually at a different route.
+
+`servers.json`
+
+```json
+{
+	"mcpServers": {
+		"time": {
+			"args": ["mcp-server-time", "--local-timezone=America/New_York"],
+			"command": "uvx"
+		},
+		"context7": {
+			"args": ["-y", "@upstash/context7-mcp@latest"],
+			"command": "npx"
+		},
+		"memory": {
+			"args": ["-y", "@modelcontextprotocol/server-memory"],
+			"command": "npx"
+		},
+		"fetch": {
+			"args": ["mcp-server-fetch"],
+			"command": "uvx"
+		},
+		"sequentialthinking": {
+			"args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
+			"command": "npx"
+		}
+	}
+}
+```
+
 ## ⌨️ Copilot Models
 
 ```http
@@ -14,31 +70,18 @@ Copilot-Integration-Id: vscode-chat
 Content-Type: application/json
 ```
 
-## 🦙 Ollama
+## 📁 Archive
 
-> [!NOTE]
-To expose on local network, edit: `~/Library/LaunchAgents/homebrew.mxcl.ollama.plist` by adding the following:
+### 💻 LM-Studio
 
-```xml
-<key>EnvironmentVariables</key>
-<dict>
-<key>OLLAMA_HOST</key>
-<string>0.0.0.0</string>
-</dict>
-```
-
-[Ollama](https://github.com/ollama/ollama) can be started as a service by running `brew services start ollama`.
-
-## 💻 LM-Studio
-
-[LM-Studio](https://lmstudio.ai/) should be configured to start a server on port `5001`.
+[LM-Studio](https://lmstudio.ai/) can be configured to start a server as a service.
 
 ## 🖼️Comfy UI
 
 **Image Generation**
 
 - Current LLM: [argmaxinc/mlx-FLUX.1-schnell-4bit-quantized](https://huggingface.co/argmaxinc/mlx-FLUX.1-schnell-4bit-quantized)
-- Othr: [Dreamshaper XL 2.1 Turbo](https://civitai.com/models/112902/dreamshaper-xl)
+- Other: [Dreamshaper XL 2.1 Turbo](https://civitai.com/models/112902/dreamshaper-xl)
   - LORAs: [Detailed Style XL](https://civitai.com/models/421162/detailed-style-xl-hand-focus-all-in-one-detailed-perfection-style-extension?modelVersionId=469308) and [Detailed Perfection Style XL](https://civitai.com/models/411088/detailed-perfection-style-xl-hands-feet-face-body-all-in-one?modelVersionId=458257)
   - Negative embeddings: [BadDream + UnrealisticDream](https://civitai.com/models/72437?modelVersionId=77173) and [FastNegativeV2](https://civitai.com/models/71961/fast-negative-embedding)
   - Upscaler: RealESRGAN x2
@@ -56,38 +99,20 @@ Install [ComfyUI](https://github.com/comfyanonymous/ComfyUI) and [ComfyUI-Manage
 - ComfyUI MLX Nodes
 - ComfyUI Easy Use
 
-## 💬 OpenWebUI
+### 🦙 Ollama
 
-[OpenWebUI](https://openwebui.com/) can be hosted as a docker container:
+> [!NOTE]
+To expose on local network, edit: `~/Library/LaunchAgents/homebrew.mxcl.ollama.plist` by adding the following:
 
-```dockerfile
-  open-webui:
-    image: ghcr.io/open-webui/open-webui:main
-    container_name: open-webui
-    volumes:
-      - open-webui:/app/backend/data
-    ports:
-      - 11434:8080
-    environment:
-      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL} # http://IP:11434
-      - ENABLE_IMAGE_GENERATION=True
-      - IMAGE_GENERATION_ENGINE=comfyui
-      - COMFYUI_BASE_URL=${COMFYUI_BASE_URL} # http://IP:8188/
-      - IMAGE_SIZE=1024x768
-    restart: always
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.open-webui.rule=Host(`open-webui.${HOST_NAME}`)
-      - traefik.http.routers.open-webui.tls=true
-      - traefik.http.routers.open-webui.tls.certresolver=myresolver
-      - traefik.http.services.open-webui.loadbalancer.server.port=8080
-      - homepage.group=Utilities
-      - homepage.name=Open WebUI
-      - homepage.icon=open-webui.png
-      - homepage.href=https://open-webui.${HOST_NAME}
-      - homepage.description=Open WebUI
-      - homepage.weight=1
+```xml
+<key>EnvironmentVariables</key>
+<dict>
+<key>OLLAMA_HOST</key>
+<string>0.0.0.0</string>
+</dict>
 ```
+
+[Ollama](https://github.com/ollama/ollama) can be started as a service by running `brew services start ollama`.
 
 > [!TIP]
 > Generate Ollama Modelfiles for the LLMs with the following format to use multiple GPU threads:
