@@ -17,17 +17,21 @@ return {
       end
 
       --- Generate an Avante vendor configuration
-      ---@param opts { model: string, name?: string, temperature?: number, max_tokens?: number }
+      ---@param opts { model: string, name: string, temperature?: number, max_tokens?: number, port?: number, min_p?: number, top_p?: number, top_k?: number }
       ---@return AvanteProvider
       local function generate_vendor(opts)
+        local port = opts.port or 5001
         return {
           __inherited_from = 'openai',
           api_key_name = '',
-          endpoint = '{{- if eq .chezmoi.os "darwin" -}}127.0.0.1:5001/v1{{- else -}}{{- .MacAddress -}}:5001/v1{{- end -}}',
+          endpoint = string.format('{{- if eq .chezmoi.os "darwin" -}}127.0.0.1{{- else -}}{{- .MacAddress -}}{{- end -}}:%d/v1', port),
           model = opts.model,
           display_name = opts.name,
           temperature = opts.temperature or 0,
           max_tokens = opts.max_tokens or tokens(32),
+          min_p = opts.min_p or 0,
+          top_p = opts.top_p or 0.95,
+          top_k = opts.top_k or -1,
         }
       end
 
@@ -60,8 +64,8 @@ return {
         vertex = { hide_in_model_selector = true },
         vertex_claude = { hide_in_model_selector = true },
         vendors = {
-          ['qwen3-8b'] = generate_vendor { model = 'qwen3-8b-mlx', name = 'Qwen 3 8B', temperature = 0.7 },
-          ['qwen3-4b'] = generate_vendor { model = 'qwen3-4b-mlx', name = 'Qwen 3 4B', temperature = 0.7 },
+          ['qwen3-8b'] = generate_vendor { model = 'qwen3-8b-mlx', name = 'Qwen 3 8B', temperature = 0.6 },
+          ['qwen3-4b'] = generate_vendor { model = 'qwen3-4b-mlx', name = 'Qwen 3 4B', temperature = 0.6 },
           ['gemma-3-12b-it-qat'] = generate_vendor { model = 'gemma-3-12b-it-qat', name = 'Gemma 3 12B', temperature = 1 },
           ['gemma-3-4b-it-qat'] = generate_vendor { model = 'gemma-3-4b-it-qat', name = 'Gemma 3 4B', temperature = 1 },
           ['claude-3.5-sonnet'] = {
