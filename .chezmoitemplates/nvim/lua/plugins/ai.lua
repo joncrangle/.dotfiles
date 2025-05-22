@@ -68,13 +68,6 @@ return {
           ['qwen3-4b'] = generate_vendor { model = 'qwen3-4b-mlx', name = 'Qwen 3 4B', temperature = 0.6 },
           ['gemma-3-12b-it-qat'] = generate_vendor { model = 'gemma-3-12b-it-qat', name = 'Gemma 3 12B', temperature = 1 },
           ['gemma-3-4b-it-qat'] = generate_vendor { model = 'gemma-3-4b-it-qat', name = 'Gemma 3 4B', temperature = 1 },
-          ['claude-3.5-sonnet'] = {
-            __inherited_from = 'copilot',
-            model = 'claude-3.5-sonnet',
-            temperature = 0.2,
-            max_tokens = tokens(64),
-            display_name = 'Claude 3.5 Sonnet',
-          },
           ['claude-3.7-sonnet'] = {
             __inherited_from = 'copilot',
             model = 'claude-3.7-sonnet',
@@ -88,6 +81,13 @@ return {
             temperature = 0.7,
             max_tokens = tokens(64),
             display_name = 'Claude 3.7 Sonnet Thought',
+          },
+          ['claude-4-sonnet'] = {
+            __inherited_from = 'copilot',
+            model = 'claude-sonnet-4',
+            temperature = 0.2,
+            max_tokens = tokens(64),
+            display_name = 'Claude 4 Sonnet',
           },
           ['o4-mini'] = {
             __inherited_from = 'copilot',
