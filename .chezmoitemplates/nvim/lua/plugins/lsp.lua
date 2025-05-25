@@ -289,7 +289,6 @@ return {
         'gomodifytags',
         'impl',
         'js-debug-adapter',
-        'kulala-fmt',
         'markdownlint-cli2',
         'markdown-toc',
         'prettier',
