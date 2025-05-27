@@ -104,7 +104,7 @@ return {
             display_name = 'Gemini 2.5 Pro Preview',
           },
         },
-        file_selector = { provider = 'snacks' },
+        selector = { provider = 'snacks' },
         web_search_engine = { provider = 'searxng' },
         windows = { sidebar_header = { rounded = false }, ask = { start_insert = false } },
         system_prompt = function()
