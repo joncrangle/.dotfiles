@@ -31,7 +31,7 @@ return {
           max_tokens = opts.max_tokens or tokens(32),
           min_p = opts.min_p or 0,
           top_p = opts.top_p or 0.95,
-          top_k = opts.top_k or -1,
+          top_k = opts.top_k or 40,
         }
       end
 
@@ -64,6 +64,7 @@ return {
         vertex = { hide_in_model_selector = true },
         vertex_claude = { hide_in_model_selector = true },
         vendors = {
+          ['deepseek-r1'] = generate_vendor { model = 'deepseek-r1-0528-qwen3-8b-mlx', name = 'DeepSeek R1 0528 Qwen3 Distill', temperature = 0.6 },
           ['qwen3-8b'] = generate_vendor { model = 'qwen3-8b-mlx', name = 'Qwen 3 8B', temperature = 0.6 },
           ['qwen3-4b'] = generate_vendor { model = 'qwen3-4b-mlx', name = 'Qwen 3 4B', temperature = 0.6 },
           ['gemma-3-12b-it-qat'] = generate_vendor { model = 'gemma-3-12b-it-qat', name = 'Gemma 3 12B', temperature = 1 },
