@@ -31,7 +31,7 @@ return {
           max_tokens = opts.max_tokens or tokens(32),
           min_p = opts.min_p or 0,
           top_p = opts.top_p or 0.95,
-          top_k = opts.top_k or 40,
+          top_k = opts.top_k or -1,
         }
       end
 
