@@ -64,6 +64,9 @@ export BAT_THEME="Catppuccin Mocha"
 # Go
 export GOPATH=$HOME/.go
 
+# pnpm
+export PNPM_HOME="$XDG_DATA_HOME/pnpm"
+
 # Gemini
 export GEMINI_API_KEY={{- .GeminiKey }}
 
@@ -78,7 +81,7 @@ path=(
     /usr/bin(N-/)
     $HOME/.config/hypr/scripts(N-/)
     {{ end }}
-    $XDG_DATA_HOME/pnpm(N-/)
+    $PNPM_HOME
     $HOME/bin(N-/)
     $HOME/.local/bin(N-/)
     $HOME/.bun/bin(N-/)
