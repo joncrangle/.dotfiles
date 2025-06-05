@@ -142,7 +142,6 @@ $envVars = @(
     @{ Name = "YAZI_FILE_ONE"; Path = "scoop\apps\git\current\usr\bin\file.exe" },
     @{ Name = "XDG_CONFIG_HOME"; Path = "AppData\Local" },
     @{ Name = "XDG_DATA_HOME"; Path = "AppData\Local" },
-    @{ Name = "KOMOREBI_CONFIG_HOME"; Path = ".config\komorebi" }
 )
 
 Set-UserEnvironmentVariables -variables $envVars
@@ -182,7 +181,6 @@ Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory
 `$env:EDITOR = "nvim"
 `$env:VISUAL = "nvim"
 `$env:STARSHIP_CONFIG = "$HOME\.config\starship\starship.toml"
-`$env:KOMOREBI_CONFIG_HOME = "$HOME\.config\komorebi"
 `$env:COREPACK_ENABLE_AUTO_PIN = "0"
 `$env:GEMINI_API_KEY={{- .GeminiKey }}
 
@@ -477,8 +475,8 @@ Write-Host "Fonts installed successfully."
 Write-Host "Installing Scoop apps..."
 $packages = @(
     "7zip", "bat", "biome", "bruno", "chafa", "charm-gum", "curl", "delta", "deno", "dbeaver", "diffutils",
-    "eza", "fastfetch", "fd", "ffmpeg", "fnm", "ghostscript", "glow", "go", "gzip", "imagemagick",
-    "JetBrainsMono-NF", "jj", "jq", "just","komorebi", "krita", "lazygit", "lua", "luarocks", "make", "mariadb",
+    "eza", "fastfetch", "fd", "ffmpeg", "fnm", "ghostscript", "glazewm", "glow", "go", "gzip", "imagemagick",
+    "JetBrainsMono-NF", "jj", "jq", "just", "krita", "lazygit", "lua", "luarocks", "make", "mariadb",
     "Meslo-NF", "mingw", "neovim", "obsidian", "podman", "poppler", "postgresql", "python", "ripgrep",
     "rustup-gnu", "sqlite", "tldr", "topgrade", "tree-sitter", "typst", "unar", "unzip", "uv", "vlc", "vcredist2022",
     "vscode", "wezterm-nightly", "win32yank", "wget", "whkd", "xh", "yazi", "yq", "zebar", "zig", "zoom"
@@ -506,7 +504,6 @@ fnm install 22
 fnm install 23
 corepack enable pnpm
 go install github.com/jorgerojas26/lazysql@latest
-komorebic fetch-asc
 jj config set --user user.name "jonathancrangle"
 jj config set --user user.email "94405204+joncrangle@users.noreply.github.com"
 @"
@@ -521,10 +518,9 @@ format = "git"
 
 # Add apps to Windows startup
 $links = @(
-    @{ Path = "C:\Program Files\Google\Chrome\Application\chrome.exe"; Name = "Google Chrome" },
     @{ Path = "C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE"; Name = "Microsoft Outlook" },
-    @{ Path = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"; Name = "Microsoft Edge" },
     @{ Path = "$env:USERPROFILE\scoop\apps\wezterm-nightly\current\wezterm-gui.exe"; Name = "WezTerm" }
+    @{ Path = "$env:USERPROFILE\scoop\apps\glazewm\current\glazewm.exe"; Name = "GlazeWM" }
 )
 
 # Path to the Startup folder
@@ -532,7 +528,6 @@ $startupFolderPath = [System.IO.Path]::Combine($env:APPDATA, "Microsoft\Windows\
 
 # Function to create a shortcut
 Write-Host "Creating startup shortcuts..."
-Copy-Item -Path "$env:USERPROFILE\.config\komorebi\WM.bat" -Destination $startupFolderPath
 function New-Shortcut
 {
     param (

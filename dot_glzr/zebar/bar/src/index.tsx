@@ -2,12 +2,44 @@
 import "./index.css";
 import iconMap from "./icon_map.json";
 import { For, render, Show } from "solid-js/web";
+import { createMemo } from "solid-js";
 import { createStore } from "solid-js/store";
 import * as zebar from "zebar";
-import { createMemo } from "solid-js";
+import {
+	type GlazeWmOutput,
+	type MediaOutput,
+	type MemoryOutput,
+	type CpuOutput,
+	type DiskOutput,
+	type BatteryOutput,
+	type Disk,
+} from "zebar";
+
+type Workspace = GlazeWmOutput["currentWorkspaces"][0];
+type Window = GlazeWmOutput & {
+	focusedContainer: {
+		title?: string;
+		processName?: string;
+	};
+};
+
+type IconMapEntry = {
+	appNames: string[];
+	iconName: string;
+};
+
+const BATTERY_THRESHOLDS = [
+	{ min: 90, icon: "nf nf-fa-battery_4" },
+	{ min: 70, icon: "nf nf-fa-battery_3" },
+	{ min: 40, icon: "nf nf-fa-battery_2" },
+	{ min: 20, icon: "nf nf-fa-battery_1" },
+	{ min: 0, icon: "nf nf-fa-battery_0" },
+];
+
+const HIGH_CPU_THRESHOLD = 85;
 
 const providers = zebar.createProviderGroup({
-	komorebi: { type: "komorebi" },
+	glazewm: { type: "glazewm" },
 	date: { type: "date", formatting: "EEE d MMM t" },
 	disk: { type: "disk" },
 	media: { type: "media" },
@@ -16,165 +48,191 @@ const providers = zebar.createProviderGroup({
 	memory: { type: "memory" },
 });
 
-type IconMapEntry = {
-	appNames: string[];
-	iconName: string;
+// Utility functions
+const parseTitle = (input: string): string => {
+	const match = input.match(/\\([\w\d\-]+\.exe)$/i);
+	return match ? match[1] : input;
 };
 
-render(() => <App />, document.getElementById("root"));
-
-function WorkspaceList(props: {
-	workspaces: { name: string }[];
-	focusedWorkspaceName?: string;
-	currentMonitorName?: string;
-	focusedMonitorName?: string;
-	onWorkspaceClick: (index: number) => void;
-}) {
+const getBatteryIcon = (chargePercent: number): string => {
+	const threshold = BATTERY_THRESHOLDS.find((t) => chargePercent >= t.min);
 	return (
-		<div class="workspaces">
-			<For each={props.workspaces}>
-				{(workspace, index) => {
-					const isFocused = () =>
-						workspace.name === props.focusedWorkspaceName &&
-						props.currentMonitorName === props.focusedMonitorName;
-					return (
-						<button
-							type="button"
-							class={`workspace ${isFocused() && "focused"}`}
-							onClick={() => props.onWorkspaceClick(index())}
-						>
-							{workspace.name}
-						</button>
-					);
-				}}
-			</For>
+		threshold?.icon || BATTERY_THRESHOLDS[BATTERY_THRESHOLDS.length - 1].icon
+	);
+};
+
+const normalizeAppName = (name: string): string =>
+	name
+		.toLowerCase()
+		.replace(/\*/g, "")
+		.replace(/\.exe$/, "");
+
+const getAppIcon = (title: string, exe: string): string => {
+	if (!Array.isArray(iconMap)) {
+		return ":default:";
+	}
+
+	const normalizedTitle = title.toLowerCase();
+	const normalizedExe = exe.toLowerCase();
+	const iconMapTyped = iconMap as IconMapEntry[];
+
+	// Try exact exe match first
+	const exactMatch = iconMapTyped.find((item) =>
+		item.appNames.some(
+			(name) => normalizedExe === `${normalizeAppName(name)}.exe`,
+		),
+	);
+	if (exactMatch) return exactMatch.iconName;
+
+	// Try exe contains match
+	const exeMatch = iconMapTyped.find((item) =>
+		item.appNames.some((name) =>
+			normalizedExe.includes(normalizeAppName(name)),
+		),
+	);
+	if (exeMatch) return exeMatch.iconName;
+
+	// Try title contains match
+	const titleMatch = iconMapTyped.find((item) =>
+		item.appNames.some((name) =>
+			normalizedTitle.includes(normalizeAppName(name)),
+		),
+	);
+
+	return titleMatch?.iconName || ":default:";
+};
+
+const calculateDiskUsage = (disk: Disk): number => {
+	if (!disk?.availableSpace?.iecValue || !disk?.totalSpace?.iecValue) return 0;
+	return Math.round(
+		100 - (disk.availableSpace.iecValue / disk.totalSpace.iecValue) * 100,
+	);
+};
+
+const WorkspaceButton = (props: {
+	workspace: Workspace;
+	glazewm: GlazeWmOutput;
+}) => (
+	<button
+		type="button"
+		class={`workspace ${props.workspace.hasFocus ? "focused" : ""}`}
+		onClick={() =>
+			props.glazewm.runCommand(`focus --workspace ${props.workspace.name}`)
+		}
+	>
+		{props.workspace.name}
+	</button>
+);
+
+const FocusedWindow = (props: { glazewm: Window }) => {
+	const focusedContainer = () => props.glazewm.focusedContainer;
+	const appIcon = createMemo(() =>
+		focusedContainer()
+			? getAppIcon(
+					focusedContainer().title || "",
+					focusedContainer().processName || "",
+				)
+			: ":default:",
+	);
+	const windowTitle = createMemo(() =>
+		focusedContainer()?.title ? parseTitle(focusedContainer().title) : "-",
+	);
+
+	return (
+		<div class="focused-window">
+			<span class="sketchy-icon">{appIcon()}</span>
+			<span>{windowTitle()}</span>
 		</div>
 	);
-}
+};
+
+const MediaInfo = (props: { media: MediaOutput }) => (
+	<Show when={props.media?.currentSession}>
+		<div class="media">
+			<i class="nf nf-fa-music" />
+			{props.media.currentSession.title} - {props.media.currentSession.artist}
+		</div>
+	</Show>
+);
+
+const SystemStats = (props: {
+	memory: MemoryOutput;
+	cpu: CpuOutput;
+	disk: DiskOutput;
+	battery: BatteryOutput;
+}) => {
+	const diskUsage = createMemo(() =>
+		props.disk?.disks?.[0] ? calculateDiskUsage(props.disk.disks[0]) : 0,
+	);
+
+	return (
+		<div class="stats">
+			<Show when={props.memory}>
+				<div class="memory">
+					<i class="nf nf-fae-chip" />
+					{Math.round(props.memory.usage)}%
+				</div>
+			</Show>
+
+			<Show when={props.cpu}>
+				<div class="cpu">
+					<span
+						class={props.cpu.usage > HIGH_CPU_THRESHOLD ? "high-usage" : ""}
+					>
+						<i class="nf nf-oct-cpu" />
+						{Math.round(props.cpu.usage)}%
+					</span>
+				</div>
+			</Show>
+
+			<Show when={props.disk}>
+				<div class="disk">
+					<i class="nf nf-fa-hdd_o" />
+					{diskUsage()}%
+				</div>
+			</Show>
+
+			<Show when={props.battery}>
+				<div class="battery">
+					<Show when={props.battery.isCharging}>
+						<i class="nf nf-md-power_plug charging-icon" />
+					</Show>
+					<i class={getBatteryIcon(props.battery.chargePercent)} />
+					{Math.round(props.battery.chargePercent)}%
+				</div>
+			</Show>
+		</div>
+	);
+};
 
 function App() {
-	const parseTitle = (input: string) => {
-		// Regular expression to match strings with a file path to an executable
-		const regex = /\\([\w\d\-]+\.exe)$/i;
-
-		const match = input.match(regex);
-		if (match) {
-			return match[1];
-		}
-
-		return input;
-	};
-
-	const getBatteryIcon = (batteryOutput: zebar.BatteryOutput) => {
-		if (batteryOutput.chargePercent > 90)
-			return <i class="nf nf-fa-battery_4" />;
-		if (batteryOutput.chargePercent > 70)
-			return <i class="nf nf-fa-battery_3" />;
-		if (batteryOutput.chargePercent > 40)
-			return <i class="nf nf-fa-battery_2" />;
-		if (batteryOutput.chargePercent > 20)
-			return <i class="nf nf-fa-battery_1" />;
-		return <i class="nf nf-fa-battery_0" />;
-	};
-
-	const getAppIcon = (title: string, exe: string) => {
-		if (!Array.isArray(iconMap)) {
-			console.error("iconMap is not an array", iconMap);
-			return ":default:";
-		}
-
-		const normalizedTitle = title.toLowerCase();
-		const normalizedExe = exe.toLowerCase();
-
-		const exactExeMatch = (iconMap as IconMapEntry[]).find((item) =>
-			item.appNames.some((name) => {
-				const normalizedAppName = name.toLowerCase().replace(/\*/g, "");
-				return normalizedExe === `${normalizedAppName}.exe`;
-			}),
-		);
-
-		if (exactExeMatch) return exactExeMatch.iconName;
-
-		const exeContainsMatch = (iconMap as IconMapEntry[]).find((item) =>
-			item.appNames.some((name) => {
-				const normalizedAppName = name
-					.toLowerCase()
-					.replace(/\*/g, "")
-					.replace(/\.exe$/, "");
-				return normalizedExe.includes(normalizedAppName);
-			}),
-		);
-
-		if (exeContainsMatch) return exeContainsMatch.iconName;
-
-		const titleContainsMatch = (iconMap as IconMapEntry[]).find((item) =>
-			item.appNames.some((name) => {
-				const normalizedAppName = name
-					.toLowerCase()
-					.replace(/\*/g, "")
-					.replace(/\.exe$/, "");
-				return normalizedTitle.includes(normalizedAppName);
-			}),
-		);
-
-		return titleContainsMatch ? titleContainsMatch.iconName : ":default:";
-	};
-
 	const [output, setOutput] = createStore(providers.outputMap);
-
-	providers.onOutput((outputMap) => setOutput(outputMap));
-
-	const focusedWindow = createMemo(() => {
-		const komorebi = output?.komorebi;
-		if (!komorebi?.focusedWorkspace) return null;
-		return komorebi.focusedWorkspace.tilingContainers?.[
-			komorebi.focusedWorkspace.focusedContainerIndex
-		]?.windows?.[0];
-	});
-
-	const windowTitle = createMemo(() => {
-		const window = focusedWindow();
-		return window ? parseTitle(window.title) : "-";
-	});
-
-	const windowIcon = createMemo(() => {
-		const window = focusedWindow();
-		return window ? getAppIcon(window.title, window.exe) : ":default:";
-	});
+	providers.onOutput(setOutput);
 
 	return (
 		<div class="app">
 			<div class="left">
 				<i class="logo nf nf-fa-windows" />
+				<Show when={output.glazewm}>
+					<Show
+						when={output.glazewm.tilingDirection === "horizontal"}
+						fallback={<i class="logo nf nf-fa-arrows_v" />}
+					>
+						<i class="logo nf nf-fa-arrows_h" />
+					</Show>
 
-				<Show
-					when={output.komorebi}
-					fallback={
-						<WorkspaceList
-							workspaces={[
-								{ name: "1" },
-								{ name: "2" },
-								{ name: "3" },
-								{ name: "4" },
-								{ name: "5" },
-							]}
-							currentMonitorName="main"
-							focusedMonitorName="main"
-							onWorkspaceClick={(idx) =>
-								zebar.shellSpawn("komorebic", `focus-workspace ${idx}`)
-							}
-						/>
-					}
-				>
-					<WorkspaceList
-						workspaces={output.komorebi.currentWorkspaces ?? []}
-						focusedWorkspaceName={output.komorebi?.focusedWorkspace?.name}
-						currentMonitorName={output.komorebi?.currentMonitor?.name}
-						focusedMonitorName={output.komorebi?.focusedMonitor?.name}
-						onWorkspaceClick={(idx) =>
-							zebar.shellSpawn("komorebic", `focus-workspace ${idx}`)
-						}
-					/>
+					<div class="workspaces">
+						<For each={output.glazewm.currentWorkspaces}>
+							{(workspace) => (
+								<WorkspaceButton
+									workspace={workspace}
+									glazewm={output.glazewm}
+								/>
+							)}
+						</For>
+					</div>
+
+					<FocusedWindow glazewm={output.glazewm} />
 				</Show>
 			</div>
 
@@ -185,55 +243,19 @@ function App() {
 			<div class="right">
 				<div class="media-container">
 					<Show when={output.media}>
-						<div class="media">
-							<i class="nf nf-fa-music" />
-							{output.media?.currentSession.title} -
-							{output.media?.currentSession?.artist}
-						</div>
+						<MediaInfo media={output.media} />
 					</Show>
 				</div>
 
-				<div class="stats">
-					<Show when={output.memory}>
-						<div class="memory">
-							<i class="nf nf-fae-chip" />
-							{Math.round(output.memory.usage)}%
-						</div>
-					</Show>
-
-					<Show when={output.cpu}>
-						<div class="cpu">
-							<span class={output.cpu.usage > 85 ? "high-usage" : ""}>
-								<i class="nf nf-oct-cpu" />
-								{Math.round(output.cpu.usage)}%
-							</span>
-						</div>
-					</Show>
-
-					<Show when={output.disk}>
-						<div class="disk">
-							<i class="nf nf-fa-hdd_o" />
-							{Math.round(
-								100 -
-									(output.disk.disks[0].availableSpace.iecValue /
-										output.disk.disks[0].totalSpace.iecValue) *
-										100,
-							)}
-							%
-						</div>
-					</Show>
-
-					<Show when={output.battery}>
-						<div class="battery">
-							{output.battery.isCharging && (
-								<i class="nf nf-md-power_plug charging-icon" />
-							)}
-							{getBatteryIcon(output.battery)}
-							{Math.round(output.battery.chargePercent)}%
-						</div>
-					</Show>
-				</div>
+				<SystemStats
+					memory={output.memory}
+					cpu={output.cpu}
+					disk={output.disk}
+					battery={output.battery}
+				/>
 			</div>
 		</div>
 	);
 }
+
+render(() => <App />, document.getElementById("root"));

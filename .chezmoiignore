@@ -13,7 +13,6 @@ setup_win.ps1
 AppData/
 .config/whkdrc
 .config/windows-terminal/
-.config/komorebi/
 .glaze-wm/
 .glzr/
 {{ end }}
