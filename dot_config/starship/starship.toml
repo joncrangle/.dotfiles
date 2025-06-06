@@ -86,7 +86,7 @@ truncation_symbol = "…/"
 "Pictures" = "  "
 
 [bun]
-format = '[[ 🥟 bun ](fg:base bg:mauve)]($style)'
+format = '[[  bun ](fg:base bg:mauve)]($style)'
 
 [c]
 format = '[[  c ](fg:base bg:mauve)]($style)'
