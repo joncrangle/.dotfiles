@@ -36,12 +36,21 @@ const BATTERY_THRESHOLDS = [
 	{ min: 0, icon: "nf nf-fa-battery_0" },
 ];
 
+const VOLUME_THRESHOLDS = [
+	{ min: 100, icon: "nf nf-md-volume_high" },
+	{ min: 70, icon: "nf nf-md-volume_high" },
+	{ min: 40, icon: "nf nf-md-volume_medium" },
+	{ min: 20, icon: "nf nf-md-volume_low" },
+	{ min: 0, icon: "nf nf-md-volume_off" },
+];
+
 const HIGH_CPU_THRESHOLD = 85;
 
 const providers = zebar.createProviderGroup({
 	glazewm: { type: "glazewm" },
 	date: { type: "date", formatting: "EEE d MMM t" },
 	disk: { type: "disk" },
+	audio: { type: "audio" },
 	media: { type: "media" },
 	cpu: { type: "cpu" },
 	battery: { type: "battery" },
@@ -58,6 +67,13 @@ const getBatteryIcon = (chargePercent: number): string => {
 	const threshold = BATTERY_THRESHOLDS.find((t) => chargePercent >= t.min);
 	return (
 		threshold?.icon || BATTERY_THRESHOLDS[BATTERY_THRESHOLDS.length - 1].icon
+	);
+};
+
+const getVolumeIcon = (volume: number): string => {
+	const threshold = VOLUME_THRESHOLDS.find((t) => volume >= t.min);
+	return (
+		threshold?.icon || VOLUME_THRESHOLDS[VOLUME_THRESHOLDS.length - 1].icon
 	);
 };
 
@@ -244,6 +260,11 @@ function App() {
 				<div class="media-container">
 					<Show when={output.media}>
 						<MediaInfo media={output.media} />
+					</Show>
+					<Show when={output.audio?.defaultPlaybackDevice}>
+						<i
+							class={getVolumeIcon(output.audio.defaultPlaybackDevice.volume)}
+						/>
 					</Show>
 				</div>
 

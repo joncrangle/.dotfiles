@@ -109,7 +109,7 @@ i {
 .workspaces {
   display: flex;
   align-items: center;
-  gap: 3px;
+  gap: var(--spacing-xs);
 }
 
 .workspace {
@@ -150,6 +150,10 @@ i {
   cursor: default;
 }
 
+.nf {
+  margin: 0px var(--spacing-sm);
+}
+
 .sketchy-icon {
   font-family: "sketchybar-app-font", sans-serif;
   line-height: 1.5;
@@ -182,6 +186,7 @@ i {
   max-width: 300px;
   padding: var(--spacing-xs) var(--spacing-md);
   height: var(--component-height);
+  gap: var(--spacing-md);
 }
 
 .media {
@@ -240,5 +245,12 @@ i {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* Hide media widget on smaller screen */
+@media (max-width: 1199px) {
+  .media {
+    display: none;
   }
 }
