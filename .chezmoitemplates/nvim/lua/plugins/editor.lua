@@ -48,57 +48,48 @@ return {
     enabled = false,
     event = 'VeryLazy',
     dependencies = {
-      -- TODO: test nvim-dap-view once nvim is on 0.11
-      { 'igorlfs/nvim-dap-view', opts = {}, keys = { { '<F7>', '<cmd>DapViewToggle<cr>', desc = 'Toggle DAP View' } } },
-      'rcarriga/nvim-dap-ui',
+      {
+        'igorlfs/nvim-dap-view',
+        opts = { winbar = { controls = { enabled = true } } },
+        keys = function(_, keys)
+          local dap = require 'dap'
+          return {
+            { '<F5>', dap.continue, desc = 'Debug: Start/Continue' },
+            { '<F1>', dap.step_into, desc = 'Debug: Step Into' },
+            { '<F2>', dap.step_over, desc = 'Debug: Step Over' },
+            { '<F3>', dap.step_out, desc = 'Debug: Step Out' },
+            { '<leader>db', dap.toggle_breakpoint, desc = '[D]ebug: Toggle [B]reakpoint' },
+            {
+              '<leader>dc',
+              function()
+                dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
+              end,
+              desc = '[D]ebug: Set [C]ondition Breakpoint',
+            },
+            { '<F7>', '<cmd>DapViewToggle<cr>', desc = 'Toggle DAP View' },
+            unpack(keys),
+          }
+        end,
+      },
       { 'theHamsta/nvim-dap-virtual-text', opts = {} },
       'nvim-neotest/nvim-nio',
-      'williamboman/mason.nvim',
       'jay-babu/mason-nvim-dap.nvim',
       'leoluz/nvim-dap-go',
     },
-    keys = function(_, keys)
-      local dap = require 'dap'
-      local dapui = require 'dapui'
-      -- stylua: ignore
-      return {
-        { '<F5>', dap.continue,                                                                  desc = 'Debug: Start/Continue' },
-        { '<F1>', dap.step_into,                                                                 desc = 'Debug: Step Into' },
-        { '<F2>', dap.step_over,                                                                 desc = 'Debug: Step Over' },
-        { '<F3>', dap.step_out,                                                                  desc = 'Debug: Step Out' },
-        { '<leader>b', dap.toggle_breakpoint,                                                    desc = 'Debug: Toggle Breakpoint' },
-        { '<leader>B', function() dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ') end, desc = 'Debug: Set Breakpoint' },
-        -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
-        { '<F7>', dapui.toggle,                                                                  desc = 'Debug: See last session result.' },
-        unpack(keys),
-      }
-    end,
     config = function()
       local dap = require 'dap'
-      local dapui = require 'dapui'
+
+      vim.fn.sign_define('DapBreakpoint', { text = '', texthl = 'DapBreakpoint', numhl = '' })
+      vim.fn.sign_define('DapBreakpointCondition', { text = '', texthl = 'DapBreakpointCondition', numhl = '' })
+      vim.fn.sign_define('DapBreakpointRejected', { text = '', texthl = 'DapBreakpointRejected', numhl = '' })
+      vim.fn.sign_define('DapStopped', { text = '', texthl = 'DapStopped', numhl = '' })
 
       require('mason-nvim-dap').setup {
         automatic_installation = true,
         handlers = {},
         ensure_installed = {
           'delve',
-        },
-      }
-
-      dapui.setup {
-        icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
-        controls = {
-          icons = {
-            pause = '⏸',
-            play = '▶',
-            step_into = '⏎',
-            step_over = '⏭',
-            step_out = '⏮',
-            step_back = 'b',
-            run_last = '▶▶',
-            terminate = '⏹',
-            disconnect = '⏏',
-          },
+          'js-debug-adapter',
         },
       }
 
@@ -110,7 +101,7 @@ return {
           executable = {
             command = 'node',
             args = {
-              require('mason-registry').get_package('js-debug-adapter'):get_install_path() .. '/js-debug/src/dapDebugServer.js',
+              vim.env.MASON .. '/packages/' .. 'js-debug-adapter' .. '/js-debug/src/dapDebugServer.js',
               '${port}',
             },
           },
@@ -136,10 +127,6 @@ return {
           }
         end
       end
-
-      dap.listeners.after.event_initialized['dapui_config'] = dapui.open
-      dap.listeners.before.event_terminated['dapui_config'] = dapui.close
-      dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
       require('dap-go').setup {
         delve = {
