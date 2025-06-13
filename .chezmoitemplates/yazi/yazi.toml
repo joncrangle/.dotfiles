@@ -22,5 +22,8 @@ play = [
 
 [plugin]
 prepend_previewers = [
-	{ name = "*.md", run = "glow" },
+  { name = "*.md", run = 'piper -- CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"' },
+  { name = "*.csv", run =  'piper -- bat -p --color=always "$1"' },
+  { mime = "text/*", run = 'piper -- bat -p --color=always "$1"' },
+  { name = "*/", run = 'piper -- eza -TL=1 --icons=always --color=always --sort=extension "$1"' },
 ]
