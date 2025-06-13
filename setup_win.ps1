@@ -183,6 +183,8 @@ Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory
 `$env:STARSHIP_CONFIG = "$HOME\.config\starship\starship.toml"
 `$env:COREPACK_ENABLE_AUTO_PIN = "0"
 `$env:GEMINI_API_KEY={{- .GeminiKey }}
+# Add uv tools to PATH
+`$env:PATH = "C:\Users\CRANGLJ\AppData\Local\..\bin;$env:PATH"
 
 # FZF
 `$env:FZF_DEFAULT_COMMAND="rg --files --no-ignore-vcs --hidden --follow --glob ""!.git/"" --glob ""!.jj/"""
