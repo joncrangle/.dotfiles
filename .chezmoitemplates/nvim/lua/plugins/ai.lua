@@ -18,7 +18,7 @@ return {
       end
 
       --- Generate an Avante provider
-      ---@param opts { model: string, name: string, temperature?: number, max_tokens?: number, port?: number, min_p?: number, top_p?: number, top_k?: number }
+      ---@param opts { model: string, name?: string, temperature?: number, max_tokens?: number, port?: number, min_p?: number, top_p?: number, top_k?: number }
       ---@return AvanteProvider
       local function generate_provider(opts)
         local port = opts.port or 5001
@@ -59,10 +59,10 @@ return {
           },
           vertex = { hide_in_model_selector = true },
           vertex_claude = { hide_in_model_selector = true },
-          ['qwen3-8b'] = generate_provider { model = 'qwen3-8b-mlx', name = 'Qwen 3 8B', temperature = 0.6 },
-          ['qwen3-4b'] = generate_provider { model = 'qwen3-4b-mlx', name = 'Qwen 3 4B', temperature = 0.6 },
-          ['gemma-3-12b-it-qat'] = generate_provider { model = 'gemma-3-12b-it-qat', name = 'Gemma 3 12B', temperature = 1 },
-          ['gemma-3-4b-it-qat'] = generate_provider { model = 'gemma-3-4b-it-qat', name = 'Gemma 3 4B', temperature = 1 },
+          ['qwen3-8b'] = generate_provider { model = 'qwen3-8b-mlx', temperature = 0.6 },
+          ['qwen3-4b'] = generate_provider { model = 'qwen3-4b-mlx', temperature = 0.6 },
+          ['gemma-3-12b-it-qat'] = generate_provider { model = 'gemma-3-12b-it-qat', temperature = 1 },
+          ['gemma-3-4b-it-qat'] = generate_provider { model = 'gemma-3-4b-it-qat', temperature = 1 },
           ['omni-qwen3-4b'] = generate_provider { model = 'mlx-community/Qwen3-4B-4bit-DWQ-053125', temperature = 0.6, port = 10240 },
           ['omni-qwen3-8b'] = generate_provider { model = 'mlx-community/Qwen3-8B-4bit-DWQ-053125', temperature = 0.6, port = 10240 },
           ['omni-gemma3-4b'] = generate_provider { model = 'mlx-community/gemma-3-4b-it-4bit-DWQ', temperature = 1, port = 10240 },
