@@ -149,21 +149,14 @@ vim.diagnostic.config {
 }
 
 -- Show cursor line only in active window
----@credit @folke https://github.com/folke/dot/blob/master/nvim/lua/config/autocmds.lua#L1-L17
-vim.api.nvim_create_autocmd({ 'WinEnter' }, {
+vim.api.nvim_create_autocmd('WinEnter', {
   callback = function()
-    if vim.w.auto_cursorline then
-      vim.wo.cursorline = true
-      vim.w.auto_cursorline = nil
-    end
+    vim.wo.cursorline = true
   end,
 })
-vim.api.nvim_create_autocmd({ 'WinLeave' }, {
+vim.api.nvim_create_autocmd('WinLeave', {
   callback = function()
-    if vim.wo.cursorline then
-      vim.w.auto_cursorline = true
-      vim.wo.cursorline = false
-    end
+    vim.wo.cursorline = false
   end,
 })
 -- vim: ts=2 sts=2 sw=2 et
