@@ -51,6 +51,11 @@ local function toggle_harper_spellcheck()
 end
 vim.keymap.set('n', '<leader>th', toggle_harper_spellcheck, { desc = '[T]oggle [h]arper_ls spellcheck' })
 
+-- Toggle diagnostics
+vim.keymap.set('n', '<leader>tD', function()
+  vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+end, { desc = '[T]oggle [D]iagnostics' })
+
 -- Highlight when yanking (copying) text
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
