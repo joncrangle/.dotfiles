@@ -16,7 +16,7 @@ return {
       -- debug_mode = true,
     },
     keys = {
-      { '<leader>td', mode = { 'n', 'v' }, '<cmd>Itchy run<cr>', desc = '[T]est [D]ebug' },
+      { '<leader>tD', mode = { 'n', 'v' }, '<cmd>Itchy run<cr>', desc = '[T]est [D]ebug' },
     },
   },
 }
