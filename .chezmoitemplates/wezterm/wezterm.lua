@@ -15,7 +15,9 @@ local config = wezterm.config_builder() ---@class Config
 wezterm.log_info 'reloading'
 
 -- Modules
-require('podman').apply_to_config(config)
+if not wezterm.target_triple:find 'windows' then
+  require('podman').apply_to_config(config)
+end
 require('keys').apply_to_config(config)
 require('links').apply_to_config(config)
 require('mouse').apply_to_config(config)
