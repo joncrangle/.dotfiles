@@ -62,7 +62,7 @@ config.window_close_confirmation = 'NeverPrompt'
 config.window_padding = { left = 2, right = 0, top = 3, bottom = 0 }
 
 local font_size
-local primary_font = 'Berkeley Mono'
+local primary_font = 'TX-02'
 local secondary_font = 'IosevkaTerm Nerd Font'
 -- Windows, MacOS and Linux
 if wezterm.target_triple:find 'windows' then
@@ -92,8 +92,8 @@ config.char_select_font_size = font_size
 
 -- Fonts
 config.font = wezterm.font_with_fallback {
-  { family = primary_font, weight = 'Regular' },
-  { family = secondary_font, weight = 'Regular' },
+  { family = primary_font, weight = 'Regular', stretch = 'Condensed' },
+  { family = secondary_font, weight = 'Regular', harfbuzz_features = { 'ss06' } },
   { family = 'Symbols Nerd Font Mono', weight = 'Regular' },
 }
 config.font_rules = {
@@ -113,7 +113,6 @@ config.font_rules = {
     font = wezterm.font { family = 'Maple Mono', style = 'Italic' },
   },
 }
-config.harfbuzz_features = { 'ss06' }
 
 -- Sessions
 local resurrect = wezterm.plugin.require 'https://github.com/MLFlexer/resurrect.wezterm'
