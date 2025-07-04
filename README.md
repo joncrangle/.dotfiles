@@ -43,7 +43,7 @@ Features include:
 
 **Windows**
 
-- [Komorebi](https://github.com/LGUG2Z/komorebi) window manager
+- [GlazeWM](https://github.com/glzr-io/glazewm) window manager
 - [Zebar](https://github.com/glzr-io/zebar) bar
 - Microsoft PowerToys for launcher, keyboard shortcuts and various extras
 - [Scoop](https://scoop.sh/) package management
@@ -145,9 +145,6 @@ iwr -useb https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_win.
 > 6. Enable Quick Accent for a desired language (e.g. French or Spanish)
 >
 > Within Taskbar Settings, automatically hide the taskbar in Desktop mode.
-
-> [!TIP]
-> To update the Komorebi application rules, run `komorebic fetch-asc`.
 
 ## 🐧 Arch Linux
 
