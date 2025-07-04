@@ -49,11 +49,11 @@ return {
     opts = function()
       require('markview.extras.checkboxes').setup()
       local presets = require 'markview.presets'
-      ---@type mkv.config
+      ---@type markview.config|{}
       return {
-        ---@type config.markdown|{}
+        ---@type markview.config.markdown|{}
         markdown = {
-          ---@type markdown.code_blocks|{}
+          ---@type markview.config.markdown.code_blocks|{}
           code_blocks = { sign = false },
           headings = presets.headings.marker,
         },
