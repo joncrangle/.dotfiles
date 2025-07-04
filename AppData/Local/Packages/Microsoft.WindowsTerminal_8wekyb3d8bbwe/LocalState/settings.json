@@ -64,9 +64,13 @@
             "colorScheme": "Catppuccin Mocha",
             "font": 
             {
-                "face": "Berkeley Mono",
-                "size": 11,
-                "weight": "semi-bold"
+                "face": "IosevkaTerm Nerd Font",
+                "features": 
+                {
+                    "ss06": 0
+                },
+                "size": 14,
+                "weight": "normal"
             }
         },
         "list": 
