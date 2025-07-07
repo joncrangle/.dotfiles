@@ -64,7 +64,7 @@ return {
           dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink', score_offset = 3 },
           emoji = { name = 'Emoji', module = 'blink-emoji', score_offset = 3 },
           lazydev = { name = 'LazyDev', module = 'lazydev.integrations.blink', score_offset = 100 },
-          wezterm = { name = 'WezTerm', module = 'blink-cmp-wezterm' },
+          wezterm = { name = 'WezTerm', module = 'blink-cmp-wezterm', score_offset = -1 },
         },
       },
       keymap = {
