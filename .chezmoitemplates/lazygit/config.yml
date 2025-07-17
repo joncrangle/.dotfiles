@@ -53,6 +53,7 @@ gui:
   showBottomLine: true
   commandLogSize: 8
   splitDiff: auto
+  useHunkModeInStagingView: true
 git:
   paging:
     colorArg: always
