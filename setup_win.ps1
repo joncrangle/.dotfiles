@@ -480,12 +480,12 @@ Write-Host "Fonts installed successfully."
 # Install Scoop apps
 Write-Host "Installing Scoop apps..."
 $packages = @(
-    "7zip", "bat", "biome", "bruno", "chafa", "charm-gum", "curl", "delta", "deno", "dbeaver", "diffutils",
+    "7zip", "bat", "biome", "bun", "bruno", "chafa", "charm-gum", "curl", "delta", "deno", "dbeaver", "diffutils",
     "eza", "fastfetch", "fd", "ffmpeg", "fnm", "ghostscript", "glazewm", "glow", "go", "gzip", "imagemagick",
     "JetBrainsMono-NF", "jj", "jq", "just", "krita", "lazygit", "lua", "luarocks", "make", "mariadb",
     "Meslo-NF", "mingw", "neovim", "obsidian", "podman", "poppler", "postgresql", "python", "ripgrep",
     "rustup-gnu", "sqlite", "tldr", "topgrade", "tree-sitter", "typst", "unar", "unzip", "uv", "vlc", "vcredist2022",
-    "vscode", "wezterm-nightly", "win32yank", "wget", "whkd", "xh", "yazi", "yq", "zebar", "zig", "zoom"
+    "wezterm-nightly", "win32yank", "wget", "whkd", "xh", "yazi", "yq", "zebar", "zed", "zig", "zoom"
 )
 
 foreach ($package in $packages)
