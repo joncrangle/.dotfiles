@@ -9,7 +9,6 @@ return {
       'moyiz/blink-emoji.nvim',
       'Kaiser-Yang/blink-cmp-avante',
       'fang2hou/blink-copilot',
-      'junkblocker/blink-cmp-wezterm',
     },
     opts_extend = { 'sources.default' },
     ---@type blink.cmp.Config
@@ -51,9 +50,9 @@ return {
         },
       },
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot', 'wezterm' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot' },
         per_filetype = {
-          AvanteInput = { 'avante', 'wezterm' },
+          AvanteInput = { 'avante' },
           lua = { inherit_defaults = true, 'lazydev' },
           markdown = { inherit_defaults = true, 'emoji' },
           sql = { inherit_defaults = true, 'dadbod' },
@@ -64,7 +63,6 @@ return {
           dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink', score_offset = 3 },
           emoji = { name = 'Emoji', module = 'blink-emoji', score_offset = 3 },
           lazydev = { name = 'LazyDev', module = 'lazydev.integrations.blink', score_offset = 100 },
-          wezterm = { name = 'WezTerm', module = 'blink-cmp-wezterm', score_offset = -1 },
         },
       },
       keymap = {
