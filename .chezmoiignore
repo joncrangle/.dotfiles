@@ -25,6 +25,7 @@ AppData/
 .config/topgrade/
 .config/wezterm/
 .config/yazi/
+.config/zed/
 .config/zsh/
 {{ end }}
 

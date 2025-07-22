@@ -1,0 +1,62 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      // "shift shift": "file_finder::Toggle"
+    }
+  },
+  {
+    "context": "Editor && VimControl && !VimWaiting && !menu",
+    "bindings": {
+      "ctrl-shift-enter": "pane::SplitVertical",
+      "ctrl-|": "pane::SplitHorizontal",
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "space t": "workspace::ToggleBottomDock",
+      "space c a": "editor::ToggleCodeActions",
+      "space f": "editor::Format",
+      "space r": "editor::Rename",
+      "space d": "diagnostics::Deploy",
+      "space s f": "file_finder::Toggle",
+      "space o": "outline::Toggle",
+      "\\": "workspace::ToggleRightDock",
+      "ctrl backspace": "pane::CloseActiveItem"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == visual && !VimWaiting && !VimObject",
+    "bindings": {
+      "shift-k": "editor::MoveLineUp",
+      "shift-j": "editor::MoveLineDown"
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "space t": "workspace::ToggleBottomDock",
+      "ctrl-k": "terminal_panel::ToggleFocus"
+    }
+  },
+  {
+    "context": "ProjectPanel",
+    "bindings": {
+      "\\": "workspace::ToggleRightDock",
+      "ctrl-j": "project_panel::ToggleFocus"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == insert && !menu",
+    "bindings": {
+      // "j k": "vim::SwitchToNormalMode"
+    }
+  }
+]
