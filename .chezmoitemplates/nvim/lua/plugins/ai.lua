@@ -112,18 +112,7 @@ return {
     cmd = 'MCPHub',
     event = 'FileType AvanteInput',
     build = 'npm install -g mcp-hub@latest',
-    opts = function()
-      local lualine_ok, lualine = pcall(require, 'lualine')
-      if lualine_ok then
-        local config = lualine.get_config()
-        local ext = require 'mcphub.extensions.lualine'
-        if not vim.tbl_contains(config.sections.lualine_x, ext) then
-          table.insert(config.sections.lualine_x, ext)
-          lualine.setup(config)
-        end
-      end
-      return { auto_approve = true }
-    end,
+    opts = { auto_approve = true },
   },
   {
     'copilotlsp-nvim/copilot-lsp',
