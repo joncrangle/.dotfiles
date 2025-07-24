@@ -2,6 +2,7 @@ return {
   ---@module 'nvim-treesitter'
   {
     'nvim-treesitter/nvim-treesitter',
+    branch = 'main',
     dependencies = {
       {
         'nvim-treesitter/nvim-treesitter-context',
@@ -11,16 +12,62 @@ return {
           { '[c', function() require('treesitter-context').go_to_context() end, desc = 'Goto context' },
         },
       },
-      'nvim-treesitter/nvim-treesitter-textobjects',
+      {
+        'nvim-treesitter/nvim-treesitter-textobjects',
+        branch = 'main',
+        opts = { select = { lookahead = true } },
+        keys = function()
+          local ts_move = require 'nvim-treesitter-textobjects.move'
+          local ts_select = require 'nvim-treesitter-textobjects.select'
+          local ts_swap = require 'nvim-treesitter-textobjects.swap'
+          local ts_repeat_move = require 'nvim-treesitter-textobjects.repeatable_move'
+          -- stylua: ignore
+          local keys = {
+            -- move
+            { mode = { 'n', 'x', 'o' }, '[f', function() ts_move.goto_previous_start('@function.outer', 'textobjects') end,    desc = 'Previous function start' },
+            { mode = { 'n', 'x', 'o' }, ']f', function() ts_move.goto_next_start("@function.outer", "textobjects") end,        desc = 'Next function start' },
+            { mode = { 'n', 'x', 'o' }, '[F', function() ts_move.goto_previous_end('@function.outer', 'textobjects') end,      desc = 'Previous function end' },
+            { mode = { 'n', 'x', 'o' }, ']F', function() ts_move.goto_next_end("@function.outer", "textobjects") end,          desc = 'Next function end' },
+            { mode = { 'n', 'x', 'o' }, '[a', function() ts_move.goto_previous_start('@parameter.outer', 'textobjects') end,   desc = 'Previous argument start' },
+            { mode = { 'n', 'x', 'o' }, ']a', function() ts_move.goto_next_start("@parameter.outer", "textobjects") end,       desc = 'Next argument start' },
+            { mode = { 'n', 'x', 'o' }, '[A', function() ts_move.goto_previous_end('@parameter.outer', 'textobjects') end,     desc = 'Previous argument end' },
+            { mode = { 'n', 'x', 'o' }, ']A', function() ts_move.goto_next_end("@parameter.outer", "textobjects") end,         desc = 'Next argument end' },
+            { mode = { 'n', 'x', 'o' }, '[i', function() ts_move.goto_previous_start('@conditional.outer', 'textobjects') end, desc = 'Previous conditional start' },
+            { mode = { 'n', 'x', 'o' }, ']i', function() ts_move.goto_next_start("@conditional.outer", "textobjects") end,     desc = 'Next conditional start' },
+            { mode = { 'n', 'x', 'o' }, '[I', function() ts_move.goto_previous_end('@conditional.outer', 'textobjects') end,   desc = 'Previous conditional end' },
+            { mode = { 'n', 'x', 'o' }, ']I', function() ts_move.goto_next_end("@conditional.outer", "textobjects") end,       desc = 'Next loop end' },
+            { mode = { 'n', 'x', 'o' }, '[l', function() ts_move.goto_previous_start('@loop.outer', 'textobjects') end,        desc = 'Previous loop start' },
+            { mode = { 'n', 'x', 'o' }, ']l', function() ts_move.goto_next_start("@loop.outer", "textobjects") end,            desc = 'Next loop start' },
+            { mode = { 'n', 'x', 'o' }, '[L', function() ts_move.goto_previous_end('@loop.outer', 'textobjects') end,          desc = 'Previous loop end' },
+            { mode = { 'n', 'x', 'o' }, ']L', function() ts_move.goto_next_end("@loop.outer", "textobjects") end,              desc = 'Next loop end' },
+            { mode = { 'n', 'x', 'o' }, '[[', function() ts_move.goto_previous_start('@block.outer', 'textobjects') end,       desc = 'Previous block start' },
+            { mode = { 'n', 'x', 'o' }, ']]', function() ts_move.goto_next_start("@block.outer", "textobjects") end,           desc = 'Next block start' },
+            -- select
+            { mode = { 'n', 'x', 'o' }, 'af', function() ts_select.select_textobject("@function.outer", "textobjects") end,    desc = 'Select outer part of a function region' },
+            { mode = { 'n', 'x', 'o' }, 'if', function() ts_select.select_textobject("@function.inner", "textobjects") end,    desc = 'Select inner part of a function region' },
+            { mode = { 'n', 'x', 'o' }, 'aa', function() ts_select.select_textobject("@parameter.outer", "textobjects") end,   desc = 'Select outer part of a parameter/argument' },
+            { mode = { 'n', 'x', 'o' }, 'ia', function() ts_select.select_textobject("@parameter.inner", "textobjects") end,   desc = 'Select inner part of a parameter/argument' },
+            { mode = { 'n', 'x', 'o' }, 'ai', function() ts_select.select_textobject("@conditional.outer", "textobjects") end, desc = 'Select outer part of a conditional' },
+            { mode = { 'n', 'x', 'o' }, 'ii', function() ts_select.select_textobject("@conditional.inner", "textobjects") end, desc = 'Select inner part of a conditional' },
+            { mode = { 'n', 'x', 'o' }, 'al', function() ts_select.select_textobject("@loop.outer", "textobjects") end,        desc = 'Select outer part of a loop' },
+            { mode = { 'n', 'x', 'o' }, 'il', function() ts_select.select_textobject("@loop.inner", "textobjects") end,        desc = 'Select inner part of a loop' },
+            -- swap
+            { mode = { 'n', 'x', 'o' }, '<leader>cs', function() ts_swap.swap_next "@parameter.inner" end,                     desc = 'Swap next argument' },
+            { mode = { 'n', 'x', 'o' }, '<leader>cS', function() ts_swap.swap_previous "@parameter.inner" end,                 desc = 'Swap previous argument' },
+            -- repeatable move
+            { mode = { 'n', 'x', 'o' }, ';', ts_repeat_move.repeat_last_move_next,                                             desc = 'Repeat last move' },
+            { mode = { 'n', 'x', 'o' }, ',', ts_repeat_move.repeat_last_move_previous,                                         desc = 'Repeat previous move' },
+          }
+          return keys
+        end,
+      },
       {
         'aaronik/treewalker.nvim',
-        opts = {},
+        opts = { select = true },
         -- stylua: ignore
         keys = {
-          { '<Down>',  '<cmd>Treewalker Down<cr>',  desc = 'Next node' },
-          { '<Right>', '<cmd>Treewalker Right<cr>', desc = 'Next child node' },
-          { '<Up>',    '<cmd>Treewalker Up<cr>',    desc = 'Previous node' },
-          { '<Left>',  '<cmd>Treewalker Left<cr>',  desc = 'Previous parent node' },
+          { mode = { 'n', 'v' }, '<CR>',  '<cmd>Treewalker Left<cr>',    desc = 'Expand Selection' },
+          { mode = { 'n', 'v' }, '<BS>',    '<cmd>Treewalker Right<cr>', desc = 'Decrement Selection' },
         },
       },
       {
@@ -33,7 +80,8 @@ return {
     event = { 'BufReadPre', 'BufNewFile' },
     cmd = { 'TSInstall', 'TSInstallInfo', 'TSBufEnable', 'TSBufDisable', 'TSEnable', 'TSDisable', 'TSModuleInfo', 'TSUpdate' },
     ---@type TSConfig|{}
-    opts = {
+    opts = {},
+    config = function(_, opts)
       vim.filetype.add {
         filename = {
           ['vifmrc'] = 'vim',
@@ -43,8 +91,9 @@ return {
           ['.*/hypr/.+%.conf'] = 'hyprlang',
           ['%.env%.[%w_.-]+'] = 'sh',
         },
-      },
-      ensure_installed = {
+      }
+
+      local ensure_installed = {
         'bash',
         'c',
         'diff',
@@ -56,8 +105,6 @@ return {
         'javascript',
         'lua',
         'luadoc',
-        'lua_patterns',
-        'markdown',
         'markdown_inline',
         'query',
         'regex',
@@ -67,93 +114,21 @@ return {
         'vim',
         'vimdoc',
         'yaml',
-      },
-      auto_install = true,
-      highlight = { enable = true },
-      indent = { enable = true, disable = { 'ruby' } },
-      incremental_selection = {
-        enable = true,
-        keymaps = {
-          init_selection = '<CR>',
-          node_incremental = '<CR>',
-          scope_incremental = false,
-          node_decremental = '<BS>',
-        },
-      },
-      textobjects = {
-        select = {
-          enable = true,
-          lookahead = true,
-          keymaps = {
-            ['af'] = { query = '@function.outer', desc = 'Select outer part of a function region' },
-            ['if'] = { query = '@function.inner', desc = 'Select inner part of a function region' },
-            ['aa'] = { query = '@parameter.outer', desc = 'Select outer part of a parameter/argument' },
-            ['ia'] = { query = '@parameter.inner', desc = 'Select inner part of a parameter/argument' },
-            ['ai'] = { query = '@conditional.outer', desc = 'Select outer part of a conditional' },
-            ['ii'] = { query = '@conditional.inner', desc = 'Select inner part of a conditional' },
-            ['al'] = { query = '@loop.outer', desc = 'Select outer part of a loop' },
-            ['il'] = { query = '@loop.inner', desc = 'Select inner part of a loop' },
-            ['am'] = {
-              query = '@function.outer',
-              desc = 'Select outer part of a method/function definition',
-            },
-            ['im'] = {
-              query = '@function.inner',
-              desc = 'Select inner part of a method/function definition',
-            },
-          },
-        },
-        move = {
-          enable = true,
-          set_jumps = true,
-          goto_next_start = {
-            [']f'] = { query = '@call.outer', desc = 'Next function call start' },
-            [']m'] = { query = '@function.outer', desc = 'Next method/function def start' },
-            [']i'] = { query = '@conditional.outer', desc = 'Next conditional start' },
-            [']l'] = { query = '@loop.outer', desc = 'Next loop start' },
-          },
-          goto_next_end = {
-            [']F'] = { query = '@call.outer', desc = 'Next function call end' },
-            [']M'] = { query = '@function.outer', desc = 'Next method/function def end' },
-            [']I'] = { query = '@conditionaljouter', desc = 'Next conditional end' },
-            [']L'] = { query = '@loop.outer', desc = 'Next loop end' },
-          },
-          goto_previous_start = {
-            ['[f'] = { query = '@call.outer', desc = 'Prev function call start' },
-            ['[m'] = { query = '@function.outer', desc = 'Prev method/function def start' },
-            ['[i'] = { query = '@conditional.outer', desc = 'Prev conditional start' },
-            ['[l'] = { query = '@loop.outer', desc = 'Prev loop start' },
-          },
-          goto_previous_end = {
-            ['[F'] = { query = '@call.outer', desc = 'Prev function call end' },
-            ['[M'] = { query = '@function.outer', desc = 'Prev method/function def end' },
-            ['[I'] = { query = '@conditional.outer', desc = 'Prev conditional end' },
-            ['[L'] = { query = '@loop.outer', desc = 'Prev loop end' },
-          },
-        },
-      },
-    },
-    config = function(_, opts)
-      ---@type table<string, ParserInfo|{}>
-      local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
-
-      parser_configs.lua_patterns = {
-        install_info = {
-          url = 'https://github.com/OXY2DEV/tree-sitter-lua_patterns',
-          files = { 'src/parser.c' },
-          branch = 'main',
-        },
       }
+      local isnt_installed = function(lang)
+        return #vim.api.nvim_get_runtime_file('parser/' .. lang .. '.*', false) == 0
+      end
+      local to_install = vim.tbl_filter(isnt_installed, ensure_installed)
+      if #to_install > 0 then
+        require('nvim-treesitter').install(to_install)
+      end
 
-      require('nvim-treesitter.configs').setup(opts)
-
-      local ts_repeat_move = require 'nvim-treesitter.textobjects.repeatable_move'
-      vim.keymap.set({ 'n', 'x', 'o' }, ';', ts_repeat_move.repeat_last_move, { desc = 'Repeat last move' })
-      vim.keymap.set({ 'n', 'x', 'o' }, ',', ts_repeat_move.repeat_last_move_opposite, { desc = 'Repeat last move (opposite)' })
-      vim.keymap.set({ 'n', 'x', 'o' }, 'f', ts_repeat_move.builtin_f_expr, { expr = true })
-      vim.keymap.set({ 'n', 'x', 'o' }, 'F', ts_repeat_move.builtin_F_expr, { expr = true })
-      vim.keymap.set({ 'n', 'x', 'o' }, 't', ts_repeat_move.builtin_t_expr, { expr = true })
-      vim.keymap.set({ 'n', 'x', 'o' }, 'T', ts_repeat_move.builtin_T_expr, { expr = true })
+      local filetypes = vim.iter(ensure_installed):map(vim.treesitter.language.get_filetypes):flatten():totable()
+      vim.list_extend(filetypes, { 'markdown', 'pandoc' })
+      local ts_start = function(ev)
+        vim.treesitter.start(ev.buf)
+      end
+      vim.api.nvim_create_autocmd('FileType', { pattern = filetypes, callback = ts_start })
     end,
   },
   {
