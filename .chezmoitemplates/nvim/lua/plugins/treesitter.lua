@@ -79,9 +79,7 @@ return {
     build = ':TSUpdate',
     event = { 'BufReadPre', 'BufNewFile' },
     cmd = { 'TSInstall', 'TSInstallInfo', 'TSBufEnable', 'TSBufDisable', 'TSEnable', 'TSDisable', 'TSModuleInfo', 'TSUpdate' },
-    ---@type TSConfig|{}
-    opts = {},
-    config = function(_, opts)
+    config = function()
       vim.filetype.add {
         filename = {
           ['vifmrc'] = 'vim',
@@ -94,26 +92,45 @@ return {
       }
 
       local ensure_installed = {
+        'astro',
         'bash',
         'c',
+        'cpp',
+        'css',
+        'csv',
         'diff',
+        'dockerfile',
         'git_config',
         'go',
         'html',
         'http',
         'hyprlang',
         'javascript',
+        'jsdoc',
+        'json5',
+        'just',
+        'jq',
         'lua',
         'luadoc',
         'markdown_inline',
+        'powershell',
+        'python',
         'query',
         'regex',
-        'rust',
         'ron',
+        'rust',
+        'svelte',
+        'sql',
+        'templ',
+        'toml',
+        'tsx',
         'typescript',
+        'typst',
+        'vhs',
         'vim',
         'vimdoc',
         'yaml',
+        'zig',
       }
       local isnt_installed = function(lang)
         return #vim.api.nvim_get_runtime_file('parser/' .. lang .. '.*', false) == 0
