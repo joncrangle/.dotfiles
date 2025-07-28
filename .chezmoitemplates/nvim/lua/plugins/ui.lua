@@ -9,8 +9,7 @@ return {
       flavour = 'mocha',
       transparent_background = true,
       integrations = {
-        avante = true,
-        blink_cmp = true,
+        blink_cmp = { enabled = true, style = 'bordered' },
         dadbod_ui = true,
         grug_far = true,
         lsp_trouble = true,
@@ -21,15 +20,6 @@ return {
         noice = true,
         snacks = { enabled = true, indent_scope_color = 'lavender' },
         which_key = true,
-      },
-      native_lsp = {
-        enabled = true,
-        underlines = {
-          errors = { 'undercurl' },
-          hints = { 'undercurl' },
-          warnings = { 'undercurl' },
-          information = { 'undercurl' },
-        },
       },
       highlight_overrides = {
         mocha = function(mocha)
