@@ -1,43 +1,20 @@
 {
-  "nativeMCPServers": {
-    "mcphub": {
-      "disabled": false,
-      "disabled_prompts": [
-        "create_native_server"
-      ],
-      "disabled_resources": [
-        "mcphub://docs",
-        "mcphub://native_server_guide",
-        "mcphub://changelog"
-      ]
-    },
-    "neovim": {
-      "disabled": true,
-      "disabled_prompts": [
-        "parrot"
-      ],
-      "disabled_tools": [
-        "execute_lua"
-      ]
-    }
-  },
   "mcpServers": {
-    "sequentialthinking": {
-      "command": "pnpm",
+    "context7": {
+      "command": "bunx",
       "args": [
-        "dlx",
-        "@modelcontextprotocol/server-sequential-thinking"
+        "@upstash/context7-mcp@latest"
+      ],
+      "disabled": true
+    },
+    "memory": {
+      "command": "bunx",
+      "args": [
+        "@modelcontextprotocol/server-memory"
       ],
       "disabled": true
     },
     "github": {
-      "env": {
-        "GITHUB_PERSONAL_ACCESS_TOKEN": "{{- .GithubKey -}}"
-      },
-      "args": [
-        "stdio"
-      ],
-      "command": "github-mcp-server",
       "disabled": true,
       "disabled_tools": [
         "add_issue_comment",
@@ -68,6 +45,13 @@
         "search_users",
         "update_issue",
         "update_pull_request_branch"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "{{- .GithubKey -}}"
+      },
+      "command": "github-mcp-server",
+      "args": [
+        "stdio"
       ]
     },
     "fetch": {
@@ -75,7 +59,7 @@
       "args": [
         "mcp-server-fetch"
       ],
-      "disabled": true
+      "disabled": false
     },
     "time": {
       "command": "uvx",
@@ -85,21 +69,34 @@
       ],
       "disabled": true
     },
-    "memory": {
-      "command": "pnpm",
+    "sequentialthinking": {
+      "command": "bunx",
       "args": [
-        "dlx",
-        "@modelcontextprotocol/server-memory"
+        "@modelcontextprotocol/server-sequential-thinking"
       ],
       "disabled": true
+    }
+  },
+  "nativeMCPServers": {
+    "neovim": {
+      "disabled": true,
+      "disabled_tools": [
+        "execute_lua"
+      ],
+      "disabled_prompts": [
+        "parrot"
+      ]
     },
-    "context7": {
-      "command": "pnpm",
-      "args": [
-        "dlx",
-        "@upstash/context7-mcp@latest"
+    "mcphub": {
+      "disabled": false,
+      "disabled_resources": [
+        "mcphub://docs",
+        "mcphub://native_server_guide",
+        "mcphub://changelog"
       ],
-      "disabled": true
+      "disabled_prompts": [
+        "create_native_server"
+      ]
     }
   }
 }

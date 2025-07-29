@@ -594,11 +594,11 @@ try
 {
     Set-Location -Path $projectPath
     git init
-    pnpm install
-    pnpm build
+    bun install
+    bun run build
 } catch
 {
-    Write-Host "Failed to run pnpm commands in ${projectPath}: $_"
+    Write-Host "Failed to run bun commands in ${projectPath}: $_"
 } finally
 {
     Set-Location -Path $PSScriptRoot

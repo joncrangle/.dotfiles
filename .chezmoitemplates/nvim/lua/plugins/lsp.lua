@@ -393,7 +393,7 @@ return {
         outdated = '#f9e2af',
         invalid = '#f38ba8',
       },
-      package_manager = 'pnpm',
+      package_manager = 'bun',
     },
     config = function(_, opts)
       require('package-info').setup(opts)

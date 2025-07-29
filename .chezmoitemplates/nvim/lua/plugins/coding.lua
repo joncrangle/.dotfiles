@@ -81,7 +81,7 @@ return {
       {
         'barrett-ruth/live-server.nvim',
         ft = 'html',
-        build = 'pnpm add -g live-server',
+        build = 'bun install -g live-server',
         cmd = { 'LiveServerStart', 'LiveServerStop' },
         opts = {},
       },

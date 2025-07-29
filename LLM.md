@@ -38,11 +38,11 @@ Current models:
 		},
 		"context7": {
 			"args": ["-y", "@upstash/context7-mcp@latest"],
-			"command": "npx"
+			"command": "bunx"
 		},
 		"memory": {
 			"args": ["-y", "@modelcontextprotocol/server-memory"],
-			"command": "npx"
+			"command": "bunx"
 		},
 		"fetch": {
 			"args": ["mcp-server-fetch"],
@@ -50,7 +50,7 @@ Current models:
 		},
 		"sequentialthinking": {
 			"args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
-			"command": "npx"
+			"command": "bunx"
 		}
 	}
 }

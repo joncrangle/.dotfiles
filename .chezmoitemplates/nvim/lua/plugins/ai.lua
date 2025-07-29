@@ -111,7 +111,7 @@ return {
     },
     cmd = 'MCPHub',
     event = 'FileType AvanteInput',
-    build = 'npm install -g mcp-hub@latest',
+    build = 'bun install -g mcp-hub@latest',
     opts = { auto_approve = true },
   },
   {
