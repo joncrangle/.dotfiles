@@ -180,11 +180,13 @@ Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory
 
 `$env:EDITOR = "nvim"
 `$env:VISUAL = "nvim"
-`$env:STARSHIP_CONFIG = "$HOME\.config\starship\starship.toml"
+`$env:STARSHIP_CONFIG = "$env:USERPROFILE\.config\starship\starship.toml"
 `$env:COREPACK_ENABLE_AUTO_PIN = "0"
 `$env:GEMINI_API_KEY={{- .GeminiKey }}
 # Add uv tools to PATH
-`$env:PATH = "C:\Users\CRANGLJ\AppData\Local\..\bin;$env:PATH"
+`$env:PATH = "$env:APPDATA\..\bin;$env:PATH"
+# Add bun to PATH
+`$env:PATH = "$env:USERPROFILE\.bun\bin;$env:PATH"
 
 # FZF
 `$env:FZF_DEFAULT_COMMAND="rg --files --no-ignore-vcs --hidden --follow --glob ""!.git/"" --glob ""!.jj/"""
