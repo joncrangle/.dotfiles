@@ -28,7 +28,7 @@ Features include:
 - [Neovim](https://neovim.io/) a cross-platform editor
 - [Starship](https://starship.rs/) prompt
 - [WezTerm](https://wezfurlong.org/wezterm/) a cross-platform terminal emulator
-- [Yazi](https://github.com/sxyazi/yazi) terminal file manager. Plugins can be updated with `ya pack -u`.
+- [Yazi](https://github.com/sxyazi/yazi) terminal file manager.
 - A configured `zsh` shell for macOS and Linux, and `PowerShell` for Windows with autocompletion, history, and syntax highlighting
 - Fuzzy finding with [fzf](https://github.com/junegunn/fzf)
 
