@@ -14,6 +14,7 @@ function M.tabline()
   local tabline = wezterm.plugin.require 'https://github.com/michaelbrusegard/tabline.wez'
   local bg = 'rgba(30, 30, 46, 0.8)'
 
+  ---@diagnostic disable-next-line: undefined-field
   tabline.setup {
     options = {
       icons_enabled = true,

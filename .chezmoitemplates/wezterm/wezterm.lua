@@ -14,15 +14,25 @@ pcall(wezterm.plugin.update_all)
 local config = wezterm.config_builder() ---@class Config
 wezterm.log_info 'reloading'
 
+local plugins = {
+  ---@type table
+  resurrect = wezterm.plugin.require 'https://github.com/MLFlexer/resurrect.wezterm',
+  ---@type table
+  workspace_switcher = wezterm.plugin.require 'https://github.com/MLFlexer/smart_workspace_switcher.wezterm',
+  domains = wezterm.plugin.require 'https://github.com/DavidRR-F/quick_domains.wezterm',
+  smart_splits = wezterm.plugin.require 'https://github.com/mrjones2014/smart-splits.nvim',
+}
+
 -- Modules
 if not wezterm.target_triple:find 'windows' then
   require('podman').apply_to_config(config)
 end
-require('keys').apply_to_config(config)
+require('keys').apply_to_config(config, plugins)
 require('links').apply_to_config(config)
 require('mouse').apply_to_config(config)
 require('tabline').apply_to_config(config)
 require('tabline').tabline()
+plugins.smart_splits.apply_to_config(config)
 
 -- Graphics config
 config.front_end = 'WebGpu'
@@ -33,7 +43,6 @@ config.max_fps = 120
 
 --  Colour scheme and UI
 config.adjust_window_size_when_changing_font_size = false
-config.bold_brightens_ansi_colors = true
 local scheme = wezterm.get_builtin_color_schemes()['Catppuccin Mocha']
 scheme.tab_bar.background = 'rgba(30, 30, 46, 0.8)'
 config.color_scheme = 'Catppuccin Mocha'
@@ -53,6 +62,7 @@ config.hide_tab_bar_if_only_one_tab = true
 config.inactive_pane_hsb = {
   saturation = 0.7,
   brightness = 0.4,
+  hue = 1,
 }
 config.scrollback_lines = 5000
 config.underline_thickness = 3
@@ -115,22 +125,20 @@ config.font_rules = {
 }
 
 -- Sessions
-local resurrect = wezterm.plugin.require 'https://github.com/MLFlexer/resurrect.wezterm'
 local separator = wezterm.target_triple:find 'windows' and '\\' or '/'
 local encryption_method = wezterm.target_triple:find 'darwin' and '/opt/homebrew/bin/age' or 'age'
-resurrect.state_manager.set_encryption {
+plugins.resurrect.state_manager.set_encryption {
   enable = true,
   method = encryption_method,
   private_key = wezterm.home_dir .. separator .. '.config' .. separator .. 'key.txt',
   public_key = '{{- .chezmoi.config.age.recipient -}}',
 }
-resurrect.state_manager.periodic_save()
-resurrect.state_manager.set_max_nlines(1000)
+plugins.resurrect.state_manager.periodic_save()
+plugins.resurrect.state_manager.set_max_nlines(1000)
 
 --Workspaces
-local workspace_switcher = wezterm.plugin.require 'https://github.com/MLFlexer/smart_workspace_switcher.wezterm'
-local workspace_state = resurrect.workspace_state
-workspace_switcher.workspace_formatter = function(label)
+local workspace_state = plugins.resurrect.workspace_state
+plugins.workspace_switcher.workspace_formatter = function(label)
   return wezterm.format {
     { Attribute = { Italic = true } },
     { Foreground = { Color = scheme.ansi[3] } },
@@ -173,11 +181,11 @@ wezterm.on('smart_workspace_switcher.workspace_switcher.created', function(windo
     { Foreground = { Color = scheme.ansi[5] } },
     { Text = basename(path) .. '  ' },
   })
-  workspace_state.restore_workspace(resurrect.state_manager.load_state(label, 'workspace'), {
+  workspace_state.restore_workspace(plugins.resurrect.state_manager.load_state(label, 'workspace'), {
     window = window,
     relative = true,
     restore_text = true,
-    on_pane_restore = resurrect.tab_state.default_on_pane_restore,
+    on_pane_restore = plugins.resurrect.tab_state.default_on_pane_restore,
   })
 end)
 
@@ -192,12 +200,12 @@ end)
 
 ---@diagnostic disable-next-line: unused-local
 wezterm.on('smart_workspace_switcher.workspace_switcher.selected', function(window, path, label)
-  resurrect.state_manager.save_state(workspace_state.get_workspace_state())
+  plugins.resurrect.state_manager.save_state(workspace_state.get_workspace_state())
 end)
 
 -- Domains
-local domains = wezterm.plugin.require 'https://github.com/DavidRR-F/quick_domains.wezterm'
-domains.formatter = function(icon, name)
+---@diagnostic disable-next-line: inject-field
+plugins.domains.formatter = function(icon, name)
   return wezterm.format {
     { Foreground = { Color = scheme.ansi[5] } },
     { Background = { Color = scheme.background } },
@@ -211,7 +219,7 @@ wezterm.on('augment-command-palette', function(window, pane)
     {
       brief = 'Window | Workspace: Switch Workspace',
       icon = 'md_briefcase_arrow_up_down',
-      action = workspace_switcher.switch_workspace(),
+      action = plugins.workspace_switcher.switch_workspace(),
     },
     {
       brief = 'Window | Workspace: Rename Workspace',
@@ -234,6 +242,7 @@ wezterm.on('augment-command-palette', function(window, pane)
         ---@diagnostic disable-next-line: unused-local, redefined-local
         action = wezterm.action_callback(function(window, pane, line)
           if line then
+            ---@diagnostic disable-next-line: redundant-parameter
             window:mux_window():set_title(line)
           end
         end),
@@ -241,9 +250,5 @@ wezterm.on('augment-command-palette', function(window, pane)
     },
   }
 end)
-
--- Smart Splits
-local smart_splits = wezterm.plugin.require 'https://github.com/mrjones2014/smart-splits.nvim'
-smart_splits.apply_to_config(config)
 
 return config

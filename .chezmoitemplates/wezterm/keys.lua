@@ -1,10 +1,6 @@
 local wezterm = require 'wezterm' --[[@as Wezterm]]
 local act = wezterm.action
 
-local resurrect = wezterm.plugin.require 'https://github.com/MLFlexer/resurrect.wezterm'
-local workspace_switcher = wezterm.plugin.require 'https://github.com/MLFlexer/smart_workspace_switcher.wezterm'
-local domains = wezterm.plugin.require 'https://github.com/DavidRR-F/quick_domains.wezterm'
-
 local M = {}
 
 M.mod = wezterm.target_triple:find 'windows' and 'SHIFT|CTRL' or 'SHIFT|SUPER'
@@ -13,6 +9,7 @@ M.v = wezterm.target_triple:find 'windows' and 'CTRL' or 'SUPER'
 
 M.smart_split = wezterm.action_callback(function(window, pane)
   local dim = pane:get_dimensions()
+  ---@diagnostic disable-next-line: undefined-field
   if dim.pixel_height > dim.pixel_width then
     window:perform_action(act.SplitVertical { domain = 'CurrentPaneDomain' }, pane)
   else
@@ -20,7 +17,11 @@ M.smart_split = wezterm.action_callback(function(window, pane)
   end
 end)
 
-function M.apply_to_config(config)
+function M.apply_to_config(config, plugins)
+  local resurrect = plugins.resurrect
+  local workspace_switcher = plugins.workspace_switcher
+  local domains = plugins.domains
+
   config.disable_default_key_bindings = true
   -- stylua: ignore
   config.keys = {
