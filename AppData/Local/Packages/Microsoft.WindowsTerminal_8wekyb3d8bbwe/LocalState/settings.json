@@ -64,12 +64,12 @@
             "colorScheme": "Catppuccin Mocha",
             "font": 
             {
-                "face": "IosevkaTerm Nerd Font",
+                "face": "TX-02, JetBrainsMono Nerd Font",
                 "features": 
                 {
                     "ss06": 0
                 },
-                "size": 14,
+                "size": 12,
                 "weight": "normal"
             }
         },
