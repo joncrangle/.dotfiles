@@ -80,21 +80,6 @@ return {
 
       local servers = {
         astro = {},
-        basedpyright = {
-          enabled = true,
-          settings = {
-            disableOrganizeImports = true,
-            basedpyright = {
-              analysis = {
-                typeCheckingMode = 'standard',
-                autoSearchPaths = true,
-                useLibraryCodeForTypes = true,
-                autoImportCompletions = true,
-              },
-            },
-            python = { venvPath = '.' },
-          },
-        },
         bashls = {},
         biome = {},
         clangd = {},
@@ -202,6 +187,7 @@ return {
           formatterMode = 'typstyle',
           exportPdf = 'never',
         },
+        ty = {},
         vtsls = {
           settings = {
             complete_function_calls = true,
