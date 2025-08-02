@@ -8,8 +8,8 @@ return {
     opts = {
       flavour = 'mocha',
       transparent_background = true,
+      float = { transparent = true, solid = false },
       integrations = {
-        blink_cmp = { enabled = true, style = 'bordered' },
         dadbod_ui = true,
         grug_far = true,
         lsp_trouble = true,
