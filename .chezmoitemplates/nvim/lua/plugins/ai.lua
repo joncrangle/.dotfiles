@@ -47,7 +47,6 @@ return {
             extra_request_body = {
               temperature = 0.2,
               max_tokens = tokens(256),
-              reasoning_effort = 'high',
             },
           },
           gemini = {
@@ -111,7 +110,7 @@ return {
     },
     cmd = 'MCPHub',
     event = 'FileType AvanteInput',
-    build = 'bun install -g mcp-hub@latest',
+    build = 'npm install -g mcp-hub@latest',
     opts = { auto_approve = true },
   },
   {
