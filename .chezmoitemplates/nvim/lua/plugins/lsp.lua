@@ -388,6 +388,7 @@ return {
       vim.cmd([[highlight PackageInfoInErrorVersion guifg=]] .. opts.colors.invalid)
     end,
   },
+  { 'dmmulroy/ts-error-translator.nvim', ft = { 'typescript', 'typescriptreact', 'tsx' }, opts = {} },
   {
     'jmbuhr/otter.nvim',
     ft = 'markdown',
