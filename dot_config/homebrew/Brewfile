@@ -83,6 +83,7 @@ brew "zoxide"
 brew "zsh"
 brew "felixkratz/formulae/borders"
 brew "felixkratz/formulae/sketchybar"
+brew "felixkratz/formulae/svim"
 brew "homebrew-ffmpeg/ffmpeg/ffmpeg", args: ["with-fdk-aac"]
 brew "jesseduffield/lazydocker/lazydocker"
 brew "koekeishiya/formulae/skhd"

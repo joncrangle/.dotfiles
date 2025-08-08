@@ -1,0 +1,10 @@
+default:
+    @just --list
+
+build-menus:
+    clang -std=c99 -O3 -F/System/Library/PrivateFrameworks/ -framework Carbon -framework SkyLight menus/menus.c -o menus/menus
+
+build-stats:
+    cargo build --manifest-path "$HOME"/.config/sketchybar/sketchybar-system-stats/Cargo.toml --release
+
+build: build-menus build-stats

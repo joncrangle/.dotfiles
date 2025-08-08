@@ -43,7 +43,7 @@ return {
         provider = 'copilot',
         providers = {
           copilot = {
-            model = 'gpt-4.1',
+            model = 'gpt-5',
             extra_request_body = {
               temperature = 0.2,
               max_tokens = tokens(256),
@@ -58,7 +58,8 @@ return {
           },
           vertex = { hide_in_model_selector = true },
           vertex_claude = { hide_in_model_selector = true },
-          ['qwen3-4b'] = generate_provider { model = 'qwen3-4b-instruct-2507-mlx', temperature = 0.7 },
+          ['qwen3-4b-instruct'] = generate_provider { model = 'qwen3-4b-instruct-2507-mlx', temperature = 0.7, min_p = 0, top_p = 0.8, top_k = 20 },
+          ['qwen3-4b-thinking'] = generate_provider { model = 'qwen3-4b-thinking-2507-mlx', temperature = 0.6, min_p = 0, top_p = 0.95, top_k = 20 },
           ['gemma-3-12b-it-qat'] = generate_provider { model = 'gemma-3-12b-it-qat', temperature = 1 },
           ['gemma-3-4b-it-qat'] = generate_provider { model = 'gemma-3-4b-it-qat', temperature = 1 },
           ['omni-qwen3-4b'] = generate_provider { model = 'mlx-community/Qwen3-4B-4bit-DWQ-053125', temperature = 0.6, port = 10240 },

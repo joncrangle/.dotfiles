@@ -1,27 +1,33 @@
 local colors = require 'colors'
-
-local popup_toggle = 'sketchybar --set $NAME popup.drawing=toggle'
+local settings = require 'settings'
 
 local apple_logo = sbar.add('item', 'apple_logo', {
-	click_script = popup_toggle,
-	icon = {
-		string = '􀣺',
-		font = {
-			size = 16.0,
-		},
-		color = colors.mauve,
-	},
-	label = { drawing = false },
-	popup = { height = 35 }
+  icon = {
+    string = '􀣺',
+    font = { size = 16.0 },
+    color = colors.blue,
+  },
+  label = {
+    font = { family = settings.font.text, style = settings.font.style_map['Bold'], size = 14.0 },
+    color = colors.peach,
+  },
+  click_script = '$CONFIG_DIR/menus/menus -s 0',
 })
 
-local apple_prefs = sbar.add('item', 'apple_prefs', {
-	position = 'popup.' .. apple_logo.name,
-	icon = '􀺽',
-	label = 'System Settings',
-})
-
-apple_prefs:subscribe('mouse.clicked', function(_)
-	sbar.exec("open -a 'System Preferences'")
-	apple_logo:set({ popup = { drawing = false } })
+apple_logo:subscribe('svim_update', function(env)
+  local mode_color
+  local cmdline = ''
+  if env['MODE'] == 'I' then
+    mode_color = colors.green
+  elseif env['MODE'] == 'V' then
+    mode_color = colors.mauve
+  elseif env['MODE'] == 'C' then
+    mode_color = colors.peach
+    cmdline = env['CMDLINE']
+  elseif env['MODE'] == 'R' then
+    mode_color = colors.red
+  else
+    mode_color = colors.blue
+  end
+  apple_logo:set { icon = { color = mode_color }, label = cmdline }
 end)
