@@ -264,6 +264,7 @@ return {
         },
         extensions = {
           lualine_custom,
+          'avante',
           'lazy',
           'mason',
           'nvim-dap-ui',
