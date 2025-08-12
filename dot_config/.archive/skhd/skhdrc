@@ -11,10 +11,6 @@
 default < cmd + shift - r; resize
 resize < escape ; default
 
-# Launch application shortcuts
-default < cmd - return : open -na /Applications/WezTerm.app
-default < cmd - b : open -na /Applications/Arc.app
-
 # Changing window focus
 default < cmd - j : yabai -m window --focus south
 default < cmd - k : yabai -m window --focus north

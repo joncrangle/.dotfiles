@@ -133,12 +133,6 @@ git-tag() {
 	git push origin "$version"
 }
 
-libby() {
-	cd $HOME/Downloads
-	odmpy libby -c -m --mergeformat m4b --mergecodec libfdk_aac -k --nobookfolder
-	z -
-}
-
 open-at-line() {
 	nvim $(rg --line-number . | fzf --delimiter ':' --preview 'bat --color=always --highlight-line {2} {1}' | awk -F ':' '{print "+"$2" "$1}')
 }

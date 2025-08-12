@@ -34,13 +34,11 @@ Brewfile
 setup_mac.sh
 .config/.macos
 .config/ssh.sh
+.config/aerospace/
 .config/homebrew/
 .config/linearmouse/
-.config/odmpy/
 .config/sketchybar/
-.config/skhd/
 .config/svim/
-.config/yabai/
 {{ end }}
 
 {{ if ne .chezmoi.os "linux" }}

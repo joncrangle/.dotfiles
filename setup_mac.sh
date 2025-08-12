@@ -81,11 +81,11 @@ cargo install cargo-update
 cargo install cargo-cache
 cargo install --locked bacon
 luarocks install busted
-ya pack -i
-ya pack -u
+ya pkg install
+ya pkg upgrade
 eval "$(fnm env)"
 fnm install 22
-fnm install 23
+fnm install 24
 corepack enable pnpm
 go install github.com/joncrangle/podcasts-sync@latest
 jj config set --user user.name "jonathancrangle"
@@ -99,17 +99,14 @@ diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
 format = "git"' | tee -a "$(jj config path --user)" >/dev/null
 
 mkdir -p "$HOME"/Documents/Code
-# Start yabai, skhd, sketchybar and borders
+# Configure SbarLua and custom Sketchybar setup
 osascript -e 'tell application "System Events" to set autohide menu bar of dock preferences to true'
 (git clone https://github.com/FelixKratz/SbarLua.git /tmp/SbarLua && cd /tmp/SbarLua/ && make install && rm -rf /tmp/SbarLua/)
 (git clone git@github.com:kvndrsslr/sketchybar-app-font.git "$HOME"/Documents/Code && bun install && bun run build:install)
 git clone git@github.com:joncrangle/sketchybar-system-stats.git "$HOME"/.config/sketchybar
 just "$HOME"/.config/sketchybar/build
-echo "$(whoami) ALL=(root) NOPASSWD: sha256:$(shasum -a 256 "$(which yabai)" | cut -d " " -f 1) $(which yabai) --load-sa" | sudo tee /private/etc/sudoers.d/yabai
 brew services start sketchybar
 brew services start svim
-skhd --start-service
-yabai --start-service
 
 # Update Mac system preferences
 read -p "Do you want to update Mac system preferences? (y/n) " -n 1 -r
