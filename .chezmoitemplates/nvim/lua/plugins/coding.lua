@@ -1,5 +1,5 @@
 return {
-  { 'gonstoll/wezterm-types', lazy = true, ft = 'lua' },
+  { 'justinsgithub/wezterm-types', lazy = true, ft = 'lua' },
   ---@module 'lazydev'
   {
     'folke/lazydev.nvim',
@@ -11,7 +11,7 @@ return {
         { path = '${3rd}/busted/library', words = { 'describe' } },
         { path = '${3rd}/luassert/library', words = { 'assert' } },
         { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
-        { path = 'wezterm-types/types', mods = { 'wezterm' } },
+        { path = 'wezterm-types', mods = { 'wezterm' } },
         { path = 'snacks.nvim', words = { 'Snacks' } },
       },
     },
