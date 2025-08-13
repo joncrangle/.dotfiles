@@ -128,35 +128,46 @@ const calculateDiskUsage = (disk: Disk): number => {
 const WorkspaceButton = (props: {
 	workspace: Workspace;
 	glazewm: GlazeWmOutput;
-}) => (
-	<button
-		type="button"
-		class={`workspace ${props.workspace.hasFocus ? "focused" : ""}`}
-		onClick={() =>
-			props.glazewm.runCommand(`focus --workspace ${props.workspace.name}`)
-		}
-	>
-		{props.workspace.name}
-	</button>
-);
+}) => {
+	// Create a memoized filtered list of windows for this workspace
+	const workspaceWindows = createMemo(() => {
+		if (!props.glazewm?.allWindows || !props.workspace) return [];
+		return props.glazewm.allWindows.filter(
+			(window) => window.parentId === props.workspace.id,
+		);
+	});
+	return (
+		<button
+			type="button"
+			class={`workspace ${props.workspace.hasFocus ? "focused" : ""}`}
+			onClick={() =>
+				props.glazewm.runCommand(`focus --workspace ${props.workspace.name}`)
+			}
+		>
+			{props.workspace.name}
+			<Show when={workspaceWindows().length > 0} fallback={<span>—</span>}>
+				<For each={workspaceWindows()}>
+					{(window) => {
+						const appIcon = createMemo(() =>
+							window
+								? getAppIcon(window.title || "", window.processName || "")
+								: ":default:",
+						);
+						return <span class="sketchy-icon">{appIcon()}</span>;
+					}}
+				</For>
+			</Show>
+		</button>
+	);
+};
 
 const FocusedWindow = (props: { glazewm: Window }) => {
 	const focusedContainer = () => props.glazewm.focusedContainer;
-	const appIcon = createMemo(() =>
-		focusedContainer()
-			? getAppIcon(
-					focusedContainer().title || "",
-					focusedContainer().processName || "",
-				)
-			: ":default:",
-	);
 	const windowTitle = createMemo(() =>
-		focusedContainer()?.title ? parseTitle(focusedContainer().title) : "-",
+		focusedContainer()?.title ? parseTitle(focusedContainer().title) : "—",
 	);
-
 	return (
 		<div class="focused-window">
-			<span class="sketchy-icon">{appIcon()}</span>
 			<span>{windowTitle()}</span>
 		</div>
 	);

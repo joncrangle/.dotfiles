@@ -23,7 +23,7 @@
   --spacing-xs: 2px;
   --spacing-sm: 4px;
   --spacing-md: 6px;
-  --spacing-lg: 12px;
+  --spacing-lg: 10px;
   --spacing-xl: 18px;
   --font-size-small: 10px;
   --font-size-base: 12px;
@@ -46,6 +46,7 @@ body {
   margin: 0;
   padding: 0;
   height: var(--grid-height);
+  overflow: hidden;
 }
 
 #root {
@@ -60,7 +61,7 @@ i {
 /* Layout */
 .app {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr auto 1fr;
   color: var(--text-secondary);
   align-items: center;
   height: 100%;
@@ -109,21 +110,23 @@ i {
 .workspaces {
   display: flex;
   align-items: center;
-  gap: var(--spacing-xs);
+  gap: var(--spacing-md);
 }
 
 .workspace {
   background: var(--bg-secondary);
   color: var(--text-primary);
-  width: var(--component-height);
+  min-width: var(--component-height);
   height: var(--component-height);
   border: none;
-  border-radius: var(--border-radius-small);
+  border-radius: var(--border-radius);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   display: flex;
+  padding: 0 var(--spacing-md) 0 var(--spacing-lg);
+  gap: var(--spacing-md);
   align-items: center;
-  justify-content: center;
+  line-height: 1;
 }
 
 .workspace.focused,
@@ -157,8 +160,6 @@ i {
 .sketchy-icon {
   font-family: "sketchybar-app-font", sans-serif;
   line-height: 1.5;
-  font-size: 1.3em;
-  margin-right: 0.3rem;
 }
 
 .date {
