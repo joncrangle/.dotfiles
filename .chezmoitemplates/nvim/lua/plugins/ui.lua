@@ -16,6 +16,10 @@ return {
         markview = true,
         mason = true,
         mini = { enabled = true },
+        navic = {
+          enabled = true,
+          custom_bg = 'NONE',
+        },
         neotest = true,
         noice = true,
         snacks = { enabled = true, indent_scope_color = 'lavender' },
@@ -418,6 +422,15 @@ return {
 
                 return name_hl .. name
               end,
+            },
+          },
+        },
+        winbar = {
+          lualine_c = {
+            {
+              'navic',
+              color_correction = 'dynamic',
+              navic_opts = { depth_limit = 5, highlight = true },
             },
           },
         },

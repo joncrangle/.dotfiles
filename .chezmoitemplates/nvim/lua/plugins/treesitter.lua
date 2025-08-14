@@ -6,7 +6,7 @@ return {
     dependencies = {
       {
         'nvim-treesitter/nvim-treesitter-context',
-        opts = { mode = 'cursor', max_lines = 3 },
+        opts = { mode = 'cursor', max_lines = 1 },
         -- stylua: ignore
         keys = {
           { '[c', function() require('treesitter-context').go_to_context() end, desc = 'Goto context' },

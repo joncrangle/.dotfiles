@@ -7,6 +7,7 @@ return {
       { 'mason-org/mason-lspconfig.nvim', opts = {} },
       'WhoIsSethDaniel/mason-tool-installer.nvim',
       { 'b0o/schemastore.nvim', lazy = true, opts = nil },
+      'SmiteshP/nvim-navic',
     },
     config = function()
       vim.api.nvim_create_autocmd('LspAttach', {
@@ -74,6 +75,10 @@ return {
             map('<leader>ti', function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
             end, '[T]oggle [I]nlay Hints')
+          end
+
+          if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentSymbol, event.buf) then
+            require('nvim-navic').attach(client, event.buf)
           end
         end,
       })
