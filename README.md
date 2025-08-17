@@ -34,8 +34,7 @@ Features include:
 
 **MacOS**
 
-- [Yabai](https://github.com/koekeishiya/yabai) window manager
-- [skhd](https://github.com/koekeishiya/skhd) keyboard shortcuts
+- [Aerospace](https://nikitabobko.github.io/AeroSpace/guide) window manager
 - [SketchyBar](https://github.com/FelixKratz/SketchyBar) bar
 - [JankyBorders](https://github.com/FelixKratz/JankyBorders) border styling
 - [Raycast](https://www.raycast.com/) launcher
@@ -64,32 +63,13 @@ Features include:
 
 ### 🍎 MacOS
 
-1. Disable system integrity protection. [Yabai instructions](https://github.com/koekeishiya/yabai/wiki/Disabling-System-Integrity-Protection)
+1. Remove mission control shortcuts. Open `System Settings` -> `Keyboard` -> `Keyboard Shortcuts`. Disable the `Mission Control` shortcuts, including `⌘` + `#` to switch between workspaces.
 
-    - Turn off system. Hold power button until "Loading startup options" appears. Click "Options" then click "Continue"
-    - In the menu bar, choose `Utilities`, then `Terminal`
+2. Open `System Settings` -> `Privacy & Security` -> `Accessibility`. Click the + button at the bottom left of the list view and enter your password to allow changes to the list.
 
-    ```zsh
-    # If you're on Apple Silicon macOS 13.x.x
-    # Requires Filesystem Protections, Debugging Restrictions and NVRAM Protection to be disabled
-    # (printed warning can be safely ignored)
-    csrutil enable --without fs --without debug --without nvram
-    ```
+3. Give `Terminal` full disk access through `Security & Privacy` -> `Privacy` -> `Full Disk Access`.
 
-    - Reboot. For Apple Silicon, need to enable non-Apple-signed arm64e binaries.
-
-    ```zsh
-    # Open a terminal and run the below command, then reboot
-    sudo nvram boot-args=-arm64e_preview_abi
-    ```
-
-2. Create 5 workspaces. Open `System Settings` -> `Keyboard` -> `Keyboard Shortcuts`. Enable the `Mission Control` shortcuts, including `⌘` + `#` and `⌃` + `<-` / `->` to to switch between workspaces.
-
-3. Open `System Settings` -> `Privacy & Security` -> `Accessibility`. Click the + button at the bottom left of the list view and enter your password to allow changes to the list.
-
-4. Give `Terminal` full disk access through `Security & Privacy` -> `Privacy` -> `Full Disk Access`.
-
-5. Download and run the [setup_mac.sh](https://github.com/joncrangle/.dotfiles/raw/main/setup_mac.sh) shell script.
+4. Download and run the [setup_mac.sh](https://github.com/joncrangle/.dotfiles/raw/main/setup_mac.sh) shell script.
 
 ```zsh
 curl -L https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_mac.sh | sh
@@ -102,13 +82,13 @@ curl -L https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_mac.sh
 > chmod +x setup_mac.sh
 > ```
 
-6. The macOS setup process will begin by installing [Homebrew](https://brew.sh/), [chezmoi](https://chezmoi.io/), and Git.
+5. The macOS setup process will begin by installing [Homebrew](https://brew.sh/), [chezmoi](https://chezmoi.io/), and Git.
 
-7. Setup will walk you through authenticating with Github. It will then install the dotfiles and apps.
+6. Setup will walk you through authenticating with Github. It will then install the dotfiles and apps.
 
-8. Give `WezTerm` full disk access through `Security & Privacy` -> `Privacy` -> `Full Disk Access`. Hide the menu bar in `System Settings` -> `Control Center` -> Automatically hide and show the menu bar -> Always.
+7. Give `WezTerm` full disk access through `Security & Privacy` -> `Privacy` -> `Full Disk Access`. Hide the menu bar in `System Settings` -> `Control Center` -> Automatically hide and show the menu bar -> Always.
 
-9. Give `Yabai`, `Wezterm`, `skhd` accessibility permissions in `System Preferences` -> `Security & Privacy` -> `Accessibility`.
+8. Give `Aerospace`, `Wezterm`, `skhd` accessibility permissions in `System Preferences` -> `Security & Privacy` -> `Accessibility`.
 
 10. Launch the `Shortcuts` app. Create a shortcut called "playpause" with "Play/Pause" from the "Media" category. This shortcut will be used by the bar for playback control.
 
