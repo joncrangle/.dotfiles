@@ -3,8 +3,8 @@ return {
     'joncrangle/visual-lines.nvim',
     -- 'visual-lines.nvim',
     -- dev = true,
-    event = { 'BufReadPre', 'BufNewFile' },
-    opts = {},
+    ---@type VisualLineNumbersOptions
+    -- opts = {},
   },
   {
     'joncrangle/itchy.nvim',
