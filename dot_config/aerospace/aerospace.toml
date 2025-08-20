@@ -5,7 +5,7 @@ after-startup-command = [
     'exec-and-forget sketchybar --reload',
 ]
 exec-on-workspace-change = ['/bin/bash', '-c',
-    'sketchybar --trigger aerospace_workspace_change FOCUSED=$AEROSPACE_FOCUSED_WORKSPACE'
+    'sketchybar --trigger aerospace_workspace_change FOCUSED=$AEROSPACE_FOCUSED_WORKSPACE PREVIOUS=$AEROSPACE_PREV_WORKSPACE'
 ]
 start-at-login = true
 enable-normalization-flatten-containers = true
@@ -63,6 +63,7 @@ automatically-unhide-macos-hidden-apps = true
 
     alt-tab = 'workspace-back-and-forth'
     alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
+    alt-f = 'fullscreen'
 
     alt-shift-semicolon = [
         'exec-and-forget sketchybar --bar color=0x22f9e2af',
@@ -76,8 +77,8 @@ automatically-unhide-macos-hidden-apps = true
 [mode.service.binding]
     esc = [
         'reload-config',
+        'mode main',
         'exec-and-forget sketchybar --bar color=0x00000000',
-        'mode main'
     ]
     r = ['flatten-workspace-tree', 'mode main'] # reset layout
     f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
@@ -86,16 +87,40 @@ automatically-unhide-macos-hidden-apps = true
         'exec-and-forget sketchybar --bar color=0x00000000',
         'mode main'
     ]
-    backspace = ['close-all-windows-but-current', 'mode main']
+    backspace = [
+        'close-all-windows-but-current',
+        'exec-and-forget sketchybar --bar color=0x00000000',
+        'mode main'
+    ]
 
-    alt-shift-h = ['join-with left', 'mode main']
-    alt-shift-j = ['join-with down', 'mode main']
-    alt-shift-k = ['join-with up', 'mode main']
-    alt-shift-l = ['join-with right', 'mode main']
+    alt-shift-h = [
+        'join-with left',
+        'exec-and-forget sketchybar --bar color=0x00000000',
+        'mode main'
+    ]
+    alt-shift-j = [
+        'join-with down',
+        'exec-and-forget sketchybar --bar color=0x00000000',
+        'mode main'
+    ]
+    alt-shift-k = [
+        'join-with up',
+        'exec-and-forget sketchybar --bar color=0x00000000',
+        'mode main'
+    ]
+    alt-shift-l = [
+        'join-with right',
+        'exec-and-forget sketchybar --bar color=0x00000000',
+        'mode main'
+    ]
 
     down = 'volume down'
     up = 'volume up'
-    shift-down = ['volume set 0', 'mode main']
+    shift-down = [
+        'volume set 0',
+        'exec-and-forget sketchybar --bar color=0x00000000',
+        'mode main'
+    ]
 
 [mode.resize.binding]
     h = 'resize width -50'

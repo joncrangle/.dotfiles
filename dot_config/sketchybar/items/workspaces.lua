@@ -4,6 +4,7 @@ local app_icons = require 'app_icons'
 
 local workspaces = {}
 local focused_workspace = nil
+local previous_workspace = nil
 
 local function update_workspace_icons(space_name)
   sbar.exec('aerospace list-windows --format %{app-name} --workspace ' .. space_name, function(windows)
@@ -37,7 +38,7 @@ sbar.exec('aerospace list-workspaces --monitor all', function(spaces)
         font = { family = settings.font.numbers, style = settings.font.style_map['Black'] },
         string = ' ' .. space_name,
         padding_left = 6,
-        padding_right = 3,
+        padding_right = 0,
         color = colors.text,
       },
       label = {
@@ -60,11 +61,14 @@ sbar.exec('aerospace list-workspaces --monitor all', function(spaces)
     workspaces[space_name] = space
 
     space:subscribe('front_app_switched', function()
-      update_workspace_icons(space_name)
+      if previous_workspace ~= space_name or focused_workspace ~= space_name then
+        update_workspace_icons(space_name)
+      end
     end)
 
     space:subscribe('aerospace_workspace_change', function(env)
       focused_workspace = env.FOCUSED
+      previous_workspace = env.PREVIOUS
       if focused_workspace == space_name then
         space:set {
           icon = { string = space_name, color = colors.crust },
@@ -78,7 +82,9 @@ sbar.exec('aerospace list-workspaces --monitor all', function(spaces)
           background = { color = colors.surface0 },
         }
       end
-      update_workspace_icons(space_name)
+      if previous_workspace == space_name or focused_workspace == space_name then
+        update_workspace_icons(space_name)
+      end
     end)
 
     space:subscribe('mouse.clicked', function()
