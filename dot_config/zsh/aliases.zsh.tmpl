@@ -177,7 +177,7 @@ password() {
 	}
 
 	copy_to_clipboard() {
-		if command - v pbcopy >/dev/null; then
+		if command -v pbcopy >/dev/null; then
 			echo -n "$1" | pbcopy
 		elif command -v wl-copy >/dev/null; then
 			echo -n "$1" | wl-copy
