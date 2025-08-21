@@ -80,8 +80,16 @@ automatically-unhide-macos-hidden-apps = true
         'mode main',
         'exec-and-forget sketchybar --bar color=0x00000000',
     ]
-    r = ['flatten-workspace-tree', 'mode main'] # reset layout
-    f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
+    r = [
+        'flatten-workspace-tree',
+        'exec-and-forget sketchybar --bar color=0x22f9e2af',
+        'mode main'
+    ] # reset layout
+    f = [
+        'layout floating tiling',
+        'exec-and-forget sketchybar --bar color=0x22f9e2af',
+        'mode main'
+    ] # Toggle between floating and tiling layout
     m = [
         'exec-and-forget $HOME/.config/sketchybar/menus/menus -t',
         'exec-and-forget sketchybar --bar color=0x00000000',

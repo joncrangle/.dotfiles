@@ -7,12 +7,12 @@ local focused_workspace = nil
 local previous_workspace = nil
 
 local function update_workspace_icons(space_name)
-  sbar.exec('aerospace list-windows --format %{app-name} --workspace ' .. space_name, function(windows)
+  sbar.exec('aerospace list-windows --format "%{app-name}" --json --workspace ' .. space_name, function(windows)
     local icon_line = ''
     local no_app = true
-    for app in windows:gmatch '[^\r\n]+' do
+    for _, app in ipairs(windows) do
       no_app = false
-      local lookup = app_icons[app]
+      local lookup = app_icons[app['app-name']]
       local icon = ((lookup == nil) and app_icons['default'] or lookup)
       icon_line = icon_line .. ' ' .. icon
     end
@@ -27,13 +27,16 @@ local function update_workspace_icons(space_name)
   end)
 end
 
-sbar.exec('aerospace list-workspaces --monitor all', function(spaces)
+sbar.exec('aerospace list-workspaces --monitor all --format "%{workspace}%{monitor-appkit-nsscreen-screens-id}" --json', function(spaces)
   local last_workspace = nil
 
-  for space_name in spaces:gmatch '[^\r\n]+' do
+  for _, entry in ipairs(spaces) do
+    local space_name = entry.workspace
+    local monitor_id = entry['monitor-appkit-nsscreen-screens-id']
     last_workspace = space_name
 
     local space = sbar.add('item', 'space.' .. space_name, {
+      display = monitor_id,
       icon = {
         font = { family = settings.font.numbers, style = settings.font.style_map['Black'] },
         string = ' ' .. space_name,
