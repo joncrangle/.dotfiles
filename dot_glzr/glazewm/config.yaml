@@ -29,11 +29,19 @@ general:
   # Commands to run when the WM has started. This is useful for running a
   # script or launching another application.
   # Example: The below command launches Zebar.
-  startup_commands: ["shell-exec zebar"]
+  startup_commands:
+    [
+      "shell-exec zebar",
+      'shell-exec pwsh -NoProfile -WindowStyle Hidden -Command "Start-Process ''teams-green.exe'' -ArgumentList ''start --websocket'' -WindowStyle Hidden"',
+    ]
 
   # Commands to run just before the WM is shutdown.
   # Example: The below command kills Zebar.
-  shutdown_commands: ["shell-exec taskkill /IM zebar.exe /F"]
+  shutdown_commands:
+    [
+      "shell-exec taskkill /IM zebar.exe /F",
+      'shell-exec pwsh -NoProfile -WindowStyle Hidden -Command "Start-Process ''teams-green.exe'' -ArgumentList ''stop --websocket'' -WindowStyle Hidden"',
+    ]
 
   # Commands to run after the WM config is reloaded.
   config_reload_commands: []
@@ -313,6 +321,13 @@ keybindings:
   # Redraw all windows.
   - commands: ["wm-redraw"]
     bindings: ["alt+shift+w"]
+
+  # Toggle Teams-Green
+  - commands:
+      [
+        'shell-exec pwsh -NoProfile -WindowStyle Hidden -Command "Start-Process ''teams-green.exe'' -ArgumentList ''toggle --websocket'' -WindowStyle Hidden"',
+      ]
+    bindings: ["alt+shift+t"]
 
   # Launch CMD terminal. Alternatively, use `shell-exec wt` or
   # `shell-exec %ProgramFiles%/Git/git-bash.exe` to start Windows

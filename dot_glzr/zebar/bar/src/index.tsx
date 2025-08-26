@@ -2,7 +2,7 @@
 import "./index.css";
 import iconMap from "./icon_map.json";
 import { For, render, Show } from "solid-js/web";
-import { createMemo } from "solid-js";
+import { createMemo, createSignal, onCleanup } from "solid-js";
 import { createStore } from "solid-js/store";
 import * as zebar from "zebar";
 import {
@@ -182,6 +182,58 @@ const MediaInfo = (props: { media: MediaOutput }) => (
 	</Show>
 );
 
+const TeamsStatus = () => {
+	const [isConnected, setIsConnected] = createSignal(false);
+	const [ws, setWs] = createSignal<WebSocket | null>(null);
+
+	const connectWebSocket = () => {
+		try {
+			const websocket = new WebSocket("ws://127.0.0.1:8765/ws");
+
+			websocket.onopen = () => {
+				setIsConnected(true);
+			};
+
+			websocket.onclose = () => {
+				setIsConnected(false);
+				// Retry connection after 5 seconds
+				setTimeout(connectWebSocket, 5000);
+			};
+
+			websocket.onerror = () => {
+				setIsConnected(false);
+			};
+
+			setWs(websocket);
+		} catch (error) {
+			setIsConnected(false);
+			// Retry connection after 5 seconds
+			setTimeout(connectWebSocket, 5000);
+		}
+	};
+
+	// Initial connection attempt
+	connectWebSocket();
+
+	// Cleanup on component unmount
+	onCleanup(() => {
+		const websocket = ws();
+		if (websocket) {
+			websocket.close();
+		}
+	});
+
+	return (
+		<div
+			class={
+				isConnected() ? "teams-status connected" : "teams-status disconnected"
+			}
+		>
+			<span class="sketchy-icon">:microsoft_teams:</span>
+		</div>
+	);
+};
+
 const SystemStats = (props: {
 	memory: MemoryOutput;
 	cpu: CpuOutput;
@@ -265,6 +317,7 @@ function App() {
 
 			<div class="center">
 				<div class="date">{output.date?.formatted}</div>
+				<TeamsStatus />
 			</div>
 
 			<div class="right">

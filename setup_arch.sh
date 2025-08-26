@@ -357,6 +357,7 @@ packages=(
     "thunar-archive-plugin"
     "tldr"
     "topgrade"
+    "tree-sitter"
     "ttf-cascadia-code-nerd"
     "ttf-droid"
     "ttf-fira-code"

@@ -10,6 +10,8 @@ llm/
 
 {{ if ne .chezmoi.os "windows" }}
 setup_win.ps1
+WinUtilTweaks.json
+WinUtilTweaks.ps1
 AppData/
 .config/whkdrc
 .config/windows-terminal/
