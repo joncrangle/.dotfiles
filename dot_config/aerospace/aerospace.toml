@@ -64,6 +64,7 @@ automatically-unhide-macos-hidden-apps = true
     alt-tab = 'workspace-back-and-forth'
     alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
     alt-f = 'fullscreen'
+    alt-shift-f = 'macos-native-fullscreen'
 
     alt-shift-semicolon = [
         'exec-and-forget sketchybar --bar color=0x22f9e2af',
@@ -77,49 +78,49 @@ automatically-unhide-macos-hidden-apps = true
 [mode.service.binding]
     esc = [
         'reload-config',
-        'mode main',
         'exec-and-forget sketchybar --bar color=0x00000000',
+        'mode main',
     ]
     r = [
         'flatten-workspace-tree',
-        'exec-and-forget sketchybar --bar color=0x22f9e2af',
-        'mode main'
+        'exec-and-forget sketchybar --bar color=0x00000000',
+        'mode main',
     ] # reset layout
     f = [
         'layout floating tiling',
-        'exec-and-forget sketchybar --bar color=0x22f9e2af',
-        'mode main'
+        'exec-and-forget sketchybar --bar color=0x00000000',
+        'mode main',
     ] # Toggle between floating and tiling layout
     m = [
         'exec-and-forget $HOME/.config/sketchybar/menus/menus -t',
         'exec-and-forget sketchybar --bar color=0x00000000',
-        'mode main'
+        'mode main',
     ]
     backspace = [
         'close-all-windows-but-current',
         'exec-and-forget sketchybar --bar color=0x00000000',
-        'mode main'
+        'mode main',
     ]
 
     alt-shift-h = [
         'join-with left',
         'exec-and-forget sketchybar --bar color=0x00000000',
-        'mode main'
+        'mode main',
     ]
     alt-shift-j = [
         'join-with down',
         'exec-and-forget sketchybar --bar color=0x00000000',
-        'mode main'
+        'mode main',
     ]
     alt-shift-k = [
         'join-with up',
         'exec-and-forget sketchybar --bar color=0x00000000',
-        'mode main'
+        'mode main',
     ]
     alt-shift-l = [
         'join-with right',
         'exec-and-forget sketchybar --bar color=0x00000000',
-        'mode main'
+        'mode main',
     ]
 
     down = 'volume down'
@@ -127,7 +128,7 @@ automatically-unhide-macos-hidden-apps = true
     shift-down = [
         'volume set 0',
         'exec-and-forget sketchybar --bar color=0x00000000',
-        'mode main'
+        'mode main',
     ]
 
 [mode.resize.binding]
@@ -138,7 +139,7 @@ automatically-unhide-macos-hidden-apps = true
     enter = 'balance-sizes'
     esc = [
     'exec-and-forget sketchybar --bar color=0x00000000',
-    'mode main'
+    'mode main',
 ]
 
 [[on-window-detected]]
