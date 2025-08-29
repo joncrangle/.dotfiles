@@ -27,6 +27,26 @@ local function update_workspace_icons(space_name)
   end)
 end
 
+local function move_pip_to_current_workspace()
+  if not focused_workspace then
+    return
+  end
+
+  sbar.exec('aerospace list-windows --format "%{window-id}%{app-name}%{window-title}" --json --all', function(windows)
+    for _, window in ipairs(windows) do
+      local app_name = window['app-name']
+      local window_id = window['window-id']
+      local window_title = window['window-title']
+
+      if app_name == 'Zen' and window_title == 'Picture-in-Picture' then
+        if window_id and window_id ~= '' then
+          sbar.exec('aerospace move-node-to-workspace --window-id ' .. window_id .. ' ' .. focused_workspace)
+        end
+      end
+    end
+  end)
+end
+
 sbar.exec('aerospace list-workspaces --monitor all --format "%{workspace}%{monitor-appkit-nsscreen-screens-id}" --json', function(spaces)
   local last_workspace = nil
 
@@ -72,6 +92,9 @@ sbar.exec('aerospace list-workspaces --monitor all --format "%{workspace}%{monit
     space:subscribe('aerospace_workspace_change', function(env)
       focused_workspace = env.FOCUSED
       previous_workspace = env.PREVIOUS
+
+      move_pip_to_current_workspace()
+
       if focused_workspace == space_name then
         space:set {
           icon = { string = space_name, color = colors.crust },

@@ -165,12 +165,13 @@ run = 'move-node-to-workspace 3 --focus-follows-window'
 [[on-window-detected]]
 if.app-id = 'app.zen-browser.zen'
 run = 'move-node-to-workspace 3 --focus-follows-window'
+check-further-callbacks = true
 
 [[on-window-detected]]
-if.during-aerospace-startup = false
 if.app-id = 'app.zen-browser.zen'
 if.window-title-regex-substring = 'Picture-in-Picture'
 run = ['layout floating']
+check-further-callbacks = true
 
 [[on-window-detected]]
 if.app-id = 'md.obsidian'
