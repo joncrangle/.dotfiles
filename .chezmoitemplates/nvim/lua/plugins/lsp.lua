@@ -88,7 +88,7 @@ return {
         bashls = {},
         biome = {},
         clangd = {},
-        ['copilot-language-server'] = {},
+        copilot = {},
         cssls = {},
         denols = {
           root_markers = { 'deno.json', 'deno.jsonc' },
@@ -270,8 +270,38 @@ return {
         zls = {},
       }
 
-      local ensure_installed = vim.tbl_keys(servers or {})
-      vim.list_extend(ensure_installed, {
+      local mlsp = require 'mason-lspconfig'
+      local all_mslp_servers = mlsp.get_available_servers()
+
+      local function is_executable_available(name)
+        return vim.fn.executable(name) == 1
+      end
+
+      local function should_install_server(server)
+        local executable = server
+
+        -- If executable is available on system, don't install via Mason
+        if is_executable_available(executable) then
+          return false
+        end
+
+        -- Only install via Mason if it's available through mason-lspconfig
+        return vim.tbl_contains(all_mslp_servers, server)
+      end
+
+      local function should_install_tool(tool)
+        return not is_executable_available(tool)
+      end
+
+      local ensure_installed = {}
+
+      for server, _ in pairs(servers) do
+        if should_install_server(server) then
+          table.insert(ensure_installed, server)
+        end
+      end
+
+      local tools = {
         'codelldb',
         'delve',
         'goimports',
@@ -289,8 +319,19 @@ return {
         'sqlfluff',
         'stylua',
         'typstyle',
-      })
-      require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+      }
+
+      -- Only install tools if not available on system
+      for _, tool in ipairs(tools) do
+        if should_install_tool(tool) then
+          table.insert(ensure_installed, tool)
+        end
+      end
+
+      -- Only install missing tools/servers
+      if #ensure_installed > 0 then
+        require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+      end
 
       -- Check if the server should be enabled based on custom root markers
       local function is_enabled(server_opts)
