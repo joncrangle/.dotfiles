@@ -27,29 +27,20 @@ vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv", { desc = 'Move highlighted text up'
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { desc = 'Move highlighted text down' })
 
 -- Toggle harper_ls spellcheck
-local function toggle_harper_spellcheck()
-  local bufnr = vim.api.nvim_get_current_buf()
-
-  for _, client in ipairs(vim.lsp.get_clients { bufnr = bufnr }) do
-    if client.name == 'harper_ls' then
-      ---@diagnostic disable-next-line:param-type-mismatch
-      client.stop(true)
-      vim.notify('harper_ls spellcheck disabled', vim.log.levels.INFO)
-      return
-    end
+local function toggle_harper_ls()
+  local globally_enabled = vim.lsp.is_enabled 'harper_ls'
+  if globally_enabled then
+    vim.lsp.enable('harper_ls', false)
+    vim.notify('harper_ls spellcheck disabled', vim.log.levels.INFO)
+  else
+    vim.lsp.enable('harper_ls', true)
+    vim.notify('harper_ls spellcheck enabled', vim.log.levels.INFO)
   end
-
-  require('lspconfig').harper_ls.setup {}
-
-  vim.lsp.start {
-    name = 'harper_ls',
-    cmd = require('lspconfig').harper_ls.cmd,
-    root_dir = require('lspconfig').util.root_pattern '.git'(vim.api.nvim_buf_get_name(bufnr)) or vim.fn.getcwd(),
-  }
-
-  vim.notify('harper_ls spellcheck enabled', vim.log.levels.INFO)
 end
-vim.keymap.set('n', '<leader>th', toggle_harper_spellcheck, { desc = '[T]oggle [h]arper_ls spellcheck' })
+
+vim.keymap.set('n', '<leader>th', toggle_harper_ls, {
+  desc = '[T]oggle [h]arper_ls spellcheck',
+})
 
 -- Toggle diagnostics
 vim.keymap.set('n', '<leader>tD', function()
