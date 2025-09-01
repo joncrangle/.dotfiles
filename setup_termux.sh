@@ -1,5 +1,7 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
+set -euo pipefail
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
@@ -17,8 +19,16 @@ _command_exists() {
 }
 
 _install_package() {
-  local binary="$1"
-  local pkg_name="${2:-$1}"
+  local arg="$1"
+  local binary pkg_name
+
+  if [[ "$arg" == *:* ]]; then
+    binary="${arg%%:*}"
+    pkg_name="${arg##*:}"
+  else
+    binary="$arg"
+    pkg_name="$arg"
+  fi
 
   if ! command -v "$binary" >/dev/null 2>&1; then
     if ! gum spin --spinner pulse --title "Installing $pkg_name..." -- pkg install -y "$pkg_name"; then
@@ -65,6 +75,7 @@ fi
 packages=(
   "bat"
   "eza"
+  "fastfetch"
   "fd"
   "ffmpeg"
   "fzf"
@@ -89,9 +100,8 @@ packages=(
 )
 
 echo ":: Installing development packages..."
-for entry in "${packages[@]}"; do
-  IFS=":" read -r binary pkg <<<"$entry"
-  _install_package "$binary" "$pkg"
+for package in "${packages[@]}"; do
+  _install_package "$package"
 done
 gum spin --spinner pulse --title "Enabling pnpm..." -- corepack enable pnpm
 gum spin --spinner dot --title "Installing yt-dlp..." -- python3 -m pip install -U --pre "yt-dlp[default]"
@@ -223,6 +233,8 @@ extra-keys = [[ \
 ]]
 EOF
 
+gum spin --spinner dot --title "Configuring fastfetch..." -- mkdir -p "$HOME/.config/fastfetch" && curl -fsSL "https://raw.githubusercontent.com/joncrangle/.dotfiles/main/dot_config/fastfetch/config.jsonc" -o "$HOME/.config/fastfetch/config.jsonc"
+
 gum spin --spinner pulse --title "Setting zsh as default shell..." -- chsh -s "$(which zsh)"
 
 echo
@@ -235,7 +247,7 @@ EOF
 echo
 echo "🎉 Your Termux environment is ready!"
 echo "⚡ Run 'p10k configure' to customize your prompt theme"
-echo "📱 Please ensure that 'Termux:API' and 'Termux:Styling' are installed using F-Droid"
+echo "📱 Please ensure that Termux:API and Termux:Styling are installed using F-Droid"
 echo "👑 Long press anywhere in Termux, select More -> Styling to select a font and colorscheme"
 echo "🖊️ Time to import your Neovim config"
 echo
