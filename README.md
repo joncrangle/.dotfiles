@@ -2,17 +2,19 @@
 
 <!--toc:start-->
 - [.dotfiles](#dotfiles)
-  - [📘 Overview](#-overview)
-  - [🍎 MacOS](#-macos)
-  - [🪟 Windows](#-windows)
-  - [🐧 Arch Linux](#-arch-linux)
+  - [📘 Overview](#📘-overview)
+    - [🍎 MacOS](#🍎-macos)
+  - [🪟 Windows](#🪟-windows)
+  - [📱 Termux (Android)](#📱-termux-android)
+  - [🐧 Arch Linux](#🐧-arch-linux)
     - [Paru commands](#paru-commands)
-  - [🧭 Keymapping](#-keymapping)
+  - [🧭 Keymapping](#🧭-keymapping)
 <!--toc:end-->
 
 ![Terminal](./assets/terminal.png)
 ![Mac Desktop](./assets/desktop_mac.png)
 ![Windows Desktop](./assets/desktop_win.png)
+![Termux](./assets/termux.png)
 ![Linux Desktop](./assets/desktop_linux.png)
 
 ## 📘 Overview
@@ -125,6 +127,19 @@ iwr -useb https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_win.
 > 5. Enable Quick Accent for a desired language (e.g. French or Spanish)
 >
 > Within Taskbar Settings, automatically hide the taskbar in Desktop mode.
+
+## 📱 Termux (Android)
+
+1. Install `Termux` using F-Droid. Also install `Termux:API` and `Termux:Styling`.
+2. Open `Termux` and run:
+
+```bash
+pkg update && pkg upgrade -y
+pkg install -y curl
+bash <(curl -fsSL https://raw.githubusercontent.com/joncrangle/.dotfiles/main/install_termux.sh)
+```
+
+3. Import Neovim config.
 
 ## 🐧 Arch Linux
 
