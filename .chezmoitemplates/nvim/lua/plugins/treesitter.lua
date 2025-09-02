@@ -62,12 +62,16 @@ return {
         end,
       },
       {
-        'aaronik/treewalker.nvim',
-        opts = { select = true },
-        -- stylua: ignore
-        keys = {
-          { mode = { 'n', 'v' }, '<CR>',  '<cmd>Treewalker Left<cr>',    desc = 'Expand Selection' },
-          { mode = { 'n', 'v' }, '<BS>',    '<cmd>Treewalker Right<cr>', desc = 'Decrement Selection' },
+        'MeanderingProgrammer/treesitter-modules.nvim',
+        opts = {
+          incremental_selection = {
+            enable = true,
+            keymaps = {
+              init_selection = '<CR>',
+              node_incremental = '<CR>',
+              node_decremental = '<BS>',
+            },
+          },
         },
       },
       {
