@@ -270,34 +270,32 @@ return {
         zls = {},
       }
 
-      local mlsp = require 'mason-lspconfig'
-      local all_mslp_servers = mlsp.get_available_servers()
+      local server_to_package = require('mason-lspconfig').get_mappings().lspconfig_to_package
 
-      local function is_executable_available(name)
-        return vim.fn.executable(name) == 1
-      end
-
-      local function should_install_server(server)
-        local executable = server
-
-        -- If executable is available on system, don't install via Mason
-        if is_executable_available(executable) then
-          return false
+      local function is_executable_available(server_name)
+        -- First try the server name itself
+        if vim.fn.executable(server_name) == 1 then
+          return true
         end
 
-        -- Only install via Mason if it's available through mason-lspconfig
-        return vim.tbl_contains(all_mslp_servers, server)
-      end
+        -- Then try the mason package name
+        local package_name = server_to_package[server_name]
+        if package_name and vim.fn.executable(package_name) == 1 then
+          return true
+        end
 
-      local function should_install_tool(tool)
-        return not is_executable_available(tool)
+        return false
       end
 
       local ensure_installed = {}
 
-      for server, _ in pairs(servers) do
-        if should_install_server(server) then
-          table.insert(ensure_installed, server)
+      -- Add servers that aren't available on system
+      for server_name, _ in pairs(servers) do
+        if not is_executable_available(server_name) then
+          local package_name = server_to_package[server_name]
+          if package_name then
+            table.insert(ensure_installed, package_name)
+          end
         end
       end
 
@@ -323,12 +321,12 @@ return {
 
       -- Only install tools if not available on system
       for _, tool in ipairs(tools) do
-        if should_install_tool(tool) then
+        if vim.fn.executable(tool) == 0 then
           table.insert(ensure_installed, tool)
         end
       end
 
-      -- Only install missing tools/servers
+      -- Install missing tools/servers
       if #ensure_installed > 0 then
         require('mason-tool-installer').setup { ensure_installed = ensure_installed }
       end
