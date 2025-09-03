@@ -79,6 +79,7 @@ i {
 .center {
   display: flex;
   align-items: center;
+  gap: var(--spacing-md);
   position: absolute;
   left: 50%;
   transform: translateX(-50%);

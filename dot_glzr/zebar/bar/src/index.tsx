@@ -194,6 +194,24 @@ const TeamsStatus = () => {
 				setIsConnected(true);
 			};
 
+			websocket.onmessage = (event) => {
+				try {
+					const data = JSON.parse(event.data);
+
+					// Handle ping messages by sending a pong response
+					if (data.type === "ping") {
+						const pongResponse = {
+							type: "pong",
+							timestamp: new Date().toISOString(),
+						};
+						websocket.send(JSON.stringify(pongResponse));
+					}
+				} catch (error) {
+
+					console.error("Error parsing message:", error);
+				}
+			};
+
 			websocket.onclose = () => {
 				setIsConnected(false);
 				// Retry connection after 5 seconds
