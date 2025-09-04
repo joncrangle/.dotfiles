@@ -1,8 +1,10 @@
 -- https://github.com/kvndrsslr/sketchybar-app-font
 return {
   -- Custom
-  ['qBittorrent'] = ':transmit:',
   ['default'] = ':default:',
+  ['Find My'] = ':spotlight:',
+  ['qBittorrent'] = ':transmit:',
+  ['Zen'] = ':zen_browser:',
 
   ['Live'] = ':ableton:',
   ['Activity Monitor'] = ':activity_monitor:',
