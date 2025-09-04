@@ -132,6 +132,10 @@
 		"appNames": ["Brave Browser"]
 	},
 	{
+		"iconName": ":bruno:",
+		"appNames": ["Bruno"]
+	},
+	{
 		"iconName": ":busycal:",
 		"appNames": ["BusyCal"]
 	},
