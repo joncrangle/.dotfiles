@@ -1,0 +1,87 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "theme": "catppuccin",
+  "provider": {
+    "lm-studio": {
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "http://{{- if eq .chezmoi.os "darwin" -}}127.0.0.1{{- else -}}{{- .MacAddress -}}{{- end -}}:5001/v1"
+      },
+      "models": {
+        "qwen3-4b-instruct-2507-mlx": {
+          "name": "Qwen-3 4B Instruct"
+        },
+        "qwen3-4b-thinking-2507-mlx": {
+          "name": "Qwen-3 4B Thinking"
+        },
+        "gemma-3-4b-it-qat": {
+          "name": "Gemma-3 4B"
+        },
+        "gemma-3-12b-it-qat": {
+          "name": "Gemma-3 12B"
+        }
+      }
+    },
+    "mlx-omni-server": {
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "http://{{- if eq .chezmoi.os "darwin" -}}127.0.0.1{{- else -}}{{- .MacAddress -}}{{- end -}}:10240/v1"
+      },
+      "models": {
+        "mlx-community/Qwen3-4B-4bit-DWQ-053125": {
+          "name": "Qwen3 4B DWQ"
+        },
+        "mlx-community/Qwen3-8B-4bit-DWQ-053125": {
+          "name": "Qwen3 8B DWQ"
+        },
+        "mlx-community/gemma-3-4b-it-4bit-DWQ": {
+          "name": "Gemma-3 4B"
+        }
+      }
+    }
+  },
+  "model": "github-copilot/claude-sonnet-4",
+  "small_model": "github-copilot/gpt-5-mini",
+  "share": "manual",
+  "autoupdate": false,
+  "mcp": {
+    "fetch": {
+      "type": "local",
+      "command": [
+        "uvx",
+        "mcp-server-fetch"
+      ]
+    },
+    "context7": {
+      "type": "local",
+      "command": [
+        "bunx",
+        "@upstash/context7-mcp@latest"
+      ]
+    },
+    "sequentialThinking": {
+      "type": "local",
+      "command": [
+        "bunx",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ]
+    },
+    "github": {
+      "type": "local",
+      "command": [
+        "github-mcp-server",
+        "stdio"
+      ],
+      "environment": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "{{- .GithubKey -}}"
+      }
+    },
+    "memory": {
+      "type": "local",
+      "command": [
+        "bunx",
+        "@modelcontextprotocol/server-memory"
+      ]
+    }
+  }
+}
