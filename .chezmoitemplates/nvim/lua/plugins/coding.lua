@@ -53,8 +53,6 @@ return {
       return {
         ---@type markview.config.markdown|{}
         markdown = {
-          ---@type markview.config.markdown.code_blocks|{}
-          code_blocks = { sign = false },
           headings = presets.headings.marker,
         },
         preview = {
