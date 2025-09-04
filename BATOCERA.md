@@ -7,7 +7,7 @@
 3. Boot PC from USB
 4. 'Menu' (`<Space>`) -> 'System Settings' -> 'Install Batocera on a New Disk'
 
-## Keyboard Shortcuts
+## Shortcuts
 
 ### Keyboard
 
@@ -61,43 +61,49 @@
 
 ## Network Configuration
 
-1. SSH?
+1. Connect to Batocera via SSH
 
 ```bash
+ssh root@batocera.local
 # default password is `linux`
+```
+
+2. Add SSH Keys
+
+```bash
 chown root:root / /userdata/ /userdata/system/
 chmod 755 / /userdata/ /userdata/system/
 mkdir -p ~/.ssh
 touch ~/.ssh/authorized_keys
 chmod 700 ~/.ssh
 chmod 600 ~/.ssh/authorized_keys
-```
 
-```bash
 # Transfer ssh key from clients
 ssh-copy-id root@batocera.local
 ```
 
-2. ODSP?
-
-## Add ROMs
+3. Mount `smb://batocera.local/share` and any source locations
+4. Copy `bios`, `roms`, `saves` and `system` directories to matching folders in Batocera's `share` directory (Replace All)
+5. Copy ROMs to the `roms` folder
+6. Copy any additional saves to the `saves` folder
+7. Menu -> Scraper -> Scrape from: theGameDB
+8. Menu -> Game Settings -> Update gamelists
 
 ## Configure Emulators
 
-1. Copy `bios`, `roms`, `saves` and `system` directories to matching folders in Batocera's `share` directory (Replace All). Options include: File Manager (`<F1>`), Network Share (`\\Batocera`) or SSH (`mc` for Midnight Commander)
-2. File Manager (`<F1>`) -> 'Applications'
+> [!TODO]
+> Document emulator configurations for specific emulators
 
 ### Switch
 
-1. -> `xterm`
+1. File Manager -> Applications -> `xterm` or use SSH
 
 ```bash
 curl -L bit.ly/foclabroc-switchoff | bash
-exit
 ```
 
-2. Download firmware `18.1.0` and `prod.keys` and `title.keys` in `/bios/switch`
-3. Ryujinx-config -> Tools -> Install Firmware -> Install a firmware from XCI or zip
+2. Move zip file of firmware `18.1.0` and `prod.keys` and `title.keys` into `/bios/switch`
+3. File Manager -> Applications -> Ryujinx-config -> Tools -> Install Firmware -> Install a firmware from XCI or zip
 
 #### Advanced System Options
 
@@ -107,10 +113,11 @@ exit
 
 Play a game, then press `<F4>`. Options -> Settings -> Input -> Input Device -> Select the controller and configure. Press `<F4>` again to return to fullscreen.
 
-Sudachi emultor can leave auto controller on.
+Sudachi emulator can leave auto controller on.
 
 Then install DLC for games.
 
 ## Additional Resources
 
+- [Batocera Wiki](https://wiki.batocera.org/start)
 - [Batocera Nation](https://www.youtube.com/@BatoceraNation)
