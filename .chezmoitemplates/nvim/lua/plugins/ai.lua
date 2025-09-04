@@ -139,7 +139,6 @@ return {
   {
     'NickvanDyke/opencode.nvim',
     event = { 'BufReadPost', 'BufWritePost', 'BufNewFile' },
-    opts = {},
     keys = function()
       local wk = require 'which-key'
       wk.add {
