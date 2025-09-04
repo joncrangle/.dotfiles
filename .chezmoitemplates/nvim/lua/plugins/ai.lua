@@ -143,7 +143,7 @@ return {
     keys = function()
       local wk = require 'which-key'
       wk.add {
-        { '<leader>o', group = '[O]pencode', mode = { 'n', 'v', 'x' }, icon = { icon = ' ', color = 'blue' } },
+        { '<leader>o', group = '[O]pencode', mode = { 'n', 'v' }, icon = { icon = ' ', color = 'blue' } },
       }
       -- stylua: ignore
       return {
@@ -155,7 +155,7 @@ return {
       { '<leader>oy', function() require('opencode').command('messages_copy') end, desc = 'Copy last message', },
       { '<S-C-u>',    function() require('opencode').command('messages_half_page_up') end, desc = 'Scroll messages up', },
       { '<S-C-d>',    function() require('opencode').command('messages_half_page_down') end, desc = 'Scroll messages down', },
-      { '<leader>op', function() require('opencode').select_prompt() end, desc = 'Select prompt', mode = { 'n', 'v', }, },
+      { '<leader>os', function() require('opencode').select() end, desc = 'Select prompt', mode = { 'n', 'v', }, },
     }
     end,
   },
