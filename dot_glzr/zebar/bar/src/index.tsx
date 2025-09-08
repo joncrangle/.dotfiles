@@ -187,6 +187,11 @@ const TeamsStatus = () => {
 	const [ws, setWs] = createSignal<WebSocket | null>(null);
 
 	const connectWebSocket = () => {
+		const existingWs = ws();
+		if (existingWs) {
+			existingWs.close();
+		} 
+
 		try {
 			const websocket = new WebSocket("ws://127.0.0.1:8765/ws");
 

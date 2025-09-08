@@ -196,7 +196,7 @@ i {
 }
 
 .teams-status.disconnected {
-  color: var(--accent-red);
+  color: var(--accent-purple);
 }
 
 .memory {
