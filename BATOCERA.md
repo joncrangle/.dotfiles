@@ -57,7 +57,11 @@
 
 1. Menu -> Controller and Bluetooth Settings -> Pair a Bluetooth Device
 2. Press the red button to put the controller in discovery mode (it may take Batocera multiple attempts until there is a successful pair)
-3. To use the controller to play the Wii, first start a Wii game, then press the red button to put the controller in discovery mode
+3. To use the Wii Controller to play the Wii, first start a Wii game, then press the red button to put the controller in discovery mode
+
+> [!TODO]
+> Try to determine why Bluetooth controllers are not reconnecting
+> [Issue #9006](https://github.com/batocera-linux/batocera.linux/issues/9006)
 
 ## Network Configuration
 
@@ -86,15 +90,46 @@ ssh-copy-id root@batocera.local
 4. Copy `bios`, `roms`, `saves` and `system` directories to matching folders in Batocera's `share` directory (Replace All)
 5. Copy ROMs to the `roms` folder
 6. Copy any additional saves to the `saves` folder
-7. Menu -> Scraper -> Scrape from: theGameDB
-8. Menu -> Game Settings -> Update gamelists
+7. UI: Add logins/passwords for ScreenScraper and IGDB in Menu -> Scraper -> ????
+   SSH: Edit `/userdata/system/configs/emulationstation/es_settings.cfg`:
+   For Screenscraper:
+
+   ```xml
+   <string name="ScreenScraperUser" value="your_login" />
+   <string name="ScreenScraperPass" value="your_pass" />
+   ```
+
+   For IGDB:
+
+   ```xml
+   <string name="IGDBClientID" value="your_id" />
+   <string name="IGDBSecret" value="your_secret" />
+   ```
+
+   Make sure EmulationStation is stopped before editing this file, otherwise **ES will reverse your modifications**.
+8. Menu -> Scraper -> Scrape from: ScreenScraper -> `Scrape Now`.
+9. Menu -> Game Settings -> Update gamelists
 
 ## Configure Emulators
 
-> [!TODO]
-> Document emulator configurations for specific emulators
+## Aspect Ratio and Scaling
 
-### Switch
+> [!INFO]
+Update for MAME, Commodore 64, FB Neo, PC Engine , NES, SNES, GBA, NDS DS, Ports, Sega Megadrive, Dreamcast and PSX
+
+<Select> -> Advanced System Options -> Game Aspect Ratio -> Core Provided 
+
+<Select> -> Advanced System Options -> Game Rendering & Shaders -> Integer Scaling -> On
+
+### Nintendo DS
+
+<Select> -> Advanced System Options -> Emulator -> Libretto: MelonDSDS
+
+### Nintendo GameCube
+
+<Select> -> Advanced System Options -> GameCube Controller 1 -> GameCube Port 1 Type -> GameCube Controller
+
+### Nintendo Switch
 
 1. File Manager -> Applications -> `xterm` or use SSH
 
@@ -102,20 +137,47 @@ ssh-copy-id root@batocera.local
 curl -L bit.ly/foclabroc-switchoff | bash
 ```
 
-2. Move zip file of firmware `18.1.0` and `prod.keys` and `title.keys` into `/bios/switch`
-3. File Manager -> Applications -> Ryujinx-config -> Tools -> Install Firmware -> Install a firmware from XCI or zip
+2. Move zip file and extracted `firmware` folder of Nintendo Switch firmware `18.1.0` into `/bios/switch`
+3. Move `prod.keys` and `title.keys` into `/bios/switch`
 
 #### Advanced System Options
 
-- Emulator: Ryujinx-continuous
-- Auto Controller Config: off
-- Graphics Backend: Vulkan
+##### Citron
 
-Play a game, then press `<F4>`. Options -> Settings -> Input -> Input Device -> Select the controller and configure. Press `<F4>` again to return to fullscreen.
+1. File Manager -> Applications -> `citron-config`
+2. Tools -> Install Decryption Keys -> `bios/switch/prod.keys`
+3. Tools -> Install Firmware -> `/bios/switch/firmware`
+4. File -> Install NAND -> Select all DLC and Update files
+5. Emulation -> Configure -> Controls -> Input Device -> Select the controller and configure
 
-Sudachi emulator can leave auto controller on.
+##### Ryujinx
 
-Then install DLC for games.
+1. File Manager -> Applications -> `ryujinx-config`
+2. Actions -> Install Decryption Keys -> `bios/switch/prod.keys`
+3. Actions -> Install Firmware -> Install Firmware (.XCI or .ZIP) -> `bios/switch/Firmware 18.1.0.zip`
+
+### PlayStation 3
+
+1. File Manager -> Applications -> `rpcs3-config`
+2. File -> Install Firmware select `PS3UPDAT.PUP`
+3. Use [RPCS3 Wiki](https://wiki.rpcs3.net/index.php?title=Main_Page) to determine individual game settings
+4. File -> Install Packages/Raps/Edats -> Install pkg files, DLC and updates
+
+### Xbox 360
+
+1. File Manager -> Applications -> `xenia-config` -> Create a Gamertag
+
+## Wake On LAN
+
+Configure Wake on LAN settings within the PC BIOS/UEFI.
+
+## Remove `._*` files
+
+To remove files beginning with `._`:
+
+```bash
+find /userdata/ -name "._*" -exec rm {} \;
+```
 
 ## Additional Resources
 
