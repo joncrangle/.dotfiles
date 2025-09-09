@@ -281,7 +281,6 @@ packages=(
     "feh"
     "ffmpeg"
     "ffmpegthumbnailer"
-    "fnm"
     "fzf"
     "gcc"
     "gimp"
@@ -319,6 +318,7 @@ packages=(
     "luajit"
     "luarocks"
     "make"
+    "mise"
     "mpv"
     "neovim"
     "networkmanager"
@@ -499,11 +499,10 @@ if [[ $(_isInstalledParu "yazi-git") == 0 ]]; then
 fi
 
 # Install nodejs and pnpm
-if [[ $(_isInstalledParu "fnm") == 0 ]]; then
+if [[ $(_isInstalledParu "mise") == 0 ]]; then
     echo ":: Installing node and pnpm..."
-    eval "$(fnm env)"
-    fnm install 22
-    fnm install 23
+    mise use -g node@latest
+    mise use -g usage
     corepack enable pnpm
 fi
 

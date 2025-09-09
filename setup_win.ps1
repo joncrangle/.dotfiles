@@ -436,7 +436,7 @@ function Invoke-Starship-TransientFunction {
 Invoke-Expression (&starship init powershell)
 Enable-TransientPrompt
 Invoke-Expression (& { (zoxide init powershell | Out-String) })
-fnm env --use-on-cd --shell powershell | Out-String | Invoke-Expression
+mise activate pwsh | Out-String | Invoke-Expression
 "@
     $profileContent | Out-File -FilePath $PROFILE
 } catch
@@ -483,9 +483,9 @@ Write-Host "Fonts installed successfully."
 Write-Host "Installing Scoop apps..."
 $packages = @(
     "7zip", "bat", "biome", "bun", "bruno", "chafa", "charm-gum", "curl", "delta", "deno", "dbeaver", "diffutils",
-    "eza", "fastfetch", "fd", "ffmpeg", "Flow-Launcher", "fnm", "ghostscript", "glazewm", "glow", "go", "gzip",
+    "eza", "fastfetch", "fd", "ffmpeg", "Flow-Launcher", "ghostscript", "glazewm", "glow", "go", "gzip",
     "imagemagick", "JetBrainsMono-NF", "jj", "jq", "just", "krita", "lazygit", "lua", "luarocks", "make", "mariadb",
-    "Meslo-NF", "mingw", "neovim", "obsidian", "podman", "poppler", "postgresql", "python", "ripgrep",
+    "Meslo-NF", "mingw", "mise", "neovim", "obsidian", "podman", "poppler", "postgresql", "python", "ripgrep",
     "rustup-gnu", "sqlite", "tldr", "topgrade", "tree-sitter", "typst", "unar", "unzip", "uv", "vlc", "vcredist2022",
     "wezterm-nightly", "win32yank", "wget", "whkd", "xh", "yazi", "yq", "zebar", "zed", "zig", "zoom"
 )
@@ -508,8 +508,8 @@ rustup component add rust-analyzer
 cargo install cargo-update
 cargo install cargo-cache
 cargo install --locked bacon
-fnm install 22
-fnm install 23
+mise use -g node@latest
+mise use -g usage
 corepack enable pnpm
 go install github.com/jorgerojas26/lazysql@latest
 go install github.com/joncrangle/teams-green@latest

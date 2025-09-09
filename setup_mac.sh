@@ -83,9 +83,8 @@ cargo install --locked bacon
 luarocks install busted
 ya pkg install
 ya pkg upgrade
-eval "$(fnm env)"
-fnm install 22
-fnm install 24
+mise use -g node@latest
+mise use -g usage
 corepack enable pnpm
 go install github.com/joncrangle/podcasts-sync@latest
 jj config set --user user.name "jonathancrangle"

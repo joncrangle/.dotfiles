@@ -98,8 +98,6 @@ zvm_after_init_commands+=('
   zle -N zle-line-init
 ')
 
-eval "$(fnm env --use-on-cd --shell zsh)"
-
 zstyle ':fzf-tab:*' default-color ""
 zstyle ':fzf-tab:*' use-fzf-default-opts yes
 
@@ -107,4 +105,5 @@ antidote load
 
 source <(fzf --zsh)
 source <(COMPLETE=zsh jj)
+source <(mise completion zsh)
 # vim: ft=zsh
