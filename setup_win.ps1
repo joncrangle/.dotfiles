@@ -483,8 +483,8 @@ Write-Host "Fonts installed successfully."
 Write-Host "Installing Scoop apps..."
 $packages = @(
     "7zip", "bat", "biome", "bun", "bruno", "chafa", "charm-gum", "curl", "delta", "deno", "dbeaver", "diffutils",
-    "eza", "fastfetch", "fd", "ffmpeg", "fnm", "ghostscript", "glazewm", "glow", "go", "gzip", "imagemagick",
-    "JetBrainsMono-NF", "jj", "jq", "just", "krita", "lazygit", "lua", "luarocks", "make", "mariadb",
+    "eza", "fastfetch", "fd", "ffmpeg", "Flow-Launcher", "fnm", "ghostscript", "glazewm", "glow", "go", "gzip",
+    "imagemagick", "JetBrainsMono-NF", "jj", "jq", "just", "krita", "lazygit", "lua", "luarocks", "make", "mariadb",
     "Meslo-NF", "mingw", "neovim", "obsidian", "podman", "poppler", "postgresql", "python", "ripgrep",
     "rustup-gnu", "sqlite", "tldr", "topgrade", "tree-sitter", "typst", "unar", "unzip", "uv", "vlc", "vcredist2022",
     "wezterm-nightly", "win32yank", "wget", "whkd", "xh", "yazi", "yq", "zebar", "zed", "zig", "zoom"

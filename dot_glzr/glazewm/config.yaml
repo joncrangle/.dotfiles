@@ -194,6 +194,7 @@ window_rules:
         window_class: { regex: 'HwndWrapper\[PowerToys\.PowerAccent.*?\]' }
       - window_process: { equals: "PowerToys" }
         window_title: { regex: ".*? - Peek" }
+      - window_title: { equals: "Command Palette" }
       - window_process: { equals: "Lively" }
         window_class: { regex: "HwndWrapper" }
       - window_process: { equals: "EXCEL" }
@@ -296,7 +297,7 @@ keybindings:
 
   # Change the focused window to be tiling.
   - commands: ["toggle-tiling"]
-    bindings: ["alt+space"]
+    bindings: ["alt+t"]
 
   # Change the focused window to be fullscreen.
   - commands: ["toggle-fullscreen"]
