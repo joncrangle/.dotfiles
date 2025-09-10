@@ -123,7 +123,7 @@ iwr -useb https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_win.
 >    Remap `Ctrl` + `Shift` + `O` and `Ctrl` + `Shift` + `M` to camera and microphone toggle buttons in `ms-teams`
 >    Remap `Down` and `Up` to `Ctrl` + `N` and `Ctrl` + `P` for `powertoys.powerlauncher`
 > 3. Enable Paste as Plain Text
-> 4. Enable PowerToys Run (adds Spotlight capability for Windows)
+> 4. Enable PowerToys Command Palette (optional)
 > 5. Enable Quick Accent for a desired language (e.g. French or Spanish)
 >
 > Within Taskbar Settings, automatically hide the taskbar in Desktop mode.
