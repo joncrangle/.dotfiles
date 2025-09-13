@@ -92,7 +92,12 @@ automatically-unhide-macos-hidden-apps = true
         'mode main',
     ] # Toggle between floating and tiling layout
     m = [
-        'exec-and-forget $HOME/.config/sketchybar/menus/menus -t',
+        'exec-and-forget $HOME/.config/sketchybar/menus/menus -tm',
+        'exec-and-forget sketchybar --bar color=0x00000000',
+        'mode main',
+    ]
+    d = [
+        'exec-and-forget $HOME/.config/sketchybar/menus/menus -td',
         'exec-and-forget sketchybar --bar color=0x00000000',
         'mode main',
     ]
