@@ -39,6 +39,45 @@
 | `Hotkey` + `△`                | Load state from current slot                                       |
 
 
+### Controller Reconnection Issues
+
+1. Create `services` directory
+
+```bash
+mkdir -p /userdata/system/services
+```
+
+2. Create `bluetoothfix` (no file extension) in `/userdata/system/services`
+
+```bash
+#!/bin/bash
+sleep 5
+btmgmt ssp off
+
+while true; do
+  # check if bt scan is active
+  result=$(bluetoothctl show | grep -c 'Discovering: yes')
+
+  if [ $result -eq 1 ]; then
+    # SSP turn on
+    btmgmt ssp on
+
+    # wait 1 min
+    sleep 60
+
+    # SSP turn off
+    btmgmt ssp off
+  fi
+
+  # wait 5 seconds for the next check
+  sleep 5
+done
+```
+
+3. Reboot Batocera
+4. Menu -> System Settings -> Services
+5. Activate the service called "bluetoothfix" (Batocera can become unresponsive, if it does just reboot by pressing the Powerbutton on your machine)
+
 ## Configure Batocera
 
 1. Menu -> System Settings -> Timezone
@@ -142,9 +181,9 @@ curl -L bit.ly/foclabroc-switchoff | bash
 
 #### Advanced System Options
 
-##### Citron
+##### Eden
 
-1. File Manager -> Applications -> `citron-config`
+1. File Manager -> Applications -> `eden-config`
 2. Tools -> Install Decryption Keys -> `bios/switch/prod.keys`
 3. Tools -> Install Firmware -> `/bios/switch/firmware`
 4. File -> Install NAND -> Select all DLC and Update files
