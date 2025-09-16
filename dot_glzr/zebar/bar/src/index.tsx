@@ -190,31 +190,24 @@ const TeamsStatus = () => {
 		const existingWs = ws();
 		if (existingWs) {
 			existingWs.close();
-		} 
+		}
 
 		try {
 			const websocket = new WebSocket("ws://127.0.0.1:8765/ws");
 
 			websocket.onopen = () => {
 				setIsConnected(true);
-			};
-
-			websocket.onmessage = (event) => {
-				try {
-					const data = JSON.parse(event.data);
-
-					// Handle ping messages by sending a pong response
-					if (data.type === "ping") {
-						const pongResponse = {
-							type: "pong",
-							timestamp: new Date().toISOString(),
-						};
-						websocket.send(JSON.stringify(pongResponse));
+				// Send ping every 25 seconds (before 30s timeout)
+				(websocket as any).pingInterval = setInterval(() => {
+					if (websocket.readyState === WebSocket.OPEN) {
+						websocket.send(
+							JSON.stringify({
+								type: "ping",
+								timestamp: new Date().toISOString(),
+							}),
+						);
 					}
-				} catch (error) {
-
-					console.error("Error parsing message:", error);
-				}
+				}, 25000);
 			};
 
 			websocket.onclose = () => {
