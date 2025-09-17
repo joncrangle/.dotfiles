@@ -20,6 +20,12 @@ return {
           return '<C-i>'
         end
       end, { desc = 'Accept Copilot NES suggestion', expr = true })
+      vim.keymap.set('n', '<esc>', function()
+        if not require('copilot-lsp.nes').clear() then
+          -- Clear search on pressing <Esc> in normal mode
+          vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+        end
+      end, { desc = 'Clear Copilot suggestion or fallback' })
     end,
   },
   {
