@@ -4,8 +4,12 @@
 		"appNames": ["Live"]
 	},
 	{
+		"iconName": ":acrobat:",
+		"appNames": ["Acrobat"]
+	},
+	{
 		"iconName": ":activity_monitor:",
-		"appNames": ["Activity Monitor"]
+		"appNames": ["Activity Monitor", "Aktivitätsanzeige"]
 	},
 	{
 		"iconName": ":adobe_bridge:",
@@ -40,6 +44,10 @@
 		"appNames": ["Airmail"]
 	},
 	{
+		"iconName": ":airport_utility:",
+		"appNames": ["AirPort Utility"]
+	},
+	{
 		"iconName": ":alacritty:",
 		"appNames": ["Alacritty"]
 	},
@@ -62,6 +70,10 @@
 	{
 		"iconName": ":anytype:",
 		"appNames": ["Anytype"]
+	},
+	{
+		"iconName": ":apifox:",
+		"appNames": ["Apifox"]
 	},
 	{
 		"iconName": ":app_eraser:",
@@ -100,6 +112,10 @@
 		"appNames": ["Battle.net"]
 	},
 	{
+		"iconName": ":bazecor:",
+		"appNames": ["Bazecor"]
+	},
+	{
 		"iconName": ":bear:",
 		"appNames": ["Bear"]
 	},
@@ -120,12 +136,16 @@
 		"appNames": ["Blender"]
 	},
 	{
+		"iconName": ":blitzit:",
+		"appNames": ["Blitzit"]
+	},
+	{
 		"iconName": ":bluos_controller:",
 		"appNames": ["BluOS Controller"]
 	},
 	{
 		"iconName": ":book:",
-		"appNames": ["Calibre"]
+		"appNames": ["Books", "Calibre", "Bücher"]
 	},
 	{
 		"iconName": ":brave_browser:",
@@ -141,7 +161,7 @@
 	},
 	{
 		"iconName": ":calculator:",
-		"appNames": ["Calculator", "Calculette"]
+		"appNames": ["Calculator", "Calculette", "Rechner"]
 	},
 	{
 		"iconName": ":calendar:",
@@ -153,12 +173,17 @@
 			"Amie",
 			"Calendrier",
 			"カレンダー",
-			"Notion Calendar"
+			"Notion Calendar",
+			"Kalender"
 		]
 	},
 	{
 		"iconName": ":calibre:",
 		"appNames": ["calibre"]
+	},
+	{
+		"iconName": ":capacities:",
+		"appNames": ["Capacities"]
 	},
 	{
 		"iconName": ":caprine:",
@@ -167,6 +192,13 @@
 	{
 		"iconName": ":chime:",
 		"appNames": ["Amazon Chime"]
+	},
+	{
+		"iconName": ":cisco_anyconnect:",
+		"appNames": [
+			"Cisco AnyConnect Secure Mobility Client",
+			"Cisco Secure Client"
+		]
 	},
 	{
 		"iconName": ":citrix:",
@@ -191,6 +223,10 @@
 	{
 		"iconName": ":color_picker:",
 		"appNames": ["Color Picker", "数码测色计"]
+	},
+	{
+		"iconName": ":comet:",
+		"appNames": ["Comet"]
 	},
 	{
 		"iconName": ":copilot:",
@@ -229,6 +265,10 @@
 		"appNames": ["DBeaver"]
 	},
 	{
+		"iconName": ":deepseek:",
+		"appNames": ["DeepSeek"]
+	},
+	{
 		"iconName": ":deezer:",
 		"appNames": ["Deezer"]
 	},
@@ -237,12 +277,24 @@
 		"appNames": ["Default"]
 	},
 	{
+		"iconName": ":deno:",
+		"appNames": ["deno"]
+	},
+	{
 		"iconName": ":desktop:",
 		"appNames": ["CleanMyMac X"]
 	},
 	{
 		"iconName": ":devonthink3:",
 		"appNames": ["DEVONthink 3"]
+	},
+	{
+		"iconName": ":dexcom:",
+		"appNames": ["Dexcom"]
+	},
+	{
+		"iconName": ":dia:",
+		"appNames": ["Dia"]
 	},
 	{
 		"iconName": ":dingtalk:",
@@ -293,6 +345,10 @@
 		"appNames": ["FaceTime", "FaceTime 通话"]
 	},
 	{
+		"iconName": ":feishu:",
+		"appNames": ["Feishu"]
+	},
+	{
 		"iconName": ":figma:",
 		"appNames": ["Figma"]
 	},
@@ -302,7 +358,7 @@
 	},
 	{
 		"iconName": ":finder:",
-		"appNames": ["Finder", "访达", "EXPLORER"]
+		"appNames": ["Finder", "访达", "Explorer"]
 	},
 	{
 		"iconName": ":firefox:",
@@ -313,12 +369,24 @@
 		"appNames": ["Firefox Developer Edition", "Firefox Nightly"]
 	},
 	{
+		"iconName": ":flstudio:",
+		"appNames": ["FL Studio"]
+	},
+	{
 		"iconName": ":folx:",
 		"appNames": ["Folx"]
 	},
 	{
 		"iconName": ":fork:",
 		"appNames": ["Fork"]
+	},
+	{
+		"iconName": ":foxit_reader:",
+		"appNames": ["Foxit PDF Reader"]
+	},
+	{
+		"iconName": ":freecad:",
+		"appNames": ["FreeCAD"]
 	},
 	{
 		"iconName": ":freeform:",
@@ -339,7 +407,9 @@
 			"System Settings",
 			"系统设置",
 			"Réglages Système",
-			"システム設定"
+			"システム設定",
+			"Systemeinstellungen",
+			"System­einstellungen"
 		]
 	},
 	{
@@ -359,12 +429,28 @@
 		"appNames": ["GoLand"]
 	},
 	{
+		"iconName": ":goodnotes:",
+		"appNames": ["Goodnotes"]
+	},
+	{
 		"iconName": ":google_chrome:",
 		"appNames": ["Chromium", "Google Chrome", "Google Chrome Canary"]
 	},
 	{
 		"iconName": ":grammarly:",
 		"appNames": ["Grammarly Editor"]
+	},
+	{
+		"iconName": ":granola:",
+		"appNames": ["Granola"]
+	},
+	{
+		"iconName": ":grayjay:",
+		"appNames": ["Grayjay"]
+	},
+	{
+		"iconName": ":helium:",
+		"appNames": ["Helium"]
 	},
 	{
 		"iconName": ":home_assistant:",
@@ -423,6 +509,14 @@
 		"appNames": ["Jellyfin Media Player"]
 	},
 	{
+		"iconName": ":jetbrains_gateway:",
+		"appNames": ["JetBrains Gateway"]
+	},
+	{
+		"iconName": ":jetbrains_toolbox:",
+		"appNames": ["JetBrains Toolbox"]
+	},
+	{
 		"iconName": ":joplin:",
 		"appNames": ["Joplin"]
 	},
@@ -447,6 +541,14 @@
 		"appNames": ["Keynote", "Keynote 讲演"]
 	},
 	{
+		"iconName": ":kicad:",
+		"appNames": ["KiCad"]
+	},
+	{
+		"iconName": ":kiro:",
+		"appNames": ["Kiro"]
+	},
+	{
 		"iconName": ":kitty:",
 		"appNames": ["kitty"]
 	},
@@ -465,6 +567,10 @@
 	{
 		"iconName": ":libre_wolf:",
 		"appNames": ["LibreWolf"]
+	},
+	{
+		"iconName": ":libreoffice:",
+		"appNames": ["LibreOffice"]
 	},
 	{
 		"iconName": ":lightroom:",
@@ -499,6 +605,10 @@
 		"appNames": ["Logseq"]
 	},
 	{
+		"iconName": ":macpass:",
+		"appNames": ["MacPass"]
+	},
+	{
 		"iconName": ":mail:",
 		"appNames": [
 			"Canary Mail",
@@ -518,7 +628,7 @@
 	},
 	{
 		"iconName": ":maps:",
-		"appNames": ["Maps", "Google Maps", "マップ"]
+		"appNames": ["Maps", "Google Maps", "マップ", "Karten"]
 	},
 	{
 		"iconName": ":marta:",
@@ -526,11 +636,26 @@
 	},
 	{
 		"iconName": ":matlab:",
-		"appNames": ["Matlab"]
+		"appNames": [
+			"Matlab",
+			"MATLAB |MATLABWindow",
+			"MATLAB_R2024b",
+			"MATLAB_R2024a",
+			"MATLAB_R2023b",
+			"MATLAB_R2023a",
+			"MATLAB_R2022b",
+			"MATLAB_R2022a",
+			"MATLAB_R2021b",
+			"MATLAB_R2021a"
+		]
 	},
 	{
 		"iconName": ":mattermost:",
 		"appNames": ["Mattermost"]
+	},
+	{
+		"iconName": ":meet:",
+		"appNames": ["Google Meet"]
 	},
 	{
 		"iconName": ":messages:",
@@ -569,6 +694,10 @@
 		"appNames": ["Microsoft Word", "WINWORD"]
 	},
 	{
+		"iconName": ":mimestream:",
+		"appNames": ["Mimestream"]
+	},
+	{
 		"iconName": ":min_browser:",
 		"appNames": ["Min"]
 	},
@@ -594,7 +723,11 @@
 	},
 	{
 		"iconName": ":music:",
-		"appNames": ["Music", "音乐", "Musique", "ミュージック"]
+		"appNames": ["Music", "音乐", "Musique", "ミュージック", "Musik"]
+	},
+	{
+		"iconName": ":navicat:",
+		"appNames": ["Navicat Premium"]
 	},
 	{
 		"iconName": ":neovide:",
@@ -607,6 +740,18 @@
 	{
 		"iconName": ":netease_music:",
 		"appNames": ["网易云音乐"]
+	},
+	{
+		"iconName": ":nextcloud:",
+		"appNames": ["Nextcloud"]
+	},
+	{
+		"iconName": ":nicotine_plus:",
+		"appNames": ["Nicotine+"]
+	},
+	{
+		"iconName": ":nimble_commander:",
+		"appNames": ["NimbleCommander", "NimbleCommander-Unsigned"]
 	},
 	{
 		"iconName": ":noodl:",
@@ -622,11 +767,15 @@
 	},
 	{
 		"iconName": ":notes:",
-		"appNames": ["Notes", "备忘录", "メモ"]
+		"appNames": ["Notes", "备忘录", "メモ", "Notizen"]
 	},
 	{
 		"iconName": ":notion:",
 		"appNames": ["Notion"]
+	},
+	{
+		"iconName": ":notion_mail:",
+		"appNames": ["Notion Mail"]
 	},
 	{
 		"iconName": ":nova:",
@@ -685,6 +834,10 @@
 		"appNames": ["Orion", "Orion RC"]
 	},
 	{
+		"iconName": ":overleaf:",
+		"appNames": ["Overleaf", "ShareLaTeX"]
+	},
+	{
 		"iconName": ":pages:",
 		"appNames": ["Pages", "Pages 文稿"]
 	},
@@ -697,12 +850,12 @@
 		"appNames": ["Parsec"]
 	},
 	{
-		"iconName": ":passwords:",
-		"appNames": ["Passwords"]
+		"iconName": ":passepartout:",
+		"appNames": ["Passepartout"]
 	},
 	{
-		"iconName": ":pdf:",
-		"appNames": ["Preview", "预览", "Skim", "zathura", "Aperçu", "プレビュー"]
+		"iconName": ":passwords:",
+		"appNames": ["Passwords", "Passwörter"]
 	},
 	{
 		"iconName": ":pdf_expert:",
@@ -713,12 +866,16 @@
 		"appNames": ["Pearcleaner"]
 	},
 	{
+		"iconName": ":perplexity:",
+		"appNames": ["Perplexity", "Perplexity AI"]
+	},
+	{
 		"iconName": ":phoenix_slides:",
 		"appNames": ["Phoenix Slides"]
 	},
 	{
 		"iconName": ":photos:",
-		"appNames": ["Photos"]
+		"appNames": ["Photos", "Fotos"]
 	},
 	{
 		"iconName": ":photoshop:",
@@ -757,6 +914,22 @@
 		"appNames": ["Postman"]
 	},
 	{
+		"iconName": ":premiere:",
+		"appNames": ["Premiere", "Adobe Premiere", "Adobe Premiere Pro 2024"]
+	},
+	{
+		"iconName": ":preview:",
+		"appNames": [
+			"Preview",
+			"预览",
+			"Skim",
+			"zathura",
+			"Aperçu",
+			"プレビュー",
+			"Vorschau"
+		]
+	},
+	{
 		"iconName": ":proton_mail:",
 		"appNames": ["Proton Mail", "Proton Mail Bridge"]
 	},
@@ -773,6 +946,14 @@
 		"appNames": ["PyCharm"]
 	},
 	{
+		"iconName": ":qbittorrent:",
+		"appNames": ["qBittorrent"]
+	},
+	{
+		"iconName": ":qlmarkdown:",
+		"appNames": ["QLMarkdown"]
+	},
+	{
 		"iconName": ":qq:",
 		"appNames": ["QQ"]
 	},
@@ -785,6 +966,10 @@
 		"appNames": ["Quantumult X"]
 	},
 	{
+		"iconName": ":quip:",
+		"appNames": ["Quip"]
+	},
+	{
 		"iconName": ":qute_browser:",
 		"appNames": ["qutebrowser"]
 	},
@@ -793,12 +978,26 @@
 		"appNames": ["Raindrop.io"]
 	},
 	{
+		"iconName": ":raycast:",
+		"appNames": ["Raycast"]
+	},
+	{
 		"iconName": ":reeder5:",
 		"appNames": ["Reeder"]
 	},
 	{
+		"iconName": ":rekordbox:",
+		"appNames": ["rekordbox"]
+	},
+	{
 		"iconName": ":reminders:",
-		"appNames": ["Reminders", "提醒事项", "Rappels", "リマインダー"]
+		"appNames": [
+			"Reminders",
+			"提醒事项",
+			"Rappels",
+			"リマインダー",
+			"Erinnerungen"
+		]
 	},
 	{
 		"iconName": ":replit:",
@@ -829,6 +1028,10 @@
 		"appNames": ["Safari", "Safari浏览器", "Safari Technology Preview"]
 	},
 	{
+		"iconName": ":seafile:",
+		"appNames": ["Seafile"]
+	},
+	{
 		"iconName": ":sequel_ace:",
 		"appNames": ["Sequel Ace"]
 	},
@@ -846,7 +1049,11 @@
 	},
 	{
 		"iconName": ":sf_symbols:",
-		"appNames": ["SF Symbols"]
+		"appNames": ["SF Symbols", "SF Symbole", "SF-Symbole"]
+	},
+	{
+		"iconName": ":shortcuts:",
+		"appNames": ["Shortcuts"]
 	},
 	{
 		"iconName": ":signal:",
@@ -881,6 +1088,10 @@
 		"appNames": ["Spotlight"]
 	},
 	{
+		"iconName": ":steam:",
+		"appNames": ["Steam", "Steam Helper"]
+	},
+	{
 		"iconName": ":studio_3t:",
 		"appNames": ["Studio 3T"]
 	},
@@ -889,12 +1100,20 @@
 		"appNames": ["Sublime Text"]
 	},
 	{
+		"iconName": ":summoners_war:",
+		"appNames": ["Summoners War"]
+	},
+	{
 		"iconName": ":superproductivity:",
 		"appNames": ["superProductivity"]
 	},
 	{
 		"iconName": ":surfshark:",
 		"appNames": ["Surfshark"]
+	},
+	{
+		"iconName": ":t3chat:",
+		"appNames": ["T3 Chat"]
 	},
 	{
 		"iconName": ":tabby:",
@@ -919,6 +1138,10 @@
 	{
 		"iconName": ":terminal:",
 		"appNames": ["Terminal", "终端", "ターミナル"]
+	},
+	{
+		"iconName": ":termius:",
+		"appNames": ["Termius"]
 	},
 	{
 		"iconName": ":text:",
@@ -965,6 +1188,10 @@
 		"appNames": ["Tower"]
 	},
 	{
+		"iconName": ":trading_view:",
+		"appNames": ["TradingView"]
+	},
+	{
 		"iconName": ":transmit:",
 		"appNames": ["Transmit"]
 	},
@@ -979,6 +1206,10 @@
 	{
 		"iconName": ":utm:",
 		"appNames": ["UTM"]
+	},
+	{
+		"iconName": ":veracrypt:",
+		"appNames": ["VeraCrypt"]
 	},
 	{
 		"iconName": ":vim:",
@@ -997,6 +1228,10 @@
 		"appNames": ["VMware Fusion"]
 	},
 	{
+		"iconName": ":vorta:",
+		"appNames": ["Vorta"]
+	},
+	{
 		"iconName": ":vscodium:",
 		"appNames": ["VSCodium"]
 	},
@@ -1006,11 +1241,15 @@
 	},
 	{
 		"iconName": ":weather:",
-		"appNames": ["Weather"]
+		"appNames": ["Weather", "Wetter"]
 	},
 	{
 		"iconName": ":web_storm:",
 		"appNames": ["WebStorm"]
+	},
+	{
+		"iconName": ":webull:",
+		"appNames": ["Webull Desktop"]
 	},
 	{
 		"iconName": ":wechat:",
@@ -1022,11 +1261,19 @@
 	},
 	{
 		"iconName": ":wezterm:",
-		"appNames": ["WezTerm"]
+		"appNames": ["WezTerm", "wezterm-gui"]
 	},
 	{
 		"iconName": ":whats_app:",
 		"appNames": ["WhatsApp", "�WhatsApp"]
+	},
+	{
+		"iconName": ":windows_app:",
+		"appNames": ["Windows App"]
+	},
+	{
+		"iconName": ":wireguard:",
+		"appNames": ["WireGuard"]
 	},
 	{
 		"iconName": ":xcode:",
@@ -1041,6 +1288,18 @@
 		"appNames": ["Yandex Music"]
 	},
 	{
+		"iconName": ":yazi:",
+		"appNames": ["Yazi", "yazi"]
+	},
+	{
+		"iconName": ":youtube:",
+		"appNames": ["YouTube"]
+	},
+	{
+		"iconName": ":youtube_music:",
+		"appNames": ["YouTube Music"]
+	},
+	{
 		"iconName": ":yuque:",
 		"appNames": ["Yuque", "语雀"]
 	},
@@ -1050,7 +1309,7 @@
 	},
 	{
 		"iconName": ":zen_browser:",
-		"appNames": ["Zen Browser", "Zen"]
+		"appNames": ["Zen", "Zen Browser"]
 	},
 	{
 		"iconName": ":zeplin:",
