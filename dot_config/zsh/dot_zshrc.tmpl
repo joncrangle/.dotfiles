@@ -47,6 +47,7 @@ source "$HOMEBREW_DIR/opt/antidote/share/antidote/antidote.zsh"
 eval "$(/opt/homebrew/bin/brew shellenv)"
 {{ end }}
 eval "$(starship init zsh)"
+eval "$(mise activate zsh)"
 precmd_functions=(zvm_init "${(@)precmd_functions:#zvm_init}")
 precmd_functions+=(set-long-prompt)
 zvm_after_init_commands+=("zle -N zle-line-finish; zle-line-finish() { set-short-prompt }")
