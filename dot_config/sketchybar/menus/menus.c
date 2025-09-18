@@ -250,6 +250,7 @@ void ax_select_menu_option(AXUIElementRef app, int index) {
 
 // --- Signal Handling & Cleanup ---
 void cleanup_and_exit(int sig) {
+  (void)sig;
   g_should_exit = 1;
   int cid = SLSMainConnectionID();
   printf("\nRestoring UI and exiting...\n");
