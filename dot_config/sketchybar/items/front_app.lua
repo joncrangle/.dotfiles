@@ -1,5 +1,4 @@
 local colors = require 'colors'
-local settings = require 'settings'
 
 local front_app = sbar.add('item', 'front_app', {
   icon = {

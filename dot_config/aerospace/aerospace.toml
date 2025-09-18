@@ -24,7 +24,7 @@ automatically-unhide-macos-hidden-apps = true
     inner.vertical =   10
     outer.left =       5
     outer.bottom =     5
-    outer.top =        30
+    outer.top =        0
     outer.right =      5
 
 [mode.main.binding]
