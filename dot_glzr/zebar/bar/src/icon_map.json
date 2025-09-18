@@ -16,6 +16,10 @@
 		"appNames": ["Adobe Bridge*"]
 	},
 	{
+		"iconName": ":affine:",
+		"appNames": ["AFFiNE"]
+	},
+	{
 		"iconName": ":affinity_designer:",
 		"appNames": ["Affinity Designer"]
 	},
@@ -98,6 +102,10 @@
 	{
 		"iconName": ":audacity:",
 		"appNames": ["Audacity"]
+	},
+	{
+		"iconName": ":balena_etcher:",
+		"appNames": ["balenaEtcher"]
 	},
 	{
 		"iconName": ":bambu_studio:",
@@ -211,6 +219,10 @@
 	{
 		"iconName": ":click_up:",
 		"appNames": ["ClickUp"]
+	},
+	{
+		"iconName": ":clock:",
+		"appNames": ["Clock"]
 	},
 	{
 		"iconName": ":code:",
@@ -329,6 +341,10 @@
 		"appNames": ["Dropbox"]
 	},
 	{
+		"iconName": ":eagle:",
+		"appNames": ["Eagle"]
+	},
+	{
 		"iconName": ":element:",
 		"appNames": ["Element"]
 	},
@@ -401,6 +417,10 @@
 		"appNames": ["Fusion"]
 	},
 	{
+		"iconName": ":games:",
+		"appNames": ["Games"]
+	},
+	{
 		"iconName": ":gear:",
 		"appNames": [
 			"System Preferences",
@@ -415,6 +435,10 @@
 	{
 		"iconName": ":ghostty:",
 		"appNames": ["Ghostty"]
+	},
+	{
+		"iconName": ":gimp:",
+		"appNames": ["GIMP"]
 	},
 	{
 		"iconName": ":git_hub:",
@@ -739,7 +763,11 @@
 	},
 	{
 		"iconName": ":netease_music:",
-		"appNames": ["网易云音乐"]
+		"appNames": ["网易云音乐", "NetEaseMusic"]
+	},
+	{
+		"iconName": ":news:",
+		"appNames": ["News"]
 	},
 	{
 		"iconName": ":nextcloud:",
@@ -751,7 +779,7 @@
 	},
 	{
 		"iconName": ":nimble_commander:",
-		"appNames": ["NimbleCommander", "NimbleCommander-Unsigned"]
+		"appNames": ["Nimble Commander", "NimbleCommander-Unsigned"]
 	},
 	{
 		"iconName": ":noodl:",
@@ -874,6 +902,10 @@
 		"appNames": ["Phoenix Slides"]
 	},
 	{
+		"iconName": ":phone:",
+		"appNames": ["Phone"]
+	},
+	{
 		"iconName": ":photos:",
 		"appNames": ["Photos", "Fotos"]
 	},
@@ -966,6 +998,10 @@
 		"appNames": ["Quantumult X"]
 	},
 	{
+		"iconName": ":quicktime:",
+		"appNames": ["QuickTime Player"]
+	},
+	{
 		"iconName": ":quip:",
 		"appNames": ["Quip"]
 	},
@@ -976,6 +1012,10 @@
 	{
 		"iconName": ":raindrop_io:",
 		"appNames": ["Raindrop.io"]
+	},
+	{
+		"iconName": ":raspberry_pi:",
+		"appNames": ["Raspberry Pi Imager", "Raspberry Pi Connect"]
 	},
 	{
 		"iconName": ":raycast:",
@@ -1026,6 +1066,10 @@
 	{
 		"iconName": ":safari:",
 		"appNames": ["Safari", "Safari浏览器", "Safari Technology Preview"]
+	},
+	{
+		"iconName": ":scribus:",
+		"appNames": ["Scribus"]
 	},
 	{
 		"iconName": ":seafile:",
@@ -1157,7 +1201,7 @@
 	},
 	{
 		"iconName": ":thunderbird:",
-		"appNames": ["Thunderbird"]
+		"appNames": ["Thunderbird", "Thunderbird Daily"]
 	},
 	{
 		"iconName": ":tick_tick:",
@@ -1170,6 +1214,10 @@
 	{
 		"iconName": ":tinyrdm:",
 		"appNames": ["Tiny RDM"]
+	},
+	{
+		"iconName": ":tips:",
+		"appNames": ["Tips"]
 	},
 	{
 		"iconName": ":todoist:",
@@ -1198,6 +1246,10 @@
 	{
 		"iconName": ":trello:",
 		"appNames": ["Trello"]
+	},
+	{
+		"iconName": ":tv:",
+		"appNames": ["TV"]
 	},
 	{
 		"iconName": ":twitter:",
