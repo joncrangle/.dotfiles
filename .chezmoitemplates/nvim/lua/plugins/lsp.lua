@@ -424,19 +424,13 @@ return {
     'vuki656/package-info.nvim',
     event = { 'BufRead package.json' },
     opts = {
-      colors = {
-        up_to_date = '#a6e3a1',
-        outdated = '#f9e2af',
-        invalid = '#f38ba8',
+      highlights = {
+        up_to_date = { fg = '#a6e3a1' },
+        outdated = { fg = '#f9e2af' },
+        invalid = { fg = '#f38ba8' },
       },
       package_manager = 'bun',
     },
-    config = function(_, opts)
-      require('package-info').setup(opts)
-      vim.cmd([[highlight PackageInfoUpToDateVersion guifg=]] .. opts.colors.up_to_date)
-      vim.cmd([[highlight PackageInfoOutdatedVersion guifg=]] .. opts.colors.outdated)
-      vim.cmd([[highlight PackageInfoInErrorVersion guifg=]] .. opts.colors.invalid)
-    end,
   },
   { 'dmmulroy/ts-error-translator.nvim', ft = { 'typescript', 'typescriptreact', 'tsx' }, opts = {} },
   {
