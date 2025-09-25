@@ -795,7 +795,7 @@
 	},
 	{
 		"iconName": ":notes:",
-		"appNames": ["Notes", "备忘录", "メモ", "Notizen"]
+		"appNames": ["Notes", "备忘录", "メモ", "Notizen", "Notepad.exe"]
 	},
 	{
 		"iconName": ":notion:",
