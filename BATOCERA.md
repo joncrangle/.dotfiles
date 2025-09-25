@@ -98,10 +98,6 @@ done
 2. Press the red button to put the controller in discovery mode (it may take Batocera multiple attempts until there is a successful pair)
 3. To use the Wii Controller to play the Wii, first start a Wii game, then press the red button to put the controller in discovery mode
 
-> [!TODO]
-> Try to determine why Bluetooth controllers are not reconnecting
-> [Issue #9006](https://github.com/batocera-linux/batocera.linux/issues/9006)
-
 ## Network Configuration
 
 1. Connect to Batocera via SSH
@@ -149,31 +145,70 @@ ssh-copy-id root@batocera.local
 8. Menu -> Scraper -> Scrape from: ScreenScraper -> `Scrape Now`.
 9. Menu -> Game Settings -> Update gamelists
 
+## Second Internal Drive
+
+1. Menu -> System Settings -> Frontend Developer Options -> Format a Disk
+2. Rename second drive
+
+```bash
+lsblk -f
+e2label /dev/{NAME} NEW-NAME-HERE
+reboot
+```
+
+3. Determine mount point of second non-boot drive `ls -al /media`
+4. Create `update_rom_folders.sh` and `chmod +x` for executable permissions.
+5. Run `update_rom_folders.sh /media/{DRIVE_NAME}` with the argument being the mount point of the second non-boot drive
+
+```bash
+#!/bin/bash
+# @credit: https://github.com/Camphor76-22-2/batocera-cookbook
+romfolders=$(ls -al /userdata/roms | grep -v "\." | grep -v "total" | awk '{print $9}')
+mkdir -p $1/batocera_roms
+for f in $romfolders; do
+ echo $f
+ mkdir -p $1/batocera_roms/$f
+ medianame=$(echo "$1" | sed 's/.*\///')
+ mkdir -p /userdata/roms/$f/drives/
+ echo "Linking /userdata/roms/$f/drives/$medianame to $1/batocera_roms/$f"
+ ln -s $1/batocera_roms/$f /userdata/roms/$f/drives/$medianame
+done
+```
+
+6. Create a link from /userdata/ to the new roms folder so it shows up in file manager:
+
+```bash
+ln -s /media/{DRIVE_NAME}/batocera_roms /userdata/roms_{DRIVE_NAME}
+```
+
 ## Configure Emulators
 
 ## Aspect Ratio and Scaling
 
 > [!INFO]
-Update for MAME, Commodore 64, FB Neo, PC Engine , NES, SNES, GBA, NDS DS, Ports, Sega Megadrive, Dreamcast and PSX
+Update settings for MAME, Commodore 64, FB Neo, PC Engine , NES, SNES, GBA, NDS DS, Ports, Sega Megadrive, Dreamcast and PSX
 
-<Select> -> Advanced System Options -> Game Aspect Ratio -> Core Provided 
-
-<Select> -> Advanced System Options -> Game Rendering & Shaders -> Integer Scaling -> On
+1. Menu -> System Settings -> Advanced System Options ->
+2. Game Aspect Ratio -> Core Provided 
+3. Game Rendering & Shaders -> Integer Scaling -> On
+4. Graphics API -> Vulkan for everything except Xbox and Xbox 360
 
 ### Nintendo DS
 
-<Select> -> Advanced System Options -> Emulator -> Libretto: MelonDSDS
+Advanced System Options -> Emulator -> Libretto: MelonDSDS
 
 ### Nintendo GameCube
 
-<Select> -> Advanced System Options -> GameCube Controller 1 -> GameCube Port 1 Type -> GameCube Controller
+Advanced System Options -> GameCube Controller 1 -> GameCube Port 1 Type -> GameCube Controller
+
+Use [Dolphin Wiki](https://wiki.dolphin-emu.org/index.php?title=Nintendo_GameCube) for individual game settings
 
 ### Nintendo Switch
 
 1. File Manager -> Applications -> `xterm` or use SSH
 
 ```bash
-curl -L bit.ly/foclabroc-switchoff | bash
+curl -L bit.ly/foclabroc-switch-all | bash
 ```
 
 2. Move zip file and extracted `firmware` folder of Nintendo Switch firmware `18.1.0` into `/bios/switch`
@@ -185,15 +220,43 @@ curl -L bit.ly/foclabroc-switchoff | bash
 
 1. File Manager -> Applications -> `eden-config`
 2. Tools -> Install Decryption Keys -> `bios/switch/prod.keys`
-3. Tools -> Install Firmware -> `/bios/switch/firmware`
+3. Tools -> Install Firmware -> From Zip -> `/bios/switch/Switch Firmware 18.1.0.zip`
 4. File -> Install NAND -> Select all DLC and Update files
 5. Emulation -> Configure -> Controls -> Input Device -> Select the controller and configure
 
-##### Ryujinx
+### Switch Jailbreak
 
-1. File Manager -> Applications -> `ryujinx-config`
-2. Actions -> Install Decryption Keys -> `bios/switch/prod.keys`
-3. Actions -> Install Firmware -> Install Firmware (.XCI or .ZIP) -> `bios/switch/Firmware 18.1.0.zip`
+1. Install Youtube app onto Switch.
+2. Enter RCM mode. Insert RCM jig into right Joy-Con rail and hold Volume Up button while pressing Power button.
+3. Use RCM payload injector to send payload to Switch. [Rekado](https://github.com/MenosGrante/Rekado/releases) can be used from Android to send the latest [Hekate](https://github.com/CTCaer/hekate/releases/).
+4. Backup. Tools -> Backup eMMC -> eMMC BOOT0/1 and eMMC RAW GPP. This creates a folder `backup` on the root of the SD card that contains the backups.
+5. Tools -> Partition SD Card -> emuMMC (RAW) 29 GB (Full) -> Next step -> SD UMS.
+6. Prepare SD card with HATS Pack and Switch Firmware folder.
+7. Home -> emuMMC -> Create emuMMC -> SD Partition. Close.
+8. Launch.
+9. Hold `R` and open Youtube app to exit applet mode.
+10. `L` + `D-Pad Down` + `Click Right Stick` to open `Tesla` menu. Quick NTP sync.
+11. Update firmware.
+12. `+` button (sometimes `-`) to go back to Home menu.
+
+Resources:
+- [NH Switch Guide](https://switch.hacks.guide/)
+- [HATS Pack](https://www.sthetix.info/the-hats-pack/)
+- [DBI Installer](https://github.com/rashevskyv/dbi)
+```toml
+# pyproject.toml
+# rename `dbibackend` to `dbibackend.py` and run with `uv run dbibackend.py`
+[project]
+name = "dbibackend"
+version = "0.1.0"
+description = "DBI backend GUI for Switch"
+readme = "README.md"
+requires-python = ">=3.11"
+
+dependencies = [
+    "pyusb",
+]
+```
 
 ### PlayStation 3
 
@@ -201,6 +264,7 @@ curl -L bit.ly/foclabroc-switchoff | bash
 2. File -> Install Firmware select `PS3UPDAT.PUP`
 3. Use [RPCS3 Wiki](https://wiki.rpcs3.net/index.php?title=Main_Page) to determine individual game settings
 4. File -> Install Packages/Raps/Edats -> Install pkg files, DLC and updates
+5. File -> All Titles -> Create LLVM Caches (time consuming)
 
 ### Xbox 360
 
