@@ -45,16 +45,12 @@ return {
   ---@module 'markview'
   {
     'OXY2DEV/markview.nvim',
-    ft = { 'markdown', 'Avante' },
+    lazy = false,
     opts = function()
       require('markview.extras.checkboxes').setup()
-      local presets = require 'markview.presets'
       ---@type markview.config|{}
       return {
         ---@type markview.config.markdown|{}
-        markdown = {
-          headings = presets.headings.marker,
-        },
         preview = {
           filetypes = { 'Avante', 'md', 'markdown' },
           icon_provider = 'mini',
