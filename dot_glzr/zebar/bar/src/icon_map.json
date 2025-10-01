@@ -458,7 +458,12 @@
 	},
 	{
 		"iconName": ":google_chrome:",
-		"appNames": ["Chromium", "Google Chrome", "Google Chrome Canary"]
+		"appNames": [
+			"Chromium",
+			"Google Chrome",
+			"Google Chrome Canary",
+			"chrome.exe"
+		]
 	},
 	{
 		"iconName": ":grammarly:",
