@@ -297,8 +297,12 @@ void run_daemon() {
   signal(SIGINT, cleanup_and_exit);
   signal(SIGTERM, cleanup_and_exit);
 
-  g_menu_hidden = read_state(STATE_FILE_MENU);
-  g_dock_hidden = read_state(STATE_FILE_DOCK);
+  // Always start with dock and menu hidden by default
+  g_menu_hidden = true;
+  g_dock_hidden = true;
+  write_state(STATE_FILE_MENU, true);
+  write_state(STATE_FILE_DOCK, true);
+
   set_menu_visibility(g_menu_hidden);
   set_dock_visibility(g_dock_hidden);
 
