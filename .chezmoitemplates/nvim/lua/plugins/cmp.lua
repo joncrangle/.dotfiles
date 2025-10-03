@@ -68,6 +68,10 @@ return {
       keymap = {
         preset = 'super-tab',
         ['<Tab>'] = {
+          'snippet_forward',
+          function()
+            return require('sidekick').nes_jump_or_apply()
+          end,
           function(cmp)
             if cmp.snippet_active() then
               return cmp.accept()
@@ -75,7 +79,9 @@ return {
               return cmp.select_and_accept()
             end
           end,
-          'snippet_forward',
+          -- function() -- if you are using Neovim's native inline completions
+          --   return vim.lsp.inline_completion.get()
+          -- end,
           'fallback',
         },
       },

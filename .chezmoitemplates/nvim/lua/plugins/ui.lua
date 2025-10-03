@@ -231,8 +231,10 @@ return {
             local count = #picker:items()
             meta = input ~= '' and (' ' .. input .. ': ' .. count .. ' results') or (count .. ' results')
           end
+        elseif filetype == 'sidekick_terminal' then
+          title = '  Sidekick'
+          meta = vim.fn.expand('%:t'):match '.*:(%S+)$' or vim.fn.expand '%:t'
         end
-
         return title, meta
       end
 
@@ -256,6 +258,7 @@ return {
           'snacks_picker_input',
           'snacks_picker_list',
           'snacks_terminal',
+          'sidekick_terminal',
         },
       }
 
@@ -350,43 +353,6 @@ return {
             },
             { 'diff' },
             { 'lsp_status', icon = '󰅩', separator = '', padding = { left = 1, right = 0 } },
-            {
-              function()
-                if not vim.g.loaded_mcphub then
-                  return '󰐻 -'
-                end
-
-                local count = vim.g.mcphub_servers_count or 0
-                local status = vim.g.mcphub_status or 'stopped'
-                local executing = vim.g.mcphub_executing
-
-                if status == 'stopped' then
-                  return '󰐻 -'
-                end
-
-                if executing or status == 'starting' or status == 'restarting' then
-                  local frames = { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' }
-                  local frame = math.floor(vim.uv.now() / 100) % #frames + 1
-                  return '󰐻 ' .. frames[frame]
-                end
-
-                return '󰐻 ' .. count
-              end,
-              color = function()
-                if not vim.g.loaded_mcphub then
-                  return { fg = '#6c7086' }
-                end
-
-                local status = vim.g.mcphub_status or 'stopped'
-                if status == 'ready' or status == 'restarted' then
-                  return { fg = '#a6e3a1' }
-                elseif status == 'starting' or status == 'restarting' then
-                  return { fg = '#fab387' }
-                else
-                  return { fg = '#f38ba8' }
-                end
-              end,
-            },
           },
           lualine_y = { 'progress' },
           lualine_z = { 'location' },
