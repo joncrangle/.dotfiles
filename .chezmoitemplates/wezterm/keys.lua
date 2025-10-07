@@ -29,6 +29,7 @@ function M.apply_to_config(config, plugins)
     { mods = 'ALT',        key = 'Enter', action = act.ToggleFullScreen },
     { mods = 'SUPER',      key = 'q',     action = act.QuitApplication },
     { mods = 'SHIFT|CTRL', key = 'q',     action = act.QuitApplication },
+    { mods = 'CTRL',       key = '.',     action = act.SendKey{ mods = 'CTRL', key = '.' } },
     -- Sessions
     {
       mods = 'ALT',
