@@ -81,7 +81,7 @@ return {
       local wk = require 'which-key'
       -- stylua: ignore
       wk.add({
-        { '<leader>p', group = '[P]ersistent Sessions', icon = { icon = '', color = 'yellow' } },
+        { '<leader>p', group = '[P]ersistent Sessions', icon = { icon = ' ', color = 'azure' } },
         { '<leader>ps', function() require('persistence').load() end, desc = 'Restore Session' },
         { '<leader>pl', function() require('persistence').load { last = true } end, desc = 'Restore Last Session' },
         { '<leader>pd', function() require('persistence').stop() end, desc = "Don't Save Current Session" },
