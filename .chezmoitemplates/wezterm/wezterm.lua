@@ -44,7 +44,7 @@ config.max_fps = 120
 --  Colour scheme and UI
 config.adjust_window_size_when_changing_font_size = false
 local scheme = wezterm.get_builtin_color_schemes()['Catppuccin Mocha']
-scheme.tab_bar.background = 'rgba(30, 30, 46, 0.8)'
+scheme.tab_bar.background = 'rgba(0, 0, 0, 0)'
 config.color_scheme = 'Catppuccin Mocha'
 local modal_bg_color = 'rgba(26, 27, 38, 0.92)'
 local modal_fg_color = '#a9b1d6'
@@ -91,7 +91,7 @@ elseif wezterm.target_triple:find 'linux' then
 else
   config.default_prog = { '/opt/homebrew/bin/zsh', '-l' }
   config.macos_window_background_blur = 20
-  config.window_background_opacity = 0.6
+  config.window_background_opacity = 0.75
   config.window_decorations = 'RESIZE'
   font_size = 16
 end
