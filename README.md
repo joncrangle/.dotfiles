@@ -39,7 +39,7 @@ Features include:
 - [Aerospace](https://nikitabobko.github.io/AeroSpace/guide) window manager
 - [SketchyBar](https://github.com/FelixKratz/SketchyBar) bar
 - [JankyBorders](https://github.com/FelixKratz/JankyBorders) border styling
-- [Raycast](https://www.raycast.com/) launcher
+- [Sol](https://sol.ospfranco.com/) launcher
 - [Homebrew](https://brew.sh/) package management
 
 **Windows**
