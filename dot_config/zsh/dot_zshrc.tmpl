@@ -48,8 +48,10 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 {{ end }}
 eval "$(starship init zsh)"
 eval "$(mise activate zsh)"
+
 precmd_functions=(zvm_init "${(@)precmd_functions:#zvm_init}")
 precmd_functions+=(set-long-prompt)
+
 zvm_after_init_commands+=("zle -N zle-line-finish; zle-line-finish() { set-short-prompt }")
 
 set-long-prompt() {
@@ -60,45 +62,45 @@ set-long-prompt() {
 export COLUMNS=$(($COLUMNS + ($COLUMNS*0.1)))
 set-short-prompt() {
     PROMPT="$(STARSHIP_KEYMAP=${KEYMAP:-viins} starship module character)"
-    RPROMPT=$'%{\e[999C%}\e[8D%F{8}%*%f ' # remove if you don't want right prompt
-    zle .reset-prompt 2>/dev/null # hide the errors on ctrl+c
+    RPROMPT=$'%{\e[999C%}\e[8D%F{8}%*%f '
 }
 
-zle-line-finish() { set-short-prompt }
+zle-line-finish() { 
+    set-short-prompt
+    zle .reset-prompt 2>/dev/null
+}
 zle -N zle-line-finish
 
-zvm_after_init_commands+=('
-  function zle-keymap-select() {
-    if [[ ${KEYMAP} == vicmd ]] ||
-       [[ $1 = "block" ]]; then
+zvm_after_init_commands+=(
+  # Setup keymap selection
+  'function zle-keymap-select() {
+    if [[ ${KEYMAP} == vicmd ]] || [[ $1 = "block" ]]; then
       echo -ne "\e[1 q"
       STARSHIP_KEYMAP=vicmd
-    elif [[ ${KEYMAP} == main ]] ||
-         [[ ${KEYMAP} == viins ]] ||
-         [[ ${KEYMAP} = "" ]] ||
-         [[ $1 = "beam" ]]; then
+    elif [[ ${KEYMAP} == main ]] || [[ ${KEYMAP} == viins ]] || [[ ${KEYMAP} = "" ]] || [[ $1 = "beam" ]]; then
       echo -ne "\e[5 q"
       STARSHIP_KEYMAP=viins
     fi
-    zle reset-prompt
+    set-short-prompt
   }
-  zle -N zle-keymap-select
-
-  # Ensure vi mode is set
-  zle-line-init() {
+  zle -N zle-keymap-select'
+  
+  # Setup line init
+  'function zle-line-init() {
     zle -K viins
     echo -ne "\e[5 q"
   }
-  zle -N zle-line-init
-')
+  zle -N zle-line-init'
+  
+  # Source fzf
+  'source <(fzf --zsh)'
+)
 
 trap 'set-short-prompt; return 130' INT
 
 zstyle ':fzf-tab:*' default-color ""
 zstyle ':fzf-tab:*' use-fzf-default-opts yes
 
-
-source <(fzf --zsh)
 source <(COMPLETE=zsh jj)
 source <(mise completion zsh)
 # vim: ft=zsh
