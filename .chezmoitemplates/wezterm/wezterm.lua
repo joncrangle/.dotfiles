@@ -43,7 +43,7 @@ config.max_fps = 120
 
 --  Colour scheme and UI
 config.adjust_window_size_when_changing_font_size = false
-local scheme = wezterm.get_builtin_color_schemes()['Catppuccin Mocha']
+local scheme = wezterm.color.get_builtin_schemes()['Catppuccin Mocha']
 scheme.tab_bar.background = 'rgba(0, 0, 0, 0)'
 config.color_scheme = 'Catppuccin Mocha'
 local modal_bg_color = 'rgba(26, 27, 38, 0.92)'

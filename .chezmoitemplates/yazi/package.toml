@@ -1,17 +1,17 @@
 [[plugin.deps]]
 use = "dedukun/relative-motions"
-rev = "2e3b617"
-hash = "b67ee12053113983273e9118a7d1272b"
+rev = "a603d9e"
+hash = "e02a788e5b8ae0fb47fd0193dda589cc"
 
 [[plugin.deps]]
 use = "Rolv-Apneseth/starship"
-rev = "6a0f3f7"
-hash = "d5a74d95c2e8194ac352c5e10e81e64f"
+rev = "a63550b"
+hash = "c2021386289a0cbb3e152a052f67c177"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:piper"
-rev = "aeca767"
-hash = "2bdc137505b8d9a0cc867a57d0e99b01"
+rev = "8f1d971"
+hash = "64713dcd74daf9ec644883a5895e5d1"
 
 [flavor]
 deps = []
