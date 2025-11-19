@@ -117,8 +117,6 @@ vim.o.incsearch = true
 -- Set diagnostic configuration
 vim.diagnostic.config {
   severity_sort = true,
-  float = { border = 'rounded', source = 'if_many' },
-  underline = { severity = vim.diagnostic.severity.ERROR },
   signs = vim.g.have_nerd_font and {
     text = {
       [vim.diagnostic.severity.ERROR] = '󰅚 ',
@@ -127,26 +125,7 @@ vim.diagnostic.config {
       [vim.diagnostic.severity.HINT] = '󰌶 ',
     },
   } or {},
-  virtual_text = function(_, bufnr)
-    local full_diagnostic_fts = {
-      'lazy',
-      'mason',
-    }
-    if full_diagnostic_fts[vim.bo[bufnr].filetype] then
-      return { current_line = false }
-    end
-    return {
-      current_line = true,
-      severity = {
-        max = vim.diagnostic.severity.WARN,
-      },
-    }
-  end,
-  virtual_lines = {
-    severity = {
-      min = vim.diagnostic.severity.ERROR,
-    },
-  },
+  virtual_text = false,
 }
 
 -- Show cursor line only in active window

@@ -10,6 +10,21 @@ return {
       { '<leader>x', '<cmd>Trouble diagnostics toggle<cr>', desc = 'Toggle Trouble' },
     },
   },
+  {
+    'rachartier/tiny-inline-diagnostic.nvim',
+    event = 'VeryLazy',
+    priority = 1000,
+    opts = {
+      options = {
+        add_messages = {
+          display_count = true,
+        },
+        multilines = {
+          enabled = true,
+        },
+      },
+    },
+  },
   ---@module 'neotest'
   {
     'nvim-neotest/neotest',
