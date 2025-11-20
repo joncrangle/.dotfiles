@@ -47,6 +47,7 @@ $php\
 $python\
 $rust\
 $scala\
+$typst\
 $zig\
 [](fg:mauve bg:mantle)\
 $time\
@@ -154,8 +155,11 @@ disabled = false
 time_format = "%l:%M %p"
 format = '[[  $time ](fg:blue bg:mantle)]($style)'
 
+[typst]
+format = '[[  typst ](fg:base bg:mauve)]($style)'
+
 [zig]
-format = '[[  zig ](fg:mauve bg:base)]($style)'
+format = '[[  zig ](fg:base bg:mauve)]($style)'
 
 [palettes.catppuccin_mocha]
 rosewater = "#f5e0dc"
