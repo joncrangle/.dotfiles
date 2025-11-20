@@ -61,6 +61,9 @@ export FZF_CTRL_R_OPTS="--bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+ab
 # Bat
 export BAT_THEME="Catppuccin Mocha"
 
+# Bun
+export BUN_INSTALL="$HOME/.bun"
+
 # Go
 export GOPATH=$HOME/.go
 
@@ -81,6 +84,7 @@ path=(
     /usr/bin(N-/)
     $HOME/.config/hypr/scripts(N-/)
     {{ end }}
+    $BUN_INSTALL
     $PNPM_HOME
     $HOME/bin(N-/)
     $HOME/.local/bin(N-/)

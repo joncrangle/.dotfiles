@@ -17,6 +17,9 @@ SAVEHIST=10000
 LISTMAX=1000
 COREPACK_ENABLE_AUTO_PIN=0
 
+{{ if eq .chezmoi.os "darwin" }}
+eval "$(/opt/homebrew/bin/brew shellenv)"
+{{ end }}
 {{ if eq .chezmoi.os "linux" }}
 source "/usr/share/zsh-antidote/antidote.zsh"
 {{ else }}
@@ -42,61 +45,73 @@ source "$ZDOTDIR/options.zsh"
 source "$ZDOTDIR/aliases.zsh"
 source "$ZDOTDIR/banner.zsh"
 
-[ -s "~/.bun/_bun" ] && source "~/.bun/_bun"
-{{ if eq .chezmoi.os "darwin" }}
-eval "$(/opt/homebrew/bin/brew shellenv)"
-{{ end }}
-eval "$(starship init zsh)"
 eval "$(mise activate zsh)"
 
-precmd_functions=(zvm_init "${(@)precmd_functions:#zvm_init}")
-precmd_functions+=(set-long-prompt)
+autoload -Uz add-zle-hook-widget
 
-zvm_after_init_commands+=("zle -N zle-line-finish; zle-line-finish() { set-short-prompt }")
+eval "$(starship init zsh)"
 
 set-long-prompt() {
-    PROMPT=$(starship prompt)
-    RPROMPT=""
+  PROMPT="$(starship prompt)"
+  RPROMPT=""
 }
 
-export COLUMNS=$(($COLUMNS + ($COLUMNS*0.1)))
 set-short-prompt() {
-    PROMPT="$(STARSHIP_KEYMAP=${KEYMAP:-viins} starship module character)"
-    RPROMPT=$'%{\e[999C%}\e[8D%F{8}%*%f '
+  PROMPT="$(starship module character)"
+  RPROMPT=$'%{\e[999C\e[8D%}%F{8}%*%f '
 }
 
-zle-line-finish() { 
-    set-short-prompt
-    zle .reset-prompt 2>/dev/null
-}
-zle -N zle-line-finish
+precmd_functions+=(set-long-prompt)
 
+function transient-line-finish() {
+  set-short-prompt
+  zle .reset-prompt 2>/dev/null
+}
+zle -N transient-line-finish
+
+# Trap: handle Ctrl+C
+function transient-int() {
+  set-short-prompt
+  zle .reset-prompt 2>/dev/null
+  return 130
+}
+
+# Custom Keymap Logic (Safe Hook)
+# We use a separate function name to avoid naming collisions
+function my-starship-keymap-select() {
+  if [[ ${KEYMAP} == vicmd ]] || [[ $1 = "block" ]]; then
+    echo -ne "\e[1 q"
+    STARSHIP_KEYMAP=vicmd
+  elif [[ ${KEYMAP} == main ]] || [[ ${KEYMAP} == viins ]] || [[ ${KEYMAP} = "" ]] || [[ $1 = "beam" ]]; then
+    echo -ne "\e[5 q"
+    STARSHIP_KEYMAP=viins
+  fi
+  zle .reset-prompt
+}
+
+# ZVM Hooks
 zvm_after_init_commands+=(
-  # Setup keymap selection
-  'function zle-keymap-select() {
-    if [[ ${KEYMAP} == vicmd ]] || [[ $1 = "block" ]]; then
-      echo -ne "\e[1 q"
-      STARSHIP_KEYMAP=vicmd
-    elif [[ ${KEYMAP} == main ]] || [[ ${KEYMAP} == viins ]] || [[ ${KEYMAP} = "" ]] || [[ $1 = "beam" ]]; then
-      echo -ne "\e[5 q"
-      STARSHIP_KEYMAP=viins
-    fi
-    set-short-prompt
-  }
-  zle -N zle-keymap-select'
-  
-  # Setup line init
+  # 1. Bind the transient finish widget safely
+  'zle -N zle-line-finish transient-line-finish'
+
+  # 2. Bind the keymap select hook using the safe helper
+  # This prevents "maximum nested function level" errors
+  'autoload -Uz add-zle-hook-widget'
+  'add-zle-hook-widget zle-keymap-select my-starship-keymap-select'
+
+  # 3. Fix line init cursors
   'function zle-line-init() {
     zle -K viins
     echo -ne "\e[5 q"
   }
   zle -N zle-line-init'
-  
-  # Source fzf
+
+  # 4. FZF source
   'source <(fzf --zsh)'
 )
 
-trap 'set-short-prompt; return 130' INT
+# Apply the Ctrl+C trap
+trap 'transient-int' INT
 
 zstyle ':fzf-tab:*' default-color ""
 zstyle ':fzf-tab:*' use-fzf-default-opts yes
