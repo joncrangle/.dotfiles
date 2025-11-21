@@ -41,7 +41,7 @@
     }
   },
   "model": "github-copilot/claude-sonnet-4.5",
-  "small_model": "github-copilot/gpt-5.1-codex",
+  "small_model": "github-copilot/claude-haiku-4.5",
   "share": "manual",
   "autoupdate": false,
   "mcp": {
