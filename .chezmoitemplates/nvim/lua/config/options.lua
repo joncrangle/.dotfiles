@@ -8,6 +8,7 @@ vim.o.laststatus = 3 -- Global statusline
 vim.o.wrap = false -- Don't wrap lines
 vim.o.virtualedit = 'block' -- Enable virtual edit in block mode
 vim.o.autoread = true -- Auto reload files changed outside of Neovim
+vim.o.winbar = ' '
 
 -- Sync clipboard between OS and Neovim.
 -- Function to set OSC 52 clipboard
