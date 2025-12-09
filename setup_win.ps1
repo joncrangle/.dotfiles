@@ -180,7 +180,7 @@ Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory
 
 `$env:EDITOR = "nvim"
 `$env:VISUAL = "nvim"
-`$env:CC = "zig"
+`$env:CC = "gcc"
 `$env:STARSHIP_CONFIG = "$env:USERPROFILE\.config\starship\starship.toml"
 `$env:COREPACK_ENABLE_AUTO_PIN = "0"
 `$env:GEMINI_API_KEY={{- .GeminiKey }}
@@ -486,7 +486,7 @@ $packages = @(
     "7zip", "bat", "biome", "bun", "bruno", "chafa", "charm-gum", "curl", "delta", "deno", "dbeaver", "diffutils",
     "eza", "fastfetch", "fd", "ffmpeg", "Flow-Launcher", "ghostscript", "glazewm", "glow", "go", "gzip",
     "imagemagick", "JetBrainsMono-NF", "jj", "jq", "just", "krita", "lazygit", "lua", "luarocks", "make", "mariadb",
-    "Meslo-NF", "mingw", "mise", "neovim", "obsidian", "podman", "poppler", "postgresql", "python", "ripgrep",
+    "Meslo-NF", "mingw-winlibs", "mise", "neovim", "obsidian", "podman", "poppler", "postgresql", "python", "ripgrep",
     "rustup-gnu", "sqlite", "tldr", "topgrade", "tree-sitter", "typst", "unar", "unzip", "uv", "vlc", "vcredist2022",
     "wezterm-nightly", "win32yank", "wget", "whkd", "xh", "yazi", "yq", "zebar", "zed", "zig", "zoom"
 )
