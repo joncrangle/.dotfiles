@@ -45,25 +45,11 @@
   "share": "manual",
   "autoupdate": false,
   "mcp": {
-    "fetch": {
-      "type": "local",
-      "command": [
-        "uvx",
-        "mcp-server-fetch"
-      ]
-    },
     "context7": {
       "type": "local",
       "command": [
         "bunx",
         "@upstash/context7-mcp@latest"
-      ]
-    },
-    "sequentialThinking": {
-      "type": "local",
-      "command": [
-        "bunx",
-        "@modelcontextprotocol/server-sequential-thinking"
       ]
     },
     "github": {
@@ -75,13 +61,6 @@
       "environment": {
         "GITHUB_PERSONAL_ACCESS_TOKEN": "{{- .GithubKey -}}"
       }
-    },
-    "memory": {
-      "type": "local",
-      "command": [
-        "bunx",
-        "@modelcontextprotocol/server-memory"
-      ]
     }
   }
 }
