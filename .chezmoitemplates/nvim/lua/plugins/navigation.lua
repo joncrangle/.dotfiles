@@ -102,7 +102,7 @@ return {
         ['q'] = { 'actions.close', mode = 'n' },
       },
       ---@type oil.FloatWindowConfig|{}
-      float = { max_width = 0.85, max_height = 0.85 },
+      float = { max_width = 0.85, max_height = 0.85, border = 'rounded' },
       ---@type oil.LspFileMethods|{}
       lsp_file_methods = { autosave_changes = 'unmodified' },
       skip_confirm_for_simple_edits = true,
