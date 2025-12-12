@@ -47,6 +47,7 @@
   "mcp": {
     "context7": {
       "type": "local",
+      "enabled": false,
       "command": [
         "bunx",
         "@upstash/context7-mcp@latest"
@@ -54,6 +55,7 @@
     },
     "github": {
       "type": "local",
+      "enabled": false,
       "command": [
         "github-mcp-server",
         "stdio"
