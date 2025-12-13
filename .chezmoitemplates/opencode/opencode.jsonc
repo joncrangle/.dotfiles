@@ -14,11 +14,8 @@
         "qwen3-4b-thinking-2507-mlx": {
           "name": "Qwen-3 4B Thinking"
         },
-        "gemma-3-4b-it-qat": {
-          "name": "Gemma-3 4B"
-        },
-        "gemma-3-12b-it-qat": {
-          "name": "Gemma-3 12B"
+        "glm-4.6v-flash": {
+          "name": "glm-4.6v-flash"
         }
       }
     },
