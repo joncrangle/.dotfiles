@@ -188,6 +188,9 @@ window_rules:
       # Affinity
       - window_process: { equals: "Affinity" }
 
+      # Global Protect
+      - window_process: { equals: "PanGPA" }
+
       # Ignores picture-in-picture windows for browsers.
       - window_title: { regex: "[Pp]icture.in.[Pp]icture" }
         window_class: { regex: "Chrome_WidgetWin_1|MozillaDialogClass" }
