@@ -1,26 +1,23 @@
 return {
   {
-    'sindrets/diffview.nvim',
-    cmd = { 'DiffviewOpen', 'DiffviewClose' },
-    opts = {},
+    'esmuellert/vscode-diff.nvim',
+    dependencies = { 'MunifTanjim/nui.nvim' },
+    cmd = 'CodeDiff',
     keys = {
+      { '<leader>gd', '<cmd>CodeDiff<cr>', desc = '[G]it [D]iff with CodeDiff' },
       {
-        '<leader>gd',
+        '<leader>gm',
         function()
-          if next(require('diffview.lib').views) == nil then
-            vim.cmd 'DiffviewOpen'
-          else
-            vim.cmd 'tabclose'
+          local file = vim.fn.expand '%:p'
+          if file == '' then
+            vim.notify('No file open', vim.log.levels.WARN)
+            return
           end
+          vim.cmd('CodeDiff merge ' .. vim.fn.fnameescape(file))
         end,
-        desc = 'Toggle [D]iffview',
+        desc = '[G]it [M]erge Conflict (current file)',
       },
     },
-  },
-  {
-    'julienvincent/hunk.nvim',
-    cmd = { 'DiffEditor' },
-    opts = {},
   },
 }
 -- vim: ts=2 sts=2 sw=2 et

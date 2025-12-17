@@ -2,7 +2,11 @@ return {
   ---@module 'blink.cmp'
   {
     'saghen/blink.cmp',
+    {{ if eq .chezmoi.os "windows" -}}
+    version = '1.*',
+    {{ else -}}
     build = 'cargo build --release',
+    {{ end -}}
     event = { 'InsertEnter', 'CmdlineEnter' },
     dependencies = {
       'rafamadriz/friendly-snippets',

@@ -47,14 +47,14 @@
 
 [merge]
     conflictstyle = diff3
-    tool = diffview
+    tool = vscode-diff
 
 [mergetool]
     prompt = false
     keepBackup = false
 
-[mergetool "diffview"]
-    cmd = nvim -n -c "DiffviewOpen" "$MERGE"
+[mergetool "vscode-diff"]
+    cmd = nvim "$MERGED" -c "CodeDiff merge \"$MERGED\""
 
 [diff]
     colorMoved = default
@@ -68,4 +68,8 @@
 
 [init]
     defaultBranch = master
+{{ if eq .chezmoi.os "windows" }}
+[credential]
+	helper = !\"{{ .chezmoi.homeDir }}/scoop/apps/git/current/mingw64/bin/git-credential-manager.exe\"
+{{ end -}}
 # vim: ft=gitconfig

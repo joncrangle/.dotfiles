@@ -133,7 +133,11 @@ plugins.resurrect.state_manager.set_encryption {
   private_key = wezterm.home_dir .. separator .. '.config' .. separator .. 'key.txt',
   public_key = '{{- .chezmoi.config.age.recipient -}}',
 }
+{{ if eq .chezmoi.os "windows" -}}
+-- plugins.resurrect.state_manager.periodic_save()
+{{ else -}}
 plugins.resurrect.state_manager.periodic_save()
+{{ end -}}
 plugins.resurrect.state_manager.set_max_nlines(1000)
 
 --Workspaces
