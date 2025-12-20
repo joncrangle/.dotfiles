@@ -513,8 +513,8 @@ cargo install --locked bacon
 mise use -g node@latest
 mise use -g usage
 corepack enable pnpm
-go install github.com/jorgerojas26/lazysql@latest
 go install github.com/joncrangle/teams-green@latest
+uv tool install harlequin
 jj config set --user user.name "jonathancrangle"
 jj config set --user user.email "94405204+joncrangle@users.noreply.github.com"
 @"

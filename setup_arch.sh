@@ -310,7 +310,6 @@ packages=(
     "lazydocker"
     "lazygit"
     "libgtop"
-    "lazysql"
     "libastal-io-git"
     "libastal-git"
     "libreoffice"
@@ -490,6 +489,11 @@ listener {
 EOF
 fi
 echo
+
+if [[ $(_isInstalledParu "python-uv") -eq 0 ]]; then
+    echo ":: Installing python apps..."
+    uv tool install harlequin
+fi
 
 # Install yazi plugins
 if [[ $(_isInstalledParu "yazi-git") == 0 ]]; then
