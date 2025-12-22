@@ -70,9 +70,6 @@ export GOPATH=$HOME/.go
 # pnpm
 export PNPM_HOME="$XDG_DATA_HOME/pnpm"
 
-# Gemini
-export GEMINI_API_KEY={{- .GeminiKey }}
-
 # Path
 path=(
     {{ if eq .chezmoi.os "darwin" }}

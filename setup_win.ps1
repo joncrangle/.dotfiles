@@ -184,7 +184,6 @@ Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory
 `$env:OPENCODE_CONFIG_DIR = "$env:USERPROFILE\.config\opencode"
 `$env:STARSHIP_CONFIG = "$env:USERPROFILE\.config\starship\starship.toml"
 `$env:COREPACK_ENABLE_AUTO_PIN = "0"
-`$env:GEMINI_API_KEY={{- .GeminiKey }}
 # Add uv tools to PATH
 `$env:PATH = "$env:APPDATA\..\bin;$env:PATH"
 # Add bun to PATH

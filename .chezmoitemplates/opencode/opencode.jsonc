@@ -176,6 +176,17 @@
         "@upstash/context7-mcp@latest"
       ]
     },
+    "searxng": {
+      "type": "local",
+      "enabled": true,
+      "command": [
+        "bunx",
+        "mcp-searxng"
+      ],
+      "environment": {
+        "SEARXNG_URL": "https://searxng.{{- .nasSite -}}"
+      }
+    },
     "github": {
       "type": "local",
       "enabled": false,
