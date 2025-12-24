@@ -1,1 +1,220 @@
-{{- template "opencode/opencode.jsonc" . -}}
+{
+  "$schema": "https://opencode.ai/config.json",
+  "theme": "catppuccin",
+  "provider": {
+    "google": {
+      "models": {
+        "gemini-3-pro-high": {
+          "name": "Gemini 3 Pro High (Antigravity)",
+          "limit": {
+            "context": 1048576,
+            "output": 65535
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "gemini-3-pro-low": {
+          "name": "Gemini 3 Pro Low (Antigravity)",
+          "limit": {
+            "context": 1048576,
+            "output": 65535
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "gemini-3-flash": {
+          "name": "Gemini 3 Flash (Antigravity)",
+          "limit": {
+            "context": 1048576,
+            "output": 65536
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "claude-sonnet-4-5": {
+          "name": "Claude Sonnet 4.5 (Antigravity)",
+          "limit": {
+            "context": 200000,
+            "output": 64000
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "claude-sonnet-4-5-thinking": {
+          "name": "Claude Sonnet 4.5 Thinking (Antigravity)",
+          "limit": {
+            "context": 200000,
+            "output": 64000
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "claude-opus-4-5-thinking": {
+          "name": "Claude Opus 4.5 Thinking (Antigravity)",
+          "limit": {
+            "context": 200000,
+            "output": 64000
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        "gpt-oss-120b-medium": {
+          "name": "GPT-OSS 120B Medium (Antigravity)",
+          "limit": {
+            "context": 131072,
+            "output": 32768
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image",
+              "pdf"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        }
+      }
+    },
+    "lm-studio": {
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "http://127.0.0.1:5001/v1"
+      },
+      "models": {
+        "qwen3-4b-instruct-2507-mlx": {
+          "name": "Qwen-3 4B Instruct"
+        },
+        "qwen3-4b-thinking-2507-mlx": {
+          "name": "Qwen-3 4B Thinking"
+        },
+        "glm-4.6v-flash": {
+          "name": "glm-4.6v-flash"
+        }
+      }
+    },
+    "mlx-omni-server": {
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "http://127.0.0.1:10240/v1"
+      },
+      "models": {
+        "mlx-community/Qwen3-4B-4bit-DWQ-053125": {
+          "name": "Qwen3 4B DWQ"
+        },
+        "mlx-community/Qwen3-8B-4bit-DWQ-053125": {
+          "name": "Qwen3 8B DWQ"
+        },
+        "mlx-community/gemma-3-4b-it-4bit-DWQ": {
+          "name": "Gemma-3 4B"
+        }
+      }
+    }
+  },
+  "model": "google/claude-sonnet-4-5-thinking",
+  "small_model": "google/gemini-3-flash",
+  "share": "manual",
+  "permission": {
+    "bash": {
+      "git commit*": "ask",
+      "git add*": "ask",
+      "git push*": "ask",
+      "git pull*": "ask",
+      "git merge*": "ask",
+      "git rebase*": "ask",
+      "git reset*": "ask",
+      "git checkout*": "ask",
+      "git status": "allow",
+      "git log": "allow",
+      "git diff": "allow",
+      "git branch": "allow"
+    },
+    "doom_loop": "ask"
+  },
+  "autoupdate": false,
+  "plugin": [
+    "opencode-antigravity-auth"
+  ],
+  "mcp": {
+    "context7": {
+      "type": "local",
+      "enabled": false,
+      "command": [
+        "bunx",
+        "@upstash/context7-mcp@latest"
+      ]
+    },
+    "searxng": {
+      "type": "local",
+      "enabled": true,
+      "command": [
+        "bunx",
+        "mcp-searxng"
+      ],
+      "environment": {
+        "SEARXNG_URL": "https://searxng.nas.joncrangle.com"
+      }
+    },
+    "github": {
+      "type": "local",
+      "enabled": false,
+      "command": [
+        "github-mcp-server",
+        "stdio"
+      ],
+      "environment": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "{{- .GithubKey -}}"
+      }
+    }
+  }
+}
+// vim: ft=jsonc
