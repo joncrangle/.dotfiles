@@ -196,24 +196,15 @@ return {
           formatterMode = 'typstyle',
           exportPdf = 'never',
         },
-        ty = {},
-        vtsls = {
+        tsgo = {
           settings = {
-            complete_function_calls = true,
-            vtsls = {
+            tsgo = {
+              diagnostics = { translation = 'pretty' },
               enableMoveToFileCodeAction = true,
-              autoUseWorkspaceTsdk = true,
-              experimental = {
-                completion = {
-                  enableServerSideFuzzyMatch = true,
-                },
-              },
             },
             javascript = {
               updateImportsOnFileMove = { enabled = 'always' },
-              suggest = {
-                completeFunctionCalls = true,
-              },
+              suggest = { completeFunctionCalls = true },
               inlayHints = {
                 enumMemberValues = { enabled = true },
                 functionLikeReturnTypes = { enabled = true },
@@ -225,9 +216,7 @@ return {
             },
             typescript = {
               updateImportsOnFileMove = { enabled = 'always' },
-              suggest = {
-                completeFunctionCalls = true,
-              },
+              suggest = { completeFunctionCalls = true },
               inlayHints = {
                 enumMemberValues = { enabled = true },
                 functionLikeReturnTypes = { enabled = true },
@@ -239,6 +228,7 @@ return {
             },
           },
         },
+        ty = {},
         yamlls = {
           -- Have to add this for yamlls to understand that we support line folding
           capabilities = {
