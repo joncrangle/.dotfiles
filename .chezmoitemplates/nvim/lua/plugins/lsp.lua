@@ -354,11 +354,9 @@ return {
   ---@module 'rustaceanvim'
   {
     'mrcjkb/rustaceanvim',
-    version = '^5',
     ft = { 'rust' },
     ---@type rustaceanvim.Config
     opts = {
-      tools = { float_win_config = { border = 'rounded' } },
       server = {
         on_attach = function(_, bufnr)
           vim.keymap.set('n', '<leader>dr', function()
@@ -379,11 +377,22 @@ return {
             checkOnSave = true,
             procMacro = {
               enable = true,
-              ignored = {
-                ['async-trait'] = { 'async_trait' },
-                ['napi-derive'] = { 'napi' },
-                ['async-recursion'] = { 'async_recursion' },
+            },
+            files = {
+              exclude = {
+                '.direnv',
+                '.git',
+                '.jj',
+                '.github',
+                '.gitlab',
+                'bin',
+                'node_modules',
+                'target',
+                'venv',
+                '.venv',
               },
+              -- Avoid Roots Scanned hanging, see https://github.com/rust-lang/rust-analyzer/issues/12613#issuecomment-2096386344
+              watcher = 'client',
             },
           },
         },
@@ -399,7 +408,19 @@ return {
   ---@module 'crates'
   {
     'Saecki/crates.nvim',
-    event = { 'BufRead Cargo.toml' },
+    event = 'User CratesLoad',
+    init = function()
+      vim.api.nvim_create_autocmd('BufRead', {
+        pattern = 'Cargo.toml',
+        callback = function(ev)
+          vim.schedule(function()
+            if vim.api.nvim_buf_is_valid(ev.buf) and vim.bo[ev.buf].buflisted then
+              vim.api.nvim_exec_autocmds('User', { pattern = 'CratesLoad' })
+            end
+          end)
+        end,
+      })
+    end,
     ---@type crates.UserConfig
     opts = {
       lsp = {
