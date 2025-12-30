@@ -271,6 +271,40 @@ function copy-line
     }
 }
 
+function git-backup {
+    git rev-parse --is-inside-work-tree 2>`$null
+    if (`$LASTEXITCODE -ne 0) {
+        gum style --foreground 196 --bold "✖ Error: You are not inside a Git repository."
+        return
+    }
+
+    if (!(Get-Command gum -ErrorAction SilentlyContinue)) {
+        Write-Error "'gum' is not installed. Install it with 'scoop install charm-gum'."
+        return
+    }
+
+    `$topLevel = git rev-parse --show-toplevel
+    `$defaultName = Split-Path `$topLevel -Leaf
+
+    `$currentOrigin = git remote get-url origin 2>`$null
+    if ([string]::IsNullOrWhiteSpace(`$currentOrigin)) {
+        gum style --foreground 196 "✖ Error: Remote 'origin' not found. Add a GitHub remote first."
+        return
+    }
+
+    gum style --foreground 212 "Forgejo Backup Configurator"
+    `$repoName = gum input --placeholder "Enter repository name" --value `$defaultName
+
+    if ([string]::IsNullOrWhiteSpace(`$repoName)) { return }
+
+    gum spin --spinner dot --title "Configuring remotes..." -- Start-Sleep -m 500
+    git remote set-url --push origin `$currentOrigin
+    git remote set-url --add --push origin "forgejo:jon/$(`$repoName).git"
+
+    gum style --foreground 10 "✅ Success! Remote 'origin' now pushes to both."
+    git remote -v | gum format
+}
+
 function ListWithIcons
 {
     eza --icons

@@ -101,6 +101,39 @@ extract-audio-and-video() {
 	ffmpeg -i "$1" -c:v copy video.mp4
 }
 
+git-backup() {
+	if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+		gum style --foreground 196 --bold "✖ Error: You are not inside a Git repository."
+		return 1
+	fi
+
+	if ! command -v gum &>/dev/null; then
+		echo "Error: 'gum' is not installed. Install with 'brew install gum'"
+		return 1
+	fi
+
+	local default_name=$(basename "$(git rev-parse --show-toplevel)")
+	local current_origin=$(git remote get-url origin 2>/dev/null)
+
+	if [ -z "$current_origin" ]; then
+		gum style --foreground 196 "✖ Error: Remote 'origin' not found. Add a GitHub remote first."
+		return 1
+	fi
+
+	gum style --foreground 212 "Forgejo Backup Configurator"
+	local repo_name=$(gum input --placeholder "Enter repository name" --value "$default_name")
+
+	# Exit if user cancels (Esc/Ctrl+C)
+	[ -z "$repo_name" ] && return
+
+	gum spin --spinner dot --title "Configuring remotes..." -- sleep 0.5
+	git remote set-url --push origin "$current_origin"
+	git remote set-url --add --push origin "forgejo:jon/${repo_name}.git"
+
+	gum style --foreground 10 "✅ Success! Remote 'origin' now pushes to both."
+	git remote -v | gum format
+}
+
 git-tag() {
 	local version=""
 	local message=""
