@@ -301,33 +301,24 @@ return {
             { 'filetype', icon_only = true, separator = '', padding = { left = 1, right = 0 } },
             {
               function()
-                local function truncate_path(path, max_length)
-                  local parts = vim.split(path, '[\\/]')
-
-                  if #parts > max_length then
-                    parts = { parts[1], '…', unpack(parts, #parts - max_length + 2, #parts) }
-                  end
-
-                  return table.concat(parts, package.config:sub(1, 1))
-                end
-
-                local filename = vim.fn.expand '%:t' --[[@as string]]
                 local filepath = vim.fn.expand '%:.' --[[@as string]]
-                local dir = filepath:gsub(filename, '')
-                local truncated_dir = truncate_path(dir, 3)
-                if filename == '' then
-                  filename = vim.bo.filetype
+
+                if filepath == '' then
+                  filepath = vim.bo.filetype
                 end
+
                 local filename_hl = vim.bo.modified and '%#MatchParen#' or '%#Title#'
                 local readonly_icon = vim.bo.readonly and ' 󰌾 ' or ''
                 local grapple = ''
-
                 if package.loaded['grapple'] then
                   grapple = require('grapple').exists() and ' 󰛢 ' .. require('grapple').name_or_index() or ''
                 end
 
+                local filename = vim.fn.expand '%:t'
+                local dir = filepath:sub(1, -(#filename + 1))
+
                 return '%#Italic#'
-                  .. truncated_dir
+                  .. dir
                   .. '%#Normal#'
                   .. filename_hl
                   .. filename
