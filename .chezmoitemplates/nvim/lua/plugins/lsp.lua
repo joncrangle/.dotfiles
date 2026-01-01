@@ -468,5 +468,32 @@ return {
       }
     end,
   },
+  {
+    'SmiteshP/nvim-navic',
+    event = 'LspAttach',
+    opts = {
+      depth_limit = 5,
+      highlight = true,
+    },
+    config = function(_, opts)
+      local navic = require 'nvim-navic'
+      navic.setup(opts)
+
+      vim.api.nvim_create_autocmd('LspAttach', {
+        callback = function(args)
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          if client and client.server_capabilities.documentSymbolProvider then
+            navic.attach(client, args.buf)
+            -- Trigger initial update
+            vim.opt_local.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
+          end
+        end,
+      })
+
+      -- Fix navic text color (default is often too blue/colored)
+      vim.api.nvim_set_hl(0, 'NavicText', { link = 'Normal' })
+      vim.api.nvim_set_hl(0, 'NavicSeparator', { link = 'Comment' })
+    end,
+  },
 }
 -- vim: ts=2 sts=2 sw=2 et

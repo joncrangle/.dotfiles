@@ -11,6 +11,8 @@ vim.o.autoread = true -- Auto reload files changed outside of Neovim
 vim.o.winbar = ' '
 vim.o.winborder = 'rounded'
 
+require 'custom.tabline'
+
 -- Sync clipboard between OS and Neovim.
 -- Function to set OSC 52 clipboard
 local function set_osc52_clipboard()
