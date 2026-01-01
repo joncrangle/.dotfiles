@@ -1,5 +1,5 @@
 local wezterm = require 'wezterm' --[[@as Wezterm]]
-local colors = wezterm.get_builtin_color_schemes()['Catppuccin Mocha']
+local colors = wezterm.color.get_builtin_schemes()['Catppuccin Mocha']
 
 local M = {}
 
@@ -22,26 +22,17 @@ function M.tabline()
       theme = 'Catppuccin Mocha',
       theme_overrides = {
         tab = {
-          active = { fg = colors.tab_bar.active_tab.bg_color },
-          inactive = { fg = colors.tab_bar.inactive_tab.fg_color },
+          active = { fg = colors.ansi[6], bg = colors.tab_bar.inactive_tab.bg_color },
+          inactive = { fg = colors.compose_cursor, bg = colors.tab_bar.inactive_tab.bg_color },
         },
         normal_mode = { x = { bg = transparent } },
         copy_mode = { x = { bg = transparent } },
         search_mode = { x = { bg = transparent } },
         window_mode = { x = { bg = transparent } },
       },
-      section_separators = {
-        left = wezterm.nerdfonts.pl_left_hard_divider,
-        right = wezterm.nerdfonts.pl_right_hard_divider,
-      },
-      component_separators = {
-        left = wezterm.nerdfonts.pl_left_soft_divider,
-        right = wezterm.nerdfonts.pl_right_soft_divider,
-      },
-      tab_separators = {
-        left = wezterm.nerdfonts.ple_right_half_circle_thick,
-        right = wezterm.nerdfonts.ple_left_half_circle_thick,
-      },
+      section_separators = '',
+      component_separators = '',
+      tab_separators = '',
     },
     sections = {
       tabline_a = { 'workspace' },
