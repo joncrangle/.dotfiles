@@ -34,7 +34,7 @@ return {
         pattern = 'MiniGitUpdated',
         callback = function(data)
           local summary = vim.b[data.buf].minigit_summary
-          vim.b[data.buf].minigit_summary_string = summary.head_name or ''
+          vim.b[data.buf].minigit_summary_string = summary and summary.head_name or ''
         end,
       })
 
@@ -95,18 +95,26 @@ return {
 
       local function get_special_statusline()
         local ft = vim.bo.filetype
+        local truncated = statusline.is_truncated(80)
         if ft == 'grapple' then
           return 'Grapple', package.loaded['grapple'] and (require('grapple').statusline() or '') or ''
         elseif ft == 'snacks_terminal' then
           return ' Terminal', vim.fn.expand('%:t'):match '.*:(%S+)$' or vim.fn.expand '%:t'
         elseif ft == 'snacks_picker_list' then
           local picker = Snacks.picker.get()[1]
-          return '🍿 Explorer', picker and vim.fn.fnamemodify(picker:dir(), ':~') or vim.fn.fnamemodify(vim.fn.getcwd(), ':~')
+          local dir = picker and picker:dir() or vim.fn.getcwd()
+          if truncated then
+            return '🍿', vim.fn.fnamemodify(dir, ':t')
+          end
+          return '🍿 Explorer', vim.fn.fnamemodify(dir, ':~')
         elseif ft == 'snacks_picker_input' then
           local picker = Snacks.picker.get()[1]
           if picker then
             local input = picker.input and picker.input:get() or ''
             local count = #picker:items()
+            if truncated then
+              return '🍿', count .. ''
+            end
             return '🍿 Picker', input ~= '' and (' ' .. input .. ': ' .. count .. ' results') or (count .. ' results')
           end
           return '🍿 Picker', ''
@@ -114,6 +122,27 @@ return {
           return '  Sidekick', vim.fn.expand('%:t'):match '.*:(%S+)$' or vim.fn.expand '%:t'
         end
         return nil, nil
+      end
+
+      local function section_git()
+        local branch = vim.b.minigit_summary_string or vim.b.gitsigns_head or ''
+        if branch == '' then
+          return ''
+        end
+        local icon = ' '
+        if not statusline.is_truncated(80) then
+          return icon .. branch
+        end
+        if branch == 'master' or branch == 'main' then
+          return icon .. branch:sub(1, 1)
+        elseif branch == 'HEAD' then
+          return icon .. 'h'
+        elseif branch:find '/' then
+          local prefix, rest = branch:match '^([^/]+)/(.+)'
+          return icon .. prefix:sub(1, 1) .. '/' .. rest:sub(1, 2) .. '…'
+        else
+          return icon .. branch:sub(1, 4) .. (#branch > 4 and '…' or '')
+        end
       end
 
       local function section_macro()
@@ -127,7 +156,6 @@ return {
           filepath = vim.bo.filetype
         end
         local filename = vim.fn.expand '%:t'
-        local dir = filepath:sub(1, -(#filename + 1))
         local mod_hl = vim.bo.modified and '%#StatuslineMatchParen#' or '%#StatuslineTitle#'
 
         local grapple = ''
@@ -136,6 +164,13 @@ return {
         end
 
         local readonly = vim.bo.readonly and '%#StatuslineReadonly# 󰌾 ' or ''
+
+        -- Only show directory when not truncated
+        if statusline.is_truncated(80) then
+          return mod_hl .. filename .. grapple .. readonly .. '%*'
+        end
+
+        local dir = filepath:sub(1, -(#filename + 1))
         return '%#StatuslineDir#' .. dir .. mod_hl .. filename .. grapple .. readonly .. '%*'
       end
 
@@ -154,7 +189,13 @@ return {
             table.insert(names, client.name)
           end
         end
-        return #names > 0 and ('󰅩 ' .. table.concat(names, ', ')) or ''
+        if #names == 0 then
+          return ''
+        end
+        if statusline.is_truncated(100) then
+          return '󰅩 ' .. #names
+        end
+        return '󰅩 ' .. table.concat(names, ', ')
       end
 
       local function active_content()
@@ -174,10 +215,10 @@ return {
         end
 
         local mode, mode_hl = statusline.section_mode { trunc_width = 9999 }
-        local git = statusline.section_git { trunc_width = 40 }
-        local diff = statusline.section_diff { trunc_width = 75 }
+        local git = section_git()
+        local diff = vim.b.minidiff_summary_string or ''
         local diagnostics = statusline.section_diagnostics {
-          trunc_width = 75,
+          trunc_width = 40,
           icon = '',
           signs = {
             ERROR = '%#StatuslineDiagError#󰅚 ',

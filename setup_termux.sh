@@ -88,6 +88,7 @@ packages=(
   "nvim:neovim"
   "node:nodejs"
   "python"
+  "ruff"
   "rustc:rust"
   "rust-analyzer"
   "tree-sitter"
@@ -254,4 +255,3 @@ echo "👑 Long press anywhere in Termux, select More -> Styling to select a fon
 echo "🖊️ Time to import your Neovim config"
 echo
 echo -e "$NONE"
-
