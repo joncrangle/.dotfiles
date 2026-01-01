@@ -116,6 +116,8 @@ trap 'transient-int' INT
 zstyle ':fzf-tab:*' default-color ""
 zstyle ':fzf-tab:*' use-fzf-default-opts yes
 
+bindkey -M vicmd ":" undefined-key
+
 source <(COMPLETE=zsh jj)
 source <(mise completion zsh)
 # vim: ft=zsh

@@ -176,6 +176,8 @@ source <(fzf --zsh)
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+bindkey -M vicmd ":" undefined-key
+
 function take() {
         mkdir -p $1
         cd $1
@@ -252,3 +254,4 @@ echo "👑 Long press anywhere in Termux, select More -> Styling to select a fon
 echo "🖊️ Time to import your Neovim config"
 echo
 echo -e "$NONE"
+
