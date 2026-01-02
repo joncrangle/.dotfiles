@@ -37,7 +37,7 @@ function M.tabline()
     sections = {
       tabline_a = { 'workspace' },
       tabline_b = { not wezterm.target_triple:find 'windows' and 'window' },
-      tabline_c = { '' },
+      tabline_c = { ' ' },
       tab_active = {
         { Text = wezterm.nerdfonts.cod_triangle_right .. ' ' },
         { 'zoomed', padding = 0 },
