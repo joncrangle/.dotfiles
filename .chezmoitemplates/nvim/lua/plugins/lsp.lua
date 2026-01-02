@@ -85,6 +85,13 @@ return {
 
       local servers = {
         astro = {},
+        bacon_ls = {
+          init_options = {
+            updateOnSave = true,
+            updateOnSaveWaitMillis = 1000,
+            updateOnChange = false,
+          },
+        },
         bashls = {},
         biome = {},
         clangd = {},
@@ -373,8 +380,9 @@ return {
                 enable = true,
               },
             },
-            -- Add clippy lints for Rust.
-            checkOnSave = true,
+            -- Use bacon_ls instead of clippy
+            checkOnSave = false,
+            diagnostics = false,
             procMacro = {
               enable = true,
             },
