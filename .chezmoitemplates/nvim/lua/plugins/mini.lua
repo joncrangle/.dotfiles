@@ -185,9 +185,7 @@ return {
         local clients = vim.lsp.get_clients { bufnr = 0 }
         local names = {}
         for _, client in ipairs(clients) do
-          if client.name ~= 'copilot' then
-            table.insert(names, client.name)
-          end
+          table.insert(names, client.name)
         end
         if #names == 0 then
           return ''
@@ -195,7 +193,7 @@ return {
         if statusline.is_truncated(100) then
           return '󰅩 ' .. #names
         end
-        return '󰅩 ' .. table.concat(names, ', ')
+        return '󰅩 ' .. table.concat(names, ' ')
       end
 
       local function active_content()
