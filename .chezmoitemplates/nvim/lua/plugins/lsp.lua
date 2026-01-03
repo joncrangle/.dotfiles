@@ -149,8 +149,19 @@ return {
           },
         },
         harper_ls = {
+          on_new_config = function(new_config)
+            local ft = vim.bo[vim.api.nvim_get_current_buf()].filetype
+            if vim.tbl_contains({ 'markdown', 'text', 'csv', 'typst' }, ft) then
+              new_config.settings['harper-ls'].linters.SentenceCapitalization = true
+              new_config.settings['harper-ls'].linters.SpellCheck = true
+            end
+          end,
           settings = {
             ['harper-ls'] = {
+              linters = {
+                SentenceCapitalization = false,
+                SpellCheck = false,
+              },
               dialect = 'Canadian',
             },
           },
