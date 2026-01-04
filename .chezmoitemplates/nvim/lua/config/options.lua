@@ -140,14 +140,19 @@ vim.api.nvim_create_autocmd({ 'InsertLeave', 'WinEnter' }, {
       vim.wo.cursorline = true
       vim.w.auto_cursorline = nil
     end
+    -- Reset line number highlights to normal
+    vim.wo.winhighlight = ''
   end,
 })
+
 vim.api.nvim_create_autocmd({ 'WinLeave' }, {
   callback = function()
     if vim.wo.cursorline then
       vim.w.auto_cursorline = true
       vim.wo.cursorline = false
     end
+    -- Dim line numbers in inactive windows
+    vim.wo.winhighlight = 'LineNr:LineNrInactive,LineNrAbove:LineNrInactive,LineNrBelow:LineNrInactive'
   end,
 })
 -- vim: ts=2 sts=2 sw=2 et

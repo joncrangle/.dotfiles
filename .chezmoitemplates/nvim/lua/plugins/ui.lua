@@ -8,8 +8,6 @@ return {
     opts = {
       flavour = 'mocha',
       transparent_background = true,
-      float = { transparent = true, solid = false },
-      dim_inactive = { enabled = true },
       integrations = {
         dadbod_ui = true,
         grug_far = true,
@@ -31,8 +29,9 @@ return {
           return {
             CursorLine = { bg = 'NONE' },
             CursorLineNr = { fg = mocha.yellow },
-            LineNrAbove = { fg = mocha.overlay1 },
-            LineNrBelow = { fg = mocha.overlay1 },
+            LineNrAbove = { fg = mocha.subtext0 },
+            LineNrBelow = { fg = mocha.subtext0 },
+            LineNrInactive = { fg = mocha.overlay0 },
           }
         end,
       },
