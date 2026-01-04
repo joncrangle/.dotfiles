@@ -9,6 +9,7 @@ return {
       flavour = 'mocha',
       transparent_background = true,
       float = { transparent = true, solid = false },
+      dim_inactive = { enabled = true },
       integrations = {
         dadbod_ui = true,
         grug_far = true,
