@@ -1,15 +1,18 @@
 {
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json",
   "experimental": {
-    "aggressive_truncation": true,
-    "auto_resume": false,
-    "truncate_all_tool_outputs": true,
+    "auto_resume": true,
     "dcp_on_compaction_failure": true
   },
+  "disabled_hooks": ["startup-toast"],
   "google_auth": false,
   "agents": {
     "Sisyphus": {
-      "model": "google/gemini-claude-opus-4-5-thinking-high"
+      "model": "google/gemini-claude-opus-4-5-thinking-high",
+      "default_builder_enabled": true
+    },
+    "OpenCode-Builder": {
+      "model": "google/gemini-claude-sonnet-4-5-thinking-low"
     },
     "oracle": {
       "model": "google/gemini-claude-sonnet-4-5-thinking-high"
