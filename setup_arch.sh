@@ -273,6 +273,7 @@ packages=(
     "cliphist"
     "cmus"
     "crun"
+    "cpio"
     "dart-sass"
     "dropbox"
     "exiv2"
@@ -295,11 +296,13 @@ packages=(
     "gum"
     "gvfs"
     "handbrake"
+    "helium-browser-bin"
     "hypridle"
     "hyprland"
     "hyprpicker"
     "imagemagick"
     "imv"
+    "iwd"
     "jujutsu"
     "just"
     "jq"
@@ -316,7 +319,7 @@ packages=(
     "mise"
     "mpv"
     "neovim"
-    "aur/noctalia-shell"
+    "aur/noctalia-shell-git"
     "noto-fonts"
     "noto-fonts-emoji"
     "nwg-look"
@@ -484,11 +487,11 @@ if _isInstalled "greetd"; then
 vt = 1
 
 [default_session]
-command = "agreety --cmd Hyprland"
-user = "greetd"
+command = "agreety --cmd start-hyprland"
+user = "greeter"
 
 [initial_session]
-command = "Hyprland"
+command = "start-hyprland"
 user = "$USER"
 EOF
     sudo systemctl enable greetd.service
@@ -504,9 +507,27 @@ else
     echo ":: power-profiles-daemon.service activated successfully."
 fi
 
-# Check for running NetworkManager.service
+# Enable iwd backend
+if _isInstalled "networkmanager"; then
+    echo ":: configuring iwd as NetworkManager backend..."
+
+    sudo mkdir -p /etc/NetworkManager/conf.d
+    echo -e "[device]\nwifi.backend=iwd" | sudo tee /etc/NetworkManager/conf.d/iwd.conf >/dev/null
+
+    echo ":: NetworkManager backend configured successfully."
+fi
+
+# Ensure iwd is actually running (Required for the backend to work)
+if ! systemctl is-active --quiet iwd; then
+    echo ":: Starting iwd service (required for backend)..."
+    sudo systemctl enable iwd.service
+    sudo systemctl start iwd.service
+fi
+
+# Restart NetworkManager to apply changes
 if [[ $(systemctl list-units --all -t service --full --no-legend "NetworkManager.service" | sed 's/^\s*//g' | cut -f1 -d' ') == "NetworkManager.service" ]]; then
-    echo ":: NetworkManager.service already running."
+    sudo systemctl restart NetworkManager.service
+    echo ":: NetworkManager.service restarted."
 else
     sudo systemctl enable NetworkManager.service
     sudo systemctl start NetworkManager.service
