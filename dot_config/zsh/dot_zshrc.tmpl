@@ -76,37 +76,38 @@ function transient-int() {
   return 130
 }
 
-# Custom Keymap Logic (Safe Hook)
-# We use a separate function name to avoid naming collisions
-function my-starship-keymap-select() {
-  if [[ ${KEYMAP} == vicmd ]] || [[ $1 = "block" ]]; then
-    echo -ne "\e[1 q"
+function zvm_after_select_vi_mode() {
+  case $ZVM_MODE in
+  $ZVM_MODE_NORMAL)
     STARSHIP_KEYMAP=vicmd
-  elif [[ ${KEYMAP} == main ]] || [[ ${KEYMAP} == viins ]] || [[ ${KEYMAP} = "" ]] || [[ $1 = "beam" ]]; then
-    echo -ne "\e[5 q"
+    echo -ne "\e[1 q" # Block cursor
+    ;;
+  $ZVM_MODE_INSERT)
     STARSHIP_KEYMAP=viins
-  fi
+    echo -ne "\e[5 q" # Beam cursor
+    ;;
+  $ZVM_MODE_VISUAL | $ZVM_MODE_VISUAL_LINE)
+    STARSHIP_KEYMAP=vicmd
+    echo -ne "\e[1 q" # Block cursor
+    ;;
+  esac
+  # Force Starship to redraw right away
   zle .reset-prompt
 }
 
 # ZVM Hooks
 zvm_after_init_commands+=(
-  # 1. Bind the transient finish widget safely
+  # Bind the transient finish widget safely
   'zle -N zle-line-finish transient-line-finish'
 
-  # 2. Bind the keymap select hook using the safe helper
-  # This prevents "maximum nested function level" errors
-  'autoload -Uz add-zle-hook-widget'
-  'add-zle-hook-widget zle-keymap-select my-starship-keymap-select'
-
-  # 3. Fix line init cursors
+  # Fix line init cursors
   'function zle-line-init() {
     zle -K viins
     echo -ne "\e[5 q"
   }
   zle -N zle-line-init'
 
-  # 4. FZF source
+  # FZF source
   'source <(fzf --zsh)'
 )
 

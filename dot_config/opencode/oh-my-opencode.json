@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json",
   "experimental": {
-    "auto_resume": true,
+    "auto_resume": false,
     "dcp_on_compaction_failure": true
   },
   "disabled_hooks": ["startup-toast"],

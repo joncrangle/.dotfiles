@@ -143,10 +143,6 @@ bash <(curl -fsSL https://raw.githubusercontent.com/joncrangle/.dotfiles/main/in
 
 ## 🐧 Arch Linux
 
-> [!WARNING]
-> This Arch Linux portion is currently unmaintained.
-> An update would include either configuring [HyperPanel](https://hyprpanel.com/) or [Quickshell](https://quickshell.org/) to replace the previously used `Ags v1` config.
-
 Install Arch using `archinstall` with a Minimal profile. To connect to wifi, use `iwctl`:
 
 ```bash
@@ -166,43 +162,6 @@ nmcli device wifi list
 nmcli device wifi connect SSID password PASSWORD
 sh <(curl -s https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_arch.sh)
 ```
-
-> [!TIP]
-> KDE Plasma and Hyprland configs can clash. A workaround is to initiate sessions with different `XDG_CONFIG_HOME` variables.
->
-> This script uses the `.kdeconfig` directory for KDE Plasma, and the `.config` directory for Hyprland.
->
-> *Requires sudo permissions*
->
-> 1. Create a `launch.sh` script in `/usr/share/wayland-sessions` and make it executable with `chmod +x launch.sh`:
->
-> ```zsh
-> #!/bin/sh
-> if [ -z "$1" ]; then
->      echo "Usage: $0 <config_directory> <command>"
->      exit 1
-> fi
->
-> export XDG_CONFIG_HOME="$HOME/$1"
->
-> shift
->
-> exec "$@"
-> ```
->
-> 2. Edit `plasma.desktop` in `/usr/share/wayland-sessions`:
->
-> ```zsh
-> # Comment out existing Exec and TryExec lines and add:
-> Exec=/usr/share/wayland-sessions/launch.sh .kdeconfig /usr/lib/plasma-dbus-run-session-if-needed /usr/bin/startplasma-wayland
->```
->
-> 3. Edit `hyprland.desktop` in `/usr/share/wayland-sessions`:
->
-> ```sh
-> # Comment out existing Exec line and add:
-> Exec=/usr/share/wayland-sessions/launch.sh .config Hyprland
-> ```
 
 ### Paru commands
 

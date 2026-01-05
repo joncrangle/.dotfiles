@@ -1,6 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 clear
 sudo -v
+while true; do
+    sudo -n true
+    sleep 60
+    kill -0 "$$" || exit
+done 2>/dev/null &
 # script inspiration source: [Stephan Raabe dotfiles](https://gitlab.com/stephan-raabe/dotfiles)
 #  NOTE:
 #                                  ▄
@@ -26,69 +31,55 @@ sudo -v
 # ------------------------------------------------------
 # Utility functions
 # ------------------------------------------------------
-_isInstalledPacman() {
-    package="$1"
-    pacman -Q --color never "$package" &>/dev/null
-    if [ $? -eq 0 ]; then
-        echo 0 # '0' means 'true' in Bash
-    else
-        echo 1 # '1' means 'false' in Bash
-    fi
+
+# Check if a package is installed (uses return codes, not echo)
+_isInstalled() {
+    package="${1#aur/}"
+    pacman -Q "$package" &>/dev/null
 }
 
-_isInstalledParu() {
-    package="$1"
-    paru -Q --color never "$package" &>/dev/null
-    if [ $? -eq 0 ]; then
-        echo 0 # '0' means 'true' in Bash
-    else
-        echo 1 # '1' means 'false' in Bash
-    fi
+# Check if paru is available
+_hasParu() {
+    command -v paru &>/dev/null
 }
 
-# Install required packages
-_installPackagesPacman() {
-    toInstall=()
-    for pkg; do
-        if [[ $(_isInstalledPacman "$pkg") -eq 0 ]]; then
+# Install packages - uses paru if available, otherwise pacman
+# Installs one-by-one to handle failures gracefully
+_installPackages() {
+    local toInstall=()
+    for pkg in "$@"; do
+        if _isInstalled "$pkg"; then
             echo "${pkg} is already installed."
             continue
         fi
         toInstall+=("$pkg")
     done
-    if [[ "${toInstall[@]}" == "" ]]; then
-        # echo "All pacman packages are already installed.";
+
+    if [[ ${#toInstall[@]} -eq 0 ]]; then
         return
     fi
-    printf "Package not installed:\n%s\n" "${toInstall[@]}"
-    sudo pacman --noconfirm -S "${toInstall[@]}"
-}
 
-_installPackagesParu() {
-    toInstall=()
-    for pkg; do
-        if [[ $(_isInstalledParu "$pkg") -eq 0 ]]; then
-            echo ":: ${pkg} is already installed."
-            continue
+    local installer
+    if _hasParu; then
+        installer="paru"
+    else
+        installer="sudo pacman"
+    fi
+
+    for pkg in "${toInstall[@]}"; do
+        echo ":: Installing $pkg..."
+        package="${pkg#aur/}"
+        if ! "$installer" -S --noconfirm --needed "$package"; then
+            echo ":: ERROR: Failed to install $pkg. Continuing with next package..."
         fi
-        toInstall+=("$pkg")
     done
-
-    if [[ "${toInstall[@]}" == "" ]]; then
-        # echo "All packages are already installed.";
-        return
-    fi
-
-    # printf "AUR packags not installed:\n%s\n" "${toInstall[@]}";
-    paru --noconfirm --needed --noprovides -S "${toInstall[@]}"
 }
 
 _commandExists() {
-    package="$1"
-    if ! type "$package" >/dev/null 2>&1; then
-        echo ":: ERROR: $package doesn't exists. Please install it with paru -S $2"
+    if ! command -v "$1" &>/dev/null; then
+        echo ":: ERROR: $1 doesn't exist. Please install it with: paru -S $2"
     else
-        echo ":: OK: $package command found."
+        echo ":: OK: $1 command found."
     fi
 }
 
@@ -98,9 +89,12 @@ _commandExists() {
 dependencies=(
     "age"
     "base-devel"
+    "git"
     "chezmoi"
     "github-cli"
+    "gnome-keyring"
     "gum"
+    "networkmanager"
     "openssh"
     "rustup"
 )
@@ -148,7 +142,7 @@ echo
 
 #y Install required packages
 echo ":: Checking that required packages are installed..."
-_installPackagesPacman "${dependencies[@]}"
+_installPackages "${dependencies[@]}"
 echo
 
 # Install Rust
@@ -194,8 +188,12 @@ if sudo pacman -Qs paru >/dev/null; then
     echo ":: paru is already installed!"
 else
     echo ":: paru is not installed. Starting the installation!"
+    if ! command -v git &>/dev/null; then
+        echo ":: Error: git is not installed. Cannot install paru."
+        exit 1
+    fi
     git clone https://aur.archlinux.org/paru.git
-    cd paru
+    cd paru || exit
     makepkg -si
     cd ..
     rm -rf paru
@@ -222,41 +220,46 @@ echo ":: Configuring Git..."
 git config --global user.name "jonathancrangle"
 git config --global user.email "94405204+joncrangle@users.noreply.github.com"
 
-echo ":: Please run 'gh auth login --web' to authenticate with GitHub."
-read -p "Press Enter to continue after you have completed the authentication."
+if ! gh auth status &>/dev/null; then
+    echo ":: Authenticating with GitHub..."
+    gh auth login --web
+fi
 
 # Migrate dotfiles using chezmoi
 echo ":: Migrating dotfiles..."
+echo ":: Local IP Address(es) for SCP:"
+ip -4 addr show | grep inet | grep -v 127.0.0.1 | awk '{print $2}' | cut -d/ -f1
 read -p ":: Please put key.txt in ~/.config/. Press Enter to continue"
 chezmoi init --apply git@github.com:joncrangle/.dotfiles.git
 
 # Install fonts
 echo ":: Installing fonts..."
 fonts_directory="$HOME/.config/fonts"
-user_fonts_folder="/usr/share/fonts/berkeley-mono"
+user_fonts_folder="/usr/share/fonts/tx-02"
+
 if [ ! -d "$user_fonts_folder" ]; then
     sudo mkdir -p "$user_fonts_folder"
 fi
+
 for font_file in "$fonts_directory"/*.ttf "$fonts_directory"/*.otf; do
     if [ -f "$font_file" ]; then
         font_name=$(basename "$font_file")
         destination_path="$user_fonts_folder/$font_name"
         if [ ! -f "$destination_path" ]; then
-            cp "$font_file" "$destination_path"
+            sudo cp "$font_file" "$destination_path"
             echo "Installed font - $font_name"
         else
             echo "Font $font_name is already installed. Skipping copy."
         fi
     fi
 done
-fc-cache -f -v
+
+sudo fc-cache -f -v
 echo "Fonts installed successfully."
 
 # Install packages
 packages=(
-    "ags-hyprpanel-git"
     "audacity"
-    "aylurs-gtk-shell-git"
     "bat"
     "bibata-cursor-theme-bin"
     "blueman"
@@ -265,14 +268,13 @@ packages=(
     "brave-bin"
     "brightnessctl"
     "btop"
-    "bun-bin"
     "catppuccin-cursors-mocha"
     "catppuccin-gtk-theme-mocha"
     "cava"
     "cliphist"
     "cmus"
+    "crun"
     "dart-sass"
-    "deno"
     "dropbox"
     "exiv2"
     "eza"
@@ -286,21 +288,17 @@ packages=(
     "gimp"
     "git-delta"
     "glow"
-    "gnome-bluetooth-3.0"
-    "gnome-control-center"
-    "gnu-free-fonts"
     "go"
+    "gpu-screen-recorder"
     "greetd"
-    "greetd-tuigreet"
     "grim"
-    "grimblast"
+    "grimblast-git"
     "gum"
     "gvfs"
     "handbrake"
-    "hypridle-git"
-    "hyprland-git"
-    "hyprlock-git"
-    "hyprpicker-git"
+    "hypridle"
+    "hyprland"
+    "hyprpicker"
     "imagemagick"
     "imv"
     "jujutsu"
@@ -310,18 +308,16 @@ packages=(
     "lazydocker"
     "lazygit"
     "libgtop"
-    "libastal-io-git"
-    "libastal-git"
-    "libreoffice"
+    "libreoffice-fresh"
     "lua"
     "luajit"
     "luarocks"
     "make"
+    "maplemono-ttf"
     "mise"
     "mpv"
     "neovim"
-    "networkmanager"
-    "nodejs"
+    "aur/noctalia-shell"
     "noto-fonts"
     "noto-fonts-emoji"
     "nwg-look"
@@ -342,27 +338,27 @@ packages=(
     "python"
     "python-uv"
     "qalculate-gtk"
+    "qt6-multimedia-ffmpeg"
     "qt6-wayland"
+    "quickshell"
     "ripgrep"
-    "sddm-git"
-    "sddm-theme-catppuccin"
     "slurp"
     "smartmontools"
-    "spotify"
+    "aur/spotify"
     "starship"
-    "swww-git"
+    "swww"
     "system-config-printer"
     "thunar"
     "thunar-archive-plugin"
     "tldr"
-    "topgrade"
+    "topgrade-bin"
     "tree-sitter-cli"
     "ttf-cascadia-code-nerd"
     "ttf-droid"
     "ttf-fira-code"
     "ttf-fira-sans"
     "ttf-font-awesome"
-    "ttf-iosevka"
+    "aur/ttf-iosevka"
     "ttc-iosevka-aile"
     "ttf-iosevka-term"
     "ttf-jetbrains-mono-nerd"
@@ -377,6 +373,7 @@ packages=(
     "unrar"
     "unzip"
     "upower"
+    "vicinae-bin"
     "viu"
     "vlc"
     "wezterm-git"
@@ -387,12 +384,11 @@ packages=(
     "wpa_supplicant"
     "xdg-desktop-portal"
     "xdg-desktop-portal-hyprland"
-    "xdg-terminal-exec"
-    "xdg-user-dirs"
+    "aur/xdg-terminal-exec"
     "xdg-utils"
     "xh"
-    "yazi-git"
-    "yt-dlp"
+    "yazi"
+    "yt-dlp-git"
     "yq"
     "zathura"
     "zig"
@@ -404,20 +400,22 @@ packages=(
 )
 
 echo ":: Installing packages..."
-_installPackagesParu "${packages[@]}"
+_installPackages "${packages[@]}"
+echo
+
 echo
 
 echo ":: Setting up theme..."
-if [[ $(_isInstalledParu "bat") -eq 0 ]]; then
+if _isInstalled "bat"; then
     bat cache --build
 fi
 
 if [[ -f ~/.config/hypr/wallpapers/catppuccin-city.jpg ]]; then
-    cp ~/.config/hypr/wallpapers/catppuccin-city.jpg ~/.config/background
+    cp ~/.config/hypr/wallpapers/astronaut.png ~/.config/background
     chmod a+r ~/.config/background
 fi
 
-if [[ $(_isInstalledParu "nwg-look") -eq 0 ]]; then
+if _isInstalled "nwg-look"; then
     nwg-look -a
 fi
 
@@ -429,89 +427,31 @@ if [[ -d "$THEME_DIR" ]]; then
     ln -sf "${THEME_DIR}/gtk-4.0/gtk-dark.css" "${HOME}/.config/gtk-4.0/gtk-dark.css"
 fi
 
-if [[ $(_isInstalledParu "greetd-tuigreet") -eq 0 ]]; then
-    sudo sed -i 's|agreety --cmd /bin/sh|tuigreet --time --time-format '%A, %-d %b %Y - %-I:%M %p' --user-menu --remember --remember-user-session --issue --asterisks --window-padding 2 --theme 'border=magenta;text=cyan;prompt=cyan;time=magenta;action=magenta;button=gray;container=black;input=magenta' --cmd Hyprland|g' /etc/greetd/greetd.conf
-fi
-echo
-
-if [[ $(_isInstalledParu "sddm") -eq 0 ]]; then
-    sudo mkdir -p /etc/sddm.conf.d
-    sudo ln -s ~/.config/sddm/sddm.conf /etc/sddm.conf.d/sddm.conf
-    sudo rm /usr/share/sddm/themes/catppuccin-mocha/backgrounds/background
-    sudo ln -s ~/.config/background /usr/share/sddm/themes/catppuccin-mocha/backgrounds/background
-    sudo sed -i 's|^CustomBackground="false"|CustomBackground="true"|g' /usr/share/sddm/themes/catppuccin-mocha/theme.conf
-    sudo sed -i 's|^LoginBackground="false"|LoginBackground="true"|g' /usr/share/sddm/themes/catppuccin-mocha/theme.conf
-    sudo sed -i 's|^wall.jpg"|background"|g' /usr/share/sddm/themes/catppuccin-mocha/theme.conf
-    sudo mkdir -p /var/lib/sddm/.config/hypr
-    sudo tee /var/lib/sddm/.config/hypr/hyprland.conf >/dev/null <<EOF
-monitor=,preferred,auto,1,mirror,DP-1
-exec-once = hyprctl setcursor catppuccin-mocha-dark-cursors 28
-exec-once = hypridle
-input {
-    kb_layout = us
-    kb_variant =
-    kb_options =
-}
-animations {
-    enabled = false
-}
-misc {
-    force_default_wallpaper = 0
-    disable_hyprland_logo = true
-    disable_splash_rendering = true
-    focus_on_activate = true
-}
-cursor {
-    no_hardware_cursors = true
-}
-EOF
-    sudo tee /var/lib/sddm/.config/hypr/hypridle.conf >/dev/null <<EOF
-general {
-    after_sleep_cmd = hyprctl dispatch dpms on
-}
-# screen brightness
-listener {
-    timeout = 150 # 2.5 minutes
-    on-timeout = brightnessctl -s set 0
-    on-resume = brightnessctl -r
-}
-# dpms
-listener {
-    timeout = 600 # 10 minutes
-    on-timeout = hyprctl dispatch dpms off
-    on-resume = hyprctl dispatch dpms on
-}
-# Suspend
-#listener {
-#    timeout = 1800 # 30 minutes
-#    on-timeout = systemctl suspend
-#}
-EOF
-fi
-echo
-
-if [[ $(_isInstalledParu "python-uv") -eq 0 ]]; then
+if _isInstalled "python-uv"; then
     echo ":: Installing python apps..."
     uv tool install harlequin
 fi
 
 # Install yazi plugins
-if [[ $(_isInstalledParu "yazi-git") == 0 ]]; then
+if _isInstalled "yazi"; then
     echo ":: Installing yazi plugins..."
-    ya pack -i
-    ya pack -u
+    ya pkg install
+    ya pkg upgrade
 fi
 
-# Install nodejs and pnpm
-if [[ $(_isInstalledParu "mise") == 0 ]]; then
-    echo ":: Installing node and pnpm..."
+# Install runtimes via mise
+if _isInstalled "mise"; then
+    echo ":: Installing runtimes via mise..."
     mise use -g node@latest
+    mise use -g pnpm@latest
+    mise use -g deno@latest
+    mise use -g bun@latest
     mise use -g usage
-    corepack enable pnpm
+    bun add -g opencode-ai
 fi
 
 # Install jujutsu
-if [[ $(_isInstalledParu "jujutsu") == 0 ]]; then
+if _isInstalled "jujutsu"; then
     echo ":: Configuring Jujutsu..."
     jj config set --user user.name "jonathancrangle"
     jj config set --user user.email "94405204+joncrangle@users.noreply.github.com"
@@ -521,11 +461,11 @@ editor = "nvim"
 diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
 
 [ui.diff]
-format = "git"' | tee -a "$(jj config path --user)" > /dev/null
+format = "git"' | tee -a "$(jj config path --user)" >/dev/null
 fi
 
 # Check for ttf-ms-fonts
-if [[ $(_isInstalledParu "ttf-ms-fonts") == 0 ]]; then
+if _isInstalled "ttf-ms-fonts"; then
     echo "The script has detected ttf-ms-fonts. This can cause conflicts with icons."
     if gum confirm "Do you want to uninstall ttf-ms-fonts?"; then
         sudo pacman --noconfirm -R ttf-ms-fonts
@@ -535,19 +475,21 @@ fi
 # Enable services
 echo ":: Enabling services..."
 
-# Check for running display-manager.service
-if [ -f /etc/systemd/system/display-manager.service ]; then
-    echo ":: Display Manager is already enabled."
-else
-    if [[ $(_isInstalledParu "greetd-tuigreet") -eq 0 ]]; then
-        sudo systemctl enable greetd.service
-        echo ":: greetd.service enabled successfully."
-    elif [[ $(_isInstalledParu "sddm") -eq 0 ]]; then
-        sudo systemctl enable sddm.service
-        echo ":: sddm.service enabled successfully."
-    else
-        echo ":: No display manager found."
-    fi
+# Enable greetd autologin and service
+if _isInstalled "greetd"; then
+    echo ":: configuring greetd for autologin..."
+    sudo mkdir -p /etc/greetd
+    sudo tee /etc/greetd/config.toml >/dev/null <<EOF
+[default_session]
+command = "agreety --cmd Hyprland"
+user = "greetd"
+
+[initial_session]
+command = "Hyprland"
+user = "$USER"
+EOF
+    sudo systemctl enable greetd.service
+    echo ":: greetd.service activated successfully."
 fi
 
 # Check for running power-profiles-daemon.service
@@ -599,10 +541,7 @@ EOF
     ssh-add ~/.ssh/id_ed25519
 fi
 
-if [[ $(_isInstalledParu "xdg-user-dirs") -eq 0 ]]; then
-    xdg-user-dirs-update
-fi
-if [[ $(_isInstalledParu "zsh") -eq 0 ]]; then
+if _isInstalled "zsh"; then
     chsh -s /bin/zsh
 fi
 echo

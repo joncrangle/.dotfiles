@@ -135,10 +135,10 @@ keybinding:
     scrollDownMain-alt2: <c-d>
     executeShellCommand: ":"
     createRebaseOptionsMenu: m
-    pushFiles: P
+    pushFiles: <c-p>
     pullFiles: p
     refresh: R
-    createPatchOptionsMenu: <c-p>
+    createPatchOptionsMenu: <c-P>
     nextTab: "]"
     prevTab: "["
     nextScreenMode: +
@@ -232,6 +232,25 @@ customCommands:
   - key: "b"
     command: 'gh browse "{{ "{{.SelectedLocalCommit.Sha}}" }}"'
     context: "commits"
+  - key: "P"
+    context: "localBranches"
+    description: "Force push to all origin URLs"
+    prompts:
+      - type: "confirm"
+        title: "Force Push"
+        body: "Are you sure you want to force push to ALL origin remotes? This will overwrite remote history."
+    command: 'git push --force origin {{"{{.SelectedLocalBranch.Name}}"}}'
+    loadingText: "Force pushing to all remotes..."
+
+  - key: "P"
+    context: "files"
+    description: "Force push current branch to all origin URLs"
+    prompts:
+      - type: "confirm"
+        title: "Force Push"
+        body: "Are you sure you want to force push to ALL origin remotes? This will overwrite remote history."
+    command: 'git push --force origin {{"{{.CheckedOutBranch.Name}}"}}'
+    loadingText: "Force pushing to all remotes..."
 services: {}
 notARepository: skip
 promptToReturnFromSubprocess: true

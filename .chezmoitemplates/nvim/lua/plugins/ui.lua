@@ -8,6 +8,7 @@ return {
     opts = {
       flavour = 'mocha',
       transparent_background = true,
+      float = { transparent = true, solid = false },
       integrations = {
         dadbod_ui = true,
         grug_far = true,
