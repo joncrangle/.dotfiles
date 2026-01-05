@@ -11,6 +11,10 @@
       "model": "google/gemini-claude-opus-4-5-thinking-high",
       "default_builder_enabled": true
     },
+    "Planner-Sisyphus": {
+      "model": "google/gemini-3-pro-high",
+      "default_builder_enabled": true
+    },
     "OpenCode-Builder": {
       "model": "google/gemini-claude-sonnet-4-5-thinking-low"
     },
@@ -18,7 +22,7 @@
       "model": "google/gemini-claude-sonnet-4-5-thinking-high"
     },
     "librarian": {
-      "model": "google/gemini-3-pro-preview"
+      "model": "google/gemini-3-flash"
     },
     "frontend-ui-ux-engineer": {
       "model": "google/gemini-3-pro-high"
