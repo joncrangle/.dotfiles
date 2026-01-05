@@ -241,7 +241,7 @@ customCommands:
         body: "Are you sure you want to force push to ALL origin remotes? This will overwrite remote history."
     command: 'git push --force origin {{"{{.SelectedLocalBranch.Name}}"}}'
     loadingText: "Force pushing to all remotes..."
-
+    output: "terminal"
   - key: "P"
     context: "files"
     description: "Force push current branch to all origin URLs"
@@ -251,6 +251,17 @@ customCommands:
         body: "Are you sure you want to force push to ALL origin remotes? This will overwrite remote history."
     command: 'git push --force origin {{"{{.CheckedOutBranch.Name}}"}}'
     loadingText: "Force pushing to all remotes..."
+    output: "terminal"
+  - key: "P"
+    context: "commits"
+    description: "Force push current branch to all origin URLs"
+    prompts:
+      - type: "confirm"
+        title: "Force Push"
+        body: "Are you sure you want to force push to ALL origin remotes? This will overwrite remote history."
+    command: 'git push --force origin {{"{{.CheckedOutBranch.Name}}"}}'
+    loadingText: "Force pushing to all remotes..."
+    output: "terminal"
 services: {}
 notARepository: skip
 promptToReturnFromSubprocess: true

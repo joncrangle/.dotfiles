@@ -348,7 +348,6 @@ packages=(
     "smartmontools"
     "aur/spotify"
     "starship"
-    "swww"
     "system-config-printer"
     "thunar"
     "thunar-archive-plugin"
@@ -413,11 +412,6 @@ if _isInstalled "bat"; then
     bat cache --build
 fi
 
-if [[ -f ~/.config/hypr/wallpapers/catppuccin-city.jpg ]]; then
-    cp ~/.config/hypr/wallpapers/astronaut.png ~/.config/background
-    chmod a+r ~/.config/background
-fi
-
 if _isInstalled "nwg-look"; then
     nwg-look -a
 fi
@@ -478,7 +472,7 @@ fi
 # Enable services
 echo ":: Enabling services..."
 
-# Enable greetd autologin and service
+# Enable greetd autologin and autolock services
 if _isInstalled "greetd"; then
     echo ":: configuring greetd for autologin..."
     sudo mkdir -p /etc/greetd
