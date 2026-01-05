@@ -265,7 +265,6 @@ packages=(
     "blueman"
     "bluez"
     "bluez-utils"
-    "brave-bin"
     "brightnessctl"
     "btop"
     "catppuccin-cursors-mocha"
@@ -391,6 +390,7 @@ packages=(
     "yt-dlp-git"
     "yq"
     "zathura"
+    "zen-browser-bin"
     "zig"
     "zip"
     "zoom"
@@ -480,6 +480,9 @@ if _isInstalled "greetd"; then
     echo ":: configuring greetd for autologin..."
     sudo mkdir -p /etc/greetd
     sudo tee /etc/greetd/config.toml >/dev/null <<EOF
+[terminal]
+vt = 1
+
 [default_session]
 command = "agreety --cmd Hyprland"
 user = "greetd"
