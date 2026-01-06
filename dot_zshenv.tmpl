@@ -61,34 +61,18 @@ export FZF_CTRL_R_OPTS="--bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+ab
 # Bat
 export BAT_THEME="Catppuccin Mocha"
 
-# Bun
-export BUN_INSTALL="$HOME/.bun"
-
-# Go
-export GOPATH=$HOME/.go
-
-# pnpm
-export PNPM_HOME="$XDG_DATA_HOME/pnpm"
-
 # Path
 path=(
-    {{ if eq .chezmoi.os "darwin" }}
+    $HOME/.local/bin(N-/)
+    $HOME/bin(N-/)
+    {{ if eq .chezmoi.os "darwin" -}}
     $HOMEBREW_DIR/bin(N-/)
     $HOME/.lmstudio/bin(N-/)
-    $HOME/.config/.local/share/../bin(N-/)
     {{- end -}}
     {{- if eq .chezmoi.os "linux" -}}
     /usr/bin(N-/)
     $HOME/.config/hypr/scripts(N-/)
     {{ end }}
-    $BUN_INSTALL
-    $PNPM_HOME
-    $HOME/bin(N-/)
-    $HOME/.local/bin(N-/)
-    $HOME/.bun/bin(N-/)
-    $HOME/.cargo/bin(N-/)
-    $HOME/.go/bin(N-/)
-    $HOME/go/bin(N-/)
     $path
 )
 # vim: ft=zsh

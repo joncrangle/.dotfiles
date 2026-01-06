@@ -12,46 +12,112 @@
 # #         ZSH ALIASES        #
 # ##############################
 
+########## Core / Safe Aliases ##########
 alias c="clear"
-alias cat="bat"
-alias cd="z"
-alias cm="chezmoi"
-alias cme="cd $HOME/.config/.local/share/chezmoi"
-alias cmu="chezmoi update && chezmoi apply"
-alias dock="docker-compose pull && docker-compose up -d; docker system prune -a -f"
-alias -s git="git clone"
-alias lazy="lazygit"
-{{ if eq .chezmoi.os "linux" }}
-alias lazydocker='DOCKER_HOST=unix:///run/user/1000/podman/podman.sock lazydocker'
-{{ else }}
-alias lazydocker='DOCKER_HOST=unix:///var/folders/73/jfd1wwgs4vq7hfw79_2fdcm00000gn/T/podman/podman-machine-default-api.sock lazydocker'
-{{ end }}
-alias lg="lazygit"
-alias lzg="lazygit"
-alias lzd="lazydocker"
-alias ls="eza"
-alias l="eza --icons"
-alias ll="eza -l --icons"
-alias la="eza -la --icons"
-alias oc="opencode"
-alias pod="podcasts-sync"
-alias python="uv"
-alias python3="uv"
 alias reload='exec zsh -l'
-alias tg='topgrade'
-alias top="btop"
-alias tree="eza -T --icons --level=2"
-alias v=$EDITOR
-alias vi=$EDITOR
-alias vim=$EDITOR
-alias wget="wget -c"
 alias x="exit"
+alias wget="wget -c"
 
-########## Functions ##########
-sudo_nvim() {
-	sudoedit "$@"
+# Set editors
+alias v="${EDITOR:-vi}"
+alias vi="${EDITOR:-vi}"
+alias vim="${EDITOR:-vi}"
+
+########## Conditional "Hijacks" ##########
+
+_is_installed() {
+	command -v "$1" >/dev/null 2>&1
 }
 
+# Bat (replacing cat)
+if _is_installed bat; then
+	alias cat="bat"
+fi
+
+# Zoxide (replacing cd)
+# Checks for 'z' command or function (since zoxide often loads as a function)
+if _is_installed zoxide || type z &>/dev/null; then
+	alias cd="z"
+fi
+
+# Chezmoi
+if _is_installed chezmoi; then
+	alias cm="chezmoi"
+	alias cme="cd $HOME/.config/.local/share/chezmoi"
+	alias cmu="chezmoi update && chezmoi apply"
+fi
+
+# Podman
+if _is_installed podman; then
+	alias dock="podman compose pull && podman compose up -d; podman system prune -a -f"
+fi
+
+# Git / LazyGit
+# '-s' suffix alias means typing 'directory.git' will run 'git clone directory.git'
+alias -s git="git clone"
+
+if _is_installed lazygit; then
+	alias lazy="lazygit"
+	alias lg="lazygit"
+	alias lzg="lazygit"
+fi
+
+# LazyDocker
+if _is_installed lazydocker; then
+	{{ if eq .chezmoi.os "linux" }}
+	alias lazydocker='DOCKER_HOST=unix:///run/user/1000/podman/podman.sock lazydocker'
+	{{ else }}
+	alias lazydocker='DOCKER_HOST=unix:///var/folders/73/jfd1wwgs4vq7hfw79_2fdcm00000gn/T/podman/podman-machine-default-api.sock lazydocker'
+	{{ end }}
+	alias lzd="lazydocker"
+fi
+
+# Eza (replacing ls and tree)
+if _is_installed eza; then
+	alias ls="eza"
+	alias l="eza --icons"
+	alias ll="eza -l --icons"
+	alias la="eza -la --icons"
+	alias tree="eza -T --icons --level=2"
+fi
+
+# OpenCode
+if _is_installed opencode; then
+	alias oc="opencode"
+fi
+
+# Podcasts-Sync
+if _is_installed podcasts-sync; then
+	alias pod="podcasts-sync"
+fi
+
+# UV (replacing python)
+if _is_installed uv; then
+	alias python="uv run"
+	alias python3="uv run"
+fi
+
+# Topgrade
+if _is_installed topgrade; then
+	alias tg='topgrade'
+fi
+
+# Btop (replacing top)
+if _is_installed btop; then
+	alias top="btop"
+fi
+
+########## Functions ##########
+
+sudo_nvim() {
+	if is_installed sudoedit; then
+		sudoedit "$@"
+	else
+		sudo ${EDITOR:-vi} "$@"
+	fi
+}
+
+# Apply the function to your hijacks
 alias 'sudo nvim'=sudo_nvim
 alias 'sudo vim'=sudo_nvim
 alias 'sudo vi'=sudo_nvim
@@ -65,9 +131,9 @@ brew-upgrade() {
 }
 
 copy-line() {
-	if command -v pbcopy >/dev/null; then
+	if _is_installed pbcopy; then
 		rg --line-number . | fzf --delimiter ':' --preview 'bat --color=always --highlight-line {2} {1}' | awk -F ':' '{print $3}' | sed 's/^\s+//' | pbcopy
-	elif command -v wl-copy >/dev/null; then
+	elif _is_installed wl-copy; then
 		rg --line-number . | fzf --delimiter ':' --preview 'bat --color=always --highlight-line {2} {1}' | awk -F ':' '{print $3}' | sed 's/^\s+//' | wl-copy
 	else
 		echo "pbcopy or wl-copy command not found. Unable to copy to clipboard."
@@ -202,81 +268,6 @@ pass() {
 	else
 		echo "pbcopy or wl-copy command not found. Unable to copy to clipboard."
 	fi
-}
-
-password() {
-	generate_password() {
-		local length=$1
-		openssl rand -base64 "$length"
-	}
-
-	copy_to_clipboard() {
-		if command -v pbcopy >/dev/null; then
-			echo -n "$1" | pbcopy
-		elif command -v wl-copy >/dev/null; then
-			echo -n "$1" | wl-copy
-		else
-			echo "pbcopy or wl-copy command not found. Unable to copy to clipboard."
-		fi
-	}
-
-	usage() {
-		echo "usage: pass [option]"
-		echo "generate a random password and copy it to clipboard."
-		echo ""
-		echo "options:"
-		echo "  -s, --short    generate a short password (12 characters)"
-		echo "  -m, --medium   generate a medium password (20 characters)"
-		echo "  -l, --long     generate a long password (32 characters) - default option"
-		echo "  -c, --custom   generate a custom length password (specify length)"
-		echo "  -h, --help     display this help message"
-	}
-
-	# default password length
-	local length=32
-
-	# parse options
-	while [[ $# -gt 0 ]]; do
-		case "$1" in
-		-s | --short)
-			length=12
-			shift
-			;;
-		-m | --medium)
-			length=20
-			shift
-			;;
-		-l | --long)
-			length=32
-			shift
-			;;
-		-c | --custom)
-			if [[ -n "$2" && "$2" =~ ^[0-9]+$ ]]; then
-				length="$2"
-				shift 2
-			else
-				echo "error: invalid or missing length for custom option"
-				usage
-				return 1
-			fi
-			;;
-		-h | --help)
-			usage
-			return 0
-			;;
-		*)
-			echo "error: invalid option '$1'"
-			usage
-			return 1
-			;;
-		esac
-	done
-
-	# Generate password
-	local password=$(generate_password "$length")
-
-	# Copy to clipboard
-	copy_to_clipboard "$password" && echo -e "$password\nCopied to clipboard"
 }
 
 take() {

@@ -32,7 +32,7 @@ general:
   startup_commands:
     [
       "shell-exec zebar",
-      'shell-exec pwsh -NoProfile -WindowStyle Hidden -Command "Start-Process ''teams-green.exe'' -ArgumentList ''start --websocket'' -WindowStyle Hidden"',
+      'shell-exec pwsh -NoProfile -WindowStyle Hidden -Command "Start-Process ""$env:LOCALAPPDATA\mise\installs\go-github-com-joncrangle-teams-green\latest\bin\teams-green.exe"" -ArgumentList ''start --websocket'' -WindowStyle Hidden"',
     ]
 
   # Commands to run just before the WM is shutdown.
@@ -40,7 +40,7 @@ general:
   shutdown_commands:
     [
       "shell-exec taskkill /IM zebar.exe /F",
-      'shell-exec pwsh -NoProfile -WindowStyle Hidden -Command "Start-Process ''teams-green.exe'' -ArgumentList ''stop --websocket'' -WindowStyle Hidden"',
+      'shell-exec pwsh -NoProfile -WindowStyle Hidden -Command "Start-Process ""$env:LOCALAPPDATA\mise\installs\go-github-com-joncrangle-teams-green\latest\bin\teams-green.exe"" -ArgumentList ''stop'' -WindowStyle Hidden"',
     ]
 
   # Commands to run after the WM config is reloaded.
@@ -332,7 +332,7 @@ keybindings:
   # Toggle Teams-Green
   - commands:
       [
-        'shell-exec pwsh -NoProfile -WindowStyle Hidden -Command "Start-Process ''teams-green.exe'' -ArgumentList ''toggle --websocket'' -WindowStyle Hidden"',
+        'shell-exec pwsh -NoProfile -WindowStyle Hidden -Command "Start-Process ""$env:LOCALAPPDATA\mise\installs\go-github-com-joncrangle-teams-green\latest\bin\teams-green.exe"" -ArgumentList ''toggle --websocket'' -WindowStyle Hidden"',
       ]
     bindings: ["alt+shift+t"]
 

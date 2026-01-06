@@ -317,17 +317,6 @@
       "environment": {
         "SEARXNG_URL": "https://searxng.{{- .nasSite -}}"
       }
-    },
-    "github": {
-      "type": "local",
-      "enabled": false,
-      "command": [
-        "github-mcp-server",
-        "stdio"
-      ],
-      "environment": {
-        "GITHUB_PERSONAL_ACCESS_TOKEN": "{{- .GithubKey -}}"
-      }
     }
   }
 }

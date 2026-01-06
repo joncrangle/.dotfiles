@@ -1,4 +1,4 @@
-#/bin/sh
+#!/bin/sh
 #  NOTE:
 #           .:'
 #       __ :'__
@@ -20,35 +20,54 @@ fi
 if ! command -v brew &>/dev/null; then
   echo "Installing Homebrew, chezmoi, and Git..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  brew install age
-  brew install chezmoi
-  brew install gh
   brew install git
   brew install zsh
   chsh -s "$(which zsh)"
 fi
 
-# Ask if user wants to generate Github SSH key
-read -p "Do you want to generate a new SSH key for GitHub? (y/n) " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
+# Install Mise
+if ! command -v mise &>/dev/null; then
+  echo "Installing Mise..."
+  curl https://mise.run | sh
+else
+  echo "Mise is already installed."
+fi
+
+eval "$("$HOME"/.local/bin/mise activate bash)"
+echo "Installing dependencies..."
+mise use -g age@latest chezmoi@latest github-cli@latest gum@latest rust@latest
+
+# --- IDENTITY PROMPT ---
+default_name="jonathancrangle"
+default_email="94425204+joncrangle@users.noreply.github.com"
+echo ":: Configuring User Identity..."
+GIT_NAME=$(gum input --header "Git User Name" --value "$default_name")
+GIT_EMAIL=$(gum input --header "Git Email" --value "$default_email")
+if gum confirm "Generate a new SSH key for GitHub?"; then
   echo "Generating a new SSH key for GitHub..."
-  ssh-keygen -t ed25519 -C "94425204+joncrangle@users.noreply.github.com" -f ~/.ssh/id_ed25519
+  ssh-keygen -t ed25519 -C "$GIT_EMAIL" -f ~/.ssh/id_ed25519
   eval "$(ssh-agent -s)"
   touch ~/.ssh/config
-  echo "Host *\n AddKeysToAgent yes\n IdentityFile ~/.ssh/id_ed25519" | tee ~/.ssh/config >/dev/null
+  echo -e "Host *\n AddKeysToAgent yes\n IdentityFile ~/.ssh/id_ed25519" | tee ~/.ssh/config >/dev/null
   ssh-add --apple-use-keychain ~/.ssh/id_ed25519
 fi
 
 echo "Configuring Git..."
-git config --global user.name "jonathancrangle"
-git config --global user.email "94405204+joncrangle@users.noreply.github.com"
+git config --global user.name "$GIT_NAME"
+git config --global user.email "$GIT_EMAIL"
 
-read -p "Please run 'gh auth login' to authenticate with GitHub. Press Enter to continue after you have completed the authentication."
+# GitHub Auth
+echo ":: Checking GitHub Authentication..."
+if ! gh auth status &>/dev/null; then
+    echo ":: Authenticating with GitHub..."
+    gh auth login --web
+else
+    echo ":: GitHub is already authenticated."
+fi
 
 # Migrate dotfiles using chezmoi
 echo "Migrating dotfiles..."
-read -p "Please put key.txt in ~/.config/. Press Enter to continue"
+read -p "Please put 'key.txt' in ~/.config/. Press Enter to continue"
 chezmoi init --apply git@github.com:joncrangle/.dotfiles.git
 
 # Install fonts
@@ -72,24 +91,19 @@ for font_file in "$fonts_directory"/*.ttf "$fonts_directory"/*.otf; do
 done
 echo "Fonts installed successfully."
 
-# Install Brewfile from .config/homebrew
-echo "Installing Brewfile..."
+echo "Installing Apps and Tools..."
+mise lock
+mise install --yes
 brew bundle --file="$HOME"/.config/homebrew/Brewfile
-rustup update
-rustup component add rust-analyzer
-cargo install cargo-update
-cargo install cargo-cache
-cargo install --locked bacon
+if command -v rustup &>/dev/null; then
+  rustup default stable
+  rustup update
+fi
 luarocks install busted
 ya pkg install
 ya pkg upgrade
-mise use -g node@latest
-mise use -g usage
-corepack enable pnpm
-uv tool install harlequin
-go install github.com/joncrangle/podcasts-sync@latest
-jj config set --user user.name "jonathancrangle"
-jj config set --user user.email "94405204+joncrangle@users.noreply.github.com"
+jj config set --user user.name "$GIT_NAME"
+jj config set --user user.email "$GIT_EMAIL"
 echo -e '\n[ui]
 pager = "delta"
 editor = "nvim"

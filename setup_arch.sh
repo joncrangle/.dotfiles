@@ -1,11 +1,4 @@
 #!/bin/bash
-clear
-sudo -v
-while true; do
-    sudo -n true
-    sleep 60
-    kill -0 "$$" || exit
-done 2>/dev/null &
 # script inspiration source: [Stephan Raabe dotfiles](https://gitlab.com/stephan-raabe/dotfiles)
 #  NOTE:
 #                                  ▄
@@ -28,19 +21,32 @@ done 2>/dev/null &
 #                 ▄███▀▀                       ▀▀███▄
 #                ▄▀▀                               ▀▀▄
 
+clear
+sudo -v
+while true; do
+    sudo -n true
+    sleep 60
+    kill -0 "$$" || exit
+done 2>/dev/null &
+
 # ------------------------------------------------------
 # Utility functions
 # ------------------------------------------------------
 
-# Check if a package is installed (uses return codes, not echo)
+# Check if a package is installed (Supports Pacman, Paru/AUR, and Mise)
 _isInstalled() {
-    package="${1#aur/}"
-    pacman -Q "$package" &>/dev/null
-}
+    local pkg="${1#aur/}"
+    # 1. Check System Database (Official Repos & AUR)
+    if pacman -Q "$pkg" &>/dev/null; then
+        return 0
+    fi
 
-# Check if paru is available
-_hasParu() {
-    command -v paru &>/dev/null
+    # 2. Check User PATH (Mise & Manual Binaries)
+    if command -v "$pkg" &>/dev/null; then
+        return 0
+    fi
+
+    return 1
 }
 
 # Install packages - uses paru if available, otherwise pacman
@@ -60,7 +66,7 @@ _installPackages() {
     fi
 
     local installer
-    if _hasParu; then
+    if _isInstalled "paru"; then
         installer="paru"
     else
         installer="sudo pacman"
@@ -75,28 +81,15 @@ _installPackages() {
     done
 }
 
-_commandExists() {
-    if ! command -v "$1" &>/dev/null; then
-        echo ":: ERROR: $1 doesn't exist. Please install it with: paru -S $2"
-    else
-        echo ":: OK: $1 command found."
-    fi
-}
-
 # ------------------------------------------------------
 # Main
 # ------------------------------------------------------
 dependencies=(
-    "age"
     "base-devel"
     "git"
-    "chezmoi"
-    "github-cli"
     "gnome-keyring"
-    "gum"
     "networkmanager"
     "openssh"
-    "rustup"
 )
 
 # Some colors
@@ -142,17 +135,24 @@ echo
 
 #y Install required packages
 echo ":: Checking that required packages are installed..."
+curl https://mise.run | sh
 _installPackages "${dependencies[@]}"
+if _isInstalled "mise"; then
+    echo ":: Bootstrapping tools via Mise..."
+    eval "$(mise activate bash)"
+    mise use -g --yes age@latest bun@latest chezmoi@latest github-cli@latest gum@latest node@latest rust@latest
+    if _isInstalled "rustup"; then
+        echo ":: Configuring Rust toolchain..."
+        rustup default stable
+        rustup update
+    else
+        echo ":: ERROR: Rustup shim not found. Mise install might have failed."
+    fi
+else
+    echo ":: ERROR: Mise was not found in system packages. Cannot bootstrap tools."
+    exit 1
+fi
 echo
-
-# Install Rust
-echo ":: Installing Rust..."
-rustup default stable
-rustup update
-rustup component add rust-analyzer
-cargo install cargo-update
-cargo install cargo-cache
-cargo install --locked bacon
 
 echo ":: Starting ssh daemon..."
 sudo systemctl enable sshd
@@ -184,11 +184,12 @@ fi
 echo
 
 # Install paru
-if sudo pacman -Qs paru >/dev/null; then
+
+if _isInstalled "paru"; then
     echo ":: paru is already installed!"
 else
     echo ":: paru is not installed. Starting the installation!"
-    if ! command -v git &>/dev/null; then
+    if ! _isInstalled "git"; then
         echo ":: Error: git is not installed. Cannot install paru."
         exit 1
     fi
@@ -202,10 +203,14 @@ else
 fi
 echo
 
-# Generate SSH key
+# --- IDENTITY PROMPT ---
+default_name="jonathancrangle"
+default_email="94425204+joncrangle@users.noreply.github.com"
+GIT_NAME=$(gum input --header "Git User Name" --value "$default_name")
+GIT_EMAIL=$(gum input --header "Git Email" --value "$default_email")
 if gum confirm "Do you want to generate a new SSH key for GitHub?"; then
     echo ":: Generating a new SSH key for GitHub..."
-    ssh-keygen -t ed25519 -C "94425204+joncrangle@users.noreply.github.com" -f ~/.ssh/id_ed25519
+    ssh-keygen -t ed25519 -C "$GIT_EMAIL" -f ~/.ssh/id_ed25519
     eval "$(ssh-agent -s)"
     touch ~/.ssh/config
     echo "Host *\n AddKeysToAgent yes\n IdentityFile ~/.ssh/id_ed25519" | tee ~/.ssh/config >/dev/null
@@ -217,12 +222,16 @@ else
 fi
 
 echo ":: Configuring Git..."
-git config --global user.name "jonathancrangle"
-git config --global user.email "94405204+joncrangle@users.noreply.github.com"
+git config --global user.name "$GIT_NAME"
+git config --global user.email "$GIT_EMAIL"
 
+# GitHub Auth
+echo ":: Checking GitHub Authentication..."
 if ! gh auth status &>/dev/null; then
     echo ":: Authenticating with GitHub..."
     gh auth login --web
+else
+    echo ":: GitHub is already authenticated."
 fi
 
 # Migrate dotfiles using chezmoi
@@ -260,7 +269,6 @@ echo "Fonts installed successfully."
 # Install packages
 packages=(
     "audacity"
-    "bat"
     "bibata-cursor-theme-bin"
     "blueman"
     "bluez"
@@ -277,23 +285,14 @@ packages=(
     "dart-sass"
     "dropbox"
     "exiv2"
-    "eza"
-    "fastfetch"
-    "fd"
-    "feh"
     "ffmpeg"
     "ffmpegthumbnailer"
-    "fzf"
     "gcc"
     "gimp"
-    "git-delta"
-    "glow"
-    "go"
     "gpu-screen-recorder"
     "greetd"
     "grim"
     "grimblast-git"
-    "gum"
     "gvfs"
     "handbrake"
     "helium-browser-bin"
@@ -303,12 +302,7 @@ packages=(
     "imagemagick"
     "imv"
     "iwd"
-    "jujutsu"
-    "just"
-    "jq"
     "krita"
-    "lazydocker"
-    "lazygit"
     "libgtop"
     "libreoffice-fresh"
     "lua"
@@ -316,9 +310,7 @@ packages=(
     "luarocks"
     "make"
     "maplemono-ttf"
-    "mise"
     "mpv"
-    "neovim"
     "aur/noctalia-shell-git"
     "noto-fonts"
     "noto-fonts-emoji"
@@ -338,22 +330,18 @@ packages=(
     "poppler"
     "power-profiles-daemon"
     "python"
-    "python-uv"
     "qalculate-gtk"
     "qt6-multimedia-ffmpeg"
     "qt6-wayland"
     "quickshell"
-    "ripgrep"
     "slurp"
     "smartmontools"
     "aur/spotify"
-    "starship"
     "system-config-printer"
     "thunar"
     "thunar-archive-plugin"
     "tldr"
     "topgrade-bin"
-    "tree-sitter-cli"
     "ttf-cascadia-code-nerd"
     "ttf-droid"
     "ttf-fira-code"
@@ -368,7 +356,6 @@ packages=(
     "ttf-meslo-nerd-font-powerlevel10k"
     "ttf-nerd-fonts-symbols-mono"
     "tumbler"
-    "typst"
     "udiskie"
     "unarchiver"
     "unrar"
@@ -382,21 +369,14 @@ packages=(
     "wget"
     "wireplumber"
     "wl-clipboard"
-    "wpa_supplicant"
     "xdg-desktop-portal"
     "xdg-desktop-portal-hyprland"
     "aur/xdg-terminal-exec"
     "xdg-utils"
-    "xh"
-    "yazi"
-    "yt-dlp-git"
-    "yq"
     "zathura"
     "zen-browser-bin"
-    "zig"
     "zip"
     "zoom"
-    "zoxide"
     "zsh"
     "zsh-antidote"
 )
@@ -424,13 +404,8 @@ if [[ -d "$THEME_DIR" ]]; then
     ln -sf "${THEME_DIR}/gtk-4.0/gtk-dark.css" "${HOME}/.config/gtk-4.0/gtk-dark.css"
 fi
 
-if _isInstalled "python-uv"; then
-    echo ":: Installing python apps..."
-    uv tool install harlequin
-fi
-
 # Install yazi plugins
-if _isInstalled "yazi"; then
+if _isInstalled "ya"; then
     echo ":: Installing yazi plugins..."
     ya pkg install
     ya pkg upgrade
@@ -438,20 +413,15 @@ fi
 
 # Install runtimes via mise
 if _isInstalled "mise"; then
-    echo ":: Installing runtimes via mise..."
-    mise use -g node@latest
-    mise use -g pnpm@latest
-    mise use -g deno@latest
-    mise use -g bun@latest
-    mise use -g usage
-    bun add -g opencode-ai
+    echo ":: Installing Apps and Tools..."
+    mise lock
+    mise install --yes
 fi
 
-# Install jujutsu
-if _isInstalled "jujutsu"; then
+if _isInstalled "jj"; then
     echo ":: Configuring Jujutsu..."
-    jj config set --user user.name "jonathancrangle"
-    jj config set --user user.email "94405204+joncrangle@users.noreply.github.com"
+    jj config set --user user.name "$GIT_NAME"
+    jj config set --user user.email "$GIT_EMAIL"
     echo -e '\n[ui]
 pager = "delta"
 editor = "nvim"

@@ -135,7 +135,7 @@ keybinding:
     scrollDownMain-alt2: <c-d>
     executeShellCommand: ":"
     createRebaseOptionsMenu: m
-    pushFiles: <c-p>
+    pushFiles: P
     pullFiles: p
     refresh: R
     createPatchOptionsMenu: <c-P>
@@ -232,7 +232,7 @@ customCommands:
   - key: "b"
     command: 'gh browse "{{ "{{.SelectedLocalCommit.Sha}}" }}"'
     context: "commits"
-  - key: "P"
+  - key: "<c-p>"
     context: "localBranches"
     description: "Force push to all origin URLs"
     prompts:
@@ -242,7 +242,7 @@ customCommands:
     command: 'git push --force origin {{"{{.SelectedLocalBranch.Name}}"}}'
     loadingText: "Force pushing to all remotes..."
     output: "terminal"
-  - key: "P"
+  - key: "<c-p>"
     context: "files"
     description: "Force push current branch to all origin URLs"
     prompts:
@@ -252,7 +252,7 @@ customCommands:
     command: 'git push --force origin {{"{{.CheckedOutBranch.Name}}"}}'
     loadingText: "Force pushing to all remotes..."
     output: "terminal"
-  - key: "P"
+  - key: "<c-p>"
     context: "commits"
     description: "Force push current branch to all origin URLs"
     prompts:

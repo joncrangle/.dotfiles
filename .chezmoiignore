@@ -24,6 +24,7 @@ AppData/
 .zshenv
 .config/bat/
 .config/ghostty/
+.config/mise/
 .config/nvim/
 .config/topgrade/
 .config/wezterm/

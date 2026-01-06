@@ -17,21 +17,27 @@ SAVEHIST=10000
 LISTMAX=1000
 COREPACK_ENABLE_AUTO_PIN=0
 
-{{ if eq .chezmoi.os "darwin" }}
+eval "$($HOME/.local/bin/mise activate zsh)"
+
+if [[ -f "$HOME/.config/mise/gh_public.json" ]]; then
+  export MISE_GITHUB_TOKEN=$(jq -r '.github_token' "$HOME/.config/mise/gh_public.json")
+fi
+
+{{ if eq .chezmoi.os "darwin" -}}
 eval "$(/opt/homebrew/bin/brew shellenv)"
-{{ end }}
-{{ if eq .chezmoi.os "linux" }}
+{{- end -}}
+{{ if eq .chezmoi.os "linux" -}}
 source "/usr/share/zsh-antidote/antidote.zsh"
-{{ else }}
+{{- else }}
 source "$HOMEBREW_DIR/opt/antidote/share/antidote/antidote.zsh"
-{{ end }}
+{{- end }}
 antidote load
 
-{{ if eq .chezmoi.os "linux" }}
+{{ if eq .chezmoi.os "linux" -}}
 FPATH="/usr/share/zsh/site-functions:${FPATH}"
-{{ else }}
+{{- else -}}
 FPATH="$HOMEBREW_DIR/share/zsh/site-functions:${FPATH}"
-{{ end }}
+{{- end }}
 
 function zvm_config() {
   ZVM_VI_SURROUND_BINDKEY=s-prefix
@@ -44,8 +50,6 @@ function zvm_config() {
 source "$ZDOTDIR/options.zsh"
 source "$ZDOTDIR/aliases.zsh"
 source "$ZDOTDIR/banner.zsh"
-
-eval "$(mise activate zsh)"
 
 autoload -Uz add-zle-hook-widget
 

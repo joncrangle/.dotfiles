@@ -5,551 +5,191 @@
 #   '-..-'|   ||   |
 #   '-..-'|_.-''-._|
 
-Write-Host "Setting execution policy..."
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+# ------------------------------------------------------
+# 1. SELF-ELEVATION & EXECUTION POLICY
+# ------------------------------------------------------
+$currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+$isAdmin = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
-try
-{
-    Write-Host "Installing PowerShell, Windows Terminal and Windows PowerToys..."
-    winget install --id Microsoft.WindowsTerminal -e --scope user
-    winget install --id Microsoft.Powershell --source winget --scope user
-    winget install Microsoft.PowerToys --source winget --scope user
-} catch
-{
-    # Prompt user to install PowerShell and Windows Terminal
-    Write-Host "Please install PowerShell (https://apps.microsoft.com/detail/9mz1snwt0n5d?hl=en-US&gl=US), Windows Terminal (https://apps.microsoft.com/detail/9n0dx20hk701?hl=en-US&gl=US) and Windows PowerToys (https://apps.microsoft.com/detail/xp89dcgq3k6vld?hl=en-gb&gl=CA)."
-    Write-Host "Once installed, press Enter to continue, or press Escape to exit."
-    do
-    {
-        $key = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown").VirtualKeyCode
-    } until ($key -eq 13 -or $key -eq 27)  # Enter key (13) or Escape key (27)
-
-    if ($key -eq 27)
-    {
-        # User pressed Escape, exit the script
-        Write-Host "Exiting the script."
+if ($isAdmin) {
+    Write-Host ":: Running as Administrator." -ForegroundColor Cyan
+    
+    if ((Get-ExecutionPolicy) -ne 'Bypass') {
+        Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force -ErrorAction SilentlyContinue
+    }
+} else {
+    Write-Host ":: Not running as Administrator." -ForegroundColor Yellow
+    Write-Host ":: Attempting to request Admin privileges..." -ForegroundColor Gray
+    
+    try {
+        # Relaunch as Admin with Bypass policy
+        Start-Process PowerShell -Verb RunAs -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$($MyInvocation.MyCommand.Path)`"" -ErrorAction Stop
         exit
+    } catch {
+        Write-Warning ":: Admin privileges denied."
+        Write-Host ":: Continuing as Standard User..." -ForegroundColor Green
     }
 }
 
-Write-Host "Installing Scoop..."
-$scoopDir = "$env:USERPROFILE\scoop"
-if (!(Test-Path $scoopDir))
-{
-    Write-Host "Installing Scoop..."
-    try
-    {
-        Invoke-RestMethod -Uri "https://get.scoop.sh" -ErrorAction Stop | Invoke-Expression
-    } catch
-    {
-        Write-Host "An error occurred while installing Scoop."
-    }
-} else
-{
-    Write-Host "Scoop is already installed."
+# ------------------------------------------------------
+# 2. WINGET (System Apps)
+# ------------------------------------------------------
+Write-Host ":: Checking System Apps..." -ForegroundColor Green
+
+Write-Host ":: Updating Winget Sources..." -ForegroundColor Gray
+winget source update --disable-interactivity
+
+try {
+    # Added --accept-source-agreements to all commands to prevent hanging
+    winget install --id Microsoft.Powershell -e --scope user --accept-package-agreements --accept-source-agreements
+    winget install --id Microsoft.WindowsTerminal -e --scope user --accept-package-agreements --accept-source-agreements
+    winget install --id Microsoft.PowerToys -e --scope user --accept-package-agreements --accept-source-agreements
+    
+    # Critical for Rust
+    winget install --id Microsoft.VisualStudio.2022.BuildTools --override "--passive --wait --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended" --accept-package-agreements --accept-source-agreements
+} catch {
+    Write-Warning "Winget failed. Ensure App Installer is updated in the MS Store."
 }
 
-Write-Host "Installing terminal apps..."
-$appsToInstall = @(
-    "age", "chezmoi", "fzf", "gh", "innounp-unicode", "IosevkaTerm-NF",
-    "Maple-Mono", "psfzf", "psreadline", "starship", "terminal-icons", "zoxide"
-)
+# ------------------------------------------------------
+# 3. SCOOP (Package Manager)
+# ------------------------------------------------------
+if (-not (Test-Path "$env:USERPROFILE\scoop")) {
+    Write-Host ":: Installing Scoop..." -ForegroundColor Green
+    Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+} else {
+    Write-Host ":: Scoop is already installed." -ForegroundColor Green
+}
 
-try
-{
-    scoop install git
-    scoop bucket add extras
-    scoop bucket add versions
-    scoop bucket add nerd-fonts
-    scoop update
-    foreach ($app in $appsToInstall)
-    {
+# Add buckets
+scoop install git
+scoop bucket add extras
+scoop bucket add versions
+scoop bucket add nerd-fonts
+scoop update
+
+# ------------------------------------------------------
+# 4. BOOTSTRAP DEPENDENCIES
+# ------------------------------------------------------
+# We need these immediately for the script to function
+$bootstrapApps = @("mise", "innounp-unicode", "psfzf", "psreadline", "terminal-icons")
+
+
+Write-Host ":: Installing Bootstrap Dependencies..." -ForegroundColor Green
+foreach ($app in $bootstrapApps) {
+    if (-not (Get-Command $app -ErrorAction SilentlyContinue)) {
         scoop install $app
     }
-} catch
-{
-    Write-Host "An error occurred while installing one or more terminal apps."
 }
 
-Write-Host "Configuring Git..."
-try
-{
-    git config --global credential.helper manager
-    $regFilePath = Join-Path -Path $env:USERPROFILE -ChildPath 'scoop\apps\git\current\install-file-associations.reg'
-    if (Test-Path -Path $regFilePath -PathType Leaf)
-    {
-        Start-Process -FilePath "regedit.exe" -ArgumentList "/s `"$regFilePath`"" -Wait
-    } else
-    {
-        Write-Host "The file $regFilePath does not exist."
-    }
-    git config --global user.name "jonathancrangle"
-    git config --global user.email "94425204+joncrangle@users.noreply.github.com"
-
-    $confirm = Read-Host "Do you want to generate a new SSH key for GitHub? (y/n)"
-    if ($confirm -eq "y")
-    {
-        Write-Host ":: Generating a new SSH key for GitHub..."
-        try {
-            $sshDirectoryPath = Join-Path -Path $env:USERPROFILE -ChildPath ".ssh"
-            if (-not (Test-Path -Path $sshDirectoryPath)) {
-                New-Item -ItemType Directory -Path $sshDirectoryPath -Force
-            }
-            $keyPath = Join-Path -Path $sshDirectoryPath -ChildPath "id_ed25519"
-            ssh-keygen -t ed25519 -C "94425204+joncrangle@users.noreply.github.com" -f $keyPath
-            if (Test-Path -Path $keyPath) {
-                Write-Host "SSH key generated successfully at $keyPath"
-            } else {
-                Write-Host "Failed to generate SSH key"
-            }
-        } catch {
-            Write-Host "An error occurred: $_"
-        }
-    } elseif ($confirm -eq "n")
-    {
-        Write-Host ":: Skipping SSH key generation."
-    } else
-    {
-        Write-Host "Invalid input. Please enter 'y' or 'n'."
-    }
-} catch
-{
-    Write-Host "An error occurred while configuring Git."
+# ------------------------------------------------------
+# 5. INSTALL MISE
+# ------------------------------------------------------
+if (-not (Get-Command mise -ErrorAction SilentlyContinue)) {
+    Write-Host ":: Installing Mise..." -ForegroundColor Green
+    scoop install mise
 }
 
-# Prompt user to run gh auth login
-Read-Host "Please run 'gh auth login --web' to authenticate with GitHub. Press Enter to continue after you have completed the authentication."
+# ACTIVATE MISE FOR THIS SESSION
+# Critical: Allows us to use 'mise use' and access installed tools immediately
+$env:MISE_YES = 1
+Invoke-Expression "$(mise activate pwsh)"
+mise use -g age@latest chezmoi@latest github-cli@latest rust@latest
+
+# ------------------------------------------------------
+# 6. DOTFILES (Chezmoi)
+# ------------------------------------------------------
+Write-Host ":: Migrating dotfiles..." -ForegroundColor Green
 Read-Host ":: Please put key.txt in ~/.config/. Press Enter to continue"
+# Ensure we are in the home directory
+Set-Location $env:USERPROFILE
 
-Write-Host "Configuring environment variables..."
-function Set-UserEnvironmentVariables
-{
-    param (
-        [array]$variables
-    )
-
-    foreach ($variable in $variables)
-    {
-        $variableName = $variable.Name
-        $variablePath = $variable.Path
-        $variableValue = [System.IO.Path]::Combine($env:USERPROFILE, $variablePath)
-
-        [Environment]::SetEnvironmentVariable($variableName, $variableValue, [EnvironmentVariableTarget]::User)
-    }
-}
-
-$envVars = @(
-    @{ Name = "YAZI_FILE_ONE"; Path = "scoop\apps\git\current\usr\bin\file.exe" },
-    @{ Name = "XDG_CONFIG_HOME"; Path = "AppData\Local" },
-    @{ Name = "XDG_DATA_HOME"; Path = "AppData\Local" },
-)
-
-Set-UserEnvironmentVariables -variables $envVars
-$env:XDG_CONFIG_HOME = "$env:USERPROFILE\AppData\Local"
-Set-Location $env:XDG_CONFIG_HOME
-
-Write-Host "Moving dotfiles..."
-chezmoi init --apply https://github.com/joncrangle/.dotfiles.git
-
-Write-Host "Configuring Windows Terminal..."
-try
-{
-    $windowsTerminalDir = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
-    $settingsJson = "$env:USERPROFILE\.config\windows-terminal\settings.json"
-    Copy-Item $settingsJson -Destination $windowsTerminalDir -Force
-} catch
-{
-    Write-Host "An error occurred while configuring Windows Terminal."
-}
-
-Write-Host "Configuring PowerShell..."
-try
-{
-    if (-not (Test-Path $PROFILE))
-    {
-        New-Item -Path $PROFILE -ItemType File -Force
-    }
-    # Add content to $PROFILE
-    $profileContent = @"
-# Imports the terminal Icons into current Instance of PowerShell
-Import-Module -Name Terminal-Icons 
-
-#Fzf (Import the fuzzy finder and set a shortcut key to begin searching)
-Import-Module PSFzf
-Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
-
-`$env:EDITOR = "nvim"
-`$env:VISUAL = "nvim"
-`$env:CC = "gcc"
-`$env:OPENCODE_CONFIG_DIR = "$env:USERPROFILE\.config\opencode"
-`$env:STARSHIP_CONFIG = "$env:USERPROFILE\.config\starship\starship.toml"
-`$env:COREPACK_ENABLE_AUTO_PIN = "0"
-# Add uv tools to PATH
-`$env:PATH = "$env:APPDATA\..\bin;$env:PATH"
-# Add bun to PATH
-`$env:PATH = "$env:USERPROFILE\.bun\bin;$env:PATH"
-
-# FZF
-`$env:FZF_DEFAULT_COMMAND="rg --files --no-ignore-vcs --hidden --follow --glob ""!.git/"" --glob ""!.jj/"""
-`$env:FZF_DEFAULT_OPTS=" `
---color=bg+:#313244,bg:#1e1e2e,spinner:#f5e0dc,hl:#f38ba8 `
---color=fg:#cdd6f4,header:#f38ba8,info:#cba6f7,pointer:#f5e0dc `
---color=marker:#b4befe,fg+:#cdd6f4,prompt:#cba6f7,hl+:#f38ba8 `
---color=selected-bg:#45475a `
---multi `
---border=rounded `
---bind 'ctrl-f:preview-page-down,ctrl-b:preview-page-up'"
-`$env:FZF_ALT_C_OPTS="--walker-skip .git,node_modules,target,.jj --preview 'eza -T --icons --color=always {}'"
-`$env:FZF_CTRL_T_OPTS="--walker-skip .git,node_modules,target,.jj --preview 'bat -n --color=always {}' --bind 'ctrl-/:change-preview-window(down|hidden|)'"
-`$env:FZF_CTRL_R_OPTS="--bind 'ctrl-y:execute-silent(echo {} | win32yank -i)+abort' --color header:italic"
-
-# Set BAT_THEME
-`$env:BAT_THEME="Catppuccin Mocha"
-
-# Remove existing aliases before defining new ones
-Remove-Item -Path Alias:cm -ErrorAction SilentlyContinue
-Remove-Item -Path Alias:wez -ErrorAction SilentlyContinue
-Remove-Item -Path Alias:vim -ErrorAction SilentlyContinue
-Remove-Item -Path Alias:vi -ErrorAction SilentlyContinue
-Remove-Item -Path Alias:v -ErrorAction SilentlyContinue
-Remove-Item -Path Alias:c -ErrorAction SilentlyContinue
-Remove-Item -Path Alias:ls -ErrorAction SilentlyContinue
-Remove-Item -Path Alias:l -ErrorAction SilentlyContinue
-Remove-Item -Path Alias:ll -ErrorAction SilentlyContinue
-Remove-Item -Path Alias:la -ErrorAction SilentlyContinue
-Remove-Item -Path Alias:tree -ErrorAction SilentlyContinue
-Remove-Item -Path Alias:cd -ErrorAction SilentlyContinue
-Remove-Item -Path Alias:cat -ErrorAction SilentlyContinue
-Remove-Item -Path Alias:lazy -ErrorAction SilentlyContinue
-Remove-Item -Path Alias:lg -ErrorAction SilentlyContinue
-Remove-Item -Path Alias:lzg -ErrorAction SilentlyContinue
-Remove-Item -Path Alias:lzd -ErrorAction SilentlyContinue
-Remove-Item -Path Alias:tg -ErrorAction SilentlyContinue
-
-function cme
-{
-    Set-Location "`$env:XDG_CONFIG_HOME\chezmoi"
-}
-
-function cmu
-{
-    chezmoi update
+if (-not (Test-Path "$env:USERPROFILE\.local\share\chezmoi")) {
+    chezmoi init --apply https://github.com/joncrangle/.dotfiles.git
+} else {
     chezmoi apply
 }
 
-function copy-line
-{
-    # Ensure rg, fzf, and bat are available
-    `$rgPath = Get-Command rg -ErrorAction SilentlyContinue
-    `$fzfPath = Get-Command fzf -ErrorAction SilentlyContinue
-    `$batPath = Get-Command bat -ErrorAction SilentlyContinue
+# ------------------------------------------------------
+# 7. INSTALL PACKAGES
+# ------------------------------------------------------
 
-    if (-not `$rgPath)
-    { Write-Host "rg (ripgrep) is not installed."; return
-    }
-    if (-not `$fzfPath)
-    { Write-Host "fzf is not installed."; return
-    }
-    if (-not `$batPath)
-    { Write-Host "bat is not installed."; return
-    }
+# SYSTEM / GUI TOOLS (Scoop)
+$scoopApps = @(
+    "7zip", "bruno", "btop", "chafa", "curl", "dbeaver", "diffutils", "ffmpeg", "Flow-Launcher", "ghostscript", "glazewm",
+    "gzip", "imagemagick", "IosevkaTerm-NF", "JetBrainsMono-NF", "krita", "lua", "luarocks", "make", "Maple-Mono",
+    "Meslo-NF", "mingw-winlibs", "obsidian", "podman", "poppler", "python", "sqlite", "topgrade", "unar", "unzip", "vlc",
+    "vcredist2022", "wezterm-nightly", "win32yank", "wget", "zebar", "zed", "zoom"
+) 
 
-    # Run rg and pipe to fzf
-    `$selected = rg --line-number . | fzf --delimiter ':' --preview 'bat --color=always --highlight-line {2} {1}'
+Write-Host ":: Installing System Apps via Scoop..." -ForegroundColor Green
+scoop install $scoopApps
 
-    # Extract the line content
-    if (`$selected)
-    {
-        `$parts = `$selected -split ':'
-        `$lineContent = `$parts[2..(`$parts.Length - 1)] -join ':'
-        `$lineContent = `$lineContent.Trim()
+# DEV TOOLS (Mise)
+# This uses the config.toml pulled down by chezmoi
+Write-Host ":: Installing Dev Tools via Mise..." -ForegroundColor Green
+mise lock
+mise install --yes
 
-        # Copy to clipboard
-        `$lineContent | clip
+# ------------------------------------------------------
+# 8. CONFIGURATION & TWEAKS
+# ------------------------------------------------------
 
-        Write-Host "Selected line copied to clipboard."
-    }
+# --- IDENTITY PROMPT ---
+$DefaultName = "jonathancrangle"
+$DefaultEmail = "94425204+joncrangle@users.noreply.github.com"
+
+Write-Host ":: Configuring User Identity..." -ForegroundColor Green
+$GitName = gum input --header "Git User Name" --value $DefaultName
+$GitEmail = gum input --header "Git Email" --value $DefaultEmail
+
+Write-Host ":: Configuring Git..." -ForegroundColor Green
+git config --global credential.helper manager
+git config --global user.name "$GitName"
+git config --global user.email "$GitEmail"
+
+if (gum confirm "Generate new SSH key for GitHub?") {
+    $sshDir = "$env:USERPROFILE\.ssh"
+    if (-not (Test-Path $sshDir)) { New-Item -Type Directory $sshDir -Force }
+    ssh-keygen -t ed25519 -C "$GitEmail" -f "$sshDir\id_ed25519"
 }
 
-function git-backup {
-    git rev-parse --is-inside-work-tree 2>`$null
-    if (`$LASTEXITCODE -ne 0) {
-        gum style --foreground 196 --bold "✖ Error: You are not inside a Git repository."
-        return
-    }
-
-    if (!(Get-Command gum -ErrorAction SilentlyContinue)) {
-        Write-Error "'gum' is not installed. Install it with 'scoop install charm-gum'."
-        return
-    }
-
-    `$topLevel = git rev-parse --show-toplevel
-    `$defaultName = Split-Path `$topLevel -Leaf
-
-    `$currentOrigin = git remote get-url origin 2>`$null
-    if ([string]::IsNullOrWhiteSpace(`$currentOrigin)) {
-        gum style --foreground 196 "✖ Error: Remote 'origin' not found. Add a GitHub remote first."
-        return
-    }
-
-    gum style --foreground 212 "Forgejo Backup Configurator"
-    `$repoName = gum input --placeholder "Enter repository name" --value `$defaultName
-
-    if ([string]::IsNullOrWhiteSpace(`$repoName)) { return }
-
-    gum spin --spinner dot --title "Configuring remotes..." -- Start-Sleep -m 500
-    git remote set-url --push origin `$currentOrigin
-    git remote set-url --add --push origin "forgejo:jon/$(`$repoName).git"
-
-    gum style --foreground 10 "✅ Success! Remote 'origin' now pushes to both."
-    git remote -v | gum format
+# Github Auth
+Write-Host ":: Authenticating GitHub..." -ForegroundColor Green
+if (-not (gh auth status)) {
+    gh auth login --web
 }
 
-function ListWithIcons
-{
-    eza --icons
-}
-
-function ListLongWithIcons
-{
-    eza -l --icons
-}
-
-function ListAllWithIcons
-{
-    eza -la --icons
-}
-
-function ListTreeWithIcons
-{
-    eza -T --icons
-}
-
-function open-at-line
-{
-    # Ensure rg, fzf, bat, and nvim are available
-    `$rgPath = Get-Command rg -ErrorAction SilentlyContinue
-    `$fzfPath = Get-Command fzf -ErrorAction SilentlyContinue
-    `$batPath = Get-Command bat -ErrorAction SilentlyContinue
-    `$nvimPath = Get-Command nvim -ErrorAction SilentlyContinue
-
-    if (-not `$rgPath)
-    { Write-Host "rg (ripgrep) is not installed."; return
-    }
-    if (-not `$fzfPath)
-    { Write-Host "fzf is not installed."; return
-    }
-    if (-not `$batPath)
-    { Write-Host "bat is not installed."; return
-    }
-    if (-not `$nvimPath)
-    { Write-Host "nvim (Neovim) is not installed."; return
-    }
-
-    # Run rg and pipe to fzf
-    `$selected = rg --line-number . | fzf --delimiter ':' --preview 'bat --color=always --highlight-line {2} {1}'
-
-    # Extract the line number and file path
-    if (`$selected)
-    {
-        `$parts = `$selected -split ':'
-        `$lineNumber = `$parts[1]
-        `$filePath = `$parts[0]
-        
-        # Open the file at the specified line number with nvim
-        nvim "+`$lineNumber" `$filePath
+# Fonts
+Write-Host ":: Installing Fonts..." -ForegroundColor Green
+$fontSource = "$env:USERPROFILE\.config\fonts"
+$fontDest = "$env:LOCALAPPDATA\Microsoft\Windows\Fonts"
+if (Test-Path $fontSource) {
+    if (-not (Test-Path $fontDest)) { New-Item -Type Directory $fontDest -Force }
+    Get-ChildItem $fontSource -Include *.ttf,*.otf -Recurse | ForEach-Object {
+        $destFile = Join-Path $fontDest $_.Name
+        if (-not (Test-Path $destFile)) {
+            Copy-Item $_.FullName $destFile
+            New-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts" -Name $_.Name -Value $_.Name -Force
+        }
     }
 }
 
-function scoop-upgrade
-{
-    scoop update -a
-    scoop cleanup -a
+# Windows Terminal Settings
+Write-Host ":: Configuring Windows Terminal..." -ForegroundColor Green
+$wtPath = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
+$wtSource = "$env:USERPROFILE\.config\windows-terminal\settings.json"
+if (Test-Path $wtSource) {
+    Copy-Item $wtSource $wtPath -Force
 }
 
-function take
-{
-    param (
-        [string]`$path
-    )
-
-    # Create the directory if it does not exist
-    if (-Not (Test-Path -Path `$path))
-    {
-        New-Item -ItemType Directory -Path `$path | Out-Null
-    }
-
-    # Change to the new directory
-    Set-Location -Path `$path
-}
-
-function up
-{
-    param (
-        [int]`$count = 1
-    )
-
-    if (`$count -lt 1)
-    {
-        Write-Host "The number of directories to go up must be a positive integer."
-        return
-    }
-
-    `$path = ('..\' * `$count).TrimEnd('\')
-    Set-Location `$path
-}
-
-function x
-{
-    exit
-}
-
-function yy
-{
-    `$tmp = [System.IO.Path]::GetTempFileName()
-    yazi `$args --cwd-file="`$tmp"
-    `$cwd = Get-Content -Path `$tmp
-    if (-not [String]::IsNullOrEmpty(`$cwd) -and `$cwd -ne `$PWD.Path)
-    {
-        Set-Location -LiteralPath `$cwd
-    }
-    Remove-Item -Path `$tmp
-}
-
-# Define aliases
-New-Alias -Name cm -Value chezmoi
-New-Alias -Name wez -Value wezterm
-New-Alias -Name vim -Value nvim
-New-Alias -Name vi -Value nvim
-New-Alias -Name v -Value nvim
-New-Alias -Name c -Value clear
-New-Alias -Name ls -Value ListWithIcons
-New-Alias -Name l -Value ListWithIcons
-New-Alias -Name ll -Value ListLongWithIcons
-New-Alias -Name la -Value ListAllWithIcons
-New-Alias -Name tree -Value ListTreeWithIcons
-New-Alias -Name cd -Value z
-New-Alias -Name cat -Value bat
-New-Alias -Name lazy -Value lazygit
-New-Alias -Name lg -Value lazygit
-New-Alias -Name lzg -Value lazygit
-New-Alias -Name tg -Value topgrade
-
-Write-Host "`e[38;5;80m         ___                                           `e[0m"
-Write-Host "`e[38;5;80m     . -^   \`--,                                      `e[0m"
-Write-Host "`e[38;5;80m    /# =========\`-_                                   `e[0m"
-Write-Host "`e[38;5;80m   /# (--====___====\      d8b                         `e[0m"
-Write-Host "`e[38;5;80m  /#   .- --.  . --.|      Y8P                         `e[0m"
-Write-Host "`e[38;5;80m /##   |  * ) (   * ),                                 `e[0m"
-Write-Host "`e[1;36m |##   \    /\ \   / |    8888  .d88b.  88888b.           `e[0m"
-Write-Host "`e[1;36m |###   ---   \ ---  |    ``"888 d88``"``"88b 888 ``"88b  `e[0m"
-Write-Host "`e[1;36m |####      ___)    #|     888 888  888 888  888          `e[0m"
-Write-Host "`e[1;36m |######           ##|     888 Y88..88P 888  888          `e[0m"
-Write-Host "`e[1;36m   `\##### ---------- `/     888  ``"Y88P``"  888  888    `e[0m"
-Write-Host "`e[1;36m     `\####          `(      888                          `e[0m"
-Write-Host "`e[1;36m      `\###          |     d88P                           `e[0m"
-Write-Host "`e[1;94m       `\###         |   888P``"                          `e[0m"
-Write-Host "`e[1;94m         `\##       |                                     `e[0m"
-Write-Host "`e[1;94m          `\###.   .`)                                    `e[0m"
-Write-Host "`e[1;94m           ````======/                                      `e[0m"
-Write-Host ""
-
-`$prompt = ""
-function Invoke-Starship-PreCommand {
-    `$current_location = `$executionContext.SessionState.Path.CurrentLocation
-    if (`$current_location.Provider.Name -eq "FileSystem")
-    {
-        `$ansi_escape = [char]27
-        `$provider_path = `$current_location.ProviderPath -replace "\\", "/"
-        `$prompt = "`$ansi_escape]7;file://`${env:COMPUTERNAME}/`${provider_path}`$ansi_escape\"
-    }
-    `$host.ui.Write(`$prompt)
-}
-function Invoke-Starship-TransientFunction {
-    &starship module character
-}
-Invoke-Expression (&starship init powershell)
-Enable-TransientPrompt
-Invoke-Expression (& { (zoxide init powershell | Out-String) })
-mise activate pwsh | Out-String | Invoke-Expression
-"@
-    $profileContent | Out-File -FilePath $PROFILE
-} catch
-{
-    Write-Host "An error occurred while configuring PowerShell."
-}
-. $PROFILE
-
-# Install fonts
-Write-Host "Installing fonts..."
-$fontsDirectory = "$env:USERPROFILE\.config\fonts"
-$fontFiles = Get-ChildItem -Path $fontsDirectory -Recurse -Include *.ttf, *.otf -File
-$userFontsFolder = "$env:LOCALAPPDATA\Microsoft\Windows\Fonts"
-if (-not (Test-Path -Path $userFontsFolder))
-{
-    New-Item -ItemType Directory -Path $userFontsFolder
-}
-
-foreach ($fontFile in $fontFiles)
-{
-    $fontName = [System.IO.Path]::GetFileNameWithoutExtension($fontFile.Name)
-    $fontPath = $fontFile.FullName
-    $destinationPath = Join-Path -Path $userFontsFolder -ChildPath $fontFile.Name
-    
-    # Copy the font to the user's local Fonts folder if it doesn't already exist
-    if (-not (Test-Path -Path $destinationPath))
-    {
-        Copy-Item -Path $fontPath -Destination $destinationPath
-        # Add the font to the current user's registry
-        $fontRegistryPath = "HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"
-        Set-ItemProperty -Path $fontRegistryPath -Name $fontName -Value $fontFile.Name
-
-        # Notify the system of the font change
-        [FontInstaller]::NotifyFontChange()
-        Write-Output "Installed font - $fontName"
-    } else
-    {
-        Write-Output "Font $fontName is already installed. Skipping copy."
-    }
-}
-Write-Host "Fonts installed successfully."
-
-# Install Scoop apps
-Write-Host "Installing Scoop apps..."
-$packages = @(
-    "7zip", "bat", "biome", "bun", "bruno", "chafa", "charm-gum", "curl", "delta", "deno", "dbeaver", "diffutils",
-    "eza", "fastfetch", "fd", "ffmpeg", "Flow-Launcher", "ghostscript", "glazewm", "glow", "go", "gzip",
-    "imagemagick", "JetBrainsMono-NF", "jj", "jq", "just", "krita", "lazygit", "lua", "luarocks", "make", "mariadb",
-    "Meslo-NF", "mingw-winlibs", "mise", "neovim", "obsidian", "podman", "poppler", "postgresql", "python", "ripgrep",
-    "rustup-gnu", "sqlite", "tldr", "topgrade", "tree-sitter", "typst", "unar", "unzip", "uv", "vlc", "vcredist2022",
-    "wezterm-nightly", "win32yank", "wget", "whkd", "xh", "yazi", "yq", "zebar", "zed", "zig", "zoom"
-)
-
-foreach ($package in $packages)
-{
-    try
-    {
-        scoop install $package
-    } catch
-    {
-        Write-Host "An error occurred while installing $package."
-    }
-}
-
-ya pack -i
-ya pack -u
-rustup update
-rustup component add rust-analyzer
-cargo install cargo-update
-cargo install cargo-cache
-cargo install --locked bacon
-mise use -g node@latest
-mise use -g usage
-corepack enable pnpm
-go install github.com/joncrangle/teams-green@latest
-uv tool install harlequin
-jj config set --user user.name "jonathancrangle"
-jj config set --user user.email "94405204+joncrangle@users.noreply.github.com"
+# Yazi / Bat / JJ Config
+# (Assuming Mise installed them, we just configure)
+if (Get-Command bat -ErrorAction SilentlyContinue) { bat cache --build }
+if (Get-Command ya -ErrorAction SilentlyContinue) { ya pkg install; ya pkg update }
+if (Get-Command jj -ErrorAction SilentlyContinue) {
+    jj config set --user user.name "$GitName"
+    jj config set --user user.email "$GitEmail"
 @"
 `n[ui]
 pager = "delta"
@@ -559,91 +199,105 @@ diff-editor = ["nvim", "-c", "DiffEditor `$left `$right `$output"]
 [ui.diff]
 format = "git"
 "@ | Out-File -Append -FilePath (jj config path --user) -Encoding utf8
-
-# Add apps to Windows startup
-$links = @(
-    @{ Path = "C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE"; Name = "Microsoft Outlook" },
-    @{ Path = "$env:USERPROFILE\scoop\apps\wezterm-nightly\current\wezterm-gui.exe"; Name = "WezTerm" }
-    @{ Path = "$env:USERPROFILE\scoop\apps\glazewm\current\glazewm.exe"; Name = "GlazeWM" }
-)
-
-# Path to the Startup folder
-$startupFolderPath = [System.IO.Path]::Combine($env:APPDATA, "Microsoft\Windows\Start Menu\Programs\Startup")
-
-# Function to create a shortcut
-Write-Host "Creating startup shortcuts..."
-function New-Shortcut
-{
-    param (
-        [string]$targetPath,
-        [string]$shortcutName
-    )
-
-    $shell = New-Object -ComObject WScript.Shell
-    $shortcutPath = [System.IO.Path]::Combine($startupFolderPath, "$shortcutName.lnk")
-    $shortcut = $shell.CreateShortcut($shortcutPath)
-    $shortcut.TargetPath = $targetPath
-    $shortcut.Save()
 }
 
-# Loop through each program and create a shortcut
-foreach ($link in $links)
-{
-    try
-    {
-        New-Shortcut -targetPath $link.Path -shortcutName $link.Name
-    } catch
-    {
-        Write-Host "Failed to create shortcut for $($link.Name): $_"
+# Rust Setup (Mise installed rustup, we config it)
+if (Get-Command rustup -ErrorAction SilentlyContinue) {
+    rustup default stable
+    rustup update
+}
+
+# Python Registry Fix (PEP 514)
+# This allows external tools to find the Mise-installed Python
+$pyReg = "$env:USERPROFILE\scoop\apps\python\current\install-pep-514.reg" 
+if (Test-Path $pyReg) { reg import $pyReg }
+
+# Startup Shortcuts
+Write-Host ":: Creating Startup Shortcuts..." -ForegroundColor Green
+$startupDir = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup"
+$shortcuts = @{
+    "WezTerm" = "$env:USERPROFILE\scoop\apps\wezterm-nightly\current\wezterm-gui.exe"
+    "GlazeWM" = "$env:USERPROFILE\scoop\apps\glazewm\current\glazewm.exe"
+    "Microsoft Outlook" = "C:\Program Files\Microsoft Office\root\Office16\OUTLOOK.EXE"
+}
+
+$wshell = New-Object -ComObject WScript.Shell
+foreach ($name in $shortcuts.Keys) {
+    $target = $shortcuts[$name]
+    if (Test-Path $target) {
+        $lnk = $wshell.CreateShortcut("$startupDir\$name.lnk")
+        $lnk.TargetPath = $target
+        $lnk.Save()
     }
 }
 
-try
-{
-    $regFilePath = "$env:USERPROFILE\scoop\apps\python\current\install-pep-514.reg"
-    if (Test-Path $regFilePath)
-    {
-        # Import the registry file
-        reg import $regFilePath
-    } else
-    {
-        Write-Error "Registry file for python not found: $regFilePath"
-    }
-} catch
-{
-    Write-Error "An error occurred: $_"
-}
-
-$configDestDir = "$env:USERPROFILE\scoop\persist\btop"
-$themesDestDir = "$configDestDir\themes"
-if (!(Test-Path -Path $configDestDir)) {
-    New-Item -Path $configDestDir -ItemType Directory -Force
-}
-if (!(Test-Path -Path $themesDestDir)) {
-    New-Item -Path $themesDestDir -ItemType Directory -Force
-}
-Copy-Item -Path "$env:USERPROFILE\.config\btop\btop.conf" -Destination "$configDestDir\btop.conf" -Force
-Copy-Item -Path "$env:USERPROFILE\.config\btop\themes\catppuccin_mocha.theme" -Destination "$themesDestDir\catppuccin_mocha.theme" -Force
-bat cache --build
-
-$projectPath = "$env:USERPROFILE\.glzr\zebar\bar"
-Write-Host "Building zebar bar..."
-try
-{
-    Set-Location -Path $projectPath
-    git init
+# Build GlazeWM/Zebar
+$zebarDir = "$env:USERPROFILE\.glzr\zebar\bar"
+if (Test-Path $zebarDir) {
+    Write-Host ":: Building Zebar..." -ForegroundColor Green
+    Push-Location $zebarDir
     bun install
     bun run build
-} catch
-{
-    Write-Host "Failed to run bun commands in ${projectPath}: $_"
-} finally
-{
-    Set-Location -Path $PSScriptRoot
+    Pop-Location
 }
 
+# BTOP Config
+Write-Host ":: Configuring BTOP..." -ForegroundColor Green
+$btopConfigDir = "$env:USERPROFILE\scoop\persist\btop"
+$btopThemesDir = "$btopConfigDir\themes"
 
-Write-Host "Running selected WinUtil tweaks."
-.\WinUtilTweaks.ps1 Invoke-All
+if (!(Test-Path $btopConfigDir)) { New-Item -Path $btopConfigDir -ItemType Directory -Force | Out-Null }
+if (!(Test-Path $btopThemesDir)) { New-Item -Path $btopThemesDir -ItemType Directory -Force | Out-Null }
 
+$srcBtop = "$env:USERPROFILE\.config\btop\btop.conf"
+$srcTheme = "$env:USERPROFILE\.config\btop\themes\catppuccin_mocha.theme"
+
+if (Test-Path $srcBtop) { Copy-Item $srcBtop "$btopConfigDir\btop.conf" -Force }
+if (Test-Path $srcTheme) { Copy-Item $srcTheme "$btopThemesDir\catppuccin_mocha.theme" -Force }
+
+# ------------------------------------------------------
+# 9. ENVIRONMENT VARIABLES
+# ------------------------------------------------------
+Write-Host ":: Configuring Environment Variables..." -ForegroundColor Green
+
+# 1. YAZI CONFIG (Essential for Yazi on Windows)
+#    Yazi needs the 'file' command, which is bundled with Git but not in PATH.
+$GitFileExe = "$env:USERPROFILE\scoop\apps\git\current\usr\bin\file.exe"
+
+if (Test-Path $GitFileExe) {
+    [Environment]::SetEnvironmentVariable("YAZI_FILE_ONE", $GitFileExe, [EnvironmentVariableTarget]::User)
+    Write-Host "   Set YAZI_FILE_ONE -> $GitFileExe" -ForegroundColor Gray
+} else {
+    Write-Warning "   Could not find 'file.exe' in Scoop Git installation. Yazi might malfunction."
+}
+
+# 2. PATH CLEANUP
+#    Ensure the user's bin folder is in PATH (useful for scripts)
+$UserBin = "$env:USERPROFILE\bin"
+if (-not (Test-Path $UserBin)) { New-Item -ItemType Directory -Path $UserBin -Force | Out-Null }
+
+$CurrentPath = [Environment]::GetEnvironmentVariable("Path", [EnvironmentVariableTarget]::User)
+if ($CurrentPath -notlike "*$UserBin*") {
+    [Environment]::SetEnvironmentVariable("Path", "$CurrentPath;$UserBin", [EnvironmentVariableTarget]::User)
+    Write-Host "   Added ~\bin to PATH" -ForegroundColor Gray
+}
+
+# ------------------------------------------------------
+# 10. POST-INSTALL CONFIGS
+# ------------------------------------------------------
+
+# WinUtil Tweaks
+if (Test-Path ".\WinUtilTweaks.ps1") {
+    Write-Host ":: Running WinUtil Tweaks..." -ForegroundColor Green
+    .\WinUtilTweaks.ps1 Invoke-All
+}
+
+# ------------------------------------------------------
+# 11. FINISH
+# ------------------------------------------------------
+. $PROFILE
+Write-Host ":: Setup Complete!" -ForegroundColor Green
+if (gum confirm "Restart computer now?") {
+    Restart-Computer
+}
 Write-Host "Configuration complete. Please restart the terminal."

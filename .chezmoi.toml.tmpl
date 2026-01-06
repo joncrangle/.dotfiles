@@ -6,7 +6,6 @@
 {{- $tnasUser := promptStringOnce . "tnasUser" "TNAS username" -}}
 {{- $archAddress := promptStringOnce . "archAddress" "Arch IP address" -}}
 {{- $archUser := promptStringOnce . "archUser" "Arch username" -}}
-{{- $githubKey := promptStringOnce . "githubKey" "Github PAT" -}}
 {{- $nasSite := promptStringOnce . "nasSite" "NAS Website" -}}
 
 encryption = "age"
@@ -28,12 +27,11 @@ encryption = "age"
     TnasUser = {{ $tnasUser | quote }}
     ArchAddress = {{ $archAddress | quote }}
     ArchUser = {{ $archUser | quote }}
-    GithubKey = {{ $githubKey | quote }}
     nasSite = {{ $nasSite | quote }}
     {{ if eq .chezmoi.os "linux" }}
     {{- $keyboard := promptStringOnce . "keyboard" "Enter 'laptop' or 'desktop' ..." -}}
     keyboard = {{ $keyboard | quote }}
-    {{ else }}
+    {{ else -}}
     keyboard = "desktop"
-    {{ end }}
+    {{- end }}
 # vim: ft=toml

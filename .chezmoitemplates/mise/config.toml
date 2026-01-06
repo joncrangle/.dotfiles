@@ -1,0 +1,78 @@
+# NOTE:
+#     dBBBBBBb  dBP.dBBBBP   dBBBP
+#      '   dB'     BP
+#   dB'dB'dB' dBP  `BBBBb  dBBP
+#  dB'dB'dB' dBP      dBP dBP
+# dB'dB'dB' dBP  dBBBBP' dBBBBP
+[tools]
+age = "latest"
+air = "latest"
+bitwarden = "latest"
+bat = "latest"
+biome = "latest"
+bun = "latest"
+cargo-binstall = "latest"
+chezmoi = "latest"
+delta = "latest"
+deno = "latest"
+eza = "latest"
+fastfetch = "latest"
+fd = "latest"
+fzf = "latest"
+github-cli = "latest"
+glow = "latest"
+go = "latest"
+gofumpt = "latest"
+gum = "latest"
+jujutsu = "latest"
+jq = "latest"
+just = "latest"
+lazydocker = "latest"
+lazygit = "latest"
+markdownlint-cli2 = "latest"
+neovim = "latest"
+node = "latest"
+pnpm = "latest"
+protobuf = "latest"
+python = "latest"
+ripgrep = "latest"
+rust = "latest"
+rust-analyzer = "latest"
+starship = "latest"
+tlrc = "latest"
+tokei = "latest"
+tree-sitter = "latest"
+typst = "latest"
+usage = "latest"
+uv = "latest"
+vhs = "latest"
+xh = "latest"
+yazi = "latest"
+yq = "latest"
+yt-dlp = "latest"
+zig = "latest"
+zoxide = "latest"
+"cargo:bacon" = "latest"
+"cargo:cargo-cache" = "latest"
+"cargo:cargo-update" = "latest"
+"cargo:tlrc" = "latest"
+{{- if ne .chezmoi.os "darwin" }}
+"cargo:kondo" = "latest"
+{{ end -}}
+{{- if eq .chezmoi.os "darwin" }}
+"go:github.com/joncrangle/podcasts-sync" = "latest"
+{{ end -}}
+{{- if eq .chezmoi.os "windows" }}
+"go:github.com/joncrangle/teams-green" = "latest"
+{{ end -}}
+"npm:opencode-ai" = "latest"
+"npm:live-server" = "latest"
+"npm:@mermaid-js/mermaid-cli" = "latest"
+"pipx:harlequin" = { version = "latest", extras = "postgres,s3" }
+"pipx:qmk" = { version = "latest" }
+
+[settings]
+experimental = true
+locked = false
+npm.package_manager = "bun"
+python.uv_venv_auto = true

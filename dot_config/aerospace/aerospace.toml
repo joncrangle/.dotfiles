@@ -1,7 +1,7 @@
 after-startup-command = [
     'exec-and-forget open -n /Applications/WezTerm.app',
     'exec-and-forget open -n /Applications/Zen Browser.app',
-    'exec-and-forget borders active_color="gradient(top_left=0xffcba6f7,bottom_right=0xffb4befe)" inactive_color="gradient(top_left=0xfff38ba8,bottom_right=0xffeba0ac)" width=4',
+    'exec-and-forget borders active_color="gradient(top_left=0xffa6e3a1,bottom_right=0xffcba6f7)" inactive_color="0xfcfab387" width=6',
     'exec-and-forget sketchybar --reload',
 ]
 exec-on-workspace-change = ['/bin/bash', '-c',
