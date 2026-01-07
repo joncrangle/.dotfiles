@@ -22,6 +22,7 @@ return {
         ['markdown.mdx'] = { 'prettier', 'markdownlint-cli2', 'markdown-toc' },
         mysql = { 'sqlfluff' },
         plsql = { 'sqlfluff' },
+        ps1 = { 'powershell_es' },
         python = { 'ruff_format' },
         sh = { 'shfmt', 'shellharden' },
         sql = { 'sqlfluff' },

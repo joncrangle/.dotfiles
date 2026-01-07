@@ -109,7 +109,6 @@ return {
         },
         docker_compose_language_service = {},
         dockerls = {},
-        eslint = {},
         gopls = {
           settings = {
             gopls = {
@@ -322,6 +321,7 @@ return {
         'js-debug-adapter',
         'markdownlint-cli2',
         'markdown-toc',
+        'powershell-editor-services',
         'prettier',
         'prettierd',
         'shellharden',

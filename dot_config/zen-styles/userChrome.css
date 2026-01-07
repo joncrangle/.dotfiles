@@ -1,0 +1,343 @@
+/* Catppuccin Mocha Lavender userChrome.css merged with */
+/* Better Find Bar https://github.com/RobotoSkunk/zen-better-findbar */
+
+/* ========================================================================
+   1. CATPPUCCIN MOCHA (Zen Browser Theme)
+   ======================================================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Core Palette */
+    --zen-colors-primary: #313244 !important; /* Surface0 */
+    --zen-primary-color: #b4befe !important; /* Lavender */
+    --zen-colors-secondary: #313244 !important; /* Surface0 */
+    --zen-colors-tertiary: #181825 !important; /* Mantle */
+    --zen-colors-border: #b4befe !important; /* Lavender */
+
+    /* Toolbar & Text */
+    --toolbarbutton-icon-fill: #b4befe !important;
+    --lwt-text-color: #cdd6f4 !important; /* Text */
+    --toolbar-field-color: #cdd6f4 !important;
+    --tab-selected-textcolor: rgb(192, 202, 249) !important;
+    --toolbar-field-focus-color: #cdd6f4 !important;
+    --toolbar-color: #cdd6f4 !important;
+
+    /* Panels & Sidebar */
+    --newtab-text-primary-color: #cdd6f4 !important;
+    --arrowpanel-color: #cdd6f4 !important;
+    --arrowpanel-background: #1e1e2e !important; /* Base */
+    --sidebar-text-color: #cdd6f4 !important;
+    --lwt-sidebar-text-color: #cdd6f4 !important;
+    --lwt-sidebar-background-color: #11111b !important; /* Crust */
+
+    /* Backgrounds */
+    --toolbar-bgcolor: #313244 !important;
+    --newtab-background-color: #1e1e2e !important;
+    --zen-themed-toolbar-bg: #181825 !important; /* Mantle */
+    --zen-main-browser-background: #181825 !important;
+    --toolbox-bgcolor-inactive: #181825 !important;
+  }
+
+  /* Specific UI Element overrides */
+  #permissions-granted-icon {
+    color: #181825 !important;
+  }
+  .sidebar-placesTree {
+    background-color: #1e1e2e !important;
+  }
+  #zen-workspaces-button {
+    background-color: #1e1e2e !important;
+  }
+  #TabsToolbar {
+    background-color: #181825 !important;
+  }
+  .urlbar-background {
+    background-color: #1e1e2e !important;
+  }
+
+  .content-shortcuts {
+    background-color: #1e1e2e !important;
+    border-color: #b4befe !important;
+  }
+
+  .urlbarView-url {
+    color: #b4befe !important;
+  }
+  #zenEditBookmarkPanelFaviconContainer {
+    background: #11111b !important;
+  }
+
+  #zen-media-controls-toolbar #zen-media-progress-bar::-moz-range-track {
+    background: #313244 !important;
+  }
+
+  toolbar
+    .toolbarbutton-1:not([disabled]):is([open], [checked])
+    > :is(
+      .toolbarbutton-icon,
+      .toolbarbutton-text,
+      .toolbarbutton-badge-stack
+    ) {
+    fill: #11111b !important;
+  }
+
+  /* Identity Colors */
+  .identity-color-blue {
+    --identity-tab-color: #89b4fa !important;
+    --identity-icon-color: #89b4fa !important;
+  }
+  .identity-color-turquoise {
+    --identity-tab-color: #94e2d5 !important;
+    --identity-icon-color: #94e2d5 !important;
+  }
+  .identity-color-green {
+    --identity-tab-color: #a6e3a1 !important;
+    --identity-icon-color: #a6e3a1 !important;
+  }
+  .identity-color-yellow {
+    --identity-tab-color: #f9e2af !important;
+    --identity-icon-color: #f9e2af !important;
+  }
+  .identity-color-orange {
+    --identity-tab-color: #fab387 !important;
+    --identity-icon-color: #fab387 !important;
+  }
+  .identity-color-red {
+    --identity-tab-color: #f38ba8 !important;
+    --identity-icon-color: #f38ba8 !important;
+  }
+  .identity-color-pink {
+    --identity-tab-color: #f5c2e7 !important;
+    --identity-icon-color: #f5c2e7 !important;
+  }
+  .identity-color-purple {
+    --identity-tab-color: #cba6f7 !important;
+    --identity-icon-color: #cba6f7 !important;
+  }
+
+  hbox#titlebar,
+  #zen-appcontent-navbar-container {
+    background-color: #181825 !important;
+  }
+}
+
+/* ========================================================================
+   2. BETTER FIND BAR (Integrated with Catppuccin)
+   ======================================================================== */
+
+:root {
+  /* Positioning Logic */
+  --better-findbar-transform-translateY: 150px;
+  --better-findbar-transform-translateX: -50%;
+  --better-findbar-position-top: auto;
+  --better-findbar-position-bottom: 15px;
+  --better-findbar-position-left: 50%;
+  --better-findbar-position-right: auto;
+
+  /* THEME INTEGRATION: Uses Catppuccin vars defined above */
+  --better-findbar-background-color: var(--zen-themed-toolbar-bg, #181825);
+  --better-findbar-text-color: var(--lwt-text-color, #cdd6f4);
+  --better-findbar-border-color: var(--zen-colors-border, #b4befe);
+}
+
+/* Allow custom background override via prefs if needed */
+@media (-moz-bool-pref: "theme-better_find_bar-enable_custom_background") {
+  :root {
+    --better-findbar-background-color: var(
+      --theme-better_find_bar-custom_background
+    );
+  }
+}
+
+findbar {
+  display: flex !important;
+  border-radius: var(--zen-border-radius) !important;
+  margin: 0px !important;
+  width: 90% !important;
+  max-width: calc(var(--theme-better_find_bar-textbox_width, 500) * 1px);
+  height: auto !important;
+
+  /* Floating Position */
+  position: absolute !important;
+  top: var(--better-findbar-position-top);
+  bottom: var(--better-findbar-position-bottom);
+  left: var(--better-findbar-position-left);
+  right: var(--better-findbar-position-right);
+  transform: translateX(var(--better-findbar-transform-translateX))
+    translateY(0);
+
+  overflow: unset !important;
+  box-shadow: var(--box-shadow-10);
+
+  /* CATPPUCCIN STYLING APPLIED HERE */
+  background: var(--better-findbar-background-color) !important;
+  border: 1px solid var(--better-findbar-border-color) !important;
+  color: var(--better-findbar-text-color) !important;
+
+  transition: transform 0.35s ease !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+
+  & .findbar-container {
+    flex-wrap: wrap;
+    overflow-x: auto !important;
+    height: auto !important;
+    row-gap: 10px;
+
+    & > :first-child {
+      width: 100% !important;
+    }
+
+    & .findbar-textbox {
+      flex-grow: 1;
+      /* Style the input box to match theme */
+      background-color: var(--zen-colors-primary, #313244) !important;
+      color: var(--lwt-text-color, #cdd6f4) !important;
+      border: 1px solid var(--zen-colors-border, #b4befe) !important;
+      border-radius: 4px !important;
+    }
+
+    /* Ensure labels and checkboxes use the correct text color */
+    & label,
+    & checkbox,
+    & description {
+      color: var(--better-findbar-text-color) !important;
+    }
+  }
+
+  /* Ensure buttons (Next/Prev) use correct icon fill */
+  & toolbarbutton {
+    fill: var(--better-findbar-text-color) !important;
+    color: var(--better-findbar-text-color) !important;
+  }
+
+  &[hidden] {
+    transform: translateX(var(--better-findbar-transform-translateX))
+      translateY(var(--better-findbar-transform-translateY));
+  }
+
+  @starting-style {
+    transform: translateX(var(--better-findbar-transform-translateX))
+      translateY(var(--better-findbar-transform-translateY));
+  }
+}
+
+/* Disable animations preference */
+@media (-moz-bool-pref: "theme.better_find_bar.instant_animations") {
+  findbar,
+  findbar .findbar-container {
+    transition: initial !important;
+  }
+}
+
+/* Horizontal Position Logic */
+body:has(
+  #theme-Better-Find-Bar[theme-better_find_bar-horizontal_position="left"]
+) {
+  --better-findbar-transform-translateX: 0%;
+  --better-findbar-position-left: 15px;
+  --better-findbar-position-right: auto;
+}
+
+body:has(
+  #theme-Better-Find-Bar[theme-better_find_bar-horizontal_position="right"]
+) {
+  --better-findbar-transform-translateX: 0%;
+  --better-findbar-position-left: auto;
+  --better-findbar-position-right: 15px;
+}
+
+/* Vertical Position Logic */
+body:has(
+  #theme-Better-Find-Bar[theme-better_find_bar-vertical_position="top"]
+) {
+  --better-findbar-transform-translateY: -150px;
+  --better-findbar-position-bottom: auto;
+  --better-findbar-position-top: 15px;
+}
+
+/* Background blur preference */
+@media (-moz-bool-pref: "theme.better_find_bar.transparent_background") {
+  findbar,
+  findbar .findbar-textbox:not([status="notfound"]) {
+    backdrop-filter: blur(8px);
+    background: color-mix(
+      in hsl,
+      var(--better-findbar-background-color),
+      transparent 10%
+    ) !important;
+  }
+}
+
+/* Hiding Elements Preferences */
+body:has(
+  #theme-Better-Find-Bar[theme-better_find_bar-hide_highlight="hide_immediately"]
+) {
+  findbar .findbar-highlight {
+    display: none !important;
+  }
+}
+body:has(
+  #theme-Better-Find-Bar[theme-better_find_bar-hide_highlight="hide_on_disable"]
+) {
+  findbar checkbox.findbar-highlight:not([checked]) {
+    display: none !important;
+  }
+}
+
+body:has(
+  #theme-Better-Find-Bar[theme-better_find_bar-hide_match_case="hide_immediately"]
+) {
+  findbar .findbar-case-sensitive {
+    display: none !important;
+  }
+}
+body:has(
+  #theme-Better-Find-Bar[theme-better_find_bar-hide_match_case="hide_on_disable"]
+) {
+  findbar checkbox.findbar-case-sensitive:not([checked]) {
+    display: none !important;
+  }
+}
+
+body:has(
+  #theme-Better-Find-Bar[theme-better_find_bar-hide_match_diacritics="hide_immediately"]
+) {
+  findbar .findbar-match-diacritics {
+    display: none !important;
+  }
+}
+body:has(
+  #theme-Better-Find-Bar[theme-better_find_bar-hide_match_diacritics="hide_on_disable"]
+) {
+  findbar checkbox.findbar-match-diacritics:not([checked]) {
+    display: none !important;
+  }
+}
+
+body:has(
+  #theme-Better-Find-Bar[theme-better_find_bar-hide_whole_words="hide_immediately"]
+) {
+  findbar .findbar-entire-word {
+    display: none !important;
+  }
+}
+body:has(
+  #theme-Better-Find-Bar[theme-better_find_bar-hide_whole_words="hide_on_disable"]
+) {
+  findbar .findbar-entire-word:not([checked]) {
+    display: none !important;
+  }
+}
+
+@media (-moz-bool-pref: "theme.better_find_bar.hide_find_status") {
+  findbar .findbar-find-status {
+    display: none !important;
+  }
+}
+
+@media (-moz-bool-pref: "theme.better_find_bar.hide_found_matches") {
+  findbar .findbar-label.found-matches {
+    display: none !important;
+  }
+}

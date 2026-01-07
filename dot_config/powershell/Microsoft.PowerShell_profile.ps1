@@ -9,12 +9,14 @@
 # 0. HELPERS
 # ------------------------------------------------------
 
-function Test-Cmd {
+function Test-Cmd
+{
     param([string]$Name)
     return [bool](Get-Command $Name -ErrorAction SilentlyContinue)
 }
 
-function Set-AliasIfExists {
+function Set-AliasIfExists
+{
     param(
         [Parameter(Mandatory)]
         [string]$Alias,
@@ -23,7 +25,8 @@ function Set-AliasIfExists {
         [string]$Command
     )
 
-    if (Get-Command $Command -ErrorAction SilentlyContinue) {
+    if (Get-Command $Command -ErrorAction SilentlyContinue)
+    {
         Set-Alias -Name $Alias -Value $Command -Scope Global -Force
     }
 }
@@ -32,7 +35,8 @@ function Set-AliasIfExists {
 # 1. MODULES (SAFE LOAD)
 # ------------------------------------------------------
 
-if (Get-Module -ListAvailable PSReadLine) {
+if (Get-Module -ListAvailable PSReadLine)
+{
     Import-Module PSReadLine
 }
 
@@ -40,11 +44,13 @@ $miseScript = (mise activate pwsh | Out-String)
 $miseScript = $miseScript -replace '\[Microsoft.PowerShell.PSConsoleReadLine\]::GetHistoryItems\(\)', '@()'
 Invoke-Expression $miseScript
 
-if (Get-Module -ListAvailable Terminal-Icons) {
+if (Get-Module -ListAvailable Terminal-Icons)
+{
     Import-Module Terminal-Icons -ErrorAction SilentlyContinue
 }
 
-if (Get-Module -ListAvailable PSFzf) {
+if (Get-Module -ListAvailable PSFzf)
+{
     Import-Module PSFzf
     Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
 }
@@ -61,7 +67,8 @@ $XDG = "$env:USERPROFILE\.config"
 $env:OPENCODE_CONFIG_DIR = "$XDG\opencode"
 $env:STARSHIP_CONFIG    = "$XDG\starship\starship.toml"
 $env:BAT_THEME          = 'Catppuccin Mocha'
-if (Test-Path "$HOME\.config\mise\gh_public.json") {
+if (Test-Path "$HOME\.config\mise\gh_public.json")
+{
     $json = Get-Content "$HOME\.config\mise\gh_public.json" | ConvertFrom-Json
     $env:MISE_GITHUB_TOKEN = $json.github_token
 }
@@ -70,7 +77,8 @@ if (Test-Path "$HOME\.config\mise\gh_public.json") {
 # 3. FZF
 # ------------------------------------------------------
 
-if (Test-Cmd rg) {
+if (Test-Cmd rg)
+{
     $env:FZF_DEFAULT_COMMAND = 'rg --files --no-ignore-vcs --hidden --follow --glob "!.git/" --glob "!.jj/"'
 }
 
@@ -112,7 +120,8 @@ Set-AliasIfExists wez wezterm
 Set-Alias c Clear-Host -Force
 
 # zoxide replaces cd
-if (Get-Command z -ErrorAction SilentlyContinue) {
+if (Get-Command z -ErrorAction SilentlyContinue)
+{
     Remove-Item Alias:cd -Force -ErrorAction SilentlyContinue
     Set-Alias cd z -Option AllScope
 }
@@ -121,41 +130,61 @@ if (Get-Command z -ErrorAction SilentlyContinue) {
 # 5. LISTING FUNCTIONS
 # ------------------------------------------------------
 
-if (Get-Command eza -ErrorAction SilentlyContinue) {
-    function ls  { eza --icons @args }
-    function l   { eza --icons @args }
-    function ll  { eza --icons -l @args }
-    function la  { eza --icons -la @args }
-    function tree { eza -T --icons @args }
+if (Get-Command eza -ErrorAction SilentlyContinue)
+{
+    function ls
+    { eza --icons @args 
+    }
+    function l
+    { eza --icons @args 
+    }
+    function ll
+    { eza --icons -l @args 
+    }
+    function la
+    { eza --icons -la @args 
+    }
+    function tree
+    { eza -T --icons @args 
+    }
 }
 
 # ------------------------------------------------------
 # 6. CORE FUNCTIONS
 # ------------------------------------------------------
 
-function cme { Set-Location "$env:XDG_CONFIG_HOME\chezmoi" }
+function cme
+{ Set-Location "$env:XDG_CONFIG_HOME\chezmoi" 
+}
 
-function cmu {
+function cmu
+{
     chezmoi update
     chezmoi apply
 }
 
-function x { exit }
+function x
+{ exit 
+}
 
-function scoop-upgrade {
+function scoop-upgrade
+{
     scoop update -a
     scoop cleanup -a
 }
 
-function take {
+function take
+{
     param([string]$Path)
-    if (-not (Test-Path $Path)) {
+    if (-not (Test-Path $Path))
+    {
         New-Item -ItemType Directory -Path $Path | Out-Null
     }
     Set-Location $Path
 }
 
-function up {
+function up
+{
     param([ValidateRange(1,100)][int]$Count = 1)
     Set-Location (Resolve-Path ('..\' * $Count))
 }
@@ -164,8 +193,10 @@ function up {
 # 7. RIPGREP + FZF HELPERS
 # ------------------------------------------------------
 
-function Select-RgLine {
-    if (-not (Test-Cmd rg -and Test-Cmd fzf -and Test-Cmd bat)) {
+function Select-RgLine
+{
+    if (-not (Test-Cmd rg -and Test-Cmd fzf -and Test-Cmd bat))
+    {
         Write-Warning 'Missing rg, fzf, or bat'
         return $null
     }
@@ -174,18 +205,24 @@ function Select-RgLine {
         fzf --delimiter ':' --preview 'bat --color=always --highlight-line {2} {1}'
 }
 
-function copy-line {
+function copy-line
+{
     $sel = Select-RgLine
-    if ($sel) {
+    if ($sel)
+    {
         ($sel -split ':',3)[2].Trim() | clip
         Write-Host 'Line copied.' -ForegroundColor Green
     }
 }
 
-function open-at-line {
-    if (-not (Test-Cmd nvim)) { return }
+function open-at-line
+{
+    if (-not (Test-Cmd nvim))
+    { return 
+    }
     $sel = Select-RgLine
-    if ($sel) {
+    if ($sel)
+    {
         $p = $sel -split ':',3
         nvim "+$($p[1])" $p[0]
     }
@@ -195,15 +232,18 @@ function open-at-line {
 # 8. GIT BACKUP
 # ------------------------------------------------------
 
-function git-backup {
+function git-backup
+{
 
     git rev-parse --is-inside-work-tree *> $null
-    if ($LASTEXITCODE -ne 0) {
+    if ($LASTEXITCODE -ne 0)
+    {
         Write-Error 'Not inside a git repository.'
         return
     }
 
-    if (-not (Test-Cmd gum)) {
+    if (-not (Test-Cmd gum))
+    {
         Write-Error "'gum' is not installed."
         return
     }
@@ -212,14 +252,17 @@ function git-backup {
     $default = Split-Path $root -Leaf
     $origin = git remote get-url origin 2>$null
 
-    if (-not $origin) {
+    if (-not $origin)
+    {
         Write-Error "Remote 'origin' not found."
         return
     }
 
     gum style --foreground 212 'Forgejo Backup Configurator'
     $repo = gum input --value $default --placeholder 'Repository name'
-    if (-not $repo) { return }
+    if (-not $repo)
+    { return 
+    }
 
     git remote set-url --push origin $origin
     git remote set-url --add --push origin "forgejo:$env:USERNAME/$repo.git"
@@ -232,11 +275,13 @@ function git-backup {
 # 9. YAZI
 # ------------------------------------------------------
 
-function yy {
+function yy
+{
     $tmp = [IO.Path]::GetTempFileName()
     yazi --cwd-file="$tmp"
     $cwd = Get-Content $tmp
-    if ($cwd -and $cwd -ne $PWD.Path) {
+    if ($cwd -and $cwd -ne $PWD.Path)
+    {
         Set-Location $cwd
     }
     Remove-Item $tmp
@@ -246,7 +291,8 @@ function yy {
 # 10. BANNER (ONCE)
 # ------------------------------------------------------
 
-if (-not $global:ProfileBannerShown -and $Host.Name -eq 'ConsoleHost') {
+if (-not $global:ProfileBannerShown -and $Host.Name -eq 'ConsoleHost')
+{
     $global:ProfileBannerShown = $true
     Write-Host "[38;5;80m          ___                                          [0m"
     Write-Host "[38;5;80m       . -^   \--,                                     [0m"
@@ -272,17 +318,20 @@ if (-not $global:ProfileBannerShown -and $Host.Name -eq 'ConsoleHost') {
 # 11. PROMPT / TOOLS
 # ------------------------------------------------------
 
-function Invoke-Starship-TransientFunction {
-  &starship module character
+function Invoke-Starship-TransientFunction
+{
+    &starship module character
 }
 
-if (Get-Command starship -ErrorAction SilentlyContinue) {
+if (Get-Command starship -ErrorAction SilentlyContinue)
+{
 
-Invoke-Expression (&starship init powershell)
+    Invoke-Expression (&starship init powershell)
 
-Enable-TransientPrompt
+    Enable-TransientPrompt
 }
 
-if (Test-Cmd zoxide) {
+if (Test-Cmd zoxide)
+{
     Invoke-Expression (& { (zoxide init powershell | Out-String) })
 }

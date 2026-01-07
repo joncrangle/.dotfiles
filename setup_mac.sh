@@ -122,6 +122,25 @@ just "$HOME"/.config/sketchybar/build
 brew services start sketchybar
 brew services start svim
 
+zen_config="$HOME/.config/zen-styles"
+if [ -d "$zen_config" ]; then
+  zen_path="$HOME/Library/Application Support/Zen"
+    if [ -f "$zen_path/profiles.ini" ]; then
+      echo ":: Configuring Zen Browser..."
+        profile_rel=$(grep -E "^Path=" "$zen_path/profiles.ini" | head -n 1 | cut -d= -f2)
+        
+        if [ "$profile_rel" != "" ]; then
+            full_profile="$zen_path/$profile_rel"
+            mkdir -p "$full_profile/chrome"
+            
+            cp -r "$zen_config/"* "$full_profile/chrome/"
+            echo "   Applied Zen Styles to $full_profile/chrome"
+        fi
+    else
+        echo "   Zen profiles.ini not found. Skipping."
+    fi
+fi
+
 # Update Mac system preferences
 read -p "Do you want to update Mac system preferences? (y/n) " -n 1 -r
 echo

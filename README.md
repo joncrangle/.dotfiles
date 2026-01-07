@@ -27,6 +27,7 @@ Features include:
 
 - [Catppuccin](https://github.com/catppuccin) theme
 - [chezmoi](https://chezmoi.io/) to manage dotfiles across systems
+- [mise](https://mise.jdx.dev/) for managing dev tools, runtimes (Node, Python, Go, Rust), and environment variables
 - [Neovim](https://neovim.io/) a cross-platform editor
 - [Starship](https://starship.rs/) prompt
 - [WezTerm](https://wezfurlong.org/wezterm/) a cross-platform terminal emulator
@@ -45,7 +46,7 @@ Features include:
 **Windows**
 
 - [GlazeWM](https://github.com/glzr-io/glazewm) window manager
-- [Zebar](https://github.com/glzr-io/zebar) bar
+- [Zebar](https://github.com/glzr-io/zebar) bar (with [sketchybar-app-font](https://github.com/kvndrsslr/sketchybar-app-font) icons)
 - Microsoft PowerToys for launcher, keyboard shortcuts and various extras
 - [Scoop](https://scoop.sh/) package management
 
@@ -158,8 +159,6 @@ archinstall
 Once installed, connect to wifi and run the setup script:
 
 ```bash
-nmcli device wifi list
-nmcli device wifi connect SSID password PASSWORD
 sh <(curl -s https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_arch.sh)
 ```
 
