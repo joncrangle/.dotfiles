@@ -1,4 +1,5 @@
 return {
+  { 'serhez/bento.nvim', event = { 'BufReadPost', 'BufNewFile' }, opts = {} },
   ---@module 'grapple'
   {
     'cbochs/grapple.nvim',
