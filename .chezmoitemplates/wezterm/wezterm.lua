@@ -144,7 +144,7 @@ plugins.resurrect.state_manager.set_max_nlines(1000)
 local workspace_state = plugins.resurrect.workspace_state
 plugins.workspace_switcher.workspace_formatter = function(label)
   return wezterm.format {
-    { Attribute = { Italic = true } },
+    { Attribute = { Italic = true, Underline = 'None' } },
     { Foreground = { Color = scheme.ansi[3] } },
     { Background = { Color = scheme.background } },
     { Text = '󱂬 : ' .. label },
@@ -181,7 +181,7 @@ end
 ---@diagnostic disable-next-line: unused-local
 wezterm.on('smart_workspace_switcher.workspace_switcher.created', function(window, path, label)
   window:gui_window():set_right_status(wezterm.format {
-    { Attribute = { Intensity = 'Bold' } },
+    { Attribute = { Intensity = 'Bold', Underline = 'None' } },
     { Foreground = { Color = scheme.ansi[5] } },
     { Text = basename(path) .. '  ' },
   })
@@ -196,7 +196,7 @@ end)
 ---@diagnostic disable-next-line: unused-local
 wezterm.on('smart_workspace_switcher.workspace_switcher.chosen', function(window, path, label)
   window:gui_window():set_right_status(wezterm.format {
-    { Attribute = { Intensity = 'Bold' } },
+    { Attribute = { Intensity = 'Bold', Underline = 'None' } },
     { Foreground = { Color = scheme.ansi[5] } },
     { Text = basename(path) .. '  ' },
   })
