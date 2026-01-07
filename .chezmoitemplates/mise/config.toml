@@ -36,7 +36,9 @@ pnpm = "latest"
 protobuf = "latest"
 python = "latest"
 ripgrep = "latest"
+{{ if ne .chezmoi.os "windows" -}}
 rust = "latest"
+{{ end -}}
 rust-analyzer = "latest"
 starship = "latest"
 tlrc = "latest"
@@ -58,7 +60,7 @@ zoxide = "latest"
 "cargo:tlrc" = "latest"
 {{- if ne .chezmoi.os "darwin" }}
 "cargo:kondo" = "latest"
-{{ end -}}
+{{- end -}}
 {{- if eq .chezmoi.os "darwin" }}
 "go:github.com/joncrangle/podcasts-sync" = "latest"
 {{ end -}}

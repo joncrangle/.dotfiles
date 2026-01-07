@@ -94,7 +94,7 @@ if (-not (Get-Command mise -ErrorAction SilentlyContinue)) {
 # Critical: Allows us to use 'mise use' and access installed tools immediately
 $env:MISE_YES = 1
 Invoke-Expression "$(mise activate pwsh)"
-mise use -g age@latest chezmoi@latest github-cli@latest rust@latest
+mise use -g age@latest chezmoi@latest github-cli@latest
 
 # ------------------------------------------------------
 # 6. DOTFILES (Chezmoi)
@@ -118,8 +118,8 @@ if (-not (Test-Path "$env:USERPROFILE\.local\share\chezmoi")) {
 $scoopApps = @(
     "7zip", "bruno", "btop", "chafa", "curl", "dbeaver", "diffutils", "ffmpeg", "Flow-Launcher", "ghostscript", "glazewm",
     "gzip", "imagemagick", "IosevkaTerm-NF", "JetBrainsMono-NF", "krita", "lua", "luarocks", "make", "Maple-Mono",
-    "Meslo-NF", "mingw-winlibs", "obsidian", "podman", "poppler", "python", "sqlite", "topgrade", "unar", "unzip", "vlc",
-    "vcredist2022", "wezterm-nightly", "win32yank", "wget", "zebar", "zed", "zoom"
+    "Meslo-NF", "mingw-winlibs", "obsidian", "podman", "poppler", "python", "rustup-gnu", "sqlite", "topgrade", "unar",
+    "unzip", "vlc", "vcredist2022", "wezterm-nightly", "win32yank", "wget", "zebar", "zed", "zoom"
 ) 
 
 Write-Host ":: Installing System Apps via Scoop..." -ForegroundColor Green
