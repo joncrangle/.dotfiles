@@ -12,30 +12,29 @@
   "google_auth": false,
   "agents": {
     "Sisyphus": {
-      "model": "google/gemini-claude-opus-4-5-thinking-high",
+      "model": "google/antigravity-claude-opus-4-5-thinking",
       "default_builder_enabled": true
     },
     "Planner-Sisyphus": {
-      "model": "google/gemini-3-pro-high",
-      "default_builder_enabled": true
+      "model": "google/antigravity-gemini-3-pro"
     },
     "OpenCode-Builder": {
-      "model": "google/gemini-claude-sonnet-4-5-thinking-low"
+      "model": "google/antigravity-claude-sonnet-4-5-thinking"
     },
     "oracle": {
-      "model": "google/gemini-claude-sonnet-4-5-thinking-high"
+      "model": "google/antigravity-claude-sonnet-4-5-thinking"
     },
     "librarian": {
-      "model": "google/gemini-3-flash"
+      "model": "google/antigravity-gemini-3-flash"
     },
     "frontend-ui-ux-engineer": {
-      "model": "google/gemini-3-pro-high"
+      "model": "google/antigravity-gemini-3-pro"
     },
     "document-writer": {
-      "model": "google/gemini-3-flash"
+      "model": "google/antigravity-gemini-3-flash"
     },
     "multimodal-looker": {
-      "model": "google/gemini-3-flash"
+      "model": "google/antigravity-gemini-3-flash"
     }
   }
 }
