@@ -125,11 +125,12 @@ config.font_rules = {
 }
 
 -- Sessions
-local separator = wezterm.target_triple:find 'windows' and '\\' or '/'
-local encryption_method = wezterm.target_triple:find 'darwin' and '/opt/homebrew/bin/age' or 'age'
+local is_windows = wezterm.target_triple:find 'windows'
+local separator = is_windows and '\\' or '/'
+local age_binary = is_windows and (wezterm.home_dir .. [[\.local\share\mise\shims\age.exe]]) or (wezterm.home_dir .. '/.config/.local/share/mise/shims/age')
 plugins.resurrect.state_manager.set_encryption {
   enable = true,
-  method = encryption_method,
+  method = age_binary,
   private_key = wezterm.home_dir .. separator .. '.config' .. separator .. 'key.txt',
   public_key = '{{- .chezmoi.config.age.recipient -}}',
 }

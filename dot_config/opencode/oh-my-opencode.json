@@ -4,7 +4,11 @@
     "auto_resume": false,
     "dcp_on_compaction_failure": true
   },
-  "disabled_hooks": ["startup-toast"],
+  "disabled_hooks": [
+    "non-interactive-env",
+    "session-notification",
+    "startup-toast"
+  ],
   "google_auth": false,
   "agents": {
     "Sisyphus": {
