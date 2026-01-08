@@ -22,12 +22,12 @@ palette = "catppuccin_mocha"
 format = """
 [](subtext1)\
 [$os](bg:subtext1 fg:mantle)\
-[](bg:blue fg:subtext1)\
+(bg:blue fg:subtext1)\
 $directory\
-[](fg:blue bg:green)\
+(fg:blue bg:green)\
 $git_branch\
 $git_status\
-[](fg:green bg:mauve)\
+(fg:green bg:mauve)\
 $bun\
 $c\
 $docker_context\
@@ -49,7 +49,7 @@ $rust\
 $scala\
 $typst\
 $zig\
-[](fg:mauve bg:mantle)\
+(fg:mauve bg:mantle)\
 $time\
 [ ](fg:mantle)\
 \n$character"""
@@ -63,10 +63,10 @@ style = "bg:subtext1 fg:mantle"
 format = "[$symbol]($style)"
 
 [os.symbols]
-Arch = "  "
-Linux = "  "
-Macos = "  "
-Windows = "  "
+Arch = "   "
+Linux = "   "
+Macos = "   "
+Windows = "   "
 
 [directory]
 style = "fg:base bg:blue"
