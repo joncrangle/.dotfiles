@@ -24,27 +24,36 @@ glow = "latest"
 go = "latest"
 gofumpt = "latest"
 gum = "latest"
+harper-ls = "latest"
 jujutsu = "latest"
 jq = "latest"
 just = "latest"
 lazydocker = "latest"
 lazygit = "latest"
+lua-language-server = "latest"
 markdownlint-cli2 = "latest"
+marksman = "latest"
 neovim = "latest"
 node = "latest"
 pnpm = "latest"
 protobuf = "latest"
 python = "latest"
 ripgrep = "latest"
+ruff = "latest"
 {{ if ne .chezmoi.os "windows" -}}
 rust = "latest"
 {{ end -}}
 rust-analyzer = "latest"
+shellcheck = "latest"
+shfmt = "latest"
 starship = "latest"
+stylua = "latest"
+tinymist = "latest"
 tlrc = "latest"
 tokei = "latest"
 tree-sitter = "latest"
 typst = "latest"
+typstyle = "latest"
 usage = "latest"
 uv = "latest"
 vhs = "latest"
@@ -53,26 +62,48 @@ yazi = "latest"
 yq = "latest"
 yt-dlp = "latest"
 zig = "latest"
+zls = "latest"
 zoxide = "latest"
 "cargo:bacon" = "latest"
 "cargo:bacon-ls" = "latest"
 "cargo:cargo-cache" = "latest"
 "cargo:cargo-update" = "latest"
+"cargo:shellharden" = "latest"
 "cargo:tlrc" = "latest"
-{{- if ne .chezmoi.os "darwin" }}
+{{ if ne .chezmoi.os "darwin" -}}
 "cargo:kondo" = "latest"
 {{ end -}}
+"go:github.com/go-delve/delve/cmd/dlv" = "latest"
+"go:golang.org/x/tools/cmd/goimports" = "latest"
+"go:github.com/incu6us/goimports-reviser/v3" = "latest"
+"go:github.com/segmentio/golines" = "latest"
+"go:github.com/fatih/gomodifytags" = "latest"
+"go:golang.org/x/tools/gopls" = "latest"
+"go:github.com/josharian/impl" = "latest"
+"go:github.com/wader/jq-lsp" = "latest"
 {{- if eq .chezmoi.os "darwin" }}
 "go:github.com/joncrangle/podcasts-sync" = "latest"
 {{ end -}}
 {{- if eq .chezmoi.os "windows" }}
 "go:github.com/joncrangle/teams-green" = "latest"
 {{ end -}}
-"npm:opencode-ai" = "latest"
+"go:github.com/a-h/templ/cmd/templ" = "latest"
+"npm:bash-language-server" = "latest"
+"npm:@github/copilot-language-server" = "latest"
+"npm:dockerfile-language-server-nodejs" = "latest"
+"npm:@microsoft/compose-language-service" = "latest"
 "npm:live-server" = "latest"
+"npm:markdown-toc" = "latest"
+"npm:@mdx-js/language-server" = "latest"
 "npm:@mermaid-js/mermaid-cli" = "latest"
+"npm:opencode-ai" = "latest"
+"npm:@tailwindcss/language-server" = "latest"
+"npm:vscode-langservers-extracted" = "latest" # Provides html, cssls, jsonls, eslint
+"npm:yaml-language-server" = "latest"
 "pipx:harlequin" = { version = "latest", extras = "postgres,s3" }
 "pipx:qmk" = { version = "latest" }
+"pipx:sqlfluff" = { version = "latest" }
+"pipx:ty" = { version = "latest" }
 
 [settings]
 experimental = true

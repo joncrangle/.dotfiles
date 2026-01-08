@@ -107,8 +107,8 @@ return {
             },
           },
         },
-        docker_compose_language_service = {},
         dockerls = {},
+        docker_compose_language_service = {},
         gopls = {
           settings = {
             gopls = {
@@ -289,6 +289,27 @@ return {
           return true
         end
 
+        -- Then try the lspconfig default command
+        local resolved = vim.lsp.config[server_name]
+        if resolved and resolved.cmd then
+          local binary
+          local cmd = resolved.cmd
+
+          if type(cmd) == 'table' then
+            binary = cmd[1]
+          elseif type(cmd) == 'function' then
+            -- Safely execute the function to find the binary name
+            local success, result = pcall(cmd)
+            if success and type(result) == 'table' then
+              binary = result[1]
+            end
+          end
+
+          if binary and vim.fn.executable(binary) == 1 then
+            return true
+          end
+        end
+
         -- Then try the mason package name
         local package_name = server_to_package[server_name]
         if package_name and vim.fn.executable(package_name) == 1 then
@@ -312,23 +333,8 @@ return {
 
       local tools = {
         'codelldb',
-        'delve',
-        'goimports',
-        'goimports-reviser',
-        'gofumpt',
-        'gomodifytags',
-        'impl',
         'js-debug-adapter',
-        'markdownlint-cli2',
-        'markdown-toc',
         'powershell-editor-services',
-        'prettier',
-        'prettierd',
-        'shellharden',
-        'shfmt',
-        'sqlfluff',
-        'stylua',
-        'typstyle',
       }
 
       -- Only install tools if not available on system
