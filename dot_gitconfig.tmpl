@@ -47,13 +47,13 @@
 
 [merge]
     conflictstyle = diff3
-    tool = vscode-diff
+    tool = codediff
 
 [mergetool]
     prompt = false
     keepBackup = false
 
-[mergetool "vscode-diff"]
+[mergetool "codediff"]
     cmd = nvim "$MERGED" -c "CodeDiff merge \"$MERGED\""
 
 [diff]
