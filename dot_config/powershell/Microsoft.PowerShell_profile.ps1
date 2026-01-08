@@ -163,8 +163,22 @@ function cmu
     chezmoi apply
 }
 
-function x
-{ exit 
+function export
+{
+    foreach ($arg in $args)
+    {
+        if ($arg -match '^([^=]+)=(.*)$')
+        {
+            $name = $Matches[1]
+            $value = $Matches[2]
+            Set-Content -Path "Env:$name" -Value $value
+        }
+    }
+}
+
+filter grep ($pattern)
+{
+    $_ | Select-String -Pattern $pattern
 }
 
 function scoop-upgrade
@@ -183,10 +197,24 @@ function take
     Set-Location $Path
 }
 
+function touch ($file)
+{
+    New-Item -ItemType File -Name $file -Force | Out-Null
+}
+
 function up
 {
     param([ValidateRange(1,100)][int]$Count = 1)
     Set-Location (Resolve-Path ('..\' * $Count))
+}
+
+function which ($name)
+{
+    Get-Command $name -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source
+}
+
+function x
+{ exit 
 }
 
 # ------------------------------------------------------
