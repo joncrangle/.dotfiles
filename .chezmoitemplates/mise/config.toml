@@ -61,7 +61,7 @@ zoxide = "latest"
 "cargo:tlrc" = "latest"
 {{- if ne .chezmoi.os "darwin" }}
 "cargo:kondo" = "latest"
-{{- end -}}
+{{ end -}}
 {{- if eq .chezmoi.os "darwin" }}
 "go:github.com/joncrangle/podcasts-sync" = "latest"
 {{ end -}}
