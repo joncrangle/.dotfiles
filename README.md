@@ -53,7 +53,8 @@ Features include:
 **Arch Linux**
 
 - [Hyprland](https://hyprland.org/) window manager
-- [Aylur's GTK Shell](https://github.com/Aylur/ags) for bar, launcher and notifications
+- [Noctalia Shell](https://github.com/noctalia-shell/noctalia-shell) for bar, lock screen, control center, notifications, and screen recorder
+- [Vicinae](https://github.com/noctalia-shell/vicinae) launcher
 - [Paru](https://github.com/Morganamilo/paru) AUR helper (package management)
 
 > [!WARNING]
