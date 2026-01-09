@@ -361,6 +361,7 @@ packages=(
     "unrar"
     "unzip"
     "upower"
+    "usbutils"
     "vicinae-bin"
     "viu"
     "vlc"

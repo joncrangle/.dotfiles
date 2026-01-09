@@ -56,6 +56,7 @@ setup_arch.sh
 .config/gtk-4.0/
 .config/hypr/
 .config/Kvantum/
+.config/noctalia/
 .config/paru/
 .config/qt5ct/
 .config/qt6ct/
