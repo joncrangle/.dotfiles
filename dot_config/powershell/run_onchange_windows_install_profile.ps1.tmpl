@@ -1,18 +1,29 @@
 {{ if eq .chezmoi.os "windows" -}}
+# chezmoi:interpreter=pwsh
 # hash: {{ include "dot_config/powershell/Microsoft.PowerShell_profile.ps1" | sha256sum }}
 
 Write-Host ":: Chezmoi Hook: Checking PowerShell Profile..." -ForegroundColor Cyan
 
 $Source = "$env:USERPROFILE\.config\powershell\Microsoft.PowerShell_profile.ps1"
-$Dest   = $PROFILE.CurrentUserAllHosts
-$Dir    = Split-Path $Dest -Parent
 
-Write-Host "   -> Syncing Windows Profile to: $Dest" -ForegroundColor Gray
+# Manually define the paths so it doesn't matter which shell runs this hook
+$Pwsh7Dest = "$env:USERPROFILE\Documents\PowerShell\Microsoft.PowerShell_profile.ps1"
+$LegacyDest = "$env:USERPROFILE\Documents\WindowsPowerShell\profile.ps1"
 
-if (-not (Test-Path $Dir)) { 
-    New-Item -Path $Dir -ItemType Directory -Force | Out-Null 
+$Targets = @($Pwsh7Dest, $LegacyDest)
+
+foreach ($Dest in $Targets) {
+    $Dir = Split-Path $Dest -Parent
+    
+    if (-not (Test-Path $Dir)) { 
+        New-Item -Path $Dir -ItemType Directory -Force | Out-Null 
+    }
+
+    if (Test-Path $Source) {
+        Write-Host "   -> Syncing to: $Dest" -ForegroundColor Gray
+        Copy-Item -Path $Source -Destination $Dest -Force
+    }
 }
 
-Copy-Item -Path $Source -Destination $Dest -Force
 Write-Host "   -> Done." -ForegroundColor Green
 {{ end -}}

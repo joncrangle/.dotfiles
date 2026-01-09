@@ -109,17 +109,6 @@ fi
 
 ########## Functions ##########
 
-# Sudo intercept for editors to use sudoedit instead
-sudo() {
-	if [[ "$1" == "nvim" || "$1" == "v" || "$1" == "vim" ]]; then
-		shift
-		# Just use the variable you already defined
-		command sudoedit "$@"
-	else
-		command sudo "$@"
-	fi
-}
-
 brew-upgrade() {
 	brew upgrade --cask wezterm@nightly --no-quarantine --greedy-latest
 	brew update
@@ -264,6 +253,28 @@ pass() {
 		echo -e "$PASSWORD\nCopied to clipboard"
 	else
 		echo "pbcopy or wl-copy command not found. Unable to copy to clipboard."
+	fi
+}
+
+# Interactive Process Killer
+rip() {
+	local pid
+	pids=$(ps -ef | sed 1d | fzf -m --header="[Kill] Tab: Select | Enter: Kill" --layout=reverse | awk '{print $2}')
+
+	if [ -n "$pid" ]; then
+		echo "$pid" | xargs kill -${1:-9}
+		echo "Terminated PID: $pid"
+	fi
+}
+
+# Sudo intercept for editors to use sudoedit instead
+sudo() {
+	if [[ "$1" == "nvim" || "$1" == "v" || "$1" == "vim" ]]; then
+		shift
+		# Just use the variable you already defined
+		command sudoedit "$@"
+	else
+		command sudo "$@"
 	fi
 }
 

@@ -18,15 +18,15 @@ function Test-Cmd
 function Set-AliasIfExists
 {
     param(
-        [Parameter(Mandatory)]
-        [string]$Alias,
-
-        [Parameter(Mandatory)]
-        [string]$Command
+        [Parameter(Mandatory)] [string]$Alias,
+        [Parameter(Mandatory)] [string]$Command
     )
-
     if (Get-Command $Command -ErrorAction SilentlyContinue)
     {
+        if (Get-Alias $Alias -ErrorAction SilentlyContinue)
+        {
+            Remove-Item "alias:\$Alias" -Force -ErrorAction SilentlyContinue
+        }
         Set-Alias -Name $Alias -Value $Command -Scope Global -Force
     }
 }
@@ -40,19 +40,24 @@ if (Get-Module -ListAvailable PSReadLine)
     Import-Module PSReadLine
 }
 
-$miseScript = (mise activate pwsh | Out-String)
-$miseScript = $miseScript -replace '\[Microsoft.PowerShell.PSConsoleReadLine\]::GetHistoryItems\(\)', '@()'
-Invoke-Expression $miseScript
-
-if (Get-Module -ListAvailable Terminal-Icons)
+# --- PowerShell 6/7+ ONLY Setup ---
+if ($PSVersionTable.PSVersion.Major -ge 6)
 {
-    Import-Module Terminal-Icons -ErrorAction SilentlyContinue
-}
+    # mise activation
+    $miseScript = (mise activate pwsh | Out-String)
+    $miseScript = $miseScript -replace '\[Microsoft.PowerShell.PSConsoleReadLine\]::GetHistoryItems\(\)', '@()'
+    Invoke-Expression $miseScript
 
-if (Get-Module -ListAvailable PSFzf)
-{
-    Import-Module PSFzf
-    Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
+    if (Get-Module -ListAvailable Terminal-Icons)
+    {
+        Import-Module Terminal-Icons -ErrorAction SilentlyContinue
+    }
+
+    if (Get-Module -ListAvailable PSFzf)
+    {
+        Import-Module PSFzf
+        Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
+    }
 }
 
 # ------------------------------------------------------
@@ -122,7 +127,10 @@ Set-Alias c Clear-Host -Force
 # zoxide replaces cd
 if (Get-Command z -ErrorAction SilentlyContinue)
 {
-    Remove-Item Alias:cd -Force -ErrorAction SilentlyContinue
+    if (Get-Alias cd -ErrorAction SilentlyContinue)
+    {
+        Remove-Item alias:cd -Force -ErrorAction SilentlyContinue
+    }
     Set-Alias cd z -Option AllScope
 }
 
@@ -132,23 +140,27 @@ if (Get-Command z -ErrorAction SilentlyContinue)
 
 if (Get-Command eza -ErrorAction SilentlyContinue)
 {
+    if (Get-Alias ls -ErrorAction SilentlyContinue)
+    {
+        Remove-Item alias:ls -Force -ErrorAction SilentlyContinue
+    }
+    
     function ls
-    { eza --icons @args 
+    { eza --icons $args 
     }
     function l
-    { eza --icons @args 
+    { eza --icons $args 
     }
     function ll
-    { eza --icons -l @args 
+    { eza --icons -l $args 
     }
     function la
-    { eza --icons -la @args 
+    { eza --icons -la $args 
     }
     function tree
-    { eza -T --icons @args 
+    { eza -T --icons $args 
     }
 }
-
 # ------------------------------------------------------
 # 6. CORE FUNCTIONS
 # ------------------------------------------------------
@@ -179,6 +191,29 @@ function export
 filter grep ($pattern)
 {
     $_ | Select-String -Pattern $pattern
+}
+
+function rip
+{
+    $selection = Get-Process | 
+        Select-Object Id, ProcessName, CPU | 
+        Out-String -Stream | 
+        Select-Object -Skip 3 | 
+        Where-Object { $_ -match '\S' } |
+        fzf --header="[Kill] Enter to Terminate" --layout=reverse --multi
+
+    if ($selection)
+    {
+        foreach ($line in $selection)
+        {
+            $pidToKill = ($line.Trim() -split '\s+')[0]
+            if ($pidToKill -match '^\d+$')
+            {
+                Stop-Process -Id ([int]$pidToKill) -Force
+                Write-Host ":: Terminated PID $pidToKill" -ForegroundColor Cyan
+            }
+        }
+    }
 }
 
 function scoop-upgrade
@@ -322,23 +357,24 @@ function yy
 if (-not $global:ProfileBannerShown -and $Host.Name -eq 'ConsoleHost')
 {
     $global:ProfileBannerShown = $true
-    Write-Host "[38;5;80m          ___                                          [0m"
-    Write-Host "[38;5;80m       . -^   \--,                                     [0m"
-    Write-Host "[38;5;80m      /# =========\-_                                  [0m"
-    Write-Host "[38;5;80m     /# (--====___====\       d8b                      [0m"
-    Write-Host "[38;5;80m    /#   .- --.  . --.|       Y8P                      [0m"
-    Write-Host "[38;5;80m   /##   |  * ) (   * ),                               [0m"
-    Write-Host "[1;36m   |##     \    /\ \   / |     8888  .d88b.  88888b.       [0m"
-    Write-Host "[1;36m   |###     ---   \ ---  |     `"888 d88`"`"88b 888 `"88b      [0m"
-    Write-Host "[1;36m   |####        ___)    #|      888 888  888 888  888          [0m"
-    Write-Host "[1;36m   |######            ##|       888 Y88..88P 888  888          [0m"
-    Write-Host "[1;36m     \##### ---------- /        888  `"Y88P`"  888  888      [0m"
-    Write-Host "[1;36m       \####           (        888                         [0m"
-    Write-Host "[1;36m        \###           |       d88P                         [0m"
-    Write-Host "[1;94m         \###          |     888P`"                         [0m"
-    Write-Host "[1;94m           \##        |                                    [0m"
-    Write-Host "[1;94m            \###.    .)                                    [0m"
-    Write-Host "[1;94m             ``======/                                     [0m"
+    $esc = [char]27
+    Write-Host "$esc[38;5;80m          ___                                          $esc[0m"
+    Write-Host "$esc[38;5;80m       . -^   \--,                                     $esc[0m"
+    Write-Host "$esc[38;5;80m      /# =========\-_                                  $esc[0m"
+    Write-Host "$esc[38;5;80m     /# (--====___====\       d8b                      $esc[0m"
+    Write-Host "$esc[38;5;80m    /#   .- --.  . --.|       Y8P                      $esc[0m"
+    Write-Host "$esc[38;5;80m   /##   |  * ) (   * ),                               $esc[0m"
+    Write-Host "$esc[1;36m   |##     \    /\ \   / |     8888  .d88b.  88888b.      $esc[0m"
+    Write-Host "$esc[1;36m   |###     ---   \ ---  |     `"888 d88`"`"88b 888 `"88b $esc[0m"
+    Write-Host "$esc[1;36m   |####        ___)    #|      888 888  888 888  888     $esc[0m"
+    Write-Host "$esc[1;36m   |######            ##|       888 Y88..88P 888  888     $esc[0m"
+    Write-Host "$esc[1;36m     \##### ---------- /        888  `"Y88P`"  888  888   $esc[0m"
+    Write-Host "$esc[1;36m       \####           (        888                       $esc[0m"
+    Write-Host "$esc[1;36m        \###           |       d88P                       $esc[0m"
+    Write-Host "$esc[1;94m         \###          |     888P`"                       $esc[0m"
+    Write-Host "$esc[1;94m           \##        |                                   $esc[0m"
+    Write-Host "$esc[1;94m            \###.    .)                                   $esc[0m"
+    Write-Host "$esc[1;94m             ``======/                                    $esc[0m"
     Write-Host ""
 }
 
@@ -351,15 +387,16 @@ function Invoke-Starship-TransientFunction
     &starship module character
 }
 
-if (Get-Command starship -ErrorAction SilentlyContinue)
+if ($PSVersionTable.PSVersion.Major -ge 6)
 {
+    if (Get-Command starship -ErrorAction SilentlyContinue)
+    {
+        Invoke-Expression (&starship init powershell)
+        Enable-TransientPrompt
+    }
 
-    Invoke-Expression (&starship init powershell)
-
-    Enable-TransientPrompt
-}
-
-if (Test-Cmd zoxide)
-{
-    Invoke-Expression (& { (zoxide init powershell | Out-String) })
+    if (Test-Cmd zoxide)
+    {
+        Invoke-Expression (& { (zoxide init powershell | Out-String) })
+    }
 }
