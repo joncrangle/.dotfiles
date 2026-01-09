@@ -115,7 +115,6 @@ vim.o.breakindent = true
 
 -- Don't highlight search results, but highlight incremental search
 --  See `:help hlsearch`
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.o.incsearch = true
 
 -- Set diagnostic configuration

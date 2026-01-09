@@ -18,6 +18,9 @@ LISTMAX=1000
 COREPACK_ENABLE_AUTO_PIN=0
 
 eval "$($HOME/.local/bin/mise activate zsh)"
+export EDITOR="$(which nvim 2>/dev/null || which vim 2>/dev/null || echo /usr/bin/vi)"
+export VISUAL="$EDITOR"
+export SUDO_EDITOR="$EDITOR"
 
 if [[ -f "$HOME/.config/mise/gh_public.json" ]]; then
   export MISE_GITHUB_TOKEN=$(jq -r '.github_token' "$HOME/.config/mise/gh_public.json")

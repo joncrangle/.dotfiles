@@ -19,9 +19,9 @@ alias x="exit"
 alias wget="wget -c"
 
 # Set editors
-alias v="${EDITOR:-vi}"
-alias vi="${EDITOR:-vi}"
-alias vim="${EDITOR:-vi}"
+alias v="${EDITOR:-vim}"
+alias vi="${EDITOR:-vim}"
+alias vim="${EDITOR:-vim}"
 
 ########## Conditional "Hijacks" ##########
 
@@ -109,19 +109,16 @@ fi
 
 ########## Functions ##########
 
-sudo_nvim() {
-	if is_installed sudoedit; then
-		sudoedit "$@"
+# Sudo intercept for editors to use sudoedit instead
+sudo() {
+	if [[ "$1" == "nvim" || "$1" == "v" || "$1" == "vim" ]]; then
+		shift
+		# Just use the variable you already defined
+		command sudoedit "$@"
 	else
-		sudo ${EDITOR:-vi} "$@"
+		command sudo "$@"
 	fi
 }
-
-# Apply the function to your hijacks
-alias 'sudo nvim'=sudo_nvim
-alias 'sudo vim'=sudo_nvim
-alias 'sudo vi'=sudo_nvim
-alias 'sudo v'=sudo_nvim
 
 brew-upgrade() {
 	brew upgrade --cask wezterm@nightly --no-quarantine --greedy-latest
