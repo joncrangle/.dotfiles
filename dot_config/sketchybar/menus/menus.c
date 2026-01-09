@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/file.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
@@ -13,6 +14,7 @@
 #define STATE_FILE_MENU "/tmp/menubar_state"
 #define STATE_FILE_DOCK "/tmp/dock_state"
 #define LOCK_FILE "/tmp/uiviz.lock"
+#define DAEMON_LOCK_FILE "/tmp/uiviz_daemon.lock"
 #define MENU_BAR_LAYER 0x19
 #define MAX_BUFFER_SIZE 1024
 #define MEDIUM_DELAY_US 100000
@@ -22,6 +24,8 @@
 static bool g_menu_hidden = false;
 static bool g_dock_hidden = false;
 static volatile sig_atomic_t g_should_exit = 0;
+static int g_lock_fd = -1;
+static int g_daemon_lock_fd = -1;
 
 // --- Private APIs ---
 extern int SLSMainConnectionID();
@@ -64,26 +68,34 @@ bool write_state(const char *path, bool is_hidden) {
 }
 
 // --- File Locking ---
-int acquire_lock() {
-  int fd = open(LOCK_FILE, O_CREAT | O_EXCL | O_WRONLY, 0644);
-  if (fd == -1) {
-    if (errno == EEXIST) {
-      fprintf(
-          stderr,
-          "Error: Lock file exists. Another operation may be in progress.\n");
+bool acquire_lock(void) {
+  g_lock_fd = open(LOCK_FILE, O_CREAT | O_RDWR, 0644);
+  if (g_lock_fd < 0) {
+    perror("Error opening lock file");
+    return false;
+  }
+
+  if (flock(g_lock_fd, LOCK_EX | LOCK_NB) < 0) {
+    if (errno == EWOULDBLOCK) {
+      fprintf(stderr,
+              "Error: Lock held by another process. Operation in progress.\n");
     } else {
       perror("Error acquiring lock");
     }
-    return -1;
+    close(g_lock_fd);
+    g_lock_fd = -1;
+    return false;
   }
-  char pid_str[16];
-  snprintf(pid_str, sizeof(pid_str), "%d", getpid());
-  write(fd, pid_str, strlen(pid_str));
-  close(fd);
-  return 0;
+  return true;
 }
 
-void release_lock() { unlink(LOCK_FILE); }
+void release_lock(void) {
+  if (g_lock_fd >= 0) {
+    flock(g_lock_fd, LOCK_UN);
+    close(g_lock_fd);
+    g_lock_fd = -1;
+  }
+}
 
 // --- Core Visibility Functions ---
 void set_menu_visibility(bool hide) {
@@ -257,20 +269,23 @@ void cleanup_and_exit(int sig) {
   SLSSetMenuBarVisibilityOverrideOnDisplay(cid, 0, false);
   SLSSetMenuBarInsetAndAlpha(cid, 0, 1, 1.0);
 
-  // Restore dock defaults but keep autohide enabled
   system("defaults delete com.apple.dock autohide-delay 2>/dev/null");
   system("defaults write com.apple.dock autohide -bool true");
   system("killall Dock");
 
   unlink(STATE_FILE_MENU);
   unlink(STATE_FILE_DOCK);
-  unlink(LOCK_FILE);
+
+  if (g_daemon_lock_fd >= 0) {
+    flock(g_daemon_lock_fd, LOCK_UN);
+    close(g_daemon_lock_fd);
+  }
   _exit(0);
 }
 
 // --- Toggle Functions ---
 void toggle_menu() {
-  if (acquire_lock() != 0)
+  if (!acquire_lock())
     return;
   bool is_currently_hidden = read_state(STATE_FILE_MENU);
   set_menu_visibility(!is_currently_hidden);
@@ -280,7 +295,7 @@ void toggle_menu() {
 }
 
 void toggle_dock() {
-  if (acquire_lock() != 0)
+  if (!acquire_lock())
     return;
   bool is_currently_hidden = read_state(STATE_FILE_DOCK);
   set_dock_visibility(!is_currently_hidden);
@@ -290,7 +305,27 @@ void toggle_dock() {
 }
 
 // --- Daemon ---
+static bool acquire_daemon_lock(void) {
+  g_daemon_lock_fd = open(DAEMON_LOCK_FILE, O_CREAT | O_RDWR, 0644);
+  if (g_daemon_lock_fd < 0)
+    return false;
+
+  if (flock(g_daemon_lock_fd, LOCK_EX | LOCK_NB) < 0) {
+    close(g_daemon_lock_fd);
+    g_daemon_lock_fd = -1;
+    return false;
+  }
+
+  ftruncate(g_daemon_lock_fd, 0);
+  dprintf(g_daemon_lock_fd, "%d\n", getpid());
+  return true;
+}
+
 void run_daemon() {
+  if (!acquire_daemon_lock()) {
+    return;
+  }
+
   printf("Starting UI visibility daemon...\n");
   printf("Press Ctrl+C to stop and restore UI.\n");
 
@@ -342,8 +377,7 @@ int main(int argc, char **argv) {
   if (strcmp(flag, "-d") == 0) {
     run_daemon();
   } else if (strcmp(flag, "-t") == 0 || strcmp(flag, "-tb") == 0) {
-    // Use a single lock for the combined operation
-    if (acquire_lock() != 0)
+    if (!acquire_lock())
       return 1;
     bool menu_hidden = read_state(STATE_FILE_MENU);
     bool dock_hidden = read_state(STATE_FILE_DOCK);

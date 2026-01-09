@@ -2,11 +2,7 @@ local colors = require 'colors'
 local settings = require 'settings'
 
 -- Execute the trash_monitor binary which provides the count of items in the trash
-sbar.exec [[
-pgrep -x trash_monitor >/dev/null 2>&1 || {
-  $CONFIG_DIR/trash/trash_monitor &
-}
-]]
+sbar.exec '$CONFIG_DIR/trash/trash_monitor &'
 
 local ICON_TRASH_EMPTY = ''
 local ICON_TRASH_FULL = ''

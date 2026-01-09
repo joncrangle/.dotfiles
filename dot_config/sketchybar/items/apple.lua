@@ -1,9 +1,7 @@
 local colors = require 'colors'
 local settings = require 'settings'
 
-sbar.exec [[
-pgrep -x menus >/dev/null 2>&1 || { $CONFIG_DIR/menus/menus -d & sleep 0.2; }
-]]
+sbar.exec '$CONFIG_DIR/menus/menus -d &'
 
 local apple_logo = sbar.add('item', 'apple_logo', {
   icon = {

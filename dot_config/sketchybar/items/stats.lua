@@ -4,12 +4,10 @@ local settings = require 'settings'
 -- Execute the event provider binary which provides the event "system_stats" for
 -- the cpu, ram, and disk data, which is fired every 5 seconds.
 sbar.exec [[
-pgrep -x stats_provider >/dev/null 2>&1 || {
   $CONFIG_DIR/sketchybar-system-stats/target/release/stats_provider \
     --cpu usage temperature \
     --disk usage \
     --memory ram_usage &
-}
 ]]
 
 local items = {

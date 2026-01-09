@@ -1,11 +1,14 @@
 #include <CoreServices/CoreServices.h>
 #include <dirent.h>
 #include <dispatch/dispatch.h>
+#include <errno.h>
+#include <fcntl.h>
 #include <signal.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/file.h>
 #include <unistd.h>
 
 // --- Global State ---
@@ -13,6 +16,34 @@ static bool g_is_foreground = false;
 static FSEventStreamRef g_stream =
     NULL; // Global reference to the stream for cleanup
 static int g_last_trash_count = -1; // Stores the last known count
+static int g_lock_fd = -1;          // Lock file descriptor
+static const char *LOCK_FILE = "/tmp/trash_monitor.lock";
+
+// --- Single Instance Lock ---
+static bool acquire_lock(void) {
+  g_lock_fd = open(LOCK_FILE, O_CREAT | O_RDWR, 0644);
+  if (g_lock_fd < 0)
+    return false;
+
+  if (flock(g_lock_fd, LOCK_EX | LOCK_NB) < 0) {
+    close(g_lock_fd);
+    g_lock_fd = -1;
+    return false;
+  }
+
+  ftruncate(g_lock_fd, 0);
+  dprintf(g_lock_fd, "%d\n", getpid());
+  return true;
+}
+
+static void release_lock(void) {
+  if (g_lock_fd >= 0) {
+    flock(g_lock_fd, LOCK_UN);
+    close(g_lock_fd);
+    unlink(LOCK_FILE);
+    g_lock_fd = -1;
+  }
+}
 
 // --- Conditional Logging ---
 void log_to_terminal(const char *format, ...) {
@@ -99,6 +130,7 @@ void signal_handler(int signum) {
     FSEventStreamInvalidate(g_stream);
     FSEventStreamRelease(g_stream);
   }
+  release_lock();
   exit(0);
 }
 
@@ -106,6 +138,10 @@ int main(int argc, char **argv) {
   // If called with '--count', it prints the number of items and exits.
   if (argc > 1 && strcmp(argv[1], "--count") == 0) {
     printf("%d", get_trash_count());
+    return 0;
+  }
+
+  if (!acquire_lock()) {
     return 0;
   }
 

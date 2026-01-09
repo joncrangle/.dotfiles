@@ -258,13 +258,20 @@ pass() {
 
 # Interactive Process Killer
 rip() {
-	local pid
-	pids=$(ps -ef | sed 1d | fzf -m --header="[Kill] Tab: Select | Enter: Kill" --layout=reverse | awk '{print $2}')
-
-	if [ -n "$pid" ]; then
-		echo "$pid" | xargs kill -${1:-9}
-		echo "Terminated PID: $pid"
-	fi
+	local pids sig
+	sig="${1:-15}" # default SIGTERM, allow: rip 9
+	pids=$(
+		ps -Ao pid,comm |
+			sed 1d |
+			fzf -m \
+				--header="[Kill] Tab: Select | Enter: Kill (SIG$sig)" \
+				--layout=reverse |
+			awk '{print $1}'
+	)
+	[[ -z "$pids" ]] && return
+	echo "Killing with SIG$sig:"
+	echo "$pids"
+	echo "$pids" | xargs kill -"$sig"
 }
 
 # Sudo intercept for editors to use sudoedit instead
