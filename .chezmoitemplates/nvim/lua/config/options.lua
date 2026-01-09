@@ -140,16 +140,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
--- Clear search highlight when moving the cursor
-vim.api.nvim_create_autocmd('CursorMoved', {
-  group = vim.api.nvim_create_augroup('auto_nohlsearch', { clear = true }),
-  callback = function()
-    if vim.v.hlsearch == 1 and vim.fn.searchcount().exact_match == 0 then
-      vim.cmd 'nohlsearch'
-    end
-  end,
-})
-
 -- Close some filetypes with <q>
 vim.api.nvim_create_autocmd('FileType', {
   group = vim.api.nvim_create_augroup('close-with-q', { clear = true }),

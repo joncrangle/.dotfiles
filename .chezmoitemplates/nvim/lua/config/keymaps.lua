@@ -1,5 +1,12 @@
 -- Clear search on pressing <Esc> in normal mode
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+vim.keymap.set('n', '<Esc>', function()
+  vim.schedule(function()
+    vim.cmd.nohlsearch()
+  end)
+  if package.loaded['noice'] then
+    require('noice').cmd 'dismiss'
+  end
+end, { silent = true })
 
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
