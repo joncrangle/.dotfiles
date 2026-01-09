@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #  NOTE:
 #           .:'
 #       __ :'__
@@ -8,148 +8,215 @@
 #    :_________`-;
 #     `.__.-.__.'
 
-# Install Xcode cli tools
-if ! xcode-select -p &>/dev/null; then
-  echo "Xcode command line tools not found. Installing..."
-  xcode-select --install
+# --- DRY RUN MODE ---
+
+DRY_RUN=false
+if [[ "$1" == "--dry-run" ]]; then
+  DRY_RUN=true
+  echo "--- !!! DRY RUN MODE ENABLED !!! ---"
+  echo "No files will be changed and no commands will be executed."
+  sleep 1
+fi
+
+# --- HELPERS ---
+
+log_info() {
+  if command -v gum >/dev/null 2>&1; then
+    gum style --foreground 4 ":: $1"
+  else
+    echo ":: $1"
+  fi
+}
+
+log_success() {
+  if command -v gum >/dev/null 2>&1; then
+    gum style --foreground 2 "✅ $1"
+  else
+    echo "✅ $1"
+  fi
+}
+
+# Executes command unless in dry-run mode
+run_cmd() {
+  if [ "$DRY_RUN" = true ]; then
+    echo "[DRY-RUN] Would execute: $*"
+  else
+    "$@"
+  fi
+}
+
+# Check for command and provide status
+ensure_installed() {
+  if ! command -v "$1" >/dev/null 2>&1; then
+    return 1
+  fi
+  log_success "$2 is already installed."
+  return 0
+}
+
+# --- INITIALIZATION ---
+
+clear
+log_info "Initializing Setup Script..."
+
+# Xcode Tools
+if ! xcode-select -p >/dev/null 2>&1; then
+  log_info "Xcode Command Line Tools not found. Installing..."
+  run_cmd "xcode-select --install"
 else
-  echo "Xcode command line tools are already installed."
+  log_success "Xcode Command Line Tools detected."
 fi
 
-# Install Homebrew
-if ! command -v brew &>/dev/null; then
-  echo "Installing Homebrew, chezmoi, and Git..."
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  brew install git
-  brew install zsh
-  chsh -s "$(which zsh)"
+# Homebrew
+ensure_installed "brew" "Homebrew" || {
+  log_info "Installing Homebrew..."
+  run_cmd "/bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
+}
+
+# Mise
+ensure_installed "mise" "Mise" || {
+  log_info "Installing Mise..."
+  run_cmd "curl https://mise.run | sh"
+}
+
+# Activate Mise and Install Tools
+log_info "Activating Mise and installing core toolset..."
+if [ "$DRY_RUN" = false ]; then
+  eval "$("$HOME"/.local/bin/mise activate bash)"
+  mise use -g age@latest chezmoi@latest github-cli@latest gum@latest rust@latest
 fi
 
-# Install Mise
-if ! command -v mise &>/dev/null; then
-  echo "Installing Mise..."
-  curl https://mise.run | sh
-else
-  echo "Mise is already installed."
-fi
+# --- IDENTITY & SSH ---
 
-eval "$("$HOME"/.local/bin/mise activate bash)"
-echo "Installing dependencies..."
-mise use -g age@latest chezmoi@latest github-cli@latest gum@latest rust@latest
+gum style --border normal --margin "1" --padding "1" --foreground 212 "User Identity & SSH"
 
-# --- IDENTITY PROMPT ---
 default_name="jonathancrangle"
 default_email="94425204+joncrangle@users.noreply.github.com"
-echo ":: Configuring User Identity..."
-GIT_NAME=$(gum input --header "Git User Name" --value "$default_name")
-GIT_EMAIL=$(gum input --header "Git Email" --value "$default_email")
-if gum confirm "Generate a new SSH key for GitHub?"; then
-  echo "Generating a new SSH key for GitHub..."
-  ssh-keygen -t ed25519 -C "$GIT_EMAIL" -f ~/.ssh/id_ed25519
-  eval "$(ssh-agent -s)"
-  touch ~/.ssh/config
-  echo -e "Host *\n AddKeysToAgent yes\n IdentityFile ~/.ssh/id_ed25519" | tee ~/.ssh/config >/dev/null
-  ssh-add --apple-use-keychain ~/.ssh/id_ed25519
-fi
 
-echo "Configuring Git..."
-git config --global user.name "$GIT_NAME"
-git config --global user.email "$GIT_EMAIL"
-
-# GitHub Auth
-echo ":: Checking GitHub Authentication..."
-if ! gh auth status &>/dev/null; then
-    echo ":: Authenticating with GitHub..."
-    gh auth login --web
+# In Dry Run, we skip the interactive input
+if [ "$DRY_RUN" = true ]; then
+  GIT_NAME="$default_name"
+  GIT_EMAIL="$default_email"
 else
-    echo ":: GitHub is already authenticated."
+  GIT_NAME=$(gum input --header "Enter your Git User Name" --value "$default_name")
+  GIT_EMAIL=$(gum input --header "Enter your Git Email" --value "$default_email")
 fi
 
-# Migrate dotfiles using chezmoi
-echo "Migrating dotfiles..."
-read -p "Please put 'key.txt' in ~/.config/. Press Enter to continue"
-chezmoi init --apply git@github.com:joncrangle/.dotfiles.git
+if gum confirm "Generate a new SSH key for GitHub?"; then
+  log_info "Generating ED25519 key for $GIT_EMAIL..."
+  run_cmd "ssh-keygen -t ed25519 -C \"$GIT_EMAIL\" -f ~/.ssh/id_ed25519 -N \"\""
 
-# Install fonts
-echo "Installing fonts..."
-fonts_directory="$HOME/.config/fonts"
-user_fonts_folder="$HOME/Library/Fonts"
-if [ ! -d "$user_fonts_folder" ]; then
-  mkdir -p "$user_fonts_folder"
-fi
-for font_file in "$fonts_directory"/*.ttf "$fonts_directory"/*.otf; do
-  if [ -f "$font_file" ]; then
-    font_name=$(basename "$font_file")
-    destination_path="$user_fonts_folder/$font_name"
-    if [ ! -f "$destination_path" ]; then
-      cp "$font_file" "$destination_path"
-      echo "Installed font - $font_name"
-    else
-      echo "Font $font_name is already installed. Skipping copy."
-    fi
+  log_info "Configuring SSH Agent..."
+  if [ "$DRY_RUN" = false ]; then
+    eval "$(ssh-agent -s)"
+    printf "Host *\n  AddKeysToAgent yes\n  IdentityFile ~/.ssh/id_ed25519\n" >~/.ssh/config
+    ssh-add --apple-use-keychain ~/.ssh/id_ed25519
   fi
-done
-echo "Fonts installed successfully."
-
-echo "Installing Apps and Tools..."
-mise lock
-mise install --yes
-brew bundle --file="$HOME"/.config/homebrew/Brewfile
-if command -v rustup &>/dev/null; then
-  rustup default stable
-  rustup update
+  log_success "SSH identity configured."
 fi
-luarocks install busted
-ya pkg install
-ya pkg upgrade
-jj config set --user user.name "$GIT_NAME"
-jj config set --user user.email "$GIT_EMAIL"
-echo -e '\n[ui]
+
+# --- GIT & AUTH ---
+
+log_info "Updating Git Global Config..."
+run_cmd "git config --global user.name \"$GIT_NAME\""
+run_cmd "git config --global user.email \"$GIT_EMAIL\""
+
+if ! gh auth status >/dev/null 2>&1; then
+  log_info "GitHub CLI authentication required."
+  [ "$DRY_RUN" = false ] && gh auth login --web
+else
+  log_success "GitHub CLI already authenticated."
+fi
+
+# --- DOTFILES ---
+
+log_info "Checking for Chezmoi age key..."
+if [ "$DRY_RUN" = false ]; then
+  while [ ! -f "$HOME/.config/key.txt" ]; do
+    gum style --foreground 1 "CRITICAL: ~/.config/key.txt is missing."
+    gum confirm "Have you placed the key.txt file?" || exit 1
+  done
+fi
+
+log_info "Applying dotfiles via Chezmoi..."
+run_cmd "chezmoi init --apply git@github.com:joncrangle/.dotfiles.git"
+
+# --- FONTS ---
+
+log_info "Syncing Fonts to ~/Library/Fonts..."
+if [ "$DRY_RUN" = false ]; then
+  mkdir -p "$HOME/Library/Fonts"
+  find "$HOME/.config/fonts" -type f \( -name "*.ttf" -o -name "*.otf" \) -exec cp -v {} "$HOME/Library/Fonts/" \;
+else
+  echo "[DRY-RUN] Would find and copy fonts from ~/.config/fonts"
+fi
+
+# --- PACKAGES ---
+
+log_info "Starting Homebrew Bundle..."
+run_cmd "brew bundle --file=\"$HOME\"/.config/homebrew/Brewfile"
+
+log_info "Running Mise Install..."
+run_cmd "mise install --yes"
+
+# --- APP CONFIGURATION ---
+
+log_info "Writing Jujutsu (jj) configuration..."
+if [ "$DRY_RUN" = false ]; then
+  JJ_CONFIG_PATH=$(jj config path --user)
+  mkdir -p "$(dirname "$JJ_CONFIG_PATH")"
+  cat <<EOF >"$JJ_CONFIG_PATH"
+[user]
+name = "$GIT_NAME"
+email = "$GIT_EMAIL"
+
+[ui]
 pager = "delta"
 editor = "nvim"
-diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
+diff-editor = ["nvim", "-c", "DiffEditor \$left \$right \$output"]
 
 [ui.diff]
-format = "git"' | tee -a "$(jj config path --user)" >/dev/null
+format = "git"
+EOF
+fi
 
-mkdir -p "$HOME"/Documents/Code
-# Configure SbarLua and custom Sketchybar setup
-osascript -e 'tell application "System Events" to set autohide menu bar of dock preferences to true'
-(git clone https://github.com/FelixKratz/SbarLua.git /tmp/SbarLua && cd /tmp/SbarLua/ && make install && rm -rf /tmp/SbarLua/)
-(git clone git@github.com:kvndrsslr/sketchybar-app-font.git "$HOME"/Documents/Code && bun install && bun run build:install)
-git clone git@github.com:joncrangle/sketchybar-system-stats.git "$HOME"/.config/sketchybar
-just "$HOME"/.config/sketchybar/build
-brew services start sketchybar
-brew services start svim
+log_info "Configuring macOS UI (Dock autohide)..."
+run_cmd "osascript -e 'tell application \"System Events\" to set autohide menu bar of dock preferences to true'"
 
-zen_config="$HOME/.config/zen-styles"
-if [ -d "$zen_config" ]; then
-  zen_path="$HOME/Library/Application Support/Zen"
-    if [ -f "$zen_path/profiles.ini" ]; then
-      echo ":: Configuring Zen Browser..."
-        profile_rel=$(grep -E "^Path=" "$zen_path/profiles.ini" | head -n 1 | cut -d= -f2)
-        
-        if [ "$profile_rel" != "" ]; then
-            full_profile="$zen_path/$profile_rel"
-            mkdir -p "$full_profile/chrome"
-            
-            cp -r "$zen_config/"* "$full_profile/chrome/"
-            echo "   Applied Zen Styles to $full_profile/chrome"
-        fi
-    else
-        echo "   Zen profiles.ini not found. Skipping."
+log_info "Building Sketchybar components..."
+run_cmd "(git clone https://github.com/FelixKratz/SbarLua.git /tmp/SbarLua && cd /tmp/SbarLua/ && make install && rm -rf /tmp/SbarLua/)"
+
+# --- ZEN BROWSER STYLES ---
+
+if [ -d "$HOME/.config/zen-styles" ]; then
+  log_info "Checking Zen Browser Profile..."
+  if [ "$DRY_RUN" = false ]; then
+    zen_root="$HOME/Library/Application Support/Zen"
+    if [ -f "$zen_root/profiles.ini" ]; then
+      rel_path=$(awk -F= '/^\[Profile/ {p=1; d=0} /^Default=1/ {d=1} /^Path=/ && p && d {print $2; exit}' "$zen_root/profiles.ini")
+      rel_path=${rel_path:-$(grep -E "^Path=" "$zen_root/profiles.ini" | head -n 1 | cut -d= -f2)}
+
+      if [ "$rel_path" != "" ]; then
+        log_info "Applying CSS to: $rel_path"
+        mkdir -p "$zen_root/$rel_path/chrome"
+        rsync -av --delete "$HOME/.config/zen-styles/" "$zen_root/$rel_path/chrome/"
+      fi
     fi
+  else
+    echo "[DRY-RUN] Would sync Zen styles via rsync."
+  fi
 fi
 
-# Update Mac system preferences
-read -p "Do you want to update Mac system preferences? (y/n) " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-  chmod +x ".config/.macos"
-  sh ".config/.macos"
+# --- MAC PREFERENCES ---
+
+if gum confirm "Run macOS system defaults script?"; then
+  run_cmd "sh \"$HOME/.config/.macos\""
 fi
 
-echo "Setup completed successfully."
-echo "Please restart your computer for changes to take effect."
-echo ""
-sleep 3
+# --- EXIT ---
+
+if [ "$DRY_RUN" = true ]; then
+  log_success "Dry run complete. No changes were made."
+else
+  gum style --border double --margin "1" --padding "1" --foreground 2 "Setup Complete! Please restart your Mac."
+fi

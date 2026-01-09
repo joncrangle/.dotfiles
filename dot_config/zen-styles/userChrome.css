@@ -140,15 +140,6 @@
   --better-findbar-border-color: var(--zen-colors-border, #b4befe);
 }
 
-/* Allow custom background override via prefs if needed */
-@media (-moz-bool-pref: "theme-better_find_bar-enable_custom_background") {
-  :root {
-    --better-findbar-background-color: var(
-      --theme-better_find_bar-custom_background
-    );
-  }
-}
-
 findbar {
   display: flex !important;
   border-radius: var(--zen-border-radius) !important;
@@ -257,16 +248,14 @@ body:has(
 }
 
 /* Background blur preference */
-@media (-moz-bool-pref: "theme.better_find_bar.transparent_background") {
-  findbar,
-  findbar .findbar-textbox:not([status="notfound"]) {
-    backdrop-filter: blur(8px);
-    background: color-mix(
-      in hsl,
-      var(--better-findbar-background-color),
-      transparent 10%
-    ) !important;
-  }
+findbar,
+findbar .findbar-textbox:not([status="notfound"]) {
+  backdrop-filter: blur(8px);
+  background: color-mix(
+    in hsl,
+    var(--better-findbar-background-color),
+    transparent 10%
+  ) !important;
 }
 
 /* Hiding Elements Preferences */

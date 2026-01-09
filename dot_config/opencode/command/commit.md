@@ -1,7 +1,7 @@
 ---
 description: Review staged changes, create commit message, ask for confirmation before committing.
 agent: build
-model: google/antigravity-gemini-3-flash
+model: google/gemini-3-flash-preview
 ---
 
 Generate a commit message and perform the commit following these rules explicitly:
