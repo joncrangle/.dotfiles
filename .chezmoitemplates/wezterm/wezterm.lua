@@ -139,7 +139,7 @@ plugins.resurrect.state_manager.set_encryption {
 {{ else -}}
 plugins.resurrect.state_manager.periodic_save()
 {{ end -}}
-plugins.resurrect.state_manager.set_max_nlines(1000)
+plugins.resurrect.state_manager.set_max_nlines(300)
 
 --Workspaces
 local workspace_state = plugins.resurrect.workspace_state
