@@ -51,13 +51,18 @@ winget source update --disable-interactivity
 
 try
 {
-    # Added --accept-source-agreements to all commands to prevent hanging
-    winget install --id Microsoft.Powershell -e --scope user --accept-package-agreements --accept-source-agreements
+    winget install --id Microsoft.PowerShell -e --scope user --accept-package-agreements --accept-source-agreements
     winget install --id Microsoft.WindowsTerminal -e --scope user --accept-package-agreements --accept-source-agreements
     winget install --id Microsoft.PowerToys -e --scope user --accept-package-agreements --accept-source-agreements
-    
-    # Critical for Rust
-    winget install --id Microsoft.VisualStudio.2022.BuildTools --override "--passive --wait --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended" --accept-package-agreements --accept-source-agreements
+    # Raycast
+    winget install --id 9PFXXSHC64H3 -e --scope user --accept-package-agreements --accept-source-agreements
+    if ($isAdmin)
+    {
+        winget install --id Microsoft.VisualStudio.2022.BuildTools --override "--passive --wait --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended" --accept-package-agreements --accept-source-agreements
+    } else
+    {
+        Write-Warning ":: Skipping Visual Studio Build Tools (requires Administrator privileges)."
+    }
 } catch
 {
     Write-Warning "Winget failed. Ensure App Installer is updated in the MS Store."
@@ -135,7 +140,7 @@ if (-not (Test-Path "$env:USERPROFILE\.local\share\chezmoi"))
 
 # SYSTEM / GUI TOOLS (Scoop)
 $scoopApps = @(
-    "7zip", "bruno", "btop", "chafa", "curl", "dbeaver", "diffutils", "ffmpeg", "Flow-Launcher", "ghostscript", "glazewm",
+    "7zip", "bruno", "btop", "chafa", "curl", "dbeaver", "diffutils", "ffmpeg", "ghostscript", "glazewm",
     "gzip", "imagemagick", "IosevkaTerm-NF", "JetBrainsMono-NF", "krita", "lua", "luarocks", "make", "Maple-Mono",
     "Meslo-NF", "mingw-winlibs", "obsidian", "podman", "poppler", "python", "rustup-msvc", "sqlite", "topgrade", "unar",
     "unzip", "vlc", "vcredist2022", "wezterm-nightly", "win32yank", "wget", "zebar", "zed", "zoom"

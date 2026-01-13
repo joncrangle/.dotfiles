@@ -22,7 +22,7 @@
       "model": "google/antigravity-claude-sonnet-4-5-thinking"
     },
     "oracle": {
-      "model": "google/antigravity-claude-sonnet-4-5-thinking"
+      "model": "google/antigravity-gemini-3-pro"
     },
     "librarian": {
       "model": "google/antigravity-gemini-3-flash"
