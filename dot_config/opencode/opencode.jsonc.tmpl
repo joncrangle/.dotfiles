@@ -199,16 +199,26 @@
   "small_model": "opencode/grok-code",
   "plugin": [
     "opencode-antigravity-auth@beta",
-    "oh-my-opencode"
+    "@tarquinen/opencode-dcp@latest"
   ],
   "mcp": {
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "enabled": true
+    },
+    "websearch": {
+      "type": "remote",
+      "url": "https://mcp.exa.ai/mcp",
+      "enabled": true
+    },
     "searxng": {
       "type": "local",
-      "enabled": false,
       "command": [
         "bunx",
         "mcp-searxng"
       ],
+      "enabled": false,
       "environment": {
         "SEARXNG_URL": "https://searxng.{{- .nasSite -}}"
       }
