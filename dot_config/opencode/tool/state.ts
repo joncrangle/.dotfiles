@@ -11,6 +11,7 @@ const db = new Database(".opencode/state.db", { create: true });
 
 db.run("PRAGMA journal_mode = WAL");
 db.run("PRAGMA synchronous = NORMAL");
+db.run("PRAGMA busy_timeout = 5000;");
 
 db.run(`
   CREATE TABLE IF NOT EXISTS state (
