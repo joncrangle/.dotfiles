@@ -193,6 +193,11 @@ filter grep ($pattern)
     $_ | Select-String -Pattern $pattern
 }
 
+function oc
+{
+    opencode --agent orchestrator $args
+}
+
 function rip
 {
     $selection = Get-Process | 

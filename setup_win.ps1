@@ -343,14 +343,25 @@ if (Test-Path $zenConfig)
 # ------------------------------------------------------
 Write-Host ":: Configuring Environment Variables..." -ForegroundColor Green
 
-# 1. YAZI CONFIG (Essential for Yazi on Windows)
-#    Yazi needs the 'file' command, which is bundled with Git but not in PATH.
-$GitFileExe = "$env:USERPROFILE\scoop\apps\git\current\usr\bin\file.exe"
+$ScoopGitBin = "$env:USERPROFILE\scoop\apps\git\current\bin"
+$GitFileExe  = "$env:USERPROFILE\scoop\apps\git\current\usr\bin\file.exe"
 
-if (Test-Path $GitFileExe)
+if (Test-Path $ScoopGitBin)
 {
-    [Environment]::SetEnvironmentVariable("YAZI_FILE_ONE", $GitFileExe, [EnvironmentVariableTarget]::User)
-    Write-Host "   Set YAZI_FILE_ONE -> $GitFileExe" -ForegroundColor Gray
+    $UserPath = [Environment]::GetEnvironmentVariable("Path", "User")
+
+    if ($UserPath -notlike "*$ScoopGitBin*")
+    {
+        $NewPath = "$ScoopGitBin;$UserPath" # Prepend to beat shims
+        [Environment]::SetEnvironmentVariable("Path", $NewPath, "User")
+        Write-Host "   Prepended Git Bin to PATH (Priority over shims)" -ForegroundColor Gray
+    }
+
+    if (Test-Path $GitFileExe)
+    {
+        [Environment]::SetEnvironmentVariable("YAZI_FILE_ONE", $GitFileExe, "User")
+        Write-Host "   Set YAZI_FILE_ONE -> $GitFileExe" -ForegroundColor Gray
+    }
 } else
 {
     Write-Warning "   Could not find 'file.exe' in Scoop Git installation. Yazi might malfunction."
