@@ -13,7 +13,7 @@ author: opencode
 
 ## 🔍 Discovery Phase (Mandatory)
 Before writing any code:
-1.  **Grep**: Search for existing patterns (`grep -r "pattern" src`).
+1.  **Search**: Search for existing patterns using the `search_files` tool.
 2.  **Read**: Read similar files to match style.
 3.  **Types**: Find the TypeScript interfaces/types defined in the project.
 
@@ -29,5 +29,5 @@ Before writing any code:
 
 ## 🛠️ Tooling
 - Use `bun tools/hotspots.ts` to find frequently changed files.
-- Use `ls` or `dir` to explore the directory structure.
+- Use `list_files` to explore the directory structure.
 </skill_doc>

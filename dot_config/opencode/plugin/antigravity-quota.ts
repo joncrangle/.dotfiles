@@ -3,7 +3,29 @@ import { tool } from "@opencode-ai/plugin";
 import { homedir } from "os";
 import { join } from "path";
 
-const configDir = join(homedir(), ".config", "opencode");
+const EXCLUDED_PATTERNS = [
+  "chat",
+  "rev19",
+  "gemini-3-pro-image",
+  "gemini-2.5",
+  "tab-flash",
+];
+
+/**
+ * Normalize a string for pattern matching by replacing all non-alphanumeric
+ * characters with hyphens and lowercasing.
+ */
+function normalizeForMatch(str: string): string {
+  return str.toLowerCase().replace(/[^a-z0-9]/g, "-");
+}
+
+// Pre-normalize excluded patterns once for efficient matching
+const NORMALIZED_EXCLUDED_PATTERNS = EXCLUDED_PATTERNS.map(normalizeForMatch);
+
+const isWindows = process.platform === "win32";
+const configDir = isWindows
+  ? join(homedir(), "AppData", "Roaming", "opencode")
+  : join(homedir(), ".config", "opencode");
 const accountsFile = join(configDir, "antigravity-accounts.json");
 
 const OAUTH_CLIENT_ID =
@@ -12,6 +34,23 @@ const OAUTH_CLIENT_SECRET = "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";
 const CLOUDCODE_BASE_URL = "https://cloudcode-pa.googleapis.com";
 
 const QUOTA_CHECK_INTERVAL = 4; // Check quota every N user turns
+const DEBUG = true; // When true, append error messages to chat if fetchQuota fails
+
+// Per-session state tracking
+interface SessionState {
+  turnCount: number;
+  lastQuotaDisplay: number;
+}
+const sessionStates = new Map<string, SessionState>();
+
+function getSessionState(sessionID: string): SessionState {
+  let state = sessionStates.get(sessionID);
+  if (!state) {
+    state = { turnCount: 0, lastQuotaDisplay: 0 };
+    sessionStates.set(sessionID, state);
+  }
+  return state;
+}
 
 interface AntigravityAccount {
   refreshToken: string;
@@ -63,14 +102,39 @@ async function fetchQuota(): Promise<string> {
   // Read config
   const file = Bun.file(accountsFile);
   if (!(await file.exists())) {
-    return "❌ No Antigravity account found";
+    throw new Error(
+      `Account file not found at: ${accountsFile}. Run 'antigravity auth' to authenticate.`,
+    );
   }
 
-  const config: AccountsConfig = JSON.parse(await file.text());
+  let config: AccountsConfig;
+  try {
+    const text = await file.text();
+    config = JSON.parse(text);
+  } catch (parseErr) {
+    throw new Error(
+      `Invalid JSON in account file: ${accountsFile}. ${parseErr instanceof Error ? parseErr.message : String(parseErr)}`,
+    );
+  }
+
+  if (!config.accounts || !Array.isArray(config.accounts)) {
+    throw new Error(
+      `Malformed account file: missing 'accounts' array in ${accountsFile}`,
+    );
+  }
+
   const account = config.accounts[config.activeIndex ?? 0];
 
   if (!account) {
-    return "❌ No active account";
+    throw new Error(
+      `No active account at index ${config.activeIndex ?? 0}. Available accounts: ${config.accounts.length}`,
+    );
+  }
+
+  if (!account.refreshToken) {
+    throw new Error(
+      `Active account is missing refreshToken. Re-authenticate with 'antigravity auth'.`,
+    );
   }
 
   // Get token
@@ -120,6 +184,12 @@ async function fetchQuota(): Promise<string> {
   const modelsWithQuota: Array<{ name: string; percent: number }> = [];
 
   for (const [name, info] of Object.entries(data.models)) {
+    // Skip models matching excluded patterns (normalize separators for matching)
+    const normalizedName = normalizeForMatch(name);
+    if (NORMALIZED_EXCLUDED_PATTERNS.some((p) => normalizedName.includes(p))) {
+      continue;
+    }
+
     const fraction = info.quotaInfo?.remainingFraction;
     if (fraction === undefined || fraction === null) continue;
 
@@ -158,33 +228,37 @@ async function fetchQuota(): Promise<string> {
 }
 
 const plugin: Plugin = async (_ctx) => {
-  let turnCount = 0;
-
   return {
     hooks: {
-      // Track user messages and trigger quota display every 4 turns
+      // Track user messages and append quota on intervals
       "chat.message": async (
-        _input: { sessionID: string },
-        output: { message: { role: string } },
+        input: { sessionID: string },
+        output: { message: { role: string; content: string } },
       ) => {
-        // Only count user messages
-        if (output.message.role === "user") {
-          turnCount++;
-        }
-      },
+        const sessionState = getSessionState(input.sessionID);
 
-      // Inject quota into system prompt every 4 turns
-      "experimental.chat.system.transform": async (
-        _input: { sessionID: string },
-        output: { system: string[] },
-      ) => {
-        // Every 4 turns, inject quota info into system context
-        if (turnCount > 0 && turnCount % QUOTA_CHECK_INTERVAL === 0) {
+        // Count user turns
+        if (output.message.role === "user") {
+          sessionState.turnCount++;
+        }
+
+        // After assistant responds, display quota on interval-based turns
+        if (
+          output.message.role === "assistant" &&
+          sessionState.turnCount > 0 &&
+          sessionState.turnCount % QUOTA_CHECK_INTERVAL === 0 &&
+          sessionState.lastQuotaDisplay !== sessionState.turnCount
+        ) {
           try {
             const quota = await fetchQuota();
-            output.system.push(`[Quota Update - Turn ${turnCount}]\n${quota}`);
-          } catch {
-            // Silently fail - don't interrupt user
+            output.message.content += `\n\n---\n\n${quota}`;
+            sessionState.lastQuotaDisplay = sessionState.turnCount;
+          } catch (err) {
+            const msg = err instanceof Error ? err.message : String(err);
+            if (DEBUG) {
+              output.message.content += `\n\n---\n\n⚠️ Quota display failed: ${msg}`;
+            }
+            sessionState.lastQuotaDisplay = sessionState.turnCount;
           }
         }
       },
@@ -194,23 +268,23 @@ const plugin: Plugin = async (_ctx) => {
     async config(config) {
       config.command = config.command || {};
       config.command.quota = {
-        template: `Call the quota tool and display the EXACT output verbatim.
-Do NOT summarize, reformat, or convert to tables.
-The output is already formatted - just show it as-is in a code block.`,
+        template: `Call the quota tool and display the output verbatim in a code block. 
+Output ONLY the code block. 
+Do not include any commentary, explanations, reasoning, or tags like <commentary>.`,
         description: "Check Antigravity AI quota",
       };
     },
 
-    // Register quota tool that can be called by AI
+    // Register quota tool
     tool: {
       quota: tool({
         description:
-          "Check Antigravity AI quota remaining - returns detailed breakdown of all models with visual progress bars. IMPORTANT: Display the output EXACTLY as returned, do not reformat.",
+          "Check Antigravity AI quota remaining - returns detailed breakdown of all models with visual progress bars. IMPORTANT: Display the output EXACTLY as returned, do not reformat. Do not add any commentary, explanations, or tags.",
         args: {},
         async execute(_args, _context) {
           try {
             const result = await fetchQuota();
-            return `DISPLAY THIS EXACTLY AS-IS (do not summarize or reformat):\n\n${result}`;
+            return result;
           } catch (err) {
             const msg = err instanceof Error ? err.message : String(err);
             return `❌ Error: ${msg}`;

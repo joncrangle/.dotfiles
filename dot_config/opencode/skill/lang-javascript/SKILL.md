@@ -381,7 +381,7 @@ bun pm cache rm
 Module System:
 ```bash
 # Check package.json type
-cat package.json | grep '"type"'
+# (Use the Read tool to inspect package.json)
 
 # ESM: "type": "module" - use import/export
 # CommonJS: "type": "commonjs" or omitted - use require/module.exports

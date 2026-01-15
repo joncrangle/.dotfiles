@@ -89,6 +89,7 @@ zoxide = "latest"
 {{- end }}
 "go:github.com/a-h/templ/cmd/templ" = "latest"
 "npm:bash-language-server" = "latest"
+"npm:btca" = "latest"
 "npm:@github/copilot-language-server" = "latest"
 "npm:dockerfile-language-server-nodejs" = "latest"
 "npm:@microsoft/compose-language-service" = "latest"
