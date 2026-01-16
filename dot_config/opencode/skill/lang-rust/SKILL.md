@@ -1,9 +1,6 @@
 ---
 name: lang-rust
 description: Rust 1.92+ development specialist covering Axum, Tokio, SQLx, and memory-safe systems programming. Use when building high-performance, memory-safe applications or WebAssembly.
-version: 0.0.1
-updated: 2025-12-30
-status: active
 credit: modu-ai/moai-adk
 ---
 
@@ -354,8 +351,3 @@ Performance Characteristics:
 See [reference.md](reference.md) for complete language reference and Context7 library mappings.
 
 See [examples.md](examples.md) for production-ready code examples.
-
----
-
-Last Updated: 2025-12-30
-Version: 1.1.0

@@ -1,11 +1,6 @@
 ---
-id: code-style
 name: CodeStyle
 description: Discovery, typing, and execution standards.
-category: skill
-type: skill
-version: 1.0.0
-author: opencode
 ---
 
 <skill_doc>

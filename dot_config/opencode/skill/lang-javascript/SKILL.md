@@ -1,9 +1,6 @@
 ---
 name: lang-javascript
 description: JavaScript ES2024+ development specialist covering Bun runtime, Hono web framework, modern testing, linting (Biome), and edge-first development. Use when developing JavaScript APIs, web applications, or server-side projects.
-version: 0.0.1
-updated: 2025-12-30
-status: active
 credit: modu-ai/moai-adk
 ---
 
@@ -395,8 +392,3 @@ rm -rf node_modules bun.lockb && bun install
 # Check for outdated packages
 bun outdated
 ```
-
----
-
-Last Updated: 2025-12-30
-Status: Active (v1.1.0)

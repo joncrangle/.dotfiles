@@ -19,6 +19,7 @@ tools:
   todowrite: true
   todoread: true
   state: true
+  btca: true
 
 permissions:
   bash:
@@ -37,6 +38,7 @@ You extract API signatures and document them precisely.
 3.  **Signature Extraction**: Use AST tools or code analysis to extract exact function signatures.
 4.  **Concise**: No fluff. Use bullet points and clear headers.
 5.  **Format**: Markdown is your native tongue.
+6.  **Library Verification**: Use `btca` to verify library documentation accuracy when writing API docs.
 </core_directives>
 
 <state_coordination>

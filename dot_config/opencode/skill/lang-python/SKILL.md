@@ -1,9 +1,6 @@
 ---
 name: lang-python
 description: Python 3.13+ development specialist covering FastAPI, Django, async patterns, data science, testing with pytest, and modern Python features. Use when developing Python APIs, web applications, data pipelines, or writing tests.
-version: 0.0.1
-updated: 2025-12-30
-status: active
 credit: modu-ai/moai-adk
 ---
 
@@ -465,8 +462,3 @@ Pydantic v2 Migration:
 - `parse_obj()` is now `model_validate()`
 - `parse_raw()` is now `model_validate_json()`
 - `from_orm()` requires `from_attributes=True` in ConfigDict
-
----
-
-Last Updated: 2025-12-30
-Status: Active (v0.0.1)

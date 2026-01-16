@@ -20,8 +20,6 @@ tools:
   lsp_diagnostics: true
   lsp_rename: true
   lsp_code_actions: true
-  ast_grep_search: true
-  ast_grep_replace: true
   
   # Navigation
   read: true
@@ -37,6 +35,7 @@ tools:
   skill: true
   todowrite: true
   todoread: true
+  btca: true
 
 permissions:
   bash:
@@ -64,8 +63,11 @@ You DO NOT plan. You DO NOT manage git. You build.
     -   Run tests *after* changes to verify fix.
     -   If no tests exist, create a minimal reproduction case.
 3.  **Code Intelligence**:
-    -   Use `lsp_diagnostics` to check for errors before reporting success.grep
+    -   Use `lsp_diagnostics` to check for errors before reporting success.
     -   Use `lsp_find_references` to safely rename variables.
+    -   Use `search_files` for pattern searches (never use `grep` directly).
+4.  **Library Context**:
+    -   Use `btca` to query library documentation when implementing unfamiliar APIs.
 </core_directives>
 
 <state_coordination>

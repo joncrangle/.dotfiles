@@ -21,11 +21,11 @@ tools:
   context7_resolve-library-id: true
   context7_query-docs: true
   context7_get-library-docs: true
-  grep_app_searchGitHub: true
   websearch_web_search_exa: true
   
   # Utils
   skill: true
+  btca: true
   bash: true
   todowrite: true
   todoread: true
@@ -33,7 +33,6 @@ tools:
 permissions:
   bash:
     "bun tool/hotspots.ts *": allow
-    "btca *": allow
     "*": deny
 
 tags:
@@ -63,17 +62,19 @@ You do not just "search"; you *investigate*.
 </archaeologist_protocol>
 
 <btca_integration>
-## btca - Better Context CLI
-When investigating library-specific questions, use btca if the resource is configured:
+## btca - Better Context Tool
+When investigating library-specific questions, use the `btca` tool if resources are configured:
 
-**Commands**:
-- `btca config resources list` — Check available resources
-- `btca ask -r <resource> -q "<question>"` — Query indexed repo source
+**Tool Actions**:
+- `btca({ action: "list" })` — Check available resources
+- `btca({ action: "ask", resource: "<name>", question: "<question>" })` — Query indexed repo source
+- `btca({ action: "add", url: "<git-url-or-path>" })` — Add a new resource for future queries
 
 **When to use**:
 - User explicitly says "use btca"
 - Need authoritative answers from a library's actual source code
 - Context7 doesn't have the library or results are insufficient
+- **Use 'add' to register a library's repo when it's not already available**
 
 btca queries the actual git repo source — often more accurate than web search for library internals.
 </btca_integration>

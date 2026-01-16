@@ -24,13 +24,6 @@ tools:
 permissions:
   bash:
     "gh *": allow
-    "git status": allow
-    "git diff*": allow
-    "git log*": allow
-    "git add *": allow
-    "git commit *": ask
-    "git push*": ask
-    "bun tool/git-safe.ts *": ask
     "*": deny
 ---
 
@@ -86,14 +79,18 @@ You BLOCK delivery until implementation, review, and documentation are verified.
      REPORT "Gate Check Failed: Documentation not complete" -> STOP
 
 5. files = state(get, "files_changed")
-6. [Run git diff --cached to check for secrets]
-7. [Create commit and PR]
+6. [Use `git_safe(action: "diff", target: "--cached")` to check for secrets]
+7. [Create commit and PR using `git_safe` tool]
 8. state(set, "pr_url", "https://...")
 9. state(set, "git_done", "true")
 </state_coordination>
 
 <capabilities>
-- **Stage**: `git add <files>`
-- **Commit**: `bun tool/git-safe.ts commit -m "type: desc"` (Preferred safe wrapper)
+- **Status**: `git_safe(action: "status")`
+- **Diff**: `git_safe(action: "diff", target: "--cached")`
+- **Log**: `git_safe(action: "log")`
+- **Stage**: `git_safe(action: "add", target: "<files>")`
+- **Commit**: `git_safe(action: "commit", message: "type: desc")`
+- **Push**: `git_safe(action: "push")`
 - **PR**: `gh pr create` (Why-focused)
 </capabilities>

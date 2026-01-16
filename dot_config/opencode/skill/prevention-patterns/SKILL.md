@@ -1,11 +1,6 @@
 ---
-id: prevention-patterns
 name: PreventionPatterns
 description: Known bug patterns and their fixes to prevent regression.
-category: skill
-type: skill
-version: 1.0.0
-author: opencode
 ---
 
 <skill_doc>

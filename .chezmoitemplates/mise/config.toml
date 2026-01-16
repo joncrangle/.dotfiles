@@ -7,6 +7,7 @@
 [tools]
 age = "latest"
 air = "latest"
+ast-grep = "latest"
 bitwarden = "latest"
 bat = "latest"
 biome = "latest"

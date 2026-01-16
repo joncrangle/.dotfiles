@@ -9,8 +9,8 @@ You will help the user create a perfect commit.
 
 ## 1. Context & Safety
 First, run these commands (silently analyze, don't output unless error):
-1. `git diff --cached --stat` (See what's staged)
-2. `git diff --cached --name-only` (Check for secrets/keys)
+1. `git_safe(action: "diff", target: "--cached --stat")` (See what's staged)
+2. `git_safe(action: "diff", target: "--cached --name-only")` (Check for secrets/keys)
 
 **SAFETY CHECK**:
 If you see `.env`, `*.key`, or typical API key patterns in the diff, **STOP**. Warn the user immediately.
@@ -40,4 +40,4 @@ Propose 3 commit messages in this format:
 
 ## 4. Execution
 Ask the user to pick one (1, 2, or 3) or provide their own.
-THEN run: `git commit -m "..."`
+THEN run: `git_safe(action: "commit", message: "...")`

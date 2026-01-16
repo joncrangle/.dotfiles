@@ -1,9 +1,6 @@
 ---
 name: lang-typescript
 description: TypeScript 5.9+ development specialist covering SolidJS, TanStack Start, Valibot validation, and modern TypeScript patterns. Use when developing TypeScript applications, SolidJS components, TanStack Start pages, or type-safe APIs.
-version: 0.0.1
-updated: 2025-12-30
-status: active
 credit: modu-ai/moai-adk
 ---
 
@@ -974,8 +971,3 @@ function isUser(v: unknown): v is User {
   return typeof v === "object" && v !== null && "id" in v;
 }
 ```
-
----
-
-Version: 1.1.0
-Last Updated: 2025-12-30

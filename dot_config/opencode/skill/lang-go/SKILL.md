@@ -1,9 +1,6 @@
 ---
 name: lang-go
 description: Go 1.23+ development specialist covering Chi, GORM, and concurrent programming patterns. Use when building high-performance microservices, CLI tools, or cloud-native applications.
-version: 0.0.1
-updated: 2025-12-30
-status: active
 credit: modu-ai/moai-adk
 ---
 
@@ -357,8 +354,3 @@ Performance Diagnostics:
 See [reference.md](reference.md) for complete framework reference, advanced patterns, and Context7 library mappings.
 
 See [examples.md](examples.md) for production-ready code including REST APIs, CLI tools, and deployment configurations.
-
----
-
-Last Updated: 2025-12-30
-Version: 0.0.1
