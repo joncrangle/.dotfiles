@@ -23,13 +23,15 @@ function Set-AliasIfExists
     )
     if (Get-Command $Command -ErrorAction SilentlyContinue)
     {
-        if (Get-Alias $Alias -ErrorAction SilentlyContinue)
+        if (Test-Path "Alias:\$Alias")
         {
-            Remove-Item "alias:\$Alias" -Force -ErrorAction SilentlyContinue
+            Remove-Item "Alias:\$Alias" -Force -ErrorAction SilentlyContinue
         }
         Set-Alias -Name $Alias -Value $Command -Scope Global -Force
     }
 }
+
+$PSP_IsInteractive = [Environment]::GetCommandLineArgs() -notcontains "-NonInteractive" -and [Environment]::GetCommandLineArgs() -notcontains "-Command"
 
 # ------------------------------------------------------
 # 1. MODULES (SAFE LOAD)
@@ -48,7 +50,7 @@ if ($PSVersionTable.PSVersion.Major -ge 6)
     $miseScript = $miseScript -replace '\[Microsoft.PowerShell.PSConsoleReadLine\]::GetHistoryItems\(\)', '@()'
     Invoke-Expression $miseScript
 
-    if (Get-Module -ListAvailable Terminal-Icons)
+    if ((Get-Module -ListAvailable Terminal-Icons) -and (Get-Command Import-PowerShellDataFile -ErrorAction SilentlyContinue))
     {
         Import-Module Terminal-Icons -ErrorAction SilentlyContinue
     }
@@ -127,11 +129,11 @@ Set-Alias c Clear-Host -Force
 # zoxide replaces cd
 if (Get-Command z -ErrorAction SilentlyContinue)
 {
-    if (Get-Alias cd -ErrorAction SilentlyContinue)
-    {
-        Remove-Item alias:cd -Force -ErrorAction SilentlyContinue
+    if (Test-Path "Alias:cd")
+    { 
+        Remove-Item Alias:cd -Force -ErrorAction SilentlyContinue 
     }
-    Set-Alias cd z -Option AllScope
+    Set-Alias cd z -Option AllScope -Force
 }
 
 # ------------------------------------------------------
@@ -359,7 +361,7 @@ function yy
 # 10. BANNER (ONCE)
 # ------------------------------------------------------
 
-if (-not $global:ProfileBannerShown -and $Host.Name -eq 'ConsoleHost')
+if (-not $global:ProfileBannerShown -and $Host.Name -eq 'ConsoleHost' -and $PSP_IsInteractive)
 {
     $global:ProfileBannerShown = $true
     $esc = [char]27
