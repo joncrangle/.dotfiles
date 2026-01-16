@@ -13,26 +13,6 @@ const REWRITE_AGENTS = new Set(["coder"]);
 // Agents restricted to read-only exploration (no mutation-oriented patterns)
 const READ_ONLY_AGENTS = new Set(["explorer", "explore"]);
 
-// Log file for audit trail
-const AUDIT_LOG = ".opencode/search_audit.log";
-
-async function logAccess(agent: string, query: string, path: string, allowed: boolean) {
-  const entry = JSON.stringify({
-    timestamp: new Date().toISOString(),
-    agent,
-    query,
-    path,
-    allowed,
-  });
-  try {
-    const file = Bun.file(AUDIT_LOG);
-    const existing = await file.exists() ? await file.text() : "";
-    await Bun.write(AUDIT_LOG, existing + entry + "\n");
-  } catch {
-    // Ignore logging failures silently
-  }
-}
-
 export default tool({
   description:
     "Smart search tool. Finds code patterns using the fastest available utility (sg, rg, grep, or findstr).",
@@ -67,7 +47,6 @@ export default tool({
     // ACCESS CONTROL: Restrict rewrites to @coder agent only
     // =========================================================================
     if (rewrite !== undefined && !REWRITE_AGENTS.has(agent)) {
-      await logAccess(agent, query, path, false);
       ctx.metadata({ title: `[DENIED] Rewrite by ${agent}` });
       return "Permission Denied: Only the @coder agent is authorized to perform code rewrites.";
     }
@@ -76,13 +55,10 @@ export default tool({
     // ACCESS CONTROL: Restrict AST patterns to trusted agents
     // =========================================================================
     if (isAstPattern && !AST_PATTERN_AGENTS.has(agent)) {
-      await logAccess(agent, query, path, false);
       ctx.metadata({ title: `[DENIED] AST search by ${agent}` });
       return `Access Denied: Agent '${agent}' is not authorized to use AST patterns.\nAllowed agents: ${[...AST_PATTERN_AGENTS].join(", ")}`;
     }
 
-    // Log successful access
-    await logAccess(agent, query, path, true);
     ctx.metadata({ title: `Search by ${agent}` });
 
     try {

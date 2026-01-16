@@ -10,33 +10,6 @@ const REWRITE_AGENTS = new Set(["coder", "swarm"]);
 // Preview-only agents can view what would change but not apply
 const PREVIEW_AGENTS = new Set(["researcher", "reviewer", "explore"]);
 
-// Log file for rewrite audit trail
-const AUDIT_LOG = ".opencode/rewrite_audit.log";
-
-async function logRewrite(
-  agent: string,
-  pattern: string,
-  replacement: string,
-  path: string,
-  action: "applied" | "preview" | "denied"
-) {
-  const entry = JSON.stringify({
-    timestamp: new Date().toISOString(),
-    agent,
-    pattern,
-    replacement,
-    path,
-    action,
-  });
-  try {
-    const file = Bun.file(AUDIT_LOG);
-    const existing = (await file.exists()) ? await file.text() : "";
-    await Bun.write(AUDIT_LOG, existing + entry + "\n");
-  } catch {
-    // Ignore logging failures silently
-  }
-}
-
 // Check if ast-grep (sg) is installed
 const sgPath = Bun.which("sg");
 
@@ -87,7 +60,6 @@ export default tool({
 
     // Completely unauthorized agents
     if (!canPreview) {
-      await logRewrite(agent, pattern, replacement, path, "denied");
       ctx.metadata({ title: `[DENIED] Rewrite by ${agent}` });
       return `Access Denied: Agent '${agent}' is not authorized for code rewrites.\nPreview agents: ${[...PREVIEW_AGENTS].join(", ")}\nRewrite agents: ${[...REWRITE_AGENTS].join(", ")}`;
     }
@@ -120,7 +92,6 @@ export default tool({
           return `ast-grep error: ${stderr}`;
         }
 
-        await logRewrite(agent, pattern, replacement, path, "preview");
         ctx.metadata({ title: `Preview rewrite by ${agent}` });
 
         const lines = output.trim().split("\n");
@@ -144,7 +115,6 @@ export default tool({
           return `ast-grep rewrite failed (exit ${exitCode}): ${stderr}`;
         }
 
-        await logRewrite(agent, pattern, replacement, path, "applied");
         ctx.metadata({
           title: `Applied rewrite by ${agent}`,
           metadata: { pattern, replacement, path },

@@ -67,7 +67,7 @@ export default tool({
         case "get":
           if (!key) return "Error: 'key' is required for 'get'.";
           const row = stmt.get.get({ $key: key }) as { value: string } | null;
-          return row ? JSON.parse(row.value) : "null (key not found)";
+          return row ? row.value : "null (key not found)";
 
         case "list":
           const rows = stmt.list.all() as { key: string; agent: string }[];

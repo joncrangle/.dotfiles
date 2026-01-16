@@ -50,7 +50,7 @@ export default tool({
 
         case "add":
           if (!target) return "Error: target required for 'add'";
-          await Bun.$`git add ${target}`; // Bun automatically escapes 'target'
+          await Bun.$`git add ${target}`.quiet(); // Bun automatically escapes 'target'
           return `✓ Staged: ${target}`;
 
         case "commit": {
@@ -59,14 +59,14 @@ export default tool({
           const err = validateCommit(message);
           if (err) return err;
 
-          await Bun.$`git commit -m ${message}`;
+          await Bun.$`git commit -m ${message}`.quiet();
           return `✓ Committed: "${message}"`;
         }
 
         case "push": {
           // Get current branch name safely
           const branch = (await Bun.$`git branch --show-current`.text()).trim();
-          await Bun.$`git push origin ${branch}`;
+          await Bun.$`git push origin ${branch}`.quiet();
           return `✓ Pushed to origin/${branch}`;
         }
 
@@ -84,7 +84,7 @@ export default tool({
           // Soft unstage only - safe operation
           if (!target)
             return "Error: target required for 'reset' (file path to unstage)";
-          await Bun.$`git reset HEAD ${target}`;
+          await Bun.$`git reset HEAD ${target}`.quiet();
           return `✓ Unstaged: ${target}`;
 
         default:

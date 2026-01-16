@@ -17,26 +17,6 @@ const RESTRICTED_PATHS = [
 // Agents allowed to access restricted paths
 const ELEVATED_AGENTS = new Set(["coder", "git", "swarm"]);
 
-// Log file for audit trail
-const AUDIT_LOG = ".opencode/list_audit.log";
-
-async function logAccess(agent: string, path: string, style: string, allowed: boolean) {
-  const entry = JSON.stringify({
-    timestamp: new Date().toISOString(),
-    agent,
-    path,
-    style,
-    allowed,
-  });
-  try {
-    const file = Bun.file(AUDIT_LOG);
-    const existing = await file.exists() ? await file.text() : "";
-    await Bun.write(AUDIT_LOG, existing + entry + "\n");
-  } catch {
-    // Ignore logging failures silently
-  }
-}
-
 function isRestrictedPath(path: string): boolean {
   const normalized = path.toLowerCase();
   return RESTRICTED_PATHS.some(
@@ -66,13 +46,10 @@ export default tool({
     // ACCESS CONTROL: Restrict sensitive directories
     // =========================================================================
     if (isRestrictedPath(path) && !ELEVATED_AGENTS.has(agent)) {
-      await logAccess(agent, path, style, false);
       ctx.metadata({ title: `[DENIED] List ${path} by ${agent}` });
       return `Access Denied: Agent '${agent}' cannot list restricted path '${path}'.\nElevated agents: ${[...ELEVATED_AGENTS].join(", ")}`;
     }
 
-    // Log successful access
-    await logAccess(agent, path, style, true);
     ctx.metadata({ title: `List ${path} by ${agent}` });
 
     try {
