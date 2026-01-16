@@ -10,7 +10,9 @@ export default tool({
   args: {
     action: tool.schema
       .enum(["ask", "list", "add"])
-      .describe("Action to perform: 'ask' to query a resource, 'list' to show available resources."),
+      .describe(
+        "Action to perform: 'ask' to query a resource, 'list' to show available resources.",
+      ),
     resource: tool.schema
       .string()
       .optional()
@@ -22,7 +24,9 @@ export default tool({
     url: tool.schema
       .string()
       .optional()
-      .describe("Git repository URL or local path to add as a resource (required for 'add' action)."),
+      .describe(
+        "Git repository URL or local path to add as a resource (required for 'add' action).",
+      ),
   },
   async execute({ action, resource, question, url }) {
     // Guard: btca must be installed
@@ -64,7 +68,7 @@ export default tool({
           {
             stdout: "pipe",
             stderr: "pipe",
-          }
+          },
         );
 
         const output = await new Response(proc.stdout).text();
