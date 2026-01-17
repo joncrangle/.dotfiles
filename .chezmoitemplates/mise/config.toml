@@ -112,4 +112,4 @@ experimental = true
 locked = false
 npm.package_manager = "bun"
 python.uv_venv_auto = true
-idiomatic_version_file_enable_tools = ["python"]
+idiomatic_version_file_enable_tools = ["python", "rust"]
