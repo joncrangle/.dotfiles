@@ -66,6 +66,7 @@ interface AccountsConfig {
 
 interface QuotaInfo {
   remainingFraction?: number;
+  resetTime?: string;
 }
 
 interface ModelInfo {
@@ -74,6 +75,30 @@ interface ModelInfo {
 
 interface FetchModelsResponse {
   models?: Record<string, ModelInfo>;
+}
+
+function formatRelativeTime(dateStr: string): string {
+  const date = new Date(dateStr);
+  const now = new Date();
+  const diffMs = date.getTime() - now.getTime();
+  
+  if (diffMs <= 0) return "now";
+  
+  const diffMins = Math.round(diffMs / 60000);
+  const hours = Math.floor(diffMins / 60);
+  const mins = diffMins % 60;
+  
+  if (hours > 0) {
+    return `${hours}h ${mins}m`;
+  }
+  return `${mins}m`;
+}
+
+function getQuotaStatus(percent: number): string {
+  if (percent <= 0) return "🔴"; // Depleted
+  if (percent < 20) return "🔴"; // Critical
+  if (percent < 50) return "🟡"; // Warning
+  return "🟢"; // Normal
 }
 
 async function getAccessToken(refreshToken: string): Promise<string> {
@@ -167,12 +192,7 @@ async function fetchQuota(): Promise<string> {
   // Build output
   const lines: string[] = [];
 
-  // Header with email if available
-  if (account.email) {
-    lines.push(`Antigravity Quota (${account.email})`);
-  } else {
-    lines.push(`Antigravity Quota`);
-  }
+  lines.push(`Antigravity Quota`);
   lines.push("─".repeat(50));
   lines.push("");
 
@@ -181,7 +201,7 @@ async function fetchQuota(): Promise<string> {
   let geminiPct: number | null = null;
 
   // Collect all models with quota
-  const modelsWithQuota: Array<{ name: string; percent: number }> = [];
+  const modelsWithQuota: Array<{ name: string; percent: number; reset?: string }> = [];
 
   for (const [name, info] of Object.entries(data.models)) {
     // Skip models matching excluded patterns (normalize separators for matching)
@@ -194,7 +214,7 @@ async function fetchQuota(): Promise<string> {
     if (fraction === undefined || fraction === null) continue;
 
     const percent = Math.round(fraction * 100);
-    modelsWithQuota.push({ name, percent });
+    modelsWithQuota.push({ name, percent, reset: info.quotaInfo?.resetTime });
 
     // Track summary values
     if (name.toLowerCase().includes("claude") && claudePct === null) {
@@ -208,20 +228,30 @@ async function fetchQuota(): Promise<string> {
     }
   }
 
+  // Sort by percentage (lowest first) to highlight critically low models
+  modelsWithQuota.sort((a, b) => a.percent - b.percent);
+
   // Summary line
-  const claudeStr = claudePct !== null ? `${claudePct}%` : "--%";
-  const geminiStr = geminiPct !== null ? `${geminiPct}%` : "--%";
+  const claudeStr = claudePct !== null ? `${getQuotaStatus(claudePct)} ${claudePct}%` : "--%";
+  const geminiStr = geminiPct !== null ? `${getQuotaStatus(geminiPct)} ${geminiPct}%` : "--%";
   lines.push(`Claude: ${claudeStr} • Gemini: ${geminiStr}`);
   lines.push("");
 
   // Detailed breakdown with visual bars
   lines.push("Model Details:");
-  for (const { name, percent } of modelsWithQuota) {
+  for (const { name, percent, reset } of modelsWithQuota) {
     const filled = Math.floor(percent / 10);
     const empty = 10 - filled;
     const bar = "█".repeat(filled) + "░".repeat(empty);
+    const status = getQuotaStatus(percent);
+    
+    let details = `    ${status} ${bar} ${percent}%`;
+    if (reset) {
+      details += ` • Resets in ${formatRelativeTime(reset)}`;
+    }
+    
     lines.push(`  ${name}`);
-    lines.push(`    ${bar} ${percent}% remaining`);
+    lines.push(details);
   }
 
   return "```\n" + lines.join("\n") + "\n```";
