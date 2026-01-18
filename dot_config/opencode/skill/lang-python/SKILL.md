@@ -4,6 +4,28 @@ description: Python 3.13+ development specialist covering FastAPI, Django, async
 credit: modu-ai/moai-adk
 ---
 
+<trigger_keywords>
+## Trigger Keywords
+
+Activate this skill when the user mentions any of:
+
+**File Extensions**: `.py`, `pyproject.toml`, `requirements.txt`, `pytest.ini`, `setup.py`
+
+**Python Core**: Python, python3, pip, poetry, uv, asyncio, async/await, type hints, dataclass, Protocol, TypeVar, ParamSpec, match/case, pattern matching
+
+**Web Frameworks**: FastAPI, Django, Flask, Starlette, ASGI, WSGI, Depends, APIRouter, @app.get, @app.post
+
+**Validation**: Pydantic, BaseModel, model_validate, ConfigDict, Field, validator, model_validator
+
+**ORM/Database**: SQLAlchemy, AsyncSession, create_async_engine, Alembic, migrations, ORM, query builder
+
+**Testing**: pytest, pytest-asyncio, @pytest.fixture, @pytest.mark.parametrize, mock, conftest.py, coverage
+
+**Data Science**: numpy, pandas, polars, DataFrame, ndarray, data pipeline, ETL
+
+**Package Management**: pip install, poetry add, uv add, virtual environment, venv
+</trigger_keywords>
+
 ## Quick Reference (30 seconds)
 
 Python 3.13+ Development Specialist - FastAPI, Django, async patterns, pytest, and modern Python features.

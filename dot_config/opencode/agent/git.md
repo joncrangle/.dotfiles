@@ -24,6 +24,7 @@ tools:
 permissions:
   bash:
     "gh *": allow
+    "just *": allow
     "*": deny
 ---
 
@@ -52,7 +53,7 @@ You BLOCK delivery until implementation, review, and documentation are verified.
 - `state(get, "files_changed")` - What files to commit
 - `state(get, "review_results")` - MUST be approved
 - `state(get, "test_results")` - MUST have 0 failures
-- `state(get, "security_scan")` - MUST be clean
+- `state(get, "security_scan")` - MUST be passed (no critical/high vulnerabilities)
 - `state(get, "docs_written")` - MUST be "true" (documentation complete)
 - `state(get, "blockers")` - MUST be empty/null (no unresolved blockers)
 
@@ -66,6 +67,7 @@ You BLOCK delivery until implementation, review, and documentation are verified.
    # ══════════════════════════════════════════════════════════════
    review_results = state(get, "review_results")
    test_results = state(get, "test_results")
+   security_scan = state(get, "security_scan")
    docs_written = state(get, "docs_written")
    blockers = state(get, "blockers")
 
@@ -75,14 +77,22 @@ You BLOCK delivery until implementation, review, and documentation are verified.
 3. IF !review_results.approved OR test_results.failed > 0:
      REPORT "Gate Check Failed: Review not approved or tests failing" -> STOP
 
-4. IF docs_written !== "true":
+4. IF security_scan && !security_scan.passed:
+     # Check severity of issues
+     critical_issues = security_scan.issues.filter(i => i.severity in ["critical", "high"])
+     IF critical_issues.length > 0:
+       REPORT "Gate Check Failed: Critical security vulnerabilities detected" -> STOP
+     ELSE:
+       WARN "Security scan has medium/low issues - proceeding with caution"
+
+5. IF docs_written !== "true":
      REPORT "Gate Check Failed: Documentation not complete" -> STOP
 
-5. files = state(get, "files_changed")
-6. [Use `git_safe(action: "diff", target: "--cached")` to check for secrets]
-7. [Create commit and PR using `git_safe` tool]
-8. state(set, "pr_url", "https://...")
-9. state(set, "git_done", "true")
+6. files = state(get, "files_changed")
+7. [Use `git_safe(action: "diff", target: "--cached")` to check for secrets]
+8. [Create commit and PR using `git_safe` tool]
+9. state(set, "pr_url", "https://...")
+10. state(set, "git_done", "true")
 </state_coordination>
 
 <capabilities>

@@ -9,6 +9,41 @@ description: This skill should be used when the user asks to "create a justfile"
 
 Expert guidance for Just, a command runner with syntax inspired by make. Use this skill for creating justfiles, writing recipes, configuring settings, and implementing task automation workflows.
 
+## Justfile Discovery Protocol
+
+**When a justfile exists in a project, agents should prefer just recipes over raw commands.**
+
+### Discovery Steps
+
+1. Check for `justfile` or `Justfile` in project root
+2. Run `just --list` to discover available recipes
+3. Map common operations to recipes:
+
+| Operation   | Just Recipe        | Instead Of                          |
+| ----------- | ------------------ | ----------------------------------- |
+| Run tests   | `just test`        | `npm test`, `cargo test`, `pytest`  |
+| Build       | `just build`       | `npm run build`, `cargo build`      |
+| Lint        | `just lint`        | `npm run lint`, `cargo clippy`      |
+| Format      | `just fmt`         | `npm run format`, `cargo fmt`       |
+| Check       | `just check`       | `npm run check`, `cargo check`      |
+| Coverage    | `just coverage`    | `npm run coverage`, `cargo llvm-cov`|
+| Audit       | `just audit`       | `npm audit`, `cargo audit`          |
+| Dev server  | `just dev`         | `npm run dev`, `cargo run`          |
+| Clean       | `just clean`       | `rm -rf dist`, `cargo clean`        |
+
+### Common Recipe Naming Conventions
+
+- **test** / **t** - Run test suite
+- **build** / **b** - Build project
+- **lint** - Run linter
+- **fmt** - Format code
+- **check** - Type checking / static analysis
+- **coverage** - Generate coverage report
+- **audit** - Security audit
+- **dev** / **serve** - Start development server
+- **clean** - Remove build artifacts
+- **full-check** / **fc** - Run all checks
+
 **Key capabilities:**
 
 - Create and organize justfiles with proper structure

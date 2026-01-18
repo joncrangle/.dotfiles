@@ -96,17 +96,17 @@ export default tool({
 
       // =========================================================================
       // SEARCH MODE: Use available search tools
+      // Priority: ast-grep (semantic) > ripgrep (fast) > grep > findstr
       // =========================================================================
 
-      // 1. Try ast-grep (Best for structured code search)
-      // Use sg when: caseSensitive is true OR query is an AST pattern
-      // sg doesn't have a simple case-insensitive flag, so fall back to rg for case-insensitive
-      if (Bun.which("sg") && (caseSensitive || isAstPattern)) {
+      // 1. Try ast-grep (Best for structured code search - prioritized for patterns)
+      // ast-grep provides better semantic code understanding
+      if (Bun.which("sg") && (caseSensitive || isAstPattern || fileType)) {
         cmd = ["sg", "-p", query];
         if (fileType) cmd.push("-l", fileType);
         cmd.push(path);
       }
-      // 2. Try Ripgrep (Fastest, Cross-Platform)
+      // 2. Try Ripgrep (Fastest for plain text, Cross-Platform)
       else if (Bun.which("rg")) {
         cmd = [
           "rg",

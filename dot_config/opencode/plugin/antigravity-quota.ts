@@ -11,15 +11,10 @@ const EXCLUDED_PATTERNS = [
   "tab-flash",
 ];
 
-/**
- * Normalize a string for pattern matching by replacing all non-alphanumeric
- * characters with hyphens and lowercasing.
- */
 function normalizeForMatch(str: string): string {
   return str.toLowerCase().replace(/[^a-z0-9]/g, "-");
 }
 
-// Pre-normalize excluded patterns once for efficient matching
 const NORMALIZED_EXCLUDED_PATTERNS = EXCLUDED_PATTERNS.map(normalizeForMatch);
 
 const isWindows = process.platform === "win32";
@@ -33,24 +28,10 @@ const OAUTH_CLIENT_ID =
 const OAUTH_CLIENT_SECRET = "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";
 const CLOUDCODE_BASE_URL = "https://cloudcode-pa.googleapis.com";
 
-const QUOTA_CHECK_INTERVAL = 4; // Check quota every N user turns
-const DEBUG = true; // When true, append error messages to chat if fetchQuota fails
-
-// Per-session state tracking
-interface SessionState {
-  turnCount: number;
-  lastQuotaDisplay: number;
-}
-const sessionStates = new Map<string, SessionState>();
-
-function getSessionState(sessionID: string): SessionState {
-  let state = sessionStates.get(sessionID);
-  if (!state) {
-    state = { turnCount: 0, lastQuotaDisplay: 0 };
-    sessionStates.set(sessionID, state);
-  }
-  return state;
-}
+const QUOTA_CHECK_INTERVAL = 4;
+const DEBUG = false;
+const QUOTA_MESSAGE_MARKER = "<!-- QUOTA_DISPLAY -->";
+let quotaFetchInProgress = false;
 
 interface AntigravityAccount {
   refreshToken: string;
@@ -81,13 +62,13 @@ function formatRelativeTime(dateStr: string): string {
   const date = new Date(dateStr);
   const now = new Date();
   const diffMs = date.getTime() - now.getTime();
-  
+
   if (diffMs <= 0) return "now";
-  
+
   const diffMins = Math.round(diffMs / 60000);
   const hours = Math.floor(diffMins / 60);
   const mins = diffMins % 60;
-  
+
   if (hours > 0) {
     return `${hours}h ${mins}m`;
   }
@@ -95,10 +76,10 @@ function formatRelativeTime(dateStr: string): string {
 }
 
 function getQuotaStatus(percent: number): string {
-  if (percent <= 0) return "🔴"; // Depleted
-  if (percent < 20) return "🔴"; // Critical
-  if (percent < 50) return "🟡"; // Warning
-  return "🟢"; // Normal
+  if (percent <= 5) return "🔴";
+  if (percent < 20) return "🟠";
+  if (percent < 50) return "🟡";
+  return "🟢";
 }
 
 async function getAccessToken(refreshToken: string): Promise<string> {
@@ -124,7 +105,6 @@ async function getAccessToken(refreshToken: string): Promise<string> {
 }
 
 async function fetchQuota(): Promise<string> {
-  // Read config
   const file = Bun.file(accountsFile);
   if (!(await file.exists())) {
     throw new Error(
@@ -134,8 +114,7 @@ async function fetchQuota(): Promise<string> {
 
   let config: AccountsConfig;
   try {
-    const text = await file.text();
-    config = JSON.parse(text);
+    config = (await file.json()) as AccountsConfig;
   } catch (parseErr) {
     throw new Error(
       `Invalid JSON in account file: ${accountsFile}. ${parseErr instanceof Error ? parseErr.message : String(parseErr)}`,
@@ -162,10 +141,8 @@ async function fetchQuota(): Promise<string> {
     );
   }
 
-  // Get token
   const accessToken = await getAccessToken(account.refreshToken);
 
-  // Fetch models
   const response = await fetch(
     `${CLOUDCODE_BASE_URL}/v1internal:fetchAvailableModels`,
     {
@@ -189,67 +166,87 @@ async function fetchQuota(): Promise<string> {
     return "❌ No quota data";
   }
 
-  // Build output
   const lines: string[] = [];
 
   lines.push(`Antigravity Quota`);
   lines.push("─".repeat(50));
   lines.push("");
 
-  // Find summary Claude/Gemini for header line
   let claudePct: number | null = null;
   let geminiPct: number | null = null;
 
-  // Collect all models with quota
-  const modelsWithQuota: Array<{ name: string; percent: number; reset?: string }> = [];
+  const modelsWithQuota: Array<{
+    name: string;
+    percent: number | null;
+    reset?: string;
+  }> = [];
 
   for (const [name, info] of Object.entries(data.models)) {
-    // Skip models matching excluded patterns (normalize separators for matching)
     const normalizedName = normalizeForMatch(name);
     if (NORMALIZED_EXCLUDED_PATTERNS.some((p) => normalizedName.includes(p))) {
       continue;
     }
 
     const fraction = info.quotaInfo?.remainingFraction;
-    if (fraction === undefined || fraction === null) continue;
+    let percent: number | null = null;
 
-    const percent = Math.round(fraction * 100);
+    if (fraction !== undefined && fraction !== null) {
+      percent = Math.round(fraction * 100);
+    } else if (info.quotaInfo?.resetTime) {
+      percent = 0;
+    } else {
+      continue;
+    }
+
     modelsWithQuota.push({ name, percent, reset: info.quotaInfo?.resetTime });
 
-    // Track summary values
-    if (name.toLowerCase().includes("claude") && claudePct === null) {
+    if (
+      name.toLowerCase().includes("claude") &&
+      claudePct === null &&
+      percent !== null
+    ) {
       claudePct = percent;
     } else if (
       name.toLowerCase().includes("gemini") &&
       name.includes("flash") &&
-      geminiPct === null
+      geminiPct === null &&
+      percent !== null
     ) {
       geminiPct = percent;
     }
   }
 
-  // Sort by percentage (lowest first) to highlight critically low models
-  modelsWithQuota.sort((a, b) => a.percent - b.percent);
+  modelsWithQuota.sort((a, b) => {
+    const pA = a.percent ?? 101;
+    const pB = b.percent ?? 101;
+    return pA - pB;
+  });
 
-  // Summary line
-  const claudeStr = claudePct !== null ? `${getQuotaStatus(claudePct)} ${claudePct}%` : "--%";
-  const geminiStr = geminiPct !== null ? `${getQuotaStatus(geminiPct)} ${geminiPct}%` : "--%";
+  const claudeStr =
+    claudePct !== null ? `${getQuotaStatus(claudePct)} ${claudePct}%` : "--%";
+  const geminiStr =
+    geminiPct !== null ? `${getQuotaStatus(geminiPct)} ${geminiPct}%` : "--%";
   lines.push(`Claude: ${claudeStr} • Gemini: ${geminiStr}`);
   lines.push("");
 
-  // Detailed breakdown with visual bars
   lines.push("Model Details:");
   for (const { name, percent, reset } of modelsWithQuota) {
-    const filled = Math.floor(percent / 10);
-    const empty = 10 - filled;
-    const bar = "█".repeat(filled) + "░".repeat(empty);
-    const status = getQuotaStatus(percent);
-    
-    let details = `    ${status} ${bar} ${percent}%`;
+    let details: string;
+
+    if (percent !== null) {
+      const filled = Math.floor(percent / 10);
+      const empty = 10 - filled;
+      const bar = "█".repeat(filled) + "░".repeat(empty);
+      const status = getQuotaStatus(percent);
+      details = `    ${status} ${bar} ${percent}%`;
+    } else {
+      details = `    ⚪ ░░░░░░░░░░ --%`;
+    }
+
     if (reset) {
       details += ` • Resets in ${formatRelativeTime(reset)}`;
     }
-    
+
     lines.push(`  ${name}`);
     lines.push(details);
   }
@@ -259,45 +256,60 @@ async function fetchQuota(): Promise<string> {
 
 const plugin: Plugin = async (_ctx) => {
   return {
-    hooks: {
-      // Track user messages and append quota on intervals
-      "chat.message": async (
-        input: { sessionID: string },
-        output: { message: { role: string; content: string } },
-      ) => {
-        const sessionState = getSessionState(input.sessionID);
-
-        // Count user turns
-        if (output.message.role === "user") {
-          sessionState.turnCount++;
-        }
-
-        // After assistant responds, display quota on interval-based turns
-        if (
-          output.message.role === "assistant" &&
-          sessionState.turnCount > 0 &&
-          sessionState.turnCount % QUOTA_CHECK_INTERVAL === 0 &&
-          sessionState.lastQuotaDisplay !== sessionState.turnCount
-        ) {
-          try {
-            const quota = await fetchQuota();
-            output.message.content += `\n\n---\n\n${quota}`;
-            sessionState.lastQuotaDisplay = sessionState.turnCount;
-          } catch (err) {
-            const msg = err instanceof Error ? err.message : String(err);
-            if (DEBUG) {
-              output.message.content += `\n\n---\n\n⚠️ Quota display failed: ${msg}`;
-            }
-            sessionState.lastQuotaDisplay = sessionState.turnCount;
-          }
-        }
+    "experimental.chat.messages.transform": async (
+      _input: {},
+      output: {
+        messages: Array<{
+          info: { role: string };
+          parts: Array<{ type: string; text?: string }>;
+        }>;
       },
+    ) => {
+      const assistantTurns = output.messages.filter(
+        (msg) =>
+          msg.info.role === "assistant" &&
+          !msg.parts.some((p) => p.text?.includes(QUOTA_MESSAGE_MARKER)),
+      ).length;
+
+      if (assistantTurns > 0 && assistantTurns % QUOTA_CHECK_INTERVAL === 0) {
+        // Guard against concurrent fetches during re-renders
+        if (quotaFetchInProgress) return;
+        quotaFetchInProgress = true;
+
+        try {
+          const quotaContent = await fetchQuota();
+          output.messages.push({
+            info: { role: "assistant" },
+            parts: [
+              {
+                type: "text",
+                text: `${QUOTA_MESSAGE_MARKER}\n---\n\n${quotaContent}`,
+              },
+            ],
+          });
+        } catch (err) {
+          const msg = err instanceof Error ? err.message : String(err);
+          if (DEBUG) {
+            output.messages.push({
+              info: { role: "assistant" },
+              parts: [
+                {
+                  type: "text",
+                  text: `${QUOTA_MESSAGE_MARKER}\n---\n\n⚠️ Quota display failed: ${msg}`,
+                },
+              ],
+            });
+          }
+        } finally {
+          quotaFetchInProgress = false;
+        }
+      }
     },
 
-    // Register /quota command via config hook
-    async config(config) {
-      config.command = config.command || {};
-      config.command.quota = {
+    async config(config: Record<string, unknown>) {
+      const cmd = (config.command || {}) as Record<string, unknown>;
+      config.command = cmd;
+      cmd.quota = {
         template: `Call the quota tool and display the output verbatim in a code block. 
 Output ONLY the code block. 
 Do not include any commentary, explanations, reasoning, or tags like <commentary>.`,
@@ -305,7 +317,6 @@ Do not include any commentary, explanations, reasoning, or tags like <commentary
       };
     },
 
-    // Register quota tool
     tool: {
       quota: tool({
         description:

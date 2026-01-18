@@ -4,6 +4,24 @@ description: TypeScript 5.9+ development specialist covering SolidJS, TanStack S
 credit: modu-ai/moai-adk
 ---
 
+<trigger_keywords>
+## Trigger Keywords
+
+Activate this skill when the user mentions any of:
+
+**File Extensions**: `.ts`, `.tsx`, `.mts`, `.cts`
+
+**TypeScript Core**: TypeScript, tsc, tsconfig, type inference, generics, satisfies, decorators, type guard, discriminated union, conditional types, mapped types, template literal types, infer keyword
+
+**SolidJS**: SolidJS, Solid.js, createSignal, createStore, createMemo, createEffect, createResource, `<For>`, `<Show>`, `<Switch>`, `<Match>`, `<Index>`, onMount, onCleanup, fine-grained reactivity
+
+**TanStack**: TanStack Start, TanStack Router, createFileRoute, createServerFn, useLoaderData, file-based routing, server functions, Vinxi
+
+**Validation**: Valibot, v.object, v.string, v.pipe, v.safeParse, schema validation, type-safe validation
+
+**Testing**: Vitest, Solid Testing Library, Playwright, @testing-library/solid, renderToString
+</trigger_keywords>
+
 ## Quick Reference (30 seconds)
 
 TypeScript 5.9+ Development Specialist - Modern TypeScript with SolidJS, TanStack Start, and type-safe API patterns.

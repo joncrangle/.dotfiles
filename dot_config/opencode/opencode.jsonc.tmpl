@@ -180,24 +180,18 @@
   ],
   "share": "manual",
   "permission": {
-    "bash": {
-      "git commit*": "ask",
-      "git add*": "ask",
-      "git push*": "ask",
-      "git pull*": "ask",
-      "git merge*": "ask",
-      "git rebase*": "ask",
-      "git reset*": "ask",
-      "git checkout*": "ask",
-      "git status": "allow",
-      "git log": "allow",
-      "git diff": "allow",
-      "git branch": "allow"
-    },
     "doom_loop": "ask"
   },
   "autoupdate": false,
   "small_model": "opencode/grok-code",
+  "agent": {
+    "explore": {
+      "disable": true
+    },
+    "general": {
+      "disable": true
+    }
+  },
   "plugin": [
     "opencode-antigravity-auth@latest",
     "@tarquinen/opencode-dcp@latest"

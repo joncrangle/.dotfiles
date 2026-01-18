@@ -33,6 +33,7 @@ tools:
 permissions:
   bash:
     "bun tool/hotspots.ts *": allow
+    "just --list": allow
     "*": deny
 
 tags:

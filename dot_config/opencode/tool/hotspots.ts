@@ -12,17 +12,18 @@ export default tool({
       .string()
       .optional()
       .describe(
-        "Timeframe to analyze (e.g., '1 month ago', '2 weeks ago'). Default is entire history.",
+        "Timeframe to analyze (e.g., '1 month ago', '2 weeks ago'). Default: '90 days ago' to focus on recent activity.",
       ),
     author: tool.schema
       .string()
       .optional()
       .describe("Filter commits by author name or email."),
   },
-  async execute({ limit = 20, since, author }) {
+  async execute({ limit = 20, since = "90 days ago", author }) {
     try {
       const args = ["git", "log", "--format=format:", "--name-only"];
-      if (since) args.push(`--since=${since}`);
+      // Default to 90 days to focus on recent file activity
+      args.push(`--since=${since}`);
       if (author) args.push(`--author=${author}`);
 
       const proc = Bun.spawn(args, { stdout: "pipe" });

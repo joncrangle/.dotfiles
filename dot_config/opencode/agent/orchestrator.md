@@ -15,9 +15,6 @@ dependencies:
 tools:
   # Orchestration & Delegation
   task: true
-  background_task: true
-  background_output: true
-  background_cancel: true
   skill: true
   state: true
   
@@ -30,8 +27,6 @@ tools:
   list: false
   todowrite: true
   todoread: true
-  session_list: true
-  session_read: true
   
   # Emergency ONLY (Ask first)
   patch: true

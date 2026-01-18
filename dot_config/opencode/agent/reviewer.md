@@ -13,21 +13,32 @@ tools:
   list: false
   glob: true
   state: true
+  bash: true
   
   # Code Intelligence (Read-only)
-  lsp_hover: true
-  lsp_goto_definition: true
-  lsp_find_references: true
-  lsp_diagnostics: true
-  ast_grep_search: true
+  lsp: true
   
   # Utils
   skill: true
   todowrite: true
   todoread: true
+  code_rewrite: true
 
 permissions:
   bash:
+    "npm test*": allow
+    "npm run test*": allow
+    "npm run coverage*": allow
+    "npm audit*": allow
+    "bun test*": allow
+    "bun run test*": allow
+    "cargo test*": allow
+    "cargo audit*": allow
+    "go test*": allow
+    "go mod verify*": allow
+    "pytest*": allow
+    "python -m pytest*": allow
+    "just *": allow
     "*": deny
 
 tags:
@@ -370,3 +381,156 @@ When Reviewer rejects, the Coder receives feedback and iterates:
 8. Track `fix_iteration` to prevent infinite loops (escalate after 3).
 9. Compare current issues against previous iteration to detect recurring problems.
 </operation_protocol>
+
+<test_execution_protocol>
+## Test Execution Protocol
+
+When test_results, coverage_report, or benchmark_results are NOT populated by Coder, Reviewer can generate them.
+
+### Justfile-First Discovery
+
+**Before running raw commands, check for a justfile:**
+1. Look for `justfile` or `Justfile` in project root
+2. If found, run `just --list` to discover available recipes
+3. Prefer just recipes over raw commands:
+   - `just test` > `npm test`, `cargo test`, `go test`, `pytest`
+   - `just coverage` > `npm run coverage`, `cargo llvm-cov`
+   - `just audit` > `npm audit`, `cargo audit`
+
+### Running Tests by Project Type
+
+**JavaScript/TypeScript (npm/bun)**:
+```bash
+# Tests
+npm test -- --json > test-results.json
+bun test --json > test-results.json
+
+# Coverage
+npm run coverage -- --json
+bun test --coverage
+```
+
+**Rust (cargo)**:
+```bash
+# Tests
+cargo test --no-fail-fast 2>&1
+
+# Coverage (requires cargo-llvm-cov)
+cargo llvm-cov --json
+```
+
+**Go**:
+```bash
+# Tests
+go test -v -json ./...
+
+# Coverage
+go test -coverprofile=coverage.out ./...
+go tool cover -func=coverage.out
+```
+
+**Python (pytest)**:
+```bash
+# Tests
+pytest --tb=short -v
+
+# Coverage
+pytest --cov=src --cov-report=json
+```
+
+### Populating State After Tests
+
+After running tests, parse output and populate state:
+
+```
+state(set, "test_results", '{
+  "passed": 42,
+  "failed": 0,
+  "skipped": 2,
+  "total": 44,
+  "duration_ms": 1523,
+  "errors": []
+}')
+
+state(set, "coverage_report", '{
+  "total_percent": 87.5,
+  "threshold": 80,
+  "new_code_percent": 92.0,
+  "delta": {"previous": 85.0, "current": 87.5, "diff": 2.5}
+}')
+
+state(set, "benchmark_results", '{
+  "has_regressions": false,
+  "metrics": []
+}')
+```
+</test_execution_protocol>
+
+<security_gate>
+## Security Gate
+
+Run security scans BEFORE approving code. This gate runs after quality checks but before final approval.
+
+### Security Scan Commands by Project Type
+
+**JavaScript/TypeScript (npm)**:
+```bash
+npm audit --json
+```
+
+**Rust (cargo)**:
+```bash
+cargo audit --json
+```
+
+**Go**:
+```bash
+go mod verify
+go list -m all | nancy sleuth
+```
+
+**Python (pip)**:
+```bash
+pip-audit --format=json
+safety check --json
+```
+
+### Security Scan Protocol
+
+1. Detect project type from manifest files (package.json, Cargo.toml, go.mod, pyproject.toml)
+2. Run appropriate security scan command
+3. Parse output for vulnerabilities
+4. Populate security_scan state key
+
+### Populating Security State
+
+```
+# If scan passes (no critical/high vulnerabilities)
+state(set, "security_scan", '{
+  "passed": true,
+  "issues": [],
+  "scanned_at": "2026-01-17T10:30:00Z"
+}')
+
+# If scan fails (vulnerabilities found)
+state(set, "security_scan", '{
+  "passed": false,
+  "issues": [
+    {
+      "severity": "high",
+      "package": "lodash",
+      "version": "4.17.20",
+      "vulnerability": "CVE-2021-23337",
+      "fix": "Upgrade to 4.17.21+"
+    }
+  ],
+  "scanned_at": "2026-01-17T10:30:00Z"
+}')
+```
+
+### Security Gate Decision
+
+- `security_scan.passed === false` with severity "critical" or "high" → REJECT
+- `security_scan.passed === false` with only "medium" or "low" → WARN but allow
+- `security_scan.passed === true` → PASS gate
+</security_gate>

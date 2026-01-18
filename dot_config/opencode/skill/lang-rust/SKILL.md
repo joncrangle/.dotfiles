@@ -4,6 +4,30 @@ description: Rust 1.92+ development specialist covering Axum, Tokio, SQLx, and m
 credit: modu-ai/moai-adk
 ---
 
+<trigger_keywords>
+## Trigger Keywords
+
+Activate this skill when the user mentions any of:
+
+**File Extensions**: `.rs`, `Cargo.toml`, `Cargo.lock`
+
+**Rust Core**: Rust, rustc, cargo, ownership, borrowing, lifetimes, traits, impl, derive, macro, unsafe, Result, Option, match expression, pattern matching, let-else
+
+**Async Runtime**: Tokio, async/await, Future, async trait, tokio::spawn, tokio::select!, mpsc channel, oneshot
+
+**Web Frameworks**: Axum, Router, Handler, State extractor, Path extractor, Json extractor, IntoResponse, tower, tower-http
+
+**Database**: SQLx, query_as!, query!, PgPool, transaction, migrations, compile-time SQL checking
+
+**Serialization**: serde, Serialize, Deserialize, serde_json, #[serde(rename_all)]
+
+**Error Handling**: thiserror, anyhow, Error trait, From trait, ? operator
+
+**CLI**: clap, Parser derive, Subcommand, Args
+
+**Systems**: WebAssembly, WASM, memory safety, zero-cost abstractions, FFI
+</trigger_keywords>
+
 ## Quick Reference (30 seconds)
 
 Rust 1.92+ Development Specialist with deep patterns for high-performance, memory-safe applications.

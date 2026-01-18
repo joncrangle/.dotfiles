@@ -4,6 +4,28 @@ description: JavaScript ES2024+ development specialist covering Bun runtime, Hon
 credit: modu-ai/moai-adk
 ---
 
+<trigger_keywords>
+## Trigger Keywords
+
+Activate this skill when the user mentions any of:
+
+**File Extensions**: `.js`, `.mjs`, `.cjs`, `package.json`, `bun.lockb`
+
+**JavaScript Core**: JavaScript, ES2024, ES2025, ESM, CommonJS, import/export, async/await, Promise, Set methods, Object.groupBy, Map.groupBy, toSorted, toReversed, toSpliced
+
+**Runtime**: Bun, Bun.serve, Bun.file, Bun.write, bun:sqlite, bun:test, Node.js alternative
+
+**Web Frameworks**: Hono, hono/cors, hono/jwt, edge-first, Cloudflare Workers, c.json, c.text, middleware
+
+**Validation**: Valibot, @hono/valibot-validator, v.object, v.string, v.pipe, schema validation
+
+**Testing**: bun test, describe, it, expect, mock, beforeEach, afterEach, --coverage
+
+**Linting**: Biome, biomejs, biome.json, linter, formatter, biome check
+
+**Database**: bun:sqlite, Drizzle ORM, SQLite, prepared statements
+</trigger_keywords>
+
 ## Quick Reference (30 seconds)
 
 JavaScript ES2024+ Development Specialist - Modern JavaScript with Bun runtime and Hono framework.

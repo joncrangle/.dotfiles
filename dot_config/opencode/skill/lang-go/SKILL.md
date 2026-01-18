@@ -4,6 +4,26 @@ description: Go 1.23+ development specialist covering Chi, GORM, and concurrent 
 credit: modu-ai/moai-adk
 ---
 
+<trigger_keywords>
+## Trigger Keywords
+
+Activate this skill when the user mentions any of:
+
+**File Extensions**: `.go`, `go.mod`, `go.sum`
+
+**Go Core**: Golang, Go language, goroutine, channel, sync.WaitGroup, sync.Mutex, context.Context, errgroup, defer, panic/recover, go mod, go build, go test
+
+**Web Frameworks**: Fiber, Gin, Echo, Chi, net/http, http.Handler, middleware, router, REST API
+
+**Database/ORM**: GORM, sqlc, pgx, database/sql, sql.DB, migrations, query builder
+
+**CLI**: Cobra, Viper, CLI tool, command-line, flags, subcommands
+
+**Concurrency**: worker pool, semaphore, select statement, buffered channel, fan-out/fan-in, rate limiting
+
+**Cloud Native**: Docker, Kubernetes, containerized, microservice, gRPC, protobuf
+</trigger_keywords>
+
 ## Quick Reference (30 seconds)
 
 Go 1.23+ Development Expert for high-performance backend systems and CLI applications.
