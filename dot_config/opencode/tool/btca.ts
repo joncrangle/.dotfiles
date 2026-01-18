@@ -1,3 +1,4 @@
+import { $ } from "bun";
 import { tool } from "@opencode-ai/plugin";
 
 // Check if btca is installed at module load time (cached for performance)
@@ -37,17 +38,12 @@ export default tool({
     try {
       if (action === "list") {
         // List available btca resources
-        const proc = Bun.spawn(["btca", "config", "resources", "list"], {
-          stdout: "pipe",
-          stderr: "pipe",
-        });
+        const result = await $`btca config resources list`.quiet().nothrow();
+        const output = result.text();
+        const stderr = result.stderr.toString();
 
-        const output = await new Response(proc.stdout).text();
-        const stderr = await new Response(proc.stderr).text();
-        const exitCode = await proc.exited;
-
-        if (exitCode !== 0) {
-          return `btca list failed (exit ${exitCode}): ${stderr || output}`;
+        if (result.exitCode !== 0) {
+          return `btca list failed (exit ${result.exitCode}): ${stderr || output}`;
         }
 
         return output.trim() || "No resources found.";
@@ -63,20 +59,15 @@ export default tool({
         }
 
         // Query the resource with the question
-        const proc = Bun.spawn(
-          ["btca", "ask", "--resource", resource, "--question", question],
-          {
-            stdout: "pipe",
-            stderr: "pipe",
-          },
-        );
+        const result =
+          await $`btca ask --resource ${resource} --question ${question}`
+            .quiet()
+            .nothrow();
+        const output = result.text();
+        const stderr = result.stderr.toString();
 
-        const output = await new Response(proc.stdout).text();
-        const stderr = await new Response(proc.stderr).text();
-        const exitCode = await proc.exited;
-
-        if (exitCode !== 0) {
-          return `btca ask failed (exit ${exitCode}): ${stderr || output}`;
+        if (result.exitCode !== 0) {
+          return `btca ask failed (exit ${result.exitCode}): ${stderr || output}`;
         }
 
         // Truncate very long responses to save context tokens
@@ -95,17 +86,14 @@ export default tool({
         }
 
         // Add a new resource
-        const proc = Bun.spawn(["btca", "config", "resources", "add", url], {
-          stdout: "pipe",
-          stderr: "pipe",
-        });
+        const result = await $`btca config resources add ${url}`
+          .quiet()
+          .nothrow();
+        const output = result.text();
+        const stderr = result.stderr.toString();
 
-        const output = await new Response(proc.stdout).text();
-        const stderr = await new Response(proc.stderr).text();
-        const exitCode = await proc.exited;
-
-        if (exitCode !== 0) {
-          return `btca add failed (exit ${exitCode}): ${stderr || output}`;
+        if (result.exitCode !== 0) {
+          return `btca add failed (exit ${result.exitCode}): ${stderr || output}`;
         }
 
         return output.trim() || `Resource added: ${url}`;
