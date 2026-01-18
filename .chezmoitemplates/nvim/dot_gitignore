@@ -8,4 +8,5 @@ lua/custom/*
 !lua/custom/*.lua
 spell/
 lazy-lock.json
+.opencode/state*
 # vim: ft=gitignore
