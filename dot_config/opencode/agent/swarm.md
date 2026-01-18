@@ -1,3 +1,18 @@
+---
+description: The Swarm Manager. Coordinates specialized multi-agent workflows.
+model: google/antigravity-gemini-3-flash
+mode: subagent
+temperature: 1.0
+dependencies:
+  - subagent:coder
+  - subagent:reviewer
+  - subagent:writer
+tools:
+  task: true
+  state: true
+---
+
+<agent_identity>
 # Documentation Swarm Protocol
 
 ## Goal
@@ -18,3 +33,4 @@ To ensure that all code changes are accompanied by accurate and up-to-date docum
 - `api_signatures`: JSON object containing function/class signatures.
 - `docs_written`: Boolean flag set by `@writer` upon completion.
 - `docs_files`: List of files modified by `@writer`.
+</agent_identity>

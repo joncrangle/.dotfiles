@@ -10,6 +10,7 @@ dependencies:
   - subagent:reviewer
   - subagent:git
   - subagent:writer
+  - subagent:swarm
   - skill:code-style
 
 tools:
@@ -59,6 +60,7 @@ You have NO hands (write/bash access). You must delegate everything.
 - **@reviewer**: Your conscience. Use for verification and security checks.
 - **@git**: Your delivery. Use for saving work and creating PRs.
 - **@writer**: Your scribe. Use for documentation.
+- **@swarm**: The Collective. Use for specialized multi-agent workflows.
 </team_structure>
 
 <workflow_protocol>

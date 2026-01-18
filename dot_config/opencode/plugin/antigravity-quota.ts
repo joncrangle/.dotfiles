@@ -30,8 +30,76 @@ const CLOUDCODE_BASE_URL = "https://cloudcode-pa.googleapis.com";
 
 const QUOTA_CHECK_INTERVAL = 4;
 const DEBUG = false;
-const QUOTA_MESSAGE_MARKER = "<!-- QUOTA_DISPLAY -->";
+const QUOTA_MESSAGE_MARKER = "Antigravity Quota";
+
 let quotaFetchInProgress = false;
+let lastNotificationTimestamp = 0;
+const NOTIFICATION_THROTTLE_MS = 60000; // 1 minute throttle
+
+// Cache for session info to avoid redundant API calls
+const sessionCache = new Map<
+  string,
+  { parentID?: string; isSubAgent: boolean }
+>();
+
+async function getSessionInfo(client: any, sessionId: string) {
+  if (sessionCache.has(sessionId)) {
+    return sessionCache.get(sessionId)!;
+  }
+
+  try {
+    const result = await client.session.get({ path: { id: sessionId } });
+    const info = {
+      parentID: result.data?.parentID,
+      isSubAgent: !!result.data?.parentID,
+    };
+    sessionCache.set(sessionId, info);
+    return info;
+  } catch (err) {
+    return { isSubAgent: false };
+  }
+}
+
+async function getPrimarySessionId(
+  client: any,
+  sessionId: string,
+): Promise<string> {
+  const info = await getSessionInfo(client, sessionId);
+  if (info.parentID) {
+    return getPrimarySessionId(client, info.parentID);
+  }
+  return sessionId;
+}
+
+async function sendNotification(
+  client: any,
+  sessionId: string,
+  content: string,
+  originalMessage: any,
+) {
+  try {
+    await client.session.prompt({
+      path: { id: sessionId },
+      body: {
+        noReply: true,
+        agent: originalMessage.info.agent,
+        model: originalMessage.info.model,
+        variant: originalMessage.info.variant,
+        parts: [
+          {
+            type: "text",
+            text: content + "\n",
+            ignored: true,
+          },
+        ],
+      },
+    });
+  } catch (err) {
+    if (DEBUG) {
+      console.error("Failed to send quota notification:", err);
+    }
+  }
+}
 
 interface AntigravityAccount {
   refreshToken: string;
@@ -168,7 +236,7 @@ async function fetchQuota(): Promise<string> {
 
   const lines: string[] = [];
 
-  lines.push(`Antigravity Quota`);
+  lines.push(QUOTA_MESSAGE_MARKER);
   lines.push("─".repeat(50));
   lines.push("");
 
@@ -251,16 +319,22 @@ async function fetchQuota(): Promise<string> {
     lines.push(details);
   }
 
-  return "```\n" + lines.join("\n") + "\n```";
+  return lines.join("\n");
 }
 
-const plugin: Plugin = async (_ctx) => {
+const plugin: Plugin = async (ctx) => {
   return {
     "experimental.chat.messages.transform": async (
       _input: {},
       output: {
         messages: Array<{
-          info: { role: string };
+          info: {
+            role: string;
+            sessionID: string;
+            agent?: string;
+            model?: { providerID: string; modelID: string };
+            variant?: string;
+          };
           parts: Array<{ type: string; text?: string }>;
         }>;
       },
@@ -271,34 +345,56 @@ const plugin: Plugin = async (_ctx) => {
           !msg.parts.some((p) => p.text?.includes(QUOTA_MESSAGE_MARKER)),
       ).length;
 
-      if (assistantTurns > 0 && assistantTurns % QUOTA_CHECK_INTERVAL === 0) {
+      const lastMessage = output.messages[output.messages.length - 1];
+      if (!lastMessage) return;
+
+      const sessionID = lastMessage.info.sessionID;
+      const alreadyHasQuota = lastMessage.parts.some((p) =>
+        p.text?.includes(QUOTA_MESSAGE_MARKER),
+      );
+
+      if (
+        assistantTurns > 0 &&
+        assistantTurns % QUOTA_CHECK_INTERVAL === 0 &&
+        !alreadyHasQuota
+      ) {
+        // Throttle notifications to avoid spamming the primary view
+        const now = Date.now();
+        if (now - lastNotificationTimestamp < NOTIFICATION_THROTTLE_MS) {
+          return;
+        }
+
         // Guard against concurrent fetches during re-renders
         if (quotaFetchInProgress) return;
         quotaFetchInProgress = true;
 
         try {
           const quotaContent = await fetchQuota();
-          output.messages.push({
-            info: { role: "assistant" },
-            parts: [
-              {
-                type: "text",
-                text: `${QUOTA_MESSAGE_MARKER}\n---\n\n${quotaContent}`,
-              },
-            ],
-          });
+          const primarySessionId = await getPrimarySessionId(
+            ctx.client,
+            sessionID,
+          );
+
+          await sendNotification(
+            ctx.client,
+            primarySessionId,
+            quotaContent,
+            lastMessage,
+          );
+          lastNotificationTimestamp = Date.now();
         } catch (err) {
           const msg = err instanceof Error ? err.message : String(err);
           if (DEBUG) {
-            output.messages.push({
-              info: { role: "assistant" },
-              parts: [
-                {
-                  type: "text",
-                  text: `${QUOTA_MESSAGE_MARKER}\n---\n\n⚠️ Quota display failed: ${msg}`,
-                },
-              ],
-            });
+            const primarySessionId = await getPrimarySessionId(
+              ctx.client,
+              sessionID,
+            );
+            await sendNotification(
+              ctx.client,
+              primarySessionId,
+              `⚠️ Quota display failed: ${msg}`,
+              lastMessage,
+            );
           }
         } finally {
           quotaFetchInProgress = false;
