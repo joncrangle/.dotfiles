@@ -5,7 +5,7 @@ sbar.exec '$CONFIG_DIR/menus/menus -d &'
 
 local apple_logo = sbar.add('item', 'apple_logo', {
   icon = {
-    string = '􀣺',
+    string = '',
     font = { size = 16.0 },
     color = colors.blue,
   },

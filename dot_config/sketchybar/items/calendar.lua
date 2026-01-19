@@ -4,6 +4,15 @@ local colors = require 'colors'
 local popup_toggle = 'sketchybar --set $NAME popup.drawing=toggle'
 local added_calendar_items = false
 
+-- Spacer to balance the media item on the right
+sbar.add('item', 'media.spacer', {
+  position = 'center',
+  width = 0,
+  icon = { drawing = false },
+  label = { drawing = false },
+  background = { drawing = false },
+})
+
 local cal = sbar.add('item', 'calendar', {
   click_script = popup_toggle,
   icon = {
@@ -18,7 +27,7 @@ local cal = sbar.add('item', 'calendar', {
     font = {
       family = settings.font.text,
       style = settings.font.style_map['Bold'],
-      size = 14.0
+      size = 14.0,
     },
   },
   position = 'center',
@@ -39,18 +48,18 @@ local function update_calendar_items()
   if not stdout then
     return ''
   end
-  local month = stdout:read('*all')
+  local month = stdout:read '*all'
   stdout:close()
 
   local lines = {}
-  for line in month:gmatch('[^\n]+') do
-    if line:match("%S") then
+  for line in month:gmatch '[^\n]+' do
+    if line:match '%S' then
       table.insert(lines, line)
     end
   end
 
   local function format_line(line)
-    local current_day = tonumber(os.date('%e')) or 0
+    local current_day = tonumber(os.date '%e') or 0
     -- Highlight the current day by adding `|` around it
     return line:gsub('(%s*)(%d+)(%s*)', function(before, day, after)
       local num = tonumber(day)
@@ -74,13 +83,11 @@ local function update_calendar_items()
         width = 180,
         label = {
           string = format_line(line),
-          color = idx == 1 and colors.peach or
-              idx == 2 and colors.flamingo or
-              colors.maroon,
+          color = idx == 1 and colors.peach or idx == 2 and colors.flamingo or colors.maroon,
           font = {
             family = settings.font.text,
             style = settings.font.style_map['Bold'],
-            size = idx == 1 and 16.0 or 14.0
+            size = idx == 1 and 16.0 or 14.0,
           },
         },
       })
@@ -98,9 +105,9 @@ end
 update_calendar_items()
 
 local function update_time()
-  local date = os.date('%a. %d %b.')
-  local time = tostring(os.date('%I:%M %p')):gsub('^0', '')
-  cal:set({ icon = date, label = time })
+  local date = os.date '%a. %d %b.'
+  local time = tostring(os.date '%I:%M %p'):gsub('^0', '')
+  cal:set { icon = date, label = time }
 end
 
 cal:subscribe('routine', function()
@@ -114,8 +121,8 @@ cal:subscribe('forced', function()
 end)
 
 cal:subscribe('mouse.entered', function()
-  cal:set({ background = { border_width = 1 } })
+  cal:set { background = { border_width = 1 } }
 end)
 cal:subscribe('mouse.exited', function()
-  cal:set({ background = { border_width = 0 } })
+  cal:set { background = { border_width = 0 } }
 end)

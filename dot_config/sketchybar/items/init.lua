@@ -1,6 +1,5 @@
 require 'items.apple'
--- require 'items.spaces'
-require 'items.workspaces'
+require 'items.aerospace'
 require 'items.front_app'
 require 'items.calendar'
 require 'items.media'
