@@ -28,7 +28,7 @@ const OAUTH_CLIENT_ID =
 const OAUTH_CLIENT_SECRET = "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";
 const CLOUDCODE_BASE_URL = "https://cloudcode-pa.googleapis.com";
 
-const QUOTA_CHECK_INTERVAL = 4;
+const QUOTA_CHECK_INTERVAL = 8;
 const DEBUG = false;
 const QUOTA_MESSAGE_MARKER = "Antigravity Quota";
 
