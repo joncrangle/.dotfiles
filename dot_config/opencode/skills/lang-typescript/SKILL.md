@@ -3,7 +3,7 @@ name: lang-typescript
 description: TypeScript 5.9+ development specialist covering SolidJS, TanStack Start, Valibot validation, and modern TypeScript patterns. Use when developing TypeScript applications, SolidJS components, TanStack Start pages, or type-safe APIs.
 credit: modu-ai/moai-adk
 ---
-
+<skill_doc>
 <trigger_keywords>
 ## Trigger Keywords
 
@@ -21,6 +21,22 @@ Activate this skill when the user mentions any of:
 
 **Testing**: Vitest, Solid Testing Library, Playwright, @testing-library/solid, renderToString
 </trigger_keywords>
+
+## ⛔ Forbidden Patterns
+
+1.  **NO `any`**: Strictly forbidden. Use `unknown` if type is truly not known yet, or define a proper type/interface.
+2.  **NO `@ts-ignore`**: Do not suppress errors. Fix them. Use `@ts-expect-error` ONLY if testing error cases explicitly.
+3.  **NO `!` (Non-null Assertion)**: Avoid `val!`. Use optional chaining `?.` or nullish coalescing `??`.
+4.  **NO `enum`**: Prefer union types (`type Status = 'active' | 'inactive'`) or const objects. Enums add runtime overhead and behave unexpectedly.
+5.  **NO Default Exports**: Prefer named exports to ensure consistent naming across the project and better tree-shaking.
+
+## 🤖 Agent Tool Strategy
+
+1.  **Discovery**: Check for `justfile` first. If it exists, use `just -l` to list recipes and prefer `just` commands over language-specific CLIs (npm, cargo, poetry, etc.). Then, read `tsconfig.json` to understand compiler options (strictness, paths, target).
+2.  **Linting**: Check `eslint.config.js` or `.eslintrc` to align with project style.
+3.  **Type Checking**: Use `tsc --noEmit` to verify type safety after changes if a build script isn't available.
+4.  **Testing**: Run tests via `bun test` or `vitest` to ensure no regressions.
+5.  **File Operations**: When creating files, ensure the extension matches the content (`.tsx` for JSX, `.ts` for logic).
 
 ## Quick Reference (30 seconds)
 
@@ -989,3 +1005,4 @@ function isUser(v: unknown): v is User {
   return typeof v === "object" && v !== null && "id" in v;
 }
 ```
+</skill_doc>

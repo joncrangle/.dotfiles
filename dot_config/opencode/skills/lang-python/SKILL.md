@@ -3,7 +3,7 @@ name: lang-python
 description: Python 3.13+ development specialist covering FastAPI, Django, async patterns, data science, testing with pytest, and modern Python features. Use when developing Python APIs, web applications, data pipelines, or writing tests.
 credit: modu-ai/moai-adk
 ---
-
+<skill_doc>
 <trigger_keywords>
 ## Trigger Keywords
 
@@ -25,6 +25,22 @@ Activate this skill when the user mentions any of:
 
 **Package Management**: pip install, poetry add, uv add, virtual environment, venv
 </trigger_keywords>
+
+## ⛔ Forbidden Patterns
+
+1.  **NO Mutable Default Arguments**: Never use `def foo(x=[])`. Use `None` as default and initialize inside the function.
+2.  **NO Sync I/O in Async Functions**: Blocking operations (like `requests.get` or `time.sleep`) inside `async def` kill performance. Use `httpx` or `asyncio.sleep`.
+3.  **NO Wildcard Imports**: Avoid `from module import *`. Explicit imports prevent namespace pollution and make code readable.
+4.  **NO Bare Excepts**: Never use `except:`. Always catch specific exceptions (e.g., `except ValueError:`).
+5.  **NO Dynamic Type Changing**: Do not repurpose variables for different types. It defeats the purpose of type hinting and confuses static analysis.
+
+## 🤖 Agent Tool Strategy
+
+1.  **Discovery**: Check for `justfile` first. If it exists, use `just -l` to list recipes and prefer `just` commands over language-specific CLIs (npm, cargo, poetry, etc.). Then, read `pyproject.toml` or `requirements.txt` to identify dependencies and build system (Poetry, uv, pip).
+2.  **Virtual Environment**: Assume a venv is active or use `uv` / `poetry` commands which handle environments automatically.
+3.  **Code Analysis**: Use `search_files` to find definitions. Avoid `grep` if possible.
+4.  **Testing**: Use `pytest` for running tests. Prefer `pytest` over `unittest`.
+5.  **Linting/Formatting**: Respect `ruff.toml` or `pyproject.toml` [tool.ruff] settings.
 
 ## Quick Reference (30 seconds)
 
@@ -484,3 +500,4 @@ Pydantic v2 Migration:
 - `parse_obj()` is now `model_validate()`
 - `parse_raw()` is now `model_validate_json()`
 - `from_orm()` requires `from_attributes=True` in ConfigDict
+</skill_doc>

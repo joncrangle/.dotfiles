@@ -3,7 +3,7 @@ name: lang-rust
 description: Rust 1.92+ development specialist covering Axum, Tokio, SQLx, and memory-safe systems programming. Use when building high-performance, memory-safe applications or WebAssembly.
 credit: modu-ai/moai-adk
 ---
-
+<skill_doc>
 <trigger_keywords>
 ## Trigger Keywords
 
@@ -27,6 +27,22 @@ Activate this skill when the user mentions any of:
 
 **Systems**: WebAssembly, WASM, memory safety, zero-cost abstractions, FFI
 </trigger_keywords>
+
+## ⛔ Forbidden Patterns
+
+1.  **NO `unwrap()`/`expect()` in Production**: Never panic in production code. Use `?` operator or match/if-let to handle errors gracefully.
+2.  **NO `unsafe` Blocks**: Avoid `unsafe` unless absolutely required for FFI or low-level primitives. Always document safety invariants with `// SAFETY:` comments.
+3.  **NO `clone()` Abuse**: Don't just `clone()` to satisfy the borrow checker. Use references `&` or `Arc` where appropriate.
+4.  **NO Blocking in Async**: Never perform blocking I/O (std::fs, std::thread::sleep) inside async functions. Use `tokio::fs` or `tokio::time::sleep`.
+5.  **NO Ignoring Results**: Always handle `Result` types. Do not use `_ = function_that_returns_result()`.
+
+## 🤖 Agent Tool Strategy
+
+1.  **Check**: Run `cargo check` frequently to catch compilation errors early without full builds.
+2.  **Test**: Use `cargo test` for running unit and integration tests.
+3.  **Format**: Run `cargo fmt` before finalizing code.
+4.  **Lint**: Use `cargo clippy` to catch common mistakes and idiomatic improvements.
+5.  **Discovery**: Check for `justfile` first. If it exists, use `just -l` to list recipes and prefer `just` commands over language-specific CLIs (npm, cargo, poetry, etc.). Then, read `Cargo.toml` to check dependencies and features.
 
 ## Quick Reference (30 seconds)
 
@@ -375,3 +391,4 @@ Performance Characteristics:
 See [reference.md](reference.md) for complete language reference and Context7 library mappings.
 
 See [examples.md](examples.md) for production-ready code examples.
+</skill_doc>

@@ -3,7 +3,7 @@ name: lang-go
 description: Go 1.23+ development specialist covering Chi, GORM, and concurrent programming patterns. Use when building high-performance microservices, CLI tools, or cloud-native applications.
 credit: modu-ai/moai-adk
 ---
-
+<skill_doc>
 <trigger_keywords>
 ## Trigger Keywords
 
@@ -23,6 +23,22 @@ Activate this skill when the user mentions any of:
 
 **Cloud Native**: Docker, Kubernetes, containerized, microservice, gRPC, protobuf
 </trigger_keywords>
+
+## ⛔ Forbidden Patterns
+
+1.  **NO Ignoring Errors**: Never write `_ = func()` if it returns an error. Always check `if err != nil`.
+2.  **NO Global State**: Avoid mutable global variables. Use dependency injection (pass structs/interfaces).
+3.  **NO Panic**: Do not use `panic()` in application code. Use it only for unrecoverable startup errors. Return errors instead.
+4.  **NO `interface{}` Abuse**: Avoid `interface{}`/`any` unless absolutely necessary. Use specific interfaces or generics.
+5.  **NO Naked Returns**: Avoid named return parameters with naked `return` statements in non-trivial functions. It hurts readability.
+
+## 🤖 Agent Tool Strategy
+
+1.  **Dependency Management**: Run `go mod tidy` after adding imports or dependencies.
+2.  **Testing**: Use `go test -v ./...` or `just test` if available.
+3.  **Formatting**: Run `gofmt -w .` or `goimports -w .` before submitting code.
+4.  **Discovery**: Check for `justfile` first. If it exists, use `just -l` to list recipes and prefer `just` commands over language-specific CLIs (npm, cargo, poetry, etc.). Then, read `go.mod` to check the Go version and dependencies.
+5.  **Build**: Use `go build -v .` to verify compilation.
 
 ## Quick Reference (30 seconds)
 
@@ -374,3 +390,4 @@ Performance Diagnostics:
 See [reference.md](reference.md) for complete framework reference, advanced patterns, and Context7 library mappings.
 
 See [examples.md](examples.md) for production-ready code including REST APIs, CLI tools, and deployment configurations.
+</skill_doc>

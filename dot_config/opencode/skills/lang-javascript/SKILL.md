@@ -3,7 +3,7 @@ name: lang-javascript
 description: JavaScript ES2024+ development specialist covering Bun runtime, Hono web framework, modern testing, linting (Biome), and edge-first development. Use when developing JavaScript APIs, web applications, or server-side projects.
 credit: modu-ai/moai-adk
 ---
-
+<skill_doc>
 <trigger_keywords>
 ## Trigger Keywords
 
@@ -25,6 +25,23 @@ Activate this skill when the user mentions any of:
 
 **Database**: bun:sqlite, Drizzle ORM, SQLite, prepared statements
 </trigger_keywords>
+
+## ⛔ Forbidden Patterns
+
+1.  **NO `var`**: Always use `const` or `let`. Block scope is mandatory.
+2.  **NO `require` in ESM**: Use `import`/`export` syntax unless explicitly in a CJS context or interacting with legacy CJS-only packages in a compatible way.
+3.  **NO Promise Constructors for Async/Await**: Avoid `new Promise()` wrappers around functions that already return promises. Use `async/await` directly.
+4.  **NO Loose Equality**: Always use `===` and `!==` instead of `==` and `!=`.
+5.  **NO Ignoring Floating Point Precision**: Be aware of `0.1 + 0.2 !== 0.3`. Use libraries like `decimal.js` for financial calculations if needed.
+
+## 🤖 Agent Tool Strategy
+
+1.  **Discovery**: Check for `justfile` first. If it exists, use `just -l` to list recipes and prefer `just` commands over language-specific CLIs (npm, cargo, poetry, etc.). Then, read `package.json` to understand the project type (`type: "module"` vs "commonjs"), dependencies, and scripts.
+2.  **File Operations**:
+    *   Use `bun init` or `npm init` (via Bash) only if creating a new project.
+    *   Use `Read` to inspect existing code before modifying.
+3.  **Testing**: Prefer running tests via `bun test` or `npm test` after changes to verify correctness.
+4.  **Linting**: Check for `biome.json` or `eslint.config.js` and respect the project's linting rules.
 
 ## Quick Reference (30 seconds)
 
@@ -414,3 +431,4 @@ rm -rf node_modules bun.lockb && bun install
 # Check for outdated packages
 bun outdated
 ```
+</skill_doc>

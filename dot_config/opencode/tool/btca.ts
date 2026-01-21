@@ -30,6 +30,10 @@ export default tool({
       ),
   },
   async execute({ action, resource, question, url }) {
+    if (process.env.OPENCODE_BTCA_RECURSION_GUARD) {
+      return "Error: Recursive call detected. btca tool cannot be called from within a btca-initiated session.";
+    }
+
     // Guard: btca must be installed
     if (!btcaPath) {
       return "Error: btca is not installed or not in PATH. Install it first to use this tool.";
@@ -38,7 +42,10 @@ export default tool({
     try {
       if (action === "list") {
         // List available btca resources
-        const result = await $`btca config resources list`.quiet().nothrow();
+        const result =
+          await $`OPENCODE_BTCA_RECURSION_GUARD=1 btca config resources list`
+            .quiet()
+            .nothrow();
         const output = result.text();
         const stderr = result.stderr.toString();
 
@@ -60,7 +67,7 @@ export default tool({
 
         // Query the resource with the question
         const result =
-          await $`btca ask --resource ${resource} --question ${question}`
+          await $`OPENCODE_BTCA_RECURSION_GUARD=1 btca ask --resource ${resource} --question ${question}`
             .quiet()
             .nothrow();
         const output = result.text();
@@ -86,9 +93,10 @@ export default tool({
         }
 
         // Add a new resource
-        const result = await $`btca config resources add ${url}`
-          .quiet()
-          .nothrow();
+        const result =
+          await $`OPENCODE_BTCA_RECURSION_GUARD=1 btca config resources add ${url}`
+            .quiet()
+            .nothrow();
         const output = result.text();
         const stderr = result.stderr.toString();
 
