@@ -5,6 +5,7 @@ return {
     cmd = 'CodeDiff',
     keys = {
       { '<leader>gd', '<cmd>CodeDiff<cr>', desc = '[G]it [D]iff with CodeDiff' },
+      { '<leader>gh', '<cmd>CodeDiff history<cr>', desc = '[G]it [H]istory with CodeDiff' },
       {
         '<leader>gm',
         function()
