@@ -342,11 +342,17 @@ const plugin: Plugin = async (ctx) => {
       const assistantTurns = output.messages.filter(
         (msg) =>
           msg.info.role === "assistant" &&
-          !msg.parts.some((p) => p.text?.includes(QUOTA_MESSAGE_MARKER)),
+          !msg.parts.some((p) => p.text?.includes(QUOTA_MESSAGE_MARKER)) &&
+          msg.parts.some((p) => p.text && p.text.trim().length > 0),
       ).length;
 
       const lastMessage = output.messages[output.messages.length - 1];
       if (!lastMessage) return;
+
+      // Only run if the model provider is google
+      if (lastMessage.info.model?.providerID !== "google") {
+        return;
+      }
 
       const sessionID = lastMessage.info.sessionID;
       const alreadyHasQuota = lastMessage.parts.some((p) =>
