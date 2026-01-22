@@ -388,7 +388,7 @@ Performance Characteristics:
 
 ## Additional Resources
 
-See [reference.md](reference.md) for complete language reference and Context7 library mappings.
+See [reference.md](references/reference.md) for complete language reference and Context7 library mappings.
 
-See [examples.md](examples.md) for production-ready code examples.
+See [examples.md](examples/examples.md) for production-ready code examples.
 </skill_doc>

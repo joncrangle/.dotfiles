@@ -1,5 +1,5 @@
 ---
-name: CodeStyle
+name: code-style
 description: Discovery, typing, and execution standards.
 ---
 

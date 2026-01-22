@@ -1,5 +1,5 @@
 ---
-name: tool-just-cli
+name: just-cli
 description: This skill should be used when the user asks to "create a justfile", "write just recipes", "configure just settings", "add just modules", "use just attributes", "set up task automation", mentions justfile, just command runner, or task automation with just.
 ---
 
@@ -287,7 +287,7 @@ Example topics to search:
 
 For detailed patterns and comprehensive coverage, consult:
 
-- **[`reference.md`](references/just-features.md)** - Complete settings, modules, attributes, functions reference
+- **[`reference.md`](references/reference.md)** - Complete settings, modules, attributes, functions reference
 - **[`patterns.md`](references/patterns.md)** - Established conventions, section organization, helper patterns
 
 ### External Documentation

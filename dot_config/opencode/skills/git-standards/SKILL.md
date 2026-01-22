@@ -1,6 +1,6 @@
 ---
-name: GitStandards
-description: Git rules, Conventional Commits, and Safety Checks.
+name: git-standards
+description: This skill should be used when the user asks to "commit changes", "create a PR", "push code", "check git status", or "review git history". Enforces safety checks and conventional commits.
 ---
 
 <skill_doc>
@@ -11,7 +11,7 @@ description: Git rules, Conventional Commits, and Safety Checks.
 Use the `git_safe` tool for all git operations (status, diff, log, add, commit, push).
 
 **Manual Agent Checks**:
-Before ANY commit, you must scan staged files using `git_safe(action: "diff", target: "--cached")` for:
+Before ANY commit, scan staged files using `git_safe(action: "diff", target: "--cached")` for:
 - **Secrets**: `.env`, `*_KEY`, `*_SECRET`, `password`, `token`.
 - **Large Files**: Anything >10MB or binary files.
 - **Build Artifacts**: `dist/`, `node_modules/`, `.DS_Store`.
