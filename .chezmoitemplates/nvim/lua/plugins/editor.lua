@@ -37,6 +37,7 @@ return {
       'nvim-treesitter/nvim-treesitter',
       'fredrikaverpil/neotest-golang',
       'marilari88/neotest-vitest',
+      'arthur944/neotest-bun',
       'mrcjkb/rustaceanvim',
     },
     opts = function()
@@ -46,6 +47,7 @@ return {
           require 'neotest-golang',
           require 'neotest-vitest',
           require 'neotest-plenary',
+          require 'neotest-bun',
           require 'rustaceanvim.neotest',
         },
       }
