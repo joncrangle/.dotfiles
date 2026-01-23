@@ -95,7 +95,7 @@ return {
         bashls = {},
         biome = {},
         clangd = {},
-        copilot = {},
+        -- copilot = {},
         cssls = {},
         denols = {
           root_markers = { 'deno.json', 'deno.jsonc' },

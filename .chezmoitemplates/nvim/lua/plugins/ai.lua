@@ -3,7 +3,7 @@ local disabled = false
 return {
   {
     'folke/sidekick.nvim',
-    opts = { nes = { enabled = true } },
+    opts = { nes = { enabled = false } },
     config = function(_, opts)
       require('sidekick').setup(opts)
       vim.api.nvim_create_autocmd('User', {

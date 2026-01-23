@@ -12,7 +12,16 @@ return {
       'rafamadriz/friendly-snippets',
       'moyiz/blink-emoji.nvim',
       'Kaiser-Yang/blink-cmp-avante',
-      'fang2hou/blink-copilot',
+      {
+        'Exafunction/windsurf.nvim',
+        event = 'InsertEnter',
+        build = ':Codeium Auth',
+        config = function()
+          require('codeium').setup {
+            enable_cmp_source = false,
+          }
+        end,
+      },
     },
     opts_extend = { 'sources.default' },
     ---@type blink.cmp.Config
@@ -54,7 +63,7 @@ return {
         },
       },
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'codeium' },
         per_filetype = {
           AvanteInput = { 'avante' },
           lua = { inherit_defaults = true, 'lazydev' },
@@ -67,15 +76,16 @@ return {
           dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink', score_offset = 3 },
           emoji = { name = 'Emoji', module = 'blink-emoji', score_offset = 3 },
           lazydev = { name = 'LazyDev', module = 'lazydev.integrations.blink', score_offset = 100 },
+          codeium = { name = 'Codeium', module = 'codeium.blink', async = true },
         },
       },
       keymap = {
         preset = 'super-tab',
         ['<Tab>'] = {
           'snippet_forward',
-          function()
-            return require('sidekick').nes_jump_or_apply()
-          end,
+          -- function()
+          --   return require('sidekick').nes_jump_or_apply()
+          -- end,
           function(cmp)
             if cmp.snippet_active() then
               return cmp.accept()
