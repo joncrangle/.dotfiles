@@ -4,14 +4,8 @@ import { tool, ToolContext } from "@opencode-ai/plugin";
 // AGENT ACCESS CONTROL CONFIGURATION
 // =============================================================================
 
-// Agents allowed to use AST pattern matching (expensive operation)
 const AST_PATTERN_AGENTS = new Set(["coder", "researcher", "reviewer"]);
-
-// Agents allowed to perform code rewrites (mutation operation)
 const REWRITE_AGENTS = new Set(["coder"]);
-
-// Agents restricted to read-only exploration (no mutation-oriented patterns)
-const READ_ONLY_AGENTS = new Set(["explorer", "explore"]);
 
 export default tool({
   description:
@@ -35,9 +29,14 @@ export default tool({
     rewrite: tool.schema
       .string()
       .optional()
-      .describe("Replacement pattern for ast-grep rewrite (e.g., 'console.log($MSG)' -> '$MSG'). Only @coder agent is authorized."),
+      .describe(
+        "Replacement pattern for ast-grep rewrite (e.g., 'console.log($MSG)' -> '$MSG'). Only @coder agent is authorized.",
+      ),
   },
-  async execute({ query, path = ".", caseSensitive = false, fileType, rewrite }, ctx: ToolContext) {
+  async execute(
+    { query, path = ".", caseSensitive = false, fileType, rewrite },
+    ctx: ToolContext,
+  ) {
     const { agent } = ctx;
 
     // Check if query looks like an AST pattern (contains meta-variables like $VAR)
@@ -73,14 +72,22 @@ export default tool({
           return "Rewrite Error: ast-grep (sg) is not installed or not in PATH. Install with: npm i -g @ast-grep/cli";
         }
 
-        cmd = ["sg", "run", "--pattern", query, "--rewrite", rewrite, "--update-all"];
+        cmd = [
+          "sg",
+          "run",
+          "--pattern",
+          query,
+          "--rewrite",
+          rewrite,
+          "--update-all",
+        ];
         if (fileType) cmd.push("-l", fileType);
         cmd.push(path);
 
         const proc = Bun.spawn(cmd, { stdout: "pipe", stderr: "pipe" });
         const stdout = await new Response(proc.stdout).text();
         const stderr = await new Response(proc.stderr).text();
-        
+
         const output = (stdout + stderr).trim();
         const lines = output.split("\n");
 
@@ -89,8 +96,8 @@ export default tool({
           return `${lines.slice(0, 100).join("\n")}\n... (and ${lines.length - 100} more lines)`;
         }
 
-        return lines.length > 0 && lines[0] !== "" 
-          ? output 
+        return lines.length > 0 && lines[0] !== ""
+          ? output
           : "Rewrite complete. No matches found or files already updated.";
       }
 

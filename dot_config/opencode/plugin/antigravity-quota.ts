@@ -28,78 +28,13 @@ const OAUTH_CLIENT_ID =
 const OAUTH_CLIENT_SECRET = "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";
 const CLOUDCODE_BASE_URL = "https://cloudcode-pa.googleapis.com";
 
-const QUOTA_CHECK_INTERVAL = 8;
+const QUOTA_CHECK_INTERVAL = 4;
 const DEBUG = false;
 const QUOTA_MESSAGE_MARKER = "Antigravity Quota";
 
 let quotaFetchInProgress = false;
 let lastNotificationTimestamp = 0;
 const NOTIFICATION_THROTTLE_MS = 60000; // 1 minute throttle
-
-// Cache for session info to avoid redundant API calls
-const sessionCache = new Map<
-  string,
-  { parentID?: string; isSubAgent: boolean }
->();
-
-async function getSessionInfo(client: any, sessionId: string) {
-  if (sessionCache.has(sessionId)) {
-    return sessionCache.get(sessionId)!;
-  }
-
-  try {
-    const result = await client.session.get({ path: { id: sessionId } });
-    const info = {
-      parentID: result.data?.parentID,
-      isSubAgent: !!result.data?.parentID,
-    };
-    sessionCache.set(sessionId, info);
-    return info;
-  } catch (err) {
-    return { isSubAgent: false };
-  }
-}
-
-async function getPrimarySessionId(
-  client: any,
-  sessionId: string,
-): Promise<string> {
-  const info = await getSessionInfo(client, sessionId);
-  if (info.parentID) {
-    return getPrimarySessionId(client, info.parentID);
-  }
-  return sessionId;
-}
-
-async function sendNotification(
-  client: any,
-  sessionId: string,
-  content: string,
-  originalMessage: any,
-) {
-  try {
-    await client.session.prompt({
-      path: { id: sessionId },
-      body: {
-        noReply: true,
-        agent: originalMessage.info.agent,
-        model: originalMessage.info.model,
-        variant: originalMessage.info.variant,
-        parts: [
-          {
-            type: "text",
-            text: content + "\n",
-            ignored: true,
-          },
-        ],
-      },
-    });
-  } catch (err) {
-    if (DEBUG) {
-      console.error("Failed to send quota notification:", err);
-    }
-  }
-}
 
 interface AntigravityAccount {
   refreshToken: string;
@@ -322,7 +257,7 @@ async function fetchQuota(): Promise<string> {
   return lines.join("\n");
 }
 
-const plugin: Plugin = async (ctx) => {
+const plugin: Plugin = async (_ctx) => {
   return {
     "experimental.chat.messages.transform": async (
       _input: {},
@@ -349,14 +284,8 @@ const plugin: Plugin = async (ctx) => {
       const lastMessage = output.messages[output.messages.length - 1];
       if (!lastMessage) return;
 
-      // Only run if the model provider is google
-      if (lastMessage.info.model?.providerID !== "google") {
-        return;
-      }
-
-      const sessionID = lastMessage.info.sessionID;
-      const alreadyHasQuota = lastMessage.parts.some((p) =>
-        p.text?.includes(QUOTA_MESSAGE_MARKER),
+      const alreadyHasQuota = output.messages.some((msg) =>
+        msg.parts.some((p) => p.text?.includes(QUOTA_MESSAGE_MARKER)),
       );
 
       if (
@@ -376,31 +305,29 @@ const plugin: Plugin = async (ctx) => {
 
         try {
           const quotaContent = await fetchQuota();
-          const primarySessionId = await getPrimarySessionId(
-            ctx.client,
-            sessionID,
-          );
 
-          await sendNotification(
-            ctx.client,
-            primarySessionId,
-            quotaContent,
-            lastMessage,
-          );
+          await _ctx.client.session.prompt({
+            path: { id: lastMessage.info.sessionID },
+            body: {
+              role: "assistant",
+              noReply: true,
+              agent: lastMessage.info.agent,
+              model: lastMessage.info.model,
+              variant: lastMessage.info.variant,
+              parts: [
+                {
+                  type: "text",
+                  text: quotaContent,
+                  ignored: true,
+                },
+              ],
+            } as any,
+          });
+
           lastNotificationTimestamp = Date.now();
         } catch (err) {
-          const msg = err instanceof Error ? err.message : String(err);
           if (DEBUG) {
-            const primarySessionId = await getPrimarySessionId(
-              ctx.client,
-              sessionID,
-            );
-            await sendNotification(
-              ctx.client,
-              primarySessionId,
-              `⚠️ Quota display failed: ${msg}`,
-              lastMessage,
-            );
+            console.error(`Quota check failed: ${err}`);
           }
         } finally {
           quotaFetchInProgress = false;
