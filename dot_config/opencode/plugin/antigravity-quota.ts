@@ -69,9 +69,13 @@ function formatRelativeTime(dateStr: string): string {
   if (diffMs <= 0) return "now";
 
   const diffMins = Math.round(diffMs / 60000);
-  const hours = Math.floor(diffMins / 60);
+  const days = Math.floor(diffMins / 1440);
+  const hours = Math.floor((diffMins % 1440) / 60);
   const mins = diffMins % 60;
 
+  if (days > 0) {
+    return `${days}d ${hours}h ${mins}m`;
+  }
   if (hours > 0) {
     return `${hours}h ${mins}m`;
   }
