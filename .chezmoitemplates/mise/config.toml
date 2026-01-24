@@ -42,7 +42,7 @@ python = "latest"
 ripgrep = "latest"
 ruff = "latest"
 {{ if ne .chezmoi.os "windows" -}}
-rust = "latest"
+rust = "nightly"
 {{ end -}}
 rust-analyzer = "latest"
 shellcheck = "latest"
