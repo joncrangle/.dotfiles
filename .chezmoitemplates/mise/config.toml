@@ -83,7 +83,7 @@ zoxide = "latest"
 "go:github.com/josharian/impl" = "latest"
 "go:github.com/wader/jq-lsp" = "latest"
 {{- if eq .chezmoi.os "darwin" }}
-"go:github.com/joncrangle/podcasts-sync" = "latest"
+"github:joncrangle/podapple" = "latest"
 {{- end }}
 {{- if eq .chezmoi.os "windows" }}
 "go:github.com/joncrangle/teams-green" = "latest"
