@@ -181,19 +181,91 @@ return {
         return ''
       end
 
+      local progress_messages = {}
+      local clients_with_progress = {}
+      local clients_ready = {}
+
+      vim.api.nvim_create_autocmd('LspProgress', {
+        callback = function(ev)
+          local client_id = ev.data.client_id
+          local params = ev.data.params
+
+          if not params or not params.value then
+            vim.cmd.redrawstatus()
+            return
+          end
+
+          clients_with_progress[client_id] = true
+
+          if not progress_messages[client_id] then
+            progress_messages[client_id] = {}
+          end
+
+          local token = params.token
+          if params.value.kind == 'end' then
+            progress_messages[client_id][token] = nil
+            if vim.tbl_count(progress_messages[client_id]) == 0 then
+              clients_ready[client_id] = true
+            end
+          else
+            progress_messages[client_id][token] = params.value
+          end
+
+          -- Clean up empty clients
+          if vim.tbl_count(progress_messages[client_id]) == 0 then
+            progress_messages[client_id] = nil
+          end
+
+          vim.cmd.redrawstatus()
+        end,
+      })
+
+      vim.api.nvim_create_autocmd('LspAttach', {
+        callback = function(ev)
+          local client_id = ev.data.client_id
+          vim.defer_fn(function()
+            -- If client hasn't reported progress, mark it as ready
+            if not clients_with_progress[client_id] then
+              clients_ready[client_id] = true
+              vim.cmd.redrawstatus()
+            end
+          end, 1000)
+        end,
+      })
+
       local function section_lsp()
         local clients = vim.lsp.get_clients { bufnr = 0 }
-        local names = {}
-        for _, client in ipairs(clients) do
-          table.insert(names, client.name)
-        end
-        if #names == 0 then
+        if #clients == 0 then
           return ''
         end
+
         if statusline.is_truncated(100) then
-          return '󰅩 ' .. #names
+          for _, client in ipairs(clients) do
+            if progress_messages[client.id] and vim.tbl_count(progress_messages[client.id]) > 0 then
+              return Snacks.util.spinner() .. ' ' .. #clients
+            end
+          end
+          for _, client in ipairs(clients) do
+            if clients_ready[client.id] then
+              return '󰄬 ' .. #clients
+            end
+          end
+          return ' ' .. #clients
         end
-        return '󰅩 ' .. table.concat(names, ' ')
+
+        local parts = {}
+        for _, client in ipairs(clients) do
+          local icon
+          if progress_messages[client.id] and vim.tbl_count(progress_messages[client.id]) > 0 then
+            icon = Snacks.util.spinner()
+          elseif clients_ready[client.id] then
+            icon = '󰄬'
+          else
+            icon = ' '
+          end
+          table.insert(parts, icon .. ' ' .. client.name)
+        end
+        return table.concat(parts, ' ')
       end
 
       local function active_content()
