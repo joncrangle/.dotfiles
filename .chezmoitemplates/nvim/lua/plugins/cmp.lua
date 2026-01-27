@@ -72,7 +72,6 @@ return {
         },
         providers = {
           avante = { name = 'Avante', module = 'blink-cmp-avante' },
-          copilot = { name = 'Copilot', module = 'blink-copilot', score_offset = 100, async = true },
           dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink', score_offset = 3 },
           emoji = { name = 'Emoji', module = 'blink-emoji', score_offset = 3 },
           lazydev = { name = 'LazyDev', module = 'lazydev.integrations.blink', score_offset = 100 },
