@@ -177,6 +177,34 @@ function cmu
     chezmoi apply
 }
 
+function def($word)
+{
+    try
+    {
+        $url = "https://api.dictionaryapi.dev/api/v2/entries/en/$word"
+        $response = Invoke-RestMethod -Uri $url -ErrorAction Stop
+        
+        Write-Host "`n  $($response[0].word.ToUpper())" -ForegroundColor Blue -NoNewline
+        Write-Host "  $($response[0].phonetic)" -ForegroundColor Gray
+        Write-Host "  $("─" * 35)" -ForegroundColor Blue
+
+        foreach ($meaning in $response[0].meanings)
+        {
+            Write-Host "`n  $($meaning.partOfSpeech.ToUpper())" -ForegroundColor Yellow
+            
+            foreach ($def in $meaning.definitions)
+            {
+                Write-Host "  • " -NoNewline -ForegroundColor White
+                Write-Host "$($def.definition)"
+            }
+        }
+        Write-Host ""
+    } catch
+    {
+        Write-Host "`n  × Word not found." -ForegroundColor Red
+    }
+}
+
 function export
 {
     foreach ($arg in $args)
