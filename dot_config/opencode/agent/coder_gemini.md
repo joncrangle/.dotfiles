@@ -1,6 +1,5 @@
 ---
 description: The Builder. Implements code changes with strict precision.
-model: google/antigravity-gemini-3-pro
 mode: subagent
 temperature: 1.0
 

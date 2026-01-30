@@ -1,6 +1,5 @@
 ---
 description: The Boss. Analyzes, plans, and delegates. DOES NOT CODE.
-model: google/antigravity-gemini-3-pro
 mode: primary
 temperature: 1.0
 
