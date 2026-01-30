@@ -83,7 +83,7 @@ fi
 
 # OpenCode
 if _is_installed opencode; then
-	alias oc="opencode --agent orchestrator"
+	alias oc="opencode --port --agent orchestrator"
 fi
 
 # Podapple
@@ -114,16 +114,6 @@ brew-upgrade() {
 	brew update
 	brew upgrade
 	brew cleanup
-}
-
-copy-line() {
-	if _is_installed pbcopy; then
-		rg --line-number . | fzf --delimiter ':' --preview 'bat --color=always --highlight-line {2} {1}' | awk -F ':' '{print $3}' | sed 's/^\s+//' | pbcopy
-	elif _is_installed wl-copy; then
-		rg --line-number . | fzf --delimiter ':' --preview 'bat --color=always --highlight-line {2} {1}' | awk -F ':' '{print $3}' | sed 's/^\s+//' | wl-copy
-	else
-		echo "pbcopy or wl-copy command not found. Unable to copy to clipboard."
-	fi
 }
 
 def() {
@@ -234,26 +224,22 @@ git-tag() {
 	git push origin "$version"
 }
 
-open-at-line() {
-	nvim $(rg --line-number . | fzf --delimiter ':' --preview 'bat --color=always --highlight-line {2} {1}' | awk -F ':' '{print "+"$2" "$1}')
-}
-
 pass() {
 	echo "Generate password"
 	LENGTH=32
 	CHOICE=$(gum choose "short (12)" "medium (20)" "long (32)" "custom")
 
 	case "$CHOICE" in
-	"short (12)")
+	short*)
 		LENGTH=12
 		;;
-	"medium (20)")
+	medium*)
 		LENGTH=20
 		;;
-	"long (32)")
+	long*)
 		LENGTH=32
 		;;
-	"custom")
+	custom)
 		LENGTH=$(gum input --placeholder "Enter custom length")
 		;;
 	esac
@@ -273,19 +259,23 @@ pass() {
 
 # Interactive Process Killer
 rip() {
-	local pids sig
-	sig="${1:-15}" # default SIGTERM, allow: rip 9
-	pids=$(
-		ps -Ao pid,comm |
-			sed 1d |
-			fzf -m \
-				--header="[Kill] Tab: Select | Enter: Kill (SIG$sig)" \
-				--layout=reverse |
-			awk '{print $1}'
-	)
+	local sig pids
+	sig="${1:-15}"
+
+	pids=$(sk -i -c "ps -Ao pid,comm | grep -i '{q}'" \
+		--ansi \
+		--layout=reverse \
+		--delimiter='[[:space:]]+' \
+		--nth=2 \
+		--tiebreak=begin,length \
+		--header="[Kill] SIG$sig | Enter: Kill | Query: {q}" \
+		--preview "ps -p {1} -o pid,ppid,user,stat,start,time,command" \
+		--preview-window="down:40%" |
+		awk '{print $1}')
+
 	[[ -z "$pids" ]] && return
-	echo "Killing with SIG$sig:"
-	echo "$pids"
+
+	echo "Killing with SIG$sig: $pids"
 	echo "$pids" | xargs kill -"$sig"
 }
 
@@ -303,6 +293,37 @@ sudo() {
 take() {
 	mkdir -p $1
 	cd $1
+}
+
+# Interactive search and open-at-line/copy-line
+vs() {
+	local cp="pbcopy"
+	command -v wl-copy >/dev/null && cp="wl-copy"
+
+	# Run Skim in Interactive Mode
+	# --nth 3..: Only score/match the actual code content
+	# --bind: Ctrl-Y copies and aborts (closes sk)
+	# Enter: Prints the line and exits sk (allowing nvim to take over)
+	local selected
+	selected=$(sk --ansi -i -c "rg --color=always --line-number --no-heading --smart-case {q} || true" \
+		--delimiter ':' \
+		--nth '3..' \
+		--tiebreak 'begin,length' \
+		--layout 'reverse' \
+		--header "[Grep] Enter: Open at Line | Ctrl-Y: Copy Text" \
+		--preview 'bat --color=always --style=numbers --highlight-line {2} {1}' \
+		--preview-window 'up:60%:wrap:+{2}-/2' \
+		--bind "ctrl-y:execute-silent(echo {3..} | sed 's/^[[:space:]]*//' | $cp)+abort")
+
+	# If we aborted (Ctrl-Y or Esc), exit the function
+	[[ -z "$selected" ]] && return
+
+	# Parse fields and launch Editor
+	local file="${selected%%:*}"
+	local rest="${selected#*:}"
+	local line="${rest%%:*}"
+
+	command nvim "$file" "+$line"
 }
 
 function yy() {

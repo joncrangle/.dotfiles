@@ -83,12 +83,15 @@ zoxide = "latest"
 "go:github.com/wader/jq-lsp" = "latest"
 {{- if eq .chezmoi.os "darwin" }}
 "github:joncrangle/podapple" = "latest"
-"npm:moltbot" = "latest"
+"npm:openclaw" = "latest"
 "npm:clawdhub" = "latest"
 {{- end }}
 {{- if eq .chezmoi.os "windows" }}
 "go:github.com/joncrangle/teams-green" = "latest"
 "npm:n8n" = "latest"
+{{- end }}
+{{- if ne .chezmoi.os "windows" }}
+"cargo:skim" = "latest"
 {{- end }}
 "go:github.com/a-h/templ/cmd/templ" = "latest"
 "npm:bash-language-server" = "latest"

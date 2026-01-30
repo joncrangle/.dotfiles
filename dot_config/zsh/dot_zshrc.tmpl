@@ -114,13 +114,14 @@ zvm_after_init_commands+=(
   }
   zle -N zle-line-init'
 
-  # FZF source
-  'source <(fzf --zsh)'
+  # sk source
+  'source <(sk --shell=zsh --shell-bindings)'
 )
 
 # Apply the Ctrl+C trap
 trap 'transient-int' INT
 
+zstyle ':fzf-tab:*' fzf-command sk
 zstyle ':fzf-tab:*' default-color ""
 zstyle ':fzf-tab:*' use-fzf-default-opts yes
 
