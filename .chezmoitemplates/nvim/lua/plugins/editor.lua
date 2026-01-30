@@ -176,19 +176,5 @@ return {
       },
     },
   },
-  {
-    'sahilsehwag/macrobank.nvim',
-    event = { 'BufReadPost', 'BufNewFile' },
-    opts = {},
-    keys = function()
-      local wk = require 'which-key'
-      -- stylua: ignore
-      wk.add({
-        { '<leader>m', group = '[M]acro', icon = { icon = '󰑙', color = 'green' } },
-        { '<leader>me', function() require('macrobank.bank_editor').open() end, desc = '[M]acrobank Saved Macros' },
-        { '<leader>mm', function() require('macrobank.editor').open() end, desc = '[M]acrobank Live Macros' },
-      })
-    end,
-  },
 }
 -- vim: ts=2 sts=2 sw=2 et

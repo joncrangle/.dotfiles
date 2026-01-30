@@ -19,6 +19,7 @@ return {
         config = function()
           require('codeium').setup {
             enable_cmp_source = false,
+            default_filetype_enabled = false,
           }
         end,
       },
@@ -82,9 +83,6 @@ return {
         preset = 'super-tab',
         ['<Tab>'] = {
           'snippet_forward',
-          -- function()
-          --   return require('sidekick').nes_jump_or_apply()
-          -- end,
           function(cmp)
             if cmp.snippet_active() then
               return cmp.accept()
@@ -92,9 +90,6 @@ return {
               return cmp.select_and_accept()
             end
           end,
-          -- function() -- if you are using Neovim's native inline completions
-          --   return vim.lsp.inline_completion.get()
-          -- end,
           'fallback',
         },
       },

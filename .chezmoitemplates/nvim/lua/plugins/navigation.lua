@@ -7,7 +7,7 @@ return {
     dependencies = { 'echasnovski/mini.nvim' },
     ---@type grapple.options
     opts = {
-      scope = 'cwd',
+      scope = 'git',
       icons = true,
       tag_title = function()
         return 'Grapple Tags'
@@ -34,8 +34,8 @@ return {
       -- stylua: ignore
       wk.add({
         { '<leader>#', desc = 'Grapple tag item [1-9]' },
-        { '<leader>h', function() grapple.toggle() end,      desc = 'Grapple a file' },
-        { '<C-a>', function() grapple.toggle_tags() end, desc = 'Toggle Grapple menu' },
+        { '<leader>n', function() grapple.toggle() end,      desc = 'Grapple a file' },
+        { '<c-n>', function() grapple.toggle_tags() end, desc = 'Toggle Grapple menu' },
         keys,
       })
       grapple.setup(opts)

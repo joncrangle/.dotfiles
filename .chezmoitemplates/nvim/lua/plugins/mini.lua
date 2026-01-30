@@ -57,6 +57,14 @@ return {
         end,
       })
 
+      -- Refresh statusline on Grapple events
+      vim.api.nvim_create_autocmd('User', {
+        pattern = { 'GrappleUpdate', 'GrappleScopeChanged' },
+        callback = function()
+          vim.cmd.redrawstatus()
+        end,
+      })
+
       require('mini.icons').setup {
         file = {
           ['.chezmoiignore'] = { glyph = '', hl = 'MiniIconsGrey' },
@@ -100,6 +108,8 @@ return {
           return 'Grapple', package.loaded['grapple'] and (require('grapple').statusline() or '') or ''
         elseif ft == 'snacks_terminal' then
           return ' Terminal', vim.fn.expand('%:t'):match '.*:(%S+)$' or vim.fn.expand '%:t'
+        elseif ft == 'opencode_terminal' then
+          return '🤖 OpenCode'
         elseif ft == 'snacks_picker_list' then
           local picker = Snacks.picker.get()[1]
           local dir = picker and picker:dir() or vim.fn.getcwd()
@@ -118,8 +128,6 @@ return {
             return '🍿 Picker', input ~= '' and (' ' .. input .. ': ' .. count .. ' results') or (count .. ' results')
           end
           return '🍿 Picker', ''
-        elseif ft == 'sidekick_terminal' then
-          return '  Sidekick', vim.fn.expand('%:t'):match '.*:(%S+)$' or vim.fn.expand '%:t'
         end
         return nil, nil
       end

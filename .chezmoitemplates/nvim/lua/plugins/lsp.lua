@@ -196,6 +196,10 @@ return {
               doc = {
                 privateName = { '^_' },
               },
+              -- FIXME: lua_ls 3.17.1 temp workaround https://github.com/folke/lazydev.nvim/issues/136#issuecomment-3796597122
+              workspace = {
+                library = vim.api.nvim_get_runtime_file('', true),
+              },
             },
           },
         },

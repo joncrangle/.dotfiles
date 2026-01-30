@@ -133,16 +133,6 @@ return {
           },
           view = 'mini',
         },
-        -- Don't show "Agent service not initialized" message from copilot
-        {
-          filter = {
-            event = 'msg_show',
-            any = {
-              { find = 'Agent service not initialized' },
-            },
-          },
-          opts = { skip = true },
-        },
         view = 'mini',
       },
       presets = {
@@ -177,7 +167,7 @@ return {
         desc = 'Scroll backward',
         mode = { 'i', 'n', 's' },
       },
-      { '<leader>n', '<cmd>Noice<cr>', desc = '[N]otifications' },
+      { '<leader>m', '<cmd>Noice<cr>', desc = '[M]essages' },
     },
     config = function(_, opts)
       -- HACK: noice shows messages from before it was enabled,
