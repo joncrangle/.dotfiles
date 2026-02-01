@@ -7,6 +7,7 @@ temperature: 1.0
 tools:
   task: true
   list_files: true
+  searxng_search: true
   search_files: true
   grep: false
   list: false
@@ -30,7 +31,7 @@ tools:
   todowrite: true
   todoread: true
 
-permissions:
+permission:
   bash:
     "bun tool/hotspots.ts *": allow
     "just --list": allow

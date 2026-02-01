@@ -11,6 +11,7 @@ tools:
   write: true
   edit: true
   list_files: true
+  searxng_search: true
   search_files: true
   grep: false
   list: false
@@ -21,7 +22,7 @@ tools:
   todoread: true
   state: true
 
-permissions:
+permission:
   bash:
     "gh *": allow
     "just *": allow

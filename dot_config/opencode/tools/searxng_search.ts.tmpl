@@ -1,0 +1,181 @@
+import { tool, ToolContext } from "@opencode-ai/plugin";
+
+const INSTANCE_URL = "https://searxng.{{- .nasSite -}}";
+const SEARCH_TIMEOUT_MS = 10000;
+const HEALTH_CACHE_TTL_AVAILABLE_MS = 60000;
+const HEALTH_CACHE_TTL_UNAVAILABLE_MS = 15000;
+
+interface SearXNGResult {
+  title?: string;
+  url?: string;
+  content?: string;
+  engine?: string;
+  category?: string;
+  thumbnail?: string;
+  publishedDate?: string;
+  author?: string;
+  score?: number;
+}
+
+interface SearXNGResponse {
+  results?: SearXNGResult[];
+  unresponsive_engines?: string[];
+  error?: string;
+}
+
+let cachedAvailability: { isAvailable: boolean; timestamp: number } | null =
+  null;
+
+/**
+ * Checks if the SearXNG instance is reachable.
+ * Returns true if reachable, false otherwise.
+ * Implements caching for unreachable state to avoid repeated timeout waits.
+ */
+async function checkHealth(): Promise<boolean> {
+  const now = Date.now();
+
+  // If cached and within TTL, return cached result
+  if (cachedAvailability) {
+    const ttl = cachedAvailability.isAvailable
+      ? HEALTH_CACHE_TTL_AVAILABLE_MS
+      : HEALTH_CACHE_TTL_UNAVAILABLE_MS;
+
+    if (now - cachedAvailability.timestamp < ttl) {
+      return cachedAvailability.isAvailable;
+    }
+  }
+
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), 2000); // 2s health check timeout
+
+  try {
+    const response = await fetch(INSTANCE_URL, {
+      method: "HEAD", // Use HEAD for faster check
+      signal: controller.signal,
+    });
+    clearTimeout(id);
+
+    const isAvailable = response.ok;
+    cachedAvailability = { isAvailable, timestamp: now };
+    return isAvailable;
+  } catch {
+    clearTimeout(id);
+    cachedAvailability = { isAvailable: false, timestamp: now };
+    return false;
+  }
+}
+
+export default tool({
+  description:
+    "Search the web using SearXNG with enhanced filtering and timeout control.",
+  args: {
+    query: tool.schema.string().describe("The search query"),
+    category: tool.schema
+      .enum([
+        "general",
+        "cargo",
+        "packages",
+        "it",
+        "repos",
+        "code",
+        "scientific publications",
+        "images",
+        "videos",
+        "news",
+        "map",
+        "music",
+        "files",
+        "social media",
+      ])
+      .optional()
+      .describe("The search category (default: general)"),
+    time_range: tool.schema
+      .enum(["day", "week", "month", "year"])
+      .optional()
+      .describe("Filter results by time range"),
+    safesearch: tool.schema
+      .number()
+      .optional()
+      .describe("SafeSearch level: 0 (None), 1 (Moderate), 2 (Strict)"),
+    limit: tool.schema
+      .number()
+      .optional()
+      .describe("Maximum number of results to return (default: 10)"),
+    engines: tool.schema
+      .string()
+      .optional()
+      .describe("Specific engines to use (comma-separated)"),
+  },
+  async execute(
+    {
+      query,
+      category = "general",
+      time_range,
+      safesearch = 0,
+      limit = 10,
+      engines,
+    },
+    ctx: ToolContext,
+  ) {
+    if (ctx) {
+      ctx.metadata({ title: `SearXNG Search: ${query}` });
+    }
+
+    // 1. Health Check
+    const isAvailable = await checkHealth();
+    if (!isAvailable) {
+      return JSON.stringify({
+        error: `SearXNG instance is unreachable.`,
+      });
+    }
+
+    // 2. Prepare Search URL
+    const url = new URL(`${INSTANCE_URL}/search`);
+    url.searchParams.set("q", query);
+    url.searchParams.set("format", "json");
+    url.searchParams.set("safesearch", String(safesearch));
+
+    if (category) {
+      url.searchParams.set("categories", category);
+    }
+    if (time_range) {
+      url.searchParams.set("time_range", time_range);
+    }
+    if (engines) {
+      url.searchParams.set("engines", engines);
+    }
+
+    // 3. Execute Search with Timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), SEARCH_TIMEOUT_MS);
+
+    try {
+      const response = await fetch(url.toString(), {
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        throw new Error(`Search failed with status ${response.status}`);
+      }
+
+      const data = (await response.json()) as SearXNGResponse;
+      const results = (data.results || []).slice(0, limit);
+
+      return JSON.stringify(results);
+    } catch (error: unknown) {
+      clearTimeout(timeoutId);
+
+      const errorMessage =
+        error instanceof Error
+          ? error.name === "AbortError"
+            ? `Search timed out after ${SEARCH_TIMEOUT_MS / 1000} seconds.`
+            : error.message
+          : String(error);
+
+      return JSON.stringify({
+        error: errorMessage,
+      });
+    }
+  },
+});

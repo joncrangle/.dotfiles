@@ -8,6 +8,7 @@ tools:
   task: true
   read: true
   list_files: true
+  searxng_search: true
   search_files: true
   grep: false
   list: false
@@ -24,7 +25,7 @@ tools:
   todoread: true
   code_rewrite: true
 
-permissions:
+permission:
   bash:
     "npm test*": allow
     "npm run test*": allow

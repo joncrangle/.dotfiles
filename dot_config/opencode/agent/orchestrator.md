@@ -23,6 +23,7 @@ tools:
   read: true
   glob: true
   list_files: true
+  searxng_search: true
   search_files: true
   grep: false
   list: false
@@ -35,7 +36,7 @@ tools:
   edit: true
   bash: true
 
-permissions:
+permission:
   bash:
     "rm -rf *": "ask"
     "rm -rf /*": "deny"
