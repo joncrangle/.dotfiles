@@ -108,9 +108,9 @@ zoxide = "latest"
 "npm:@tailwindcss/language-server" = "latest"
 "npm:vscode-langservers-extracted" = "latest" # Provides html, cssls, jsonls, eslint
 "npm:yaml-language-server" = "latest"
-"pipx:harlequin" = { version = "latest", extras = "postgres,s3" }
 "pipx:qmk" = { version = "latest" }
 "pipx:sqlfluff" = { version = "latest" }
+"pipx:sqlit-tui" = { version = "latest", extras = "mariadb,postgres,libsql" }
 "pipx:ty" = { version = "latest" }
 
 [settings]
