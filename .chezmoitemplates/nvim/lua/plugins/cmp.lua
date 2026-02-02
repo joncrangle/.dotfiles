@@ -65,6 +65,7 @@ return {
           AvanteInput = { 'avante' },
           lua = { inherit_defaults = true, 'lazydev' },
           markdown = { inherit_defaults = true, 'emoji' },
+          oil = { 'lsp', 'path', 'snippets', 'buffer' },
           sql = { inherit_defaults = true, 'dadbod' },
         },
         providers = {
