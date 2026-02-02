@@ -94,6 +94,7 @@ zoxide = "latest"
 "cargo:skim" = "latest"
 {{- end }}
 "go:github.com/a-h/templ/cmd/templ" = "latest"
+"npm:@astrojs/language-server" = "latest"
 "npm:bash-language-server" = "latest"
 "npm:@biomejs/biome" = "latest"
 "npm:btca" = "latest"
@@ -105,12 +106,13 @@ zoxide = "latest"
 "npm:@mdx-js/language-server" = "latest"
 "npm:@mermaid-js/mermaid-cli" = "latest"
 "npm:opencode-ai" = "latest"
+"npm:svelte-language-server" = "latest"
 "npm:@tailwindcss/language-server" = "latest"
-"npm:vscode-langservers-extracted" = "latest" # Provides html, cssls, jsonls, eslint
+"npm:vscode-langservers-extracted" = "latest"
 "npm:yaml-language-server" = "latest"
 "pipx:qmk" = { version = "latest" }
 "pipx:sqlfluff" = { version = "latest" }
-"pipx:sqlit-tui" = { version = "latest", extras = "mariadb,postgres,libsql" }
+"pipx:sqlit-tui" = { version = "latest", extras = "libsql,mariadb,postgres" }
 "pipx:ty" = { version = "latest" }
 
 [settings]

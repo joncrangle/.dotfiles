@@ -84,7 +84,9 @@ return {
       })
 
       local servers = {
-        astro = {},
+        astro = {
+          cmd = { 'astro-ls', '--stdio' },
+        },
         bacon_ls = {
           init_options = {
             updateOnSave = true,
@@ -95,7 +97,6 @@ return {
         bashls = {},
         biome = {},
         clangd = {},
-        cssls = {},
         denols = {
           root_markers = { 'deno.json', 'deno.jsonc' },
           settings = {
@@ -106,8 +107,12 @@ return {
             },
           },
         },
-        dockerls = {},
-        docker_compose_language_service = {},
+        dockerls = {
+          cmd = { 'docker-langserver', '--stdio' },
+        },
+        docker_compose_language_service = {
+          cmd = { 'docker-compose-langserver', '--stdio' },
+        },
         gopls = {
           settings = {
             gopls = {
@@ -164,9 +169,12 @@ return {
             },
           },
         },
-        html = {},
+        html = {
+          cmd = { 'vscode-html-language-server', '--stdio' },
+        },
         jqls = {},
         jsonls = {
+          cmd = { 'vscode-json-language-server', '--stdio' },
           -- Lazy-load schemastore when needed
           on_new_config = function(new_config)
             new_config.settings.json.schemas = new_config.settings.json.schemas or {}
@@ -204,10 +212,15 @@ return {
           },
         },
         marksman = {},
-        mdx_analyzer = {},
+        mdx_analyzer = {
+          cmd = { 'mdx-language-server', '--stdio' },
+        },
         ruff = {},
-        svelte = {},
+        svelte = {
+          cmd = { 'svelteserver', '--stdio' },
+        },
         tailwindcss = {
+          cmd = { 'tailwindcss-language-server', '--stdio' },
           filetypes_exclude = { 'markdown' },
           filetypes_include = {},
         },
@@ -286,26 +299,27 @@ return {
 
       local server_to_package = require('mason-lspconfig').get_mappings().lspconfig_to_package
 
-      local function is_executable_available(server_name)
+      local function is_executable_available(server_name, server_opts)
+        -- Check if server_opts.cmd[1] is executable
+        if server_opts and server_opts.cmd and type(server_opts.cmd) == 'table' and server_opts.cmd[1] then
+          if vim.fn.executable(server_opts.cmd[1]) == 1 then
+            return true
+          end
+        end
+
         -- First try the server name itself
         if vim.fn.executable(server_name) == 1 then
           return true
         end
 
         -- Then try the lspconfig default command
-        local resolved = vim.lsp.config[server_name]
-        if resolved and resolved.cmd then
+        local config = require('lspconfig.configs')[server_name]
+        if config and config.default_config and config.default_config.cmd then
           local binary
-          local cmd = resolved.cmd
+          local cmd = config.default_config.cmd
 
           if type(cmd) == 'table' then
             binary = cmd[1]
-          elseif type(cmd) == 'function' then
-            -- Safely execute the function to find the binary name
-            local success, result = pcall(cmd)
-            if success and type(result) == 'table' then
-              binary = result[1]
-            end
           end
 
           if binary and vim.fn.executable(binary) == 1 then
@@ -325,8 +339,8 @@ return {
       local ensure_installed = {}
 
       -- Add servers that aren't available on system
-      for server_name, _ in pairs(servers) do
-        if not is_executable_available(server_name) then
+      for server_name, server_opts in pairs(servers) do
+        if not is_executable_available(server_name, server_opts) then
           local package_name = server_to_package[server_name]
           if package_name then
             table.insert(ensure_installed, package_name)
