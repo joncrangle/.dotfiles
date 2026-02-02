@@ -11,31 +11,46 @@ LIBDIR="$HOME/.config/zsh/lib"
 
 mkdir -p "$COMPDIR" "$LIBDIR"
 
-echo "\033[1;34mUpdating completions...\033[0m"
+echo -e "\033[1;34mUpdating completions...\033[0m"
+
+# bun completions
+[ -s "/opt/homebrew/share/zsh/site-functions/_bun" ] && source "/opt/homebrew/share/zsh/site-functions/_bun"
 
 # Helper function
 gen() {
   local tool="$1"
   local cmd="$2"
   local file="$COMPDIR/_$tool"
+  local tmp="/tmp/gen_comp_zsh_$$" # Add PID for safety
 
-  if ! command -v "$tool" &>/dev/null; then
-    echo "  \033[0;90m• $tool (not installed)\033[0m"
-    return
-  fi
+  command -v "$tool" &>/dev/null || return
 
-  if eval "$cmd" >"$file" 2>/dev/null; then
-    # Ensure LF line endings
-    {{ if eq .chezmoi.os "linux" -}}
-    sed -i 's/\r//g' "$file" 2>/dev/null
-    {{- else }}
+  # Capture output (both stdout and stderr) but don't fail on exit code
+  (eval "$cmd" 2>&1 || true) | cat >"$tmp"
+
+  # Check if we got any output
+  if [ -s "$tmp" ]; then
+    # Check if the tool already provided a #compdef line
+    if head -n 1 "$tmp" | grep -q "^#compdef"; then
+      cat "$tmp" >"$file"
+    else
+      {
+        echo "#compdef $tool"
+        cat "$tmp"
+      } >"$file"
+    fi
+    # Cleanup line endings (macOS compatible sed)
+    {{ if eq .chezmoi.os "darwin" -}}
     sed -i '' 's/\r//g' "$file" 2>/dev/null
+    {{- else -}}
+    sed -i 's/\r//g' "$file" 2>/dev/null
     {{- end }}
     echo "  \033[0;32m✓ $tool\033[0m"
   else
-    echo "  \033[0;31m✖ $tool (command failed)\033[0m"
-    rm -f "$file"
+    echo "  \033[0;31m✖ $tool (no output)\033[0m"
   fi
+
+  rm -f "$tmp"
 }
 
 # --- Core Tools ---
@@ -46,10 +61,11 @@ gen "chezmoi" "chezmoi completion zsh"
 # --- Dev Tools ---
 gen "gh" "gh completion -s zsh"
 gen "jj" "jj util completion zsh"
-gen "bun" "bun completions"
 gen "deno" "deno completions zsh"
 gen "uv" "uv generate-shell-completion zsh"
 gen "ruff" "ruff generate-shell-completion zsh"
+gen "rustup" "rustup completions zsh"
+gen "cargo" "rustup completions zsh cargo"
 gen "typst" "typst completions zsh"
 gen "rg" "rg --generate complete-zsh"
 gen "sg" "sg completions zsh"
@@ -63,7 +79,7 @@ gen "starship" "starship completions zsh"
 gen "bat" "bat --completion zsh"
 gen "bw" "bw completion --shell zsh"
 gen "yq" "yq completion zsh"
-gen "delta" "delta --generate-completion zsh"
+gen "delta" "delta --generate-completion zsh --paging never"
 gen "pnpm" "pnpm completion zsh"
 gen "glow" "glow completion zsh"
 

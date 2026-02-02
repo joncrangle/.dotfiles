@@ -41,20 +41,14 @@ function Set-AliasIfExists
 if ($IsInteractive -and (Get-Module -ListAvailable PSReadLine))
 {
     Import-Module PSReadLine
-    Set-PSReadLineOption -EditMode Windows
-    Set-PSReadLineOption -PredictionSource HistoryAndPlugin
-    Set-PSReadLineOption -PredictionViewStyle ListView
-    Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
 }
 
 if ($IsPwsh)
 {
     # mise activation
-    if (Test-Cmd mise)
-    {
-        Invoke-Expression (& mise activate powershell)
-        Invoke-Expression (& mise completion powershell)
-    }
+    $miseScript = (mise activate pwsh | Out-String)
+    $miseScript = $miseScript -replace '\[Microsoft.PowerShell.PSConsoleReadLine\]::GetHistoryItems\(\)', '@()'
+    Invoke-Expression $miseScript
 
     if ((Get-Module -ListAvailable Terminal-Icons) -and (Get-Command Import-PowerShellDataFile -ErrorAction SilentlyContinue))
     {
@@ -65,11 +59,15 @@ if ($IsPwsh)
     {
         Import-Module PSFzf
         Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
+        Set-PsFzfOption -EnableAliasFuzzyCompletion -EnableProviderFuzzyCompletion -EnableCommandFuzzyCompletion
+        Set-PSReadLineKeyHandler -Key Tab -ScriptBlock {
+            Invoke-FzfTabCompletion
+        }
     }
 
     if (Test-Cmd zoxide)
     {
-        Invoke-Expression (& zoxide init powershell)
+        zoxide init powershell | Out-String | Invoke-Expression
     }
 }
 
@@ -79,12 +77,6 @@ if ($IsPwsh)
 
 if ($IsPwsh -and $IsInteractive)
 {
-    # bun
-    if (Test-Cmd bun)
-    {
-        bun completions powershell | Out-String | Invoke-Expression
-    }
-
     # deno
     if (Test-Cmd deno)
     {
@@ -97,27 +89,64 @@ if ($IsPwsh -and $IsInteractive)
         gh completion -s powershell | Out-String | Invoke-Expression
     }
 
+    # jj
+    if (Test-Cmd jj)
+    {
+        jj util completion power-shell | Out-String | Invoke-Expression
+    }
+
     # just
     if (Test-Cmd just)
     {
         just --completions powershell | Out-String | Invoke-Expression
     }
 
-    # cobra-based tools
-    $cobra = @(
-        'lazygit',
-        'lazydocker',
-        'teams-green',
-        'yazi',
-        'zoxide'
-    )
-
-    foreach ($tool in $cobra)
+    # pnpm
+    if (Test-Cmd pnpm)
     {
-        if (Test-Cmd $tool)
-        {
-            & $tool completion powershell | Out-String | Invoke-Expression
-        }
+        pnpm completion pwsh | Out-String | Invoke-Expression
+    }
+
+    # rg
+    if (Test-Cmd rg)
+    {
+        rg --generate complete-powershell | Out-String | Invoke-Expression
+    }
+
+    # rustup
+    if (Test-Cmd rustup)
+    {
+        rustup completions powershell | Out-String | Invoke-Expression
+    }
+
+    # sg
+    if (Test-Cmd sg)
+    {
+        sg completions powershell | Out-String | Invoke-Expression
+    }
+
+    # teams-green
+    if (Test-Cmd teams-green)
+    {
+        teams-green completion powershell | Out-String | Invoke-Expression
+    }
+
+    # uv
+    if (Test-Cmd uv)
+    {
+        uv generate-shell-completion powershell | Out-String | Invoke-Expression
+    }
+
+    # xh
+    if (Test-Cmd xh)
+    {
+        xh --generate complete-powershell | Out-String | Invoke-Expression
+    }
+
+    # yq
+    if (Test-Cmd yq)
+    {
+        yq completion powershell | Out-String | Invoke-Expression
     }
 }
 
@@ -282,6 +311,33 @@ filter grep ($pattern)
 function oc
 {
     opencode --agent orchestrator $args
+}
+
+function prip
+{
+    $connections = Get-NetTCPConnection -State Listen | ForEach-Object {
+        $proc = Get-Process -Id $_.OwningProcess -ErrorAction SilentlyContinue
+        # Format: Port ProcessName PID
+        "$($_.LocalPort) $($proc.ProcessName) $($_.OwningProcess)"
+    }
+
+    # --nth=1,2 match against Port and ProcessName
+    $selection = $connections | fzf --multi --nth=1,2 `
+        --header="[Port-Kill] Search: Port or Process" `
+        --layout=reverse
+
+    if ($selection)
+    {
+        foreach ($line in $selection)
+        {
+            $pidToKill = ($line -split '\s+')[-1]
+            if ($pidToKill -match '^\d+$')
+            {
+                Stop-Process -Id ([int]$pidToKill) -Force
+                Write-Host ":: Freed up port by terminating PID $pidToKill" -ForegroundColor Cyan
+            }
+        }
+    }
 }
 
 function rip

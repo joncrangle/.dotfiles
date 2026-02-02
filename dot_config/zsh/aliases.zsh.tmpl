@@ -259,6 +259,43 @@ pass() {
 	fi
 }
 
+# Interactive Port Killer
+prip() {
+	local sig selection pids
+	sig="${1:-15}"
+
+	if command -v ss >/dev/null 2>&1; then
+		# Linux: Port(1) Process(2) PID(3)
+		selection=$(ss -tulpn | grep LISTEN | awk '{split($7,a,","); print $5, a[1], a[2]}' | sed 's/.*:\([0-9]*\)/\1/; s/users:(("//; s/pid=//' | sk \
+			--multi \
+			--ansi \
+			--layout=reverse \
+			--nth=1,2 \
+			--header="[Port-Kill: ss] Search: Port or Process" \
+			--preview "echo {3} | xargs -I{} ps -p {} -o pid,ppid,user,stat,start,time,command" \
+			--preview-window="down:40%")
+
+		pids=$(echo "$selection" | awk '{print $3}' | sort -u)
+	else
+		# macOS: Port(1) Process(2) PID(3)
+		selection=$(lsof -iTCP -sTCP:LISTEN -P -n | awk 'NR>1 {print $9, $1, $2}' | sed 's/.*://' | sk \
+			--multi \
+			--ansi \
+			--layout=reverse \
+			--nth=1,2 \
+			--header="[Port-Kill: lsof] Search: Port or Process" \
+			--preview "ps -p {3} -o pid,ppid,user,stat,start,time,command" \
+			--preview-window="down:40%")
+
+		pids=$(echo "$selection" | awk '{print $3}' | sort -u)
+	fi
+
+	[[ -z "$pids" ]] && return
+
+	echo "Killing PID(s): $pids"
+	echo "$pids" | xargs kill -"$sig"
+}
+
 # Interactive Process Killer
 rip() {
 	local sig pids
@@ -266,6 +303,7 @@ rip() {
 
 	pids=$(sk -i -c "ps -Ao pid,comm | grep -i '{q}'" \
 		--ansi \
+		--multi \
 		--layout=reverse \
 		--delimiter='[[:space:]]+' \
 		--nth=2 \
