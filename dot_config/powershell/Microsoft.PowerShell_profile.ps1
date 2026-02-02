@@ -9,6 +9,9 @@
 # 0. HELPERS
 # ------------------------------------------------------
 
+$IsPwsh = $PSVersionTable.PSEdition -eq 'Core'
+$IsInteractive = $Host.Name -eq 'ConsoleHost' -and -not $env:CI
+
 function Test-Cmd
 {
     param([string]$Name)
@@ -31,24 +34,27 @@ function Set-AliasIfExists
     }
 }
 
-$PSP_IsInteractive = [Environment]::GetCommandLineArgs() -notcontains "-NonInteractive" -and [Environment]::GetCommandLineArgs() -notcontains "-Command"
-
 # ------------------------------------------------------
 # 1. MODULES (SAFE LOAD)
 # ------------------------------------------------------
 
-if (Get-Module -ListAvailable PSReadLine)
+if ($IsInteractive -and (Get-Module -ListAvailable PSReadLine))
 {
     Import-Module PSReadLine
+    Set-PSReadLineOption -EditMode Windows
+    Set-PSReadLineOption -PredictionSource HistoryAndPlugin
+    Set-PSReadLineOption -PredictionViewStyle ListView
+    Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
 }
 
-# --- PowerShell 6/7+ ONLY Setup ---
-if ($PSVersionTable.PSVersion.Major -ge 6)
+if ($IsPwsh)
 {
     # mise activation
-    $miseScript = (mise activate pwsh | Out-String)
-    $miseScript = $miseScript -replace '\[Microsoft.PowerShell.PSConsoleReadLine\]::GetHistoryItems\(\)', '@()'
-    Invoke-Expression $miseScript
+    if (Test-Cmd mise)
+    {
+        Invoke-Expression (& mise activate powershell)
+        Invoke-Expression (& mise completion powershell)
+    }
 
     if ((Get-Module -ListAvailable Terminal-Icons) -and (Get-Command Import-PowerShellDataFile -ErrorAction SilentlyContinue))
     {
@@ -60,10 +66,63 @@ if ($PSVersionTable.PSVersion.Major -ge 6)
         Import-Module PSFzf
         Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
     }
+
+    if (Test-Cmd zoxide)
+    {
+        Invoke-Expression (& zoxide init powershell)
+    }
 }
 
 # ------------------------------------------------------
-# 2. ENVIRONMENT
+# 2. TOOL COMPLETIONS
+# ------------------------------------------------------
+
+if ($IsPwsh -and $IsInteractive)
+{
+    # bun
+    if (Test-Cmd bun)
+    {
+        bun completions powershell | Out-String | Invoke-Expression
+    }
+
+    # deno
+    if (Test-Cmd deno)
+    {
+        deno completions powershell | Out-String | Invoke-Expression
+    }
+
+    # GitHub CLI
+    if (Test-Cmd gh)
+    {
+        gh completion -s powershell | Out-String | Invoke-Expression
+    }
+
+    # just
+    if (Test-Cmd just)
+    {
+        just --completions powershell | Out-String | Invoke-Expression
+    }
+
+    # cobra-based tools
+    $cobra = @(
+        'lazygit',
+        'lazydocker',
+        'teams-green',
+        'yazi',
+        'zoxide'
+    )
+
+    foreach ($tool in $cobra)
+    {
+        if (Test-Cmd $tool)
+        {
+            & $tool completion powershell | Out-String | Invoke-Expression
+        }
+    }
+}
+
+# ------------------------------------------------------
+# 3. ENVIRONMENT
 # ------------------------------------------------------
 
 $env:EDITOR = 'nvim'
@@ -81,7 +140,7 @@ if (Test-Path "$HOME\.config\mise\gh_public.json")
 }
 
 # ------------------------------------------------------
-# 3. FZF
+# 4. FZF
 # ------------------------------------------------------
 
 if (Test-Cmd rg)
@@ -105,7 +164,7 @@ $env:FZF_CTRL_R_OPTS="--bind 'ctrl-y:execute-silent(echo {} | win32yank -i)+abor
 
 
 # ------------------------------------------------------
-# 4. ALIASES
+# 5. ALIASES
 # ------------------------------------------------------
 
 # Editors
@@ -128,44 +187,40 @@ Set-AliasIfExists wez wezterm
 Set-Alias c Clear-Host -Force
 
 # zoxide replaces cd
-if (Get-Command z -ErrorAction SilentlyContinue)
+if (Test-Cmd z)
 {
-    if (Test-Path "Alias:cd")
-    { 
-        Remove-Item Alias:cd -Force -ErrorAction SilentlyContinue 
-    }
+    Remove-Item Alias:cd -Force -ErrorAction SilentlyContinue
     Set-Alias cd z -Option AllScope -Force
 }
 
 # ------------------------------------------------------
-# 5. LISTING FUNCTIONS
+# 6. LISTING FUNCTIONS
 # ------------------------------------------------------
 
-if (Get-Command eza -ErrorAction SilentlyContinue)
+if (Test-Cmd eza)
 {
-    if (Get-Alias ls -ErrorAction SilentlyContinue)
-    {
-        Remove-Item alias:ls -Force -ErrorAction SilentlyContinue
-    }
-    
+
+    Remove-Item alias:ls -Force -ErrorAction SilentlyContinue
+
     function ls
-    { eza --icons $args 
+    { eza --icons      $args 
     }
     function l
-    { eza --icons $args 
+    { eza --icons      $args 
     }
     function ll
-    { eza --icons -l $args 
+    { eza --icons -l   $args 
     }
     function la
-    { eza --icons -la $args 
+    { eza --icons -la  $args 
     }
     function tree
-    { eza -T --icons $args 
+    { eza -T --icons   $args 
     }
 }
+
 # ------------------------------------------------------
-# 6. CORE FUNCTIONS
+# 7. CORE FUNCTIONS
 # ------------------------------------------------------
 
 function cme
@@ -289,7 +344,7 @@ function x
 }
 
 # ------------------------------------------------------
-# 7. RIPGREP + FZF HELPERS
+# 8. RIPGREP + FZF HELPERS
 # ------------------------------------------------------
 
 function Select-RgLine
@@ -328,7 +383,7 @@ function open-at-line
 }
 
 # ------------------------------------------------------
-# 8. GIT BACKUP
+# 9. GIT BACKUP
 # ------------------------------------------------------
 
 function git-backup
@@ -371,7 +426,7 @@ function git-backup
 }
 
 # ------------------------------------------------------
-# 9. YAZI
+# 10. YAZI
 # ------------------------------------------------------
 
 function yy
@@ -387,10 +442,10 @@ function yy
 }
 
 # ------------------------------------------------------
-# 10. BANNER (ONCE)
+# 11. BANNER (ONCE)
 # ------------------------------------------------------
 
-if (-not $global:ProfileBannerShown -and $Host.Name -eq 'ConsoleHost' -and $PSP_IsInteractive)
+if ($IsInteractive -and -not $global:ProfileBannerShown)
 {
     $global:ProfileBannerShown = $true
     $esc = [char]27
@@ -415,36 +470,28 @@ if (-not $global:ProfileBannerShown -and $Host.Name -eq 'ConsoleHost' -and $PSP_
 }
 
 # ------------------------------------------------------
-# 11. PROMPT / TOOLS
+# 12. PROMPT / TOOLS
 # ------------------------------------------------------
 
-function Invoke-Starship-TransientFunction
+if ($IsPwsh -and (Test-Cmd starship))
 {
-    &starship module character
-}
-
-if ($PSVersionTable.PSVersion.Major -ge 6)
-{
-    if (Get-Command starship -ErrorAction SilentlyContinue)
+    function Invoke-Starship-TransientFunction
     {
-        $prompt = ""
-        function Invoke-Starship-PreCommand
+        &starship module character
+    }
+
+    $prompt = ""
+    function Invoke-Starship-PreCommand
+    {
+        $current_location = $executionContext.SessionState.Path.CurrentLocation
+        if ($current_location.Provider.Name -eq "FileSystem")
         {
-            $current_location = $executionContext.SessionState.Path.CurrentLocation
-            if ($current_location.Provider.Name -eq "FileSystem")
-            {
-                $ansi_escape = [char]27
-                $provider_path = $current_location.ProviderPath -replace "\\", "/"
-                $prompt = "$ansi_escape]7;file://${env:COMPUTERNAME}/${provider_path}$ansi_escape\"
-            }
-            $host.ui.Write($prompt)
+            $ansi_escape = [char]27
+            $provider_path = $current_location.ProviderPath -replace "\\", "/"
+            $prompt = "$ansi_escape]7;file://${env:COMPUTERNAME}/${provider_path}$ansi_escape\"
         }
-        Invoke-Expression (&starship init powershell)
-        Enable-TransientPrompt
+        $host.ui.Write($prompt)
     }
-
-    if (Test-Cmd zoxide)
-    {
-        Invoke-Expression (& { (zoxide init powershell | Out-String) })
-    }
+    Invoke-Expression (&starship init powershell)
+    Enable-TransientPrompt
 }

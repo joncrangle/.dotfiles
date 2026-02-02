@@ -1,0 +1,29 @@
+{{- if eq .chezmoi.os "windows" }}
+
+Write-Host ":: Chezmoi Hook: Syncing PowerShell profile" -ForegroundColor Cyan
+
+$Source = "{{ .chezmoi.homeDir }}\.config\powershell\Microsoft.PowerShell_profile.ps1"
+
+$Targets = @(
+    "{{ .chezmoi.homeDir }}\Documents\PowerShell\Microsoft.PowerShell_profile.ps1",
+    "{{ .chezmoi.homeDir }}\Documents\WindowsPowerShell\profile.ps1"
+)
+
+foreach ($Dest in $Targets) {
+    $Dir = Split-Path $Dest -Parent
+
+    if (-not (Test-Path $Dir)) {
+        New-Item -Path $Dir -ItemType Directory -Force | Out-Null
+    }
+
+    if (Test-Path $Source) {
+        Copy-Item -Path $Source -Destination $Dest -Force
+        Write-Host "   -> Synced $Dest" -ForegroundColor Gray
+    } else {
+        Write-Warning "   -> Source profile not found: $Source"
+    }
+}
+
+Write-Host "   -> Done." -ForegroundColor Green
+
+{{- end }}
