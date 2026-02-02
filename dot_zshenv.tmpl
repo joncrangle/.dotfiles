@@ -58,9 +58,9 @@ export FZF_CTRL_R_OPTS="--bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+ab
 
 # Skim
 export SKIM_PREVIEW_SHELL="$SHELL"
-export SKIM_DEFAULT_OPTS="--ansi --color=catppuccin-mocha \
---multi --border=rounded --bind 'ctrl-f:preview-page-down,ctrl-b:preview-page-up'"
-export SKIM_DEFAULT_COMMAND="rg --files --no-ignore-vcs --hidden --follow --glob '!.git/' --glob '!.jj/' --color=always"
+export SKIM_DEFAULT_OPTIONS="--ansi --color=catppuccin-mocha \
+--border=rounded --bind 'ctrl-f:preview-page-down,ctrl-b:preview-page-up'"
+export SKIM_DEFAULT_COMMAND="rg --files --no-ignore-vcs --hidden --follow --glob '!.git/' --glob '!.jj/'"
 export SKIM_CTRL_T_COMMAND="$SKIM_DEFAULT_COMMAND --glob '!node_modules/' --glob '!target/'"
 export SKIM_CTRL_T_OPTS="--ansi --preview 'bat -n --color=always {}' --bind 'ctrl-/:toggle-preview'"
 export SKIM_ALT_C_COMMAND="fd --type d --hidden --follow --exclude .git --exclude .jj --exclude node_modules --exclude target"

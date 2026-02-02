@@ -17,7 +17,7 @@ SAVEHIST=10000
 LISTMAX=1000
 COREPACK_ENABLE_AUTO_PIN=0
 
-eval "$($HOME/.local/bin/mise activate zsh)"
+[[ -f "$HOME/.local/bin/mise" ]] && eval "$($HOME/.local/bin/mise activate zsh)"
 export EDITOR="$(which nvim 2>/dev/null || which vim 2>/dev/null || echo /usr/bin/vi)"
 export VISUAL="$EDITOR"
 export SUDO_EDITOR="$EDITOR"
@@ -27,7 +27,7 @@ if [[ -f "$HOME/.config/mise/gh_public.json" ]]; then
 fi
 
 {{ if eq .chezmoi.os "darwin" -}}
-eval "$(/opt/homebrew/bin/brew shellenv)"
+[[ -f /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
 {{- end -}}
 {{ if eq .chezmoi.os "linux" -}}
 source "/usr/share/zsh-antidote/antidote.zsh"
@@ -36,11 +36,21 @@ source "$HOMEBREW_DIR/opt/antidote/share/antidote/antidote.zsh"
 {{- end }}
 antidote load
 
+# Zsh completion setup
+typeset -U fpath
 {{ if eq .chezmoi.os "linux" -}}
-FPATH="/usr/share/zsh/site-functions:${FPATH}"
+fpath=($ZDOTDIR/completions /usr/share/zsh/site-functions $fpath)
 {{- else -}}
-FPATH="$HOMEBREW_DIR/share/zsh/site-functions:${FPATH}"
+fpath=($ZDOTDIR/completions $HOMEBREW_DIR/share/zsh/site-functions $fpath)
 {{- end }}
+export ZSH_COMPDUMP="$ZDOTDIR/.zcompdump"
+autoload -Uz compinit
+compinit -d "$ZSH_COMPDUMP"
+
+# Force autoload of custom completions
+for f in $ZDOTDIR/completions/_(#qN); do
+  autoload -Uz ${f:t}
+done
 
 function zvm_config() {
   ZVM_VI_SURROUND_BINDKEY=s-prefix
@@ -115,18 +125,18 @@ zvm_after_init_commands+=(
   zle -N zle-line-init'
 
   # sk source
-  'source <(sk --shell=zsh --shell-bindings)'
+  '[[ -f $HOME/.config/zsh/lib/sk_init.zsh ]] && source $HOME/.config/zsh/lib/sk_init.zsh'
 )
 
 # Apply the Ctrl+C trap
 trap 'transient-int' INT
-
-zstyle ':fzf-tab:*' fzf-command sk
-zstyle ':fzf-tab:*' default-color ""
-zstyle ':fzf-tab:*' use-fzf-default-opts yes
+zstyle ':completion:*' group-name ''
+zstyle ':fzf-tab:*' single-group header
+zstyle ':completion:*' format '-- %d --'
+zstyle ':completion:*:descriptions' format '-- %d --'
+zstyle ':completion:*:messages' format '-- %d --'
+zstyle ':completion:*:warnings' format '-- %d --'
+zstyle ':fzf-tab:*' format '-- %d --'
 
 bindkey -M vicmd ":" undefined-key
-
-source <(COMPLETE=zsh jj)
-source <(mise completion zsh)
 # vim: ft=zsh

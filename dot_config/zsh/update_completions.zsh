@@ -1,0 +1,85 @@
+#!/usr/bin/env zsh
+
+# Initialize environment for standalone execution
+{{ if eq .chezmoi.os "darwin" -}}
+[[ -f /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
+{{- end }}
+[[ -f "$HOME/.local/bin/mise" ]] && eval "$($HOME/.local/bin/mise activate zsh)"
+
+COMPDIR="$HOME/.config/zsh/completions"
+LIBDIR="$HOME/.config/zsh/lib"
+
+mkdir -p "$COMPDIR" "$LIBDIR"
+
+echo "\033[1;34mUpdating completions...\033[0m"
+
+# Helper function
+gen() {
+  local tool="$1"
+  local cmd="$2"
+  local file="$COMPDIR/_$tool"
+
+  if ! command -v "$tool" &>/dev/null; then
+    echo "  \033[0;90m• $tool (not installed)\033[0m"
+    return
+  fi
+
+  if eval "$cmd" >"$file" 2>/dev/null; then
+    # Ensure LF line endings
+    {{ if eq .chezmoi.os "linux" -}}
+    sed -i 's/\r//g' "$file" 2>/dev/null
+    {{- else }}
+    sed -i '' 's/\r//g' "$file" 2>/dev/null
+    {{- end }}
+    echo "  \033[0;32m✓ $tool\033[0m"
+  else
+    echo "  \033[0;31m✖ $tool (command failed)\033[0m"
+    rm -f "$file"
+  fi
+}
+
+# --- Core Tools ---
+gen "mise" "mise completion zsh"
+gen "just" "just --completions zsh"
+gen "chezmoi" "chezmoi completion zsh"
+
+# --- Dev Tools ---
+gen "gh" "gh completion -s zsh"
+gen "jj" "jj util completion zsh"
+gen "bun" "bun completions"
+gen "deno" "deno completions zsh"
+gen "uv" "uv generate-shell-completion zsh"
+gen "ruff" "ruff generate-shell-completion zsh"
+gen "typst" "typst completions zsh"
+gen "rg" "rg --generate complete-zsh"
+gen "sg" "sg completions zsh"
+gen "xh" "xh --generate complete-zsh"
+gen "vhs" "vhs completion zsh"
+gen "gum" "gum completion zsh"
+gen "opencode" "opencode completion"
+
+# --- Starship ---
+gen "starship" "starship completions zsh"
+gen "bat" "bat --completion zsh"
+gen "bw" "bw completion --shell zsh"
+gen "yq" "yq completion zsh"
+gen "delta" "delta --generate-completion zsh"
+gen "pnpm" "pnpm completion zsh"
+gen "glow" "glow completion zsh"
+
+# --- Static Config Generation (Performance) ---
+if command -v sk &>/dev/null; then
+  echo "  \033[0;32m✓ sk (keybindings)\033[0m"
+  # Generate Skim bindings but REMOVE the Tab binding to avoid hijacking fzf-tab
+  sk --shell=zsh --shell-bindings | sed "/bindkey '\^I'/d" | sed 's/\r//g' >"$LIBDIR/sk_init.zsh"
+fi
+
+# Clear all possible completion caches
+echo "  \033[0;32m✓ clearing completion cache\033[0m"
+rm -f "$HOME"/.zcompdump*(N)
+rm -f "$ZDOTDIR"/.zcompdump*(N)
+rm -f "${XDG_CACHE_HOME:-$HOME/.cache}/antidote"/zcompdump*(N)
+rm -f "/Users/jonathancrangle/Library/Caches/antidote"/zcompdump*(N)
+[[ -n "$ZSH_COMPDUMP" ]] && rm -f "$ZSH_COMPDUMP"
+
+echo "\n\033[1;34mDone! Run 'reload' to apply.\033[0m"
