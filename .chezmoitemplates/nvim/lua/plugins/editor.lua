@@ -35,20 +35,25 @@ return {
       'nvim-lua/plenary.nvim',
       'antoinemadec/FixCursorHold.nvim',
       'nvim-treesitter/nvim-treesitter',
-      'fredrikaverpil/neotest-golang',
       'marilari88/neotest-vitest',
       'arthur944/neotest-bun',
       'mrcjkb/rustaceanvim',
+      {
+        'fredrikaverpil/neotest-golang',
+        build = function()
+          vim.system({ 'go', 'install', 'gotest.tools/gotestsum@latest' }):wait() -- Optional, but recommended
+        end,
+      },
     },
     opts = function()
       return {
         ---@type neotest.Config|{}
         adapters = {
-          require 'neotest-golang',
           require 'neotest-vitest',
           require 'neotest-plenary',
           require 'neotest-bun',
           require 'rustaceanvim.neotest',
+          require 'neotest-golang' { runner = 'gotestsum' },
         },
       }
     end,

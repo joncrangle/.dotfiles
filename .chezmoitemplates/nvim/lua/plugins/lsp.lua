@@ -77,6 +77,16 @@ return {
             end, '[T]oggle [I]nlay Hints')
           end
 
+          if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_codeLens, event.buf) then
+            vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'InsertLeave' }, {
+              buffer = event.buf,
+              callback = vim.lsp.codelens.refresh,
+            })
+            vim.lsp.codelens.refresh()
+          end
+
+          map('<leader>cr', vim.lsp.codelens.run, '[C]ode Lens [R]un')
+
           if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentSymbol, event.buf) then
             require('nvim-navic').attach(client, event.buf)
           end
@@ -114,18 +124,25 @@ return {
           cmd = { 'docker-compose-langserver', '--stdio' },
         },
         gopls = {
+          capabilities = {
+            textDocument = {
+              codeLens = {
+                dynamicRegistration = true,
+              },
+            },
+          },
           settings = {
             gopls = {
               gofumpt = true,
               codelenses = {
-                gc_details = true,
+                gc_details = false,
                 generate = true,
                 regenerate_cgo = true,
                 run_govulncheck = true,
                 test = true,
                 tidy = true,
                 upgrade_dependency = true,
-                version = true,
+                vendor = true,
               },
               hints = {
                 assignVariableTypes = true,
@@ -199,7 +216,7 @@ return {
                 enable = true,
               },
               codeLens = {
-                enable = true,
+                enable = false,
               },
               doc = {
                 privateName = { '^_' },
@@ -211,7 +228,15 @@ return {
             },
           },
         },
-        markdown_oxide = {},
+        markdown_oxide = {
+          capabilities = {
+            textDocument = {
+              codeLens = {
+                dynamicRegistration = true,
+              },
+            },
+          },
+        },
         mdx_analyzer = {
           cmd = { 'mdx-language-server', '--stdio' },
         },
