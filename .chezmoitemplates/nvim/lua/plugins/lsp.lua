@@ -211,7 +211,7 @@ return {
             },
           },
         },
-        marksman = {},
+        markdown_oxide = {},
         mdx_analyzer = {
           cmd = { 'mdx-language-server', '--stdio' },
         },
