@@ -168,6 +168,13 @@ if (Test-Path "$HOME\.config\mise\gh_public.json")
     $env:MISE_GITHUB_TOKEN = $json.github_token
 }
 
+$env:GOOGLE_CLOUD_PROJECT = "{{ .gcp_project_id }}"
+$env:VERTEX_LOCATION = "global"
+$gcpKeyPath = Join-Path $HOME ".config/gcloud/key.json"
+if (Test-Path $gcpKeyPath) {
+    $env:GOOGLE_APPLICATION_CREDENTIALS = $gcpKeyPath
+}
+
 # ------------------------------------------------------
 # 4. FZF
 # ------------------------------------------------------
@@ -551,3 +558,4 @@ if ($IsPwsh -and (Test-Cmd starship))
     Invoke-Expression (&starship init powershell)
     Enable-TransientPrompt
 }
+# vim: ft=ps1

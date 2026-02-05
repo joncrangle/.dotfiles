@@ -208,8 +208,9 @@
 	},
 	"enabled_providers": [
 		"cerebras",
-		"github-copilot",
 		"google",
+		"google-vertex",
+		"google-vertex-anthropic",
 		"opencode"
 	],
 	"share": "manual",

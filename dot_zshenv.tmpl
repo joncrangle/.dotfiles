@@ -76,6 +76,13 @@ export SKIM_CTRL_R_OPTS="--ansi --tiebreak=index --with-nth=4.. \
 # Bat
 export BAT_THEME="Catppuccin Mocha"
 
+export GOOGLE_CLOUD_PROJECT="{{ .gcp_project_id }}"
+export VERTEX_LOCATION=global
+GCP_KEY="$HOME/.config/gcloud/key.json"
+if [[ -f "$GCP_KEY" ]]; then
+    export GOOGLE_APPLICATION_CREDENTIALS="$GCP_KEY"
+fi
+
 # Path
 path=(
     $HOME/.config/.local/bin(N-/)

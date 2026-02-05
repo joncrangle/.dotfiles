@@ -1,12 +1,13 @@
-{{- $email := promptStringOnce . "email" "Email address" -}}
-{{- $name := promptStringOnce . "name" "Username" -}}
-{{- $macAddress := promptStringOnce . "macAddress" "Mac IP address" -}}
-{{- $macUser := promptStringOnce . "macUser" "Mac username" -}}
-{{- $tnasAddress := promptStringOnce . "tnasAddress" "TNAS IP address" -}}
-{{- $tnasUser := promptStringOnce . "tnasUser" "TNAS username" -}}
-{{- $archAddress := promptStringOnce . "archAddress" "Arch IP address" -}}
-{{- $archUser := promptStringOnce . "archUser" "Arch username" -}}
-{{- $nasSite := promptStringOnce . "nasSite" "NAS Website" -}}
+{{- $email := (hasKey . "email") | ternary (index . "email") (promptStringOnce . "email" "Email address") -}}
+{{- $name := (hasKey . "name") | ternary (index . "name") (promptStringOnce . "name" "Username") -}}
+{{- $macAddress := (hasKey . "macAddress") | ternary (index . "macAddress") (promptStringOnce . "macAddress" "Mac IP address") -}}
+{{- $macUser := (hasKey . "macUser") | ternary (index . "macUser") (promptStringOnce . "macUser" "Mac username") -}}
+{{- $tnasAddress := (hasKey . "tnasAddress") | ternary (index . "tnasAddress") (promptStringOnce . "tnasAddress" "TNAS IP address") -}}
+{{- $tnasUser := (hasKey . "tnasUser") | ternary (index . "tnasUser") (promptStringOnce . "tnasUser" "TNAS username") -}}
+{{- $archAddress := (hasKey . "archAddress") | ternary (index . "archAddress") (promptStringOnce . "archAddress" "Arch IP address") -}}
+{{- $archUser := (hasKey . "archUser") | ternary (index . "archUser") (promptStringOnce . "archUser" "Arch username") -}}
+{{- $nasSite := (hasKey . "nasSite") | ternary (index . "nasSite") (promptStringOnce . "nasSite" "NAS Website") -}}
+{{- $gcp_id := (hasKey . "gcp_project_id") | ternary (index . "gcp_project_id") (promptStringOnce . "gcp_project_id" "GCP Project ID") -}}
 
 encryption = "age"
 
@@ -21,13 +22,14 @@ encryption = "age"
 [data]
     email = {{ $email | quote }}
     name = {{ $name | quote }}
-    MacAddress = {{ $macAddress | quote }}
-    MacUser = {{ $macUser | quote }}
-    TnasAddress = {{ $tnasAddress | quote }}
-    TnasUser = {{ $tnasUser | quote }}
-    ArchAddress = {{ $archAddress | quote }}
-    ArchUser = {{ $archUser | quote }}
+    macAddress = {{ $macAddress | quote }}
+    macUser = {{ $macUser | quote }}
+    tnasAddress = {{ $tnasAddress | quote }}
+    tnasUser = {{ $tnasUser | quote }}
+    archAddress = {{ $archAddress | quote }}
+    archUser = {{ $archUser | quote }}
     nasSite = {{ $nasSite | quote }}
+    gcp_project_id = {{ $gcp_id | quote }}
     {{ if eq .chezmoi.os "linux" }}
     {{- $keyboard := promptStringOnce . "keyboard" "Enter 'laptop' or 'desktop' ..." -}}
     keyboard = {{ $keyboard | quote }}
