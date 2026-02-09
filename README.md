@@ -1,15 +1,16 @@
 # .dotfiles
 
-<!--toc:start-->
-- [.dotfiles](#dotfiles)
-  - [📘 Overview](#📘-overview)
-    - [🍎 MacOS](#🍎-macos)
-  - [🪟 Windows](#🪟-windows)
-  - [📱 Termux (Android)](#📱-termux-android)
-  - [🐧 Arch Linux](#🐧-arch-linux)
-    - [Paru commands](#paru-commands)
-  - [🧭 Keymapping](#🧭-keymapping)
-<!--toc:end-->
+<!-- toc -->
+
+- [📘 Overview](#%F0%9F%93%98-overview)
+  * [🍎 MacOS](#%F0%9F%8D%8E-macos)
+- [🪟 Windows](#%F0%9F%AA%9F-windows)
+- [📱 Termux (Android)](#%F0%9F%93%B1-termux-android)
+- [🐧 Arch Linux](#%F0%9F%90%A7-arch-linux)
+  * [Paru commands](#paru-commands)
+- [🧭 Keymapping](#%F0%9F%A7%AD-keymapping)
+
+<!-- tocstop -->
 
 ![Terminal](./assets/terminal.png)
 ![Mac Desktop](./assets/desktop_mac.png)
@@ -94,7 +95,7 @@ curl -L https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_mac.sh
 
 8. Give `Aerospace`, `Wezterm`, `skhd` accessibility permissions in `System Preferences` -> `Security & Privacy` -> `Accessibility`.
 
-10. Launch the `Shortcuts` app. Create a shortcut called "playpause" with "Play/Pause" from the "Media" category. This shortcut will be used by the bar for playback control.
+9. Launch the `Shortcuts` app. Create a shortcut called "playpause" with "Play/Pause" from the "Media" category. This shortcut will be used by the bar for playback control.
 
 ## 🪟 Windows
 

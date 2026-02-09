@@ -94,7 +94,6 @@ path=(
     $MISE_DIR/shims(N-/)
     {{ if eq .chezmoi.os "darwin" -}}
     $HOMEBREW_DIR/bin(N-/)
-    $HOME/.lmstudio/bin(N-/)
     {{- end -}}
     {{- if eq .chezmoi.os "linux" -}}
     /usr/bin(N-/)

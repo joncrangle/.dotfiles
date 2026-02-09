@@ -8,31 +8,31 @@ return {
     opts = {
       notify_on_error = false,
       formatters_by_ft = {
-        astro = { 'prettierd', 'prettier', stop_after_first = true },
+        astro = { 'oxfmt', 'prettierd', 'prettier', stop_after_first = true },
         bash = { 'shfmt' },
-        css = { 'prettierd', 'prettier', stop_after_first = true },
+        css = { 'oxfmt', 'prettierd', 'prettier', stop_after_first = true },
         go = { 'goimports', 'goimports-reviser', 'gofumpt' },
-        html = { 'prettierd', 'prettier', stop_after_first = true },
+        html = { 'oxfmt', 'prettierd', 'prettier', stop_after_first = true },
         http = { 'kulala' },
-        javascript = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
-        javascriptreact = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
-        json = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
+        javascript = { 'oxfmt', 'prettierd', 'prettier', stop_after_first = true },
+        javascriptreact = { 'oxfmt', 'prettierd', 'prettier', stop_after_first = true },
+        json = { 'oxfmt', 'prettierd', 'prettier', stop_after_first = true },
         lua = { 'stylua' },
-        markdown = { 'markdownlint-cli2', 'markdown-toc' },
-        ['markdown.mdx'] = { 'prettier', 'markdownlint-cli2', 'markdown-toc' },
+        markdown = { 'oxfmt', 'markdown-toc' },
+        ['markdown.mdx'] = { 'oxfmt', 'markdown-toc' },
         mysql = { 'sqlfluff' },
         plsql = { 'sqlfluff' },
         ps1 = { 'powershell_es' },
         python = { 'ruff_format' },
         sh = { 'shfmt', 'shellharden' },
         sql = { 'sqlfluff' },
-        svelte = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
+        svelte = { 'oxfmt', 'prettierd', 'prettier', stop_after_first = true },
         templ = { 'templ' },
-        toml = { 'prettierd', 'prettier', stop_after_first = true },
-        typescript = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
-        typescriptreact = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
+        toml = { 'oxfmt', 'prettierd', 'prettier', stop_after_first = true },
+        typescript = { 'oxfmt', 'prettierd', 'prettier', stop_after_first = true },
+        typescriptreact = { 'oxfmt', 'prettierd', 'prettier', stop_after_first = true },
         typst = { 'typstyle' },
-        yaml = { 'prettierd', 'prettier', stop_after_first = true },
+        yaml = { 'oxfmt', 'prettierd', 'prettier', stop_after_first = true },
         zsh = { 'shfmt' },
       },
       formatters = {
@@ -53,14 +53,6 @@ return {
               end
             end
             return false
-          end,
-        },
-        ['markdownlint-cli2'] = {
-          condition = function(_, ctx)
-            local diag = vim.tbl_filter(function(d)
-              return d.source == 'markdownlint'
-            end, vim.diagnostic.get(ctx.buf))
-            return #diag > 0
           end,
         },
       },

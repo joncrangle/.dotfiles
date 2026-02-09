@@ -105,7 +105,6 @@ return {
           },
         },
         bashls = {},
-        biome = {},
         clangd = {},
         denols = {
           root_markers = { 'deno.json', 'deno.jsonc' },
@@ -240,6 +239,8 @@ return {
         mdx_analyzer = {
           cmd = { 'mdx-language-server', '--stdio' },
         },
+        oxfmt = {},
+        oxlint = {},
         ruff = {},
         svelte = {
           cmd = { 'svelteserver', '--stdio' },
