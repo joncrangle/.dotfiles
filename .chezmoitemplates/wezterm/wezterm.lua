@@ -57,6 +57,7 @@ config.color_schemes = {
 }
 config.cursor_thickness = 2
 config.default_cursor_style = 'BlinkingBar'
+config.enable_kitty_keyboard = true
 config.force_reverse_video_cursor = true
 config.hide_tab_bar_if_only_one_tab = true
 config.inactive_pane_hsb = {
