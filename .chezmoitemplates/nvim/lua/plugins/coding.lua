@@ -112,26 +112,12 @@ return {
     },
   },
   {
-    'laytan/cloak.nvim',
-    event = { 'BufReadPre *.env', 'BufReadPre *.http' },
-    opts = {
-      cloak_length = 12,
-      patterns = {
-        {
-          file_pattern = '.env*',
-          cloak_pattern = '=.+',
-        },
-        {
-          file_pattern = '*.http',
-          cloak_pattern = '(@[%w_]+)%s*=%s*(.+)',
-          replace = '%1',
-        },
-      },
-    },
+    'zeybek/camouflage.nvim',
+    event = 'VeryLazy',
+    opts = {},
       -- stylua: ignore
     keys = {
-      { '<leader>te', '<cmd>CloakPreviewLine<cr>', desc = '[T]oggle [E]nv for line' },
-      { '<leader>tE', '<cmd>CloakToggle<cr>',      desc = '[T]oggle [E]nv for file' },
+      { '<leader>te', '<cmd>CamouflageToggle<cr>', desc = '[T]oggle [E]nv for line' },
     },
   },
   {
