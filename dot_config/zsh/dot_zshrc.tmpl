@@ -24,6 +24,8 @@ if command -v mise &>/dev/null; then
   eval "$(mise activate zsh --shims)" 
 fi
 
+. "$HOME/.config/.local/share/../bin/env"
+
 export EDITOR="$(which nvim 2>/dev/null || which vim 2>/dev/null || echo /usr/bin/vi)"
 export VISUAL="$EDITOR"
 export SUDO_EDITOR="$EDITOR"
