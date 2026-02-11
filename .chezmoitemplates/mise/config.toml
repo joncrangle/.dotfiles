@@ -83,8 +83,6 @@ zoxide = "latest"
 "go:github.com/wader/jq-lsp" = "latest"
 {{- if eq .chezmoi.os "darwin" }}
 "github:joncrangle/podapple" = "latest"
-"npm:openclaw" = "latest"
-"npm:clawdhub" = "latest"
 "pipx:waybarrios/vllm-mlx" = "latest"
 {{- end }}
 {{- if eq .chezmoi.os "windows" }}
