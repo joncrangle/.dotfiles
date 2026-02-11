@@ -2,9 +2,21 @@
 	"$schema": "https://opencode.ai/config.json",
 	"theme": "catppuccin",
 	"provider": {
+		"vllm-mlx": {
+			"npm": "@ai-sdk/openai-compatible",
+			"name": "vLLM-MLX",
+			"options": {
+				"baseURL": "http://127.0.0.1:8000/v1"
+			},
+			"models": {
+				"mlx-community/Qwen3-4B-Sky-High-Hermes-4bit": {
+					"name": "Qwen3 4B Sky High Hermes (local)"
+				}
+			}
+		},
 		"google": {
 			"models": {
-				"antigravity-gemini-3-pro": {
+				"gemini-3-pro": {
 					"name": "Gemini 3 Pro (Antigravity)",
 					"limit": {
 						"context": 1048576,
@@ -29,7 +41,7 @@
 						}
 					}
 				},
-				"antigravity-gemini-3-flash": {
+				"gemini-3-flash": {
 					"name": "Gemini 3 Flash (Antigravity)",
 					"limit": {
 						"context": 1048576,
@@ -60,7 +72,7 @@
 						}
 					}
 				},
-				"antigravity-claude-sonnet-4-5": {
+				"claude-sonnet-4-5": {
 					"name": "Claude Sonnet 4.5 (Antigravity)",
 					"limit": {
 						"context": 200000,
@@ -77,7 +89,7 @@
 						]
 					}
 				},
-				"antigravity-claude-sonnet-4-5-thinking": {
+				"claude-sonnet-4-5-thinking": {
 					"name": "Claude Sonnet 4.5 Thinking (Antigravity)",
 					"limit": {
 						"context": 200000,
@@ -106,8 +118,8 @@
 						}
 					}
 				},
-				"antigravity-claude-opus-4-5-thinking": {
-					"name": "Claude Opus 4.5 Thinking (Antigravity)",
+				"claude-opus-4-6-thinking": {
+					"name": "Claude Opus 4.6 Thinking (Antigravity)",
 					"limit": {
 						"context": 200000,
 						"output": 64000
@@ -133,40 +145,6 @@
 								"thinkingBudget": 32768
 							}
 						}
-					}
-				},
-				"gemini-2.5-flash": {
-					"name": "Gemini 2.5 Flash (Gemini CLI)",
-					"limit": {
-						"context": 1048576,
-						"output": 65536
-					},
-					"modalities": {
-						"input": [
-							"text",
-							"image",
-							"pdf"
-						],
-						"output": [
-							"text"
-						]
-					}
-				},
-				"gemini-2.5-pro": {
-					"name": "Gemini 2.5 Pro (Gemini CLI)",
-					"limit": {
-						"context": 1048576,
-						"output": 65536
-					},
-					"modalities": {
-						"input": [
-							"text",
-							"image",
-							"pdf"
-						],
-						"output": [
-							"text"
-						]
 					}
 				},
 				"gemini-3-flash-preview": {
@@ -211,7 +189,8 @@
 		"google",
 		"google-vertex",
 		"google-vertex-anthropic",
-		"opencode"
+		"opencode",
+		"vllm-mlx"
 	],
 	"share": "manual",
 	"permission": {
