@@ -7,19 +7,20 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "auto_update": false,
   "project_panel": {
-    "dock": "right"
+    "dock": "right",
   },
   "icon_theme": "Catppuccin Mocha",
   "telemetry": {
     "diagnostics": true,
-    "metrics": false
+    "metrics": false,
   },
   "vim_mode": true,
-  "relative_line_numbers": true,
+  "relative_line_numbers": "enabled",
   "ui_font_size": 16,
   "scrollbar": {
-    "show": "never"
+    "show": "never",
   },
   "buffer_font_family": "TX-02",
 {{- if eq .chezmoi.os "windows" }}
@@ -39,20 +40,25 @@
   },
   "git": {
     "inline_blame": {
-      "enabled": false
-    }
+      "enabled": false,
+    },
   },
   "tab_bar": {
     "show": false,
     "show_tab_bar_buttons": false,
-    "show_nav_history_buttons": false
+    "show_nav_history_buttons": false,
   },
   "tabs": {
-    "file_icons": true
+    "file_icons": true,
   },
   "theme": {
     "mode": "system",
     "light": "Catppuccin Latte",
-    "dark": "Catppuccin Mocha"
-  }
+    "dark": "Catppuccin Mocha",
+  },
+  "languages": {
+    "Python": {
+      "language_servers": ["ty", "!basedpyright"],
+    },
+  },
 }
