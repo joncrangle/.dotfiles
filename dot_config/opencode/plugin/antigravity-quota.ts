@@ -9,6 +9,7 @@ const EXCLUDED_PATTERNS = [
   "gemini-3-pro-image",
   "gemini-2.5",
   "tab-flash",
+  "tab_jump_flash_lite_preview",
 ];
 
 function normalizeForMatch(str: string): string {
@@ -23,8 +24,7 @@ const configDir = isWindows
   : join(homedir(), ".config", "opencode");
 const accountsFile = join(configDir, "antigravity-accounts.json");
 
-const OAUTH_CLIENT_ID =
-  "1071006060591-tmhssin2h21lcre235vtolojh4g403ep.apps.googleusercontent.com";
+const OAUTH_CLIENT_ID = "1071006060591-tmhssin2h21lcre235vtolojh4g403ep.apps.googleusercontent.com";
 const OAUTH_CLIENT_SECRET = "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";
 const CLOUDCODE_BASE_URL = "https://cloudcode-pa.googleapis.com";
 
@@ -129,9 +129,7 @@ async function fetchQuota(): Promise<string> {
   }
 
   if (!config.accounts || !Array.isArray(config.accounts)) {
-    throw new Error(
-      `Malformed account file: missing 'accounts' array in ${accountsFile}`,
-    );
+    throw new Error(`Malformed account file: missing 'accounts' array in ${accountsFile}`);
   }
 
   const account = config.accounts[config.activeIndex ?? 0];
@@ -150,18 +148,15 @@ async function fetchQuota(): Promise<string> {
 
   const accessToken = await getAccessToken(account.refreshToken);
 
-  const response = await fetch(
-    `${CLOUDCODE_BASE_URL}/v1internal:fetchAvailableModels`,
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-        "User-Agent": "antigravity",
-      },
-      body: JSON.stringify({ project: account.projectId }),
+  const response = await fetch(`${CLOUDCODE_BASE_URL}/v1internal:fetchAvailableModels`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+      "User-Agent": "antigravity",
     },
-  );
+    body: JSON.stringify({ project: account.projectId }),
+  });
 
   if (!response.ok) {
     return `❌ API error: ${response.status}`;
@@ -207,11 +202,7 @@ async function fetchQuota(): Promise<string> {
 
     modelsWithQuota.push({ name, percent, reset: info.quotaInfo?.resetTime });
 
-    if (
-      name.toLowerCase().includes("claude") &&
-      claudePct === null &&
-      percent !== null
-    ) {
+    if (name.toLowerCase().includes("claude") && claudePct === null && percent !== null) {
       claudePct = percent;
     } else if (
       name.toLowerCase().includes("gemini") &&
@@ -229,10 +220,8 @@ async function fetchQuota(): Promise<string> {
     return pA - pB;
   });
 
-  const claudeStr =
-    claudePct !== null ? `${getQuotaStatus(claudePct)} ${claudePct}%` : "--%";
-  const geminiStr =
-    geminiPct !== null ? `${getQuotaStatus(geminiPct)} ${geminiPct}%` : "--%";
+  const claudeStr = claudePct !== null ? `${getQuotaStatus(claudePct)} ${claudePct}%` : "--%";
+  const geminiStr = geminiPct !== null ? `${getQuotaStatus(geminiPct)} ${geminiPct}%` : "--%";
   lines.push(`Claude: ${claudeStr} • Gemini: ${geminiStr}`);
   lines.push("");
 
@@ -292,11 +281,7 @@ const plugin: Plugin = async (_ctx) => {
         msg.parts.some((p) => p.text?.includes(QUOTA_MESSAGE_MARKER)),
       );
 
-      if (
-        assistantTurns > 0 &&
-        assistantTurns % QUOTA_CHECK_INTERVAL === 0 &&
-        !alreadyHasQuota
-      ) {
+      if (assistantTurns > 0 && assistantTurns % QUOTA_CHECK_INTERVAL === 0 && !alreadyHasQuota) {
         // Throttle notifications to avoid spamming the primary view
         const now = Date.now();
         if (now - lastNotificationTimestamp < NOTIFICATION_THROTTLE_MS) {
