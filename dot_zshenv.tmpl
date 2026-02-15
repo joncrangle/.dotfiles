@@ -19,7 +19,7 @@ export XDG_CACHE_HOME=$XDG_CONFIG_HOME/cache
 
 # ZSH
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
-export HISTFILE="$ZDOTDIR/.zhistory"
+export HISTFILE="$ZDOTDIR/.zsh_history"
 
 # Mise
 export MISE_DIR="$XDG_DATA_HOME/mise"
@@ -61,7 +61,7 @@ export FZF_CTRL_R_OPTS="--bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+ab
 
 # Skim
 export SKIM_PREVIEW_SHELL="$SHELL"
-export SKIM_DEFAULT_OPTIONS="--ansi --color=catppuccin-mocha \
+export SKIM_DEFAULT_OPTIONS="--color=catppuccin-mocha \
 --border=rounded --bind 'ctrl-f:preview-page-down,ctrl-b:preview-page-up'"
 export SKIM_DEFAULT_COMMAND="rg --files --no-ignore-vcs --hidden --follow --glob '!.git/' --glob '!.jj/'"
 export SKIM_CTRL_T_COMMAND="$SKIM_DEFAULT_COMMAND --glob '!node_modules/' --glob '!target/'"
@@ -72,7 +72,7 @@ export SKIM_ALT_C_OPTS="--ansi --preview 'eza --tree --color=always --icons {}'"
 export SKIM_CTRL_R_OPTS="--ansi --tiebreak=index --with-nth=4.. \
 --bind 'ctrl-y:execute-silent(echo {4..} | wl-copy)+abort'"
 {{- else -}}
-export SKIM_CTRL_R_OPTS="--ansi --tiebreak=index --with-nth=4.. \
+export SKIM_CTRL_R_OPTS="--tiebreak=index --with-nth=4.. \
 --bind 'ctrl-y:execute-silent(echo {4..} | pbcopy)+abort'"
 {{- end }}
 

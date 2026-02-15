@@ -59,14 +59,6 @@ zstyle ':completion:*:warnings' format '-- %d --'
 zstyle ':fzf-tab:*' format '-- %d --'
 bindkey -M vicmd ":" undefined-key
 
-function zvm_config() {
-  ZVM_VI_SURROUND_BINDKEY=s-prefix
-  ZVM_VI_HIGHLIGHT_FOREGROUND=#cdd6f4
-  ZVM_VI_HIGHLIGHT_BACKGROUND=#45475a
-  ZVM_VI_HIGHLIGHT_EXTRASTYLE=bold
-  ZVM_INIT_MODE=sourcing
-}
-
 eval "$(starship init zsh)"
 
 set-long-prompt() {
@@ -129,8 +121,4 @@ zvm_after_init_commands+=(
 [[ -f "$ZDOTDIR/options.zsh" ]] && source "$ZDOTDIR/options.zsh"
 [[ -f "$ZDOTDIR/aliases.zsh" ]] && source "$ZDOTDIR/aliases.zsh"
 [[ -f "$ZDOTDIR/banner.zsh"  ]] && source "$ZDOTDIR/banner.zsh"
-
-# Trap Ctrl+C
-trap 'set-short-prompt; zle .reset-prompt; return 130' INT
-bindkey -M vicmd ":" undefined-key
 # vim: ft=zsh
