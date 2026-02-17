@@ -2,11 +2,13 @@
 
 Write-Host ":: Chezmoi Hook: Syncing PowerShell profile" -ForegroundColor Cyan
 
-$Source = "{{ .chezmoi.homeDir }}\.config\powershell\Microsoft.PowerShell_profile.ps1"
+# Use PowerShell to find the actual Documents path at runtime
+$DocsPath = [Environment]::GetFolderPath("MyDocuments")
+$Source = Join-Path "{{ .chezmoi.homeDir }}" ".config\powershell\Microsoft.PowerShell_profile.ps1"
 
 $Targets = @(
-    "{{ .chezmoi.homeDir }}\Documents\PowerShell\Microsoft.PowerShell_profile.ps1",
-    "{{ .chezmoi.homeDir }}\Documents\WindowsPowerShell\profile.ps1"
+    (Join-Path $DocsPath "PowerShell\Microsoft.PowerShell_profile.ps1"),
+    (Join-Path $DocsPath "WindowsPowerShell\profile.ps1")
 )
 
 foreach ($Dest in $Targets) {
@@ -18,7 +20,7 @@ foreach ($Dest in $Targets) {
 
     if (Test-Path $Source) {
         Copy-Item -Path $Source -Destination $Dest -Force
-        Write-Host "   -> Synced $Dest" -ForegroundColor Gray
+        Write-Host "   -> Synced to: $Dest" -ForegroundColor Gray
     } else {
         Write-Warning "   -> Source profile not found: $Source"
     }
