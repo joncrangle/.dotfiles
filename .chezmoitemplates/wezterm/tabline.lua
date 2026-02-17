@@ -12,6 +12,7 @@ local process_to_icon = {
 }
 
 function M.tabline()
+  ---@type TablineWez
   local tabline = wezterm.plugin.require 'https://github.com/michaelbrusegard/tabline.wez'
   local transparent = 'rgba(0,0,0,0)'
 
