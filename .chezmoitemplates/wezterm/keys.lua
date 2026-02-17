@@ -20,7 +20,7 @@ end)
 function M.apply_to_config(config, plugins)
   local resurrect = plugins.resurrect
   local workspace_switcher = plugins.workspace_switcher
-  local domains = plugins.domains
+  local smart_ssh = plugins.smart_ssh
 
   config.disable_default_key_bindings = true
   -- stylua: ignore
@@ -141,32 +141,14 @@ function M.apply_to_config(config, plugins)
     { mods = M.super, key = 'v',          action = act.PasteFrom 'Clipboard' },
     { mods = M.mod,   key = 'p',          action = act.ActivateCommandPalette },
     { mods = M.mod,   key = 'd',          action = act.ShowDebugOverlay },
+    -- Domains
+    { mods = 'ALT|SHIFT', key = 'D',      action = smart_ssh.tab() },
   }
+
   -- Select tab with 'CTRL' + tab number
   for i = 1, 9 do
     table.insert(config.keys, { mods = 'CTRL', key = tostring(i), action = act { ActivateTab = i - 1 } })
   end
-
-  -- Domains
-  domains.apply_to_config(config, {
-    keys = {
-      attach = {
-        key = 'D',
-        mods = 'ALT|SHIFT',
-        tbl = '',
-      },
-      vsplit = {
-        key = 'v',
-        mods = 'ALT|SHIFT',
-        tbl = '',
-      },
-      hsplit = {
-        key = 'h',
-        mods = 'ALT|SHIFT',
-        tbl = '',
-      },
-    },
-  })
 end
 
 return M

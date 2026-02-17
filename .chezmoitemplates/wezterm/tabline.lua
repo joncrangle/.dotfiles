@@ -37,12 +37,12 @@ function M.tabline()
     },
     sections = {
       tabline_a = { 'workspace' },
-      tabline_b = { not wezterm.target_triple:find 'windows' and 'window' },
+      tabline_b = { not wezterm.target_triple:find 'windows' and 'window' or '' },
       tabline_c = { ' ' },
       tab_active = {
         { Text = wezterm.nerdfonts.cod_triangle_right .. ' ' },
         { 'zoomed', padding = 0 },
-        { 'tab_index', padding = { left = 0, right = 1 } },
+        { 'index', padding = { left = 0, right = 1 } },
         {
           'process',
           padding = { left = 0, right = 1 },
@@ -53,7 +53,7 @@ function M.tabline()
       tab_inactive = {
         { Text = wezterm.nerdfonts.cod_chevron_right .. ' ' },
         { 'zoomed', padding = 0 },
-        { 'tab_index', padding = { left = 0, right = 1 } },
+        { 'index', padding = { left = 0, right = 1 } },
         {
           'process',
           padding = { left = 0, right = 1 },
@@ -65,7 +65,33 @@ function M.tabline()
       tabline_y = {},
       tabline_z = { { 'datetime', style = '%I:%M %p' } },
     },
-    extensions = { 'resurrect', 'smart_workspace_switcher', 'quick_domains' },
+    extensions = {
+      'resurrect',
+      'smart_workspace_switcher',
+      {
+        'smart_ssh',
+        events = {
+          show = 'smart_ssh.fuzzy_selector.opened',
+          hide = {
+            'smart_ssh.fuzzy_selector.canceled',
+            'smart_ssh.fuzzy_selector.selected',
+            'resurrect.fuzzy_load.start',
+            'smart_workspace_switcher.workspace_switcher.start',
+          },
+        },
+        sections = {
+          tabline_a = { ' Smart SSH ' },
+          tabline_b = { { 'workspace' } },
+          tabline_c = {},
+          tab_active = {},
+          tab_inactive = {},
+        },
+        colors = {
+          a = { bg = colors.ansi[4] },
+          b = { fg = colors.ansi[4] },
+        },
+      },
+    },
   }
 end
 

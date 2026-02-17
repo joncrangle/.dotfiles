@@ -19,8 +19,8 @@ local plugins = {
   resurrect = wezterm.plugin.require 'https://github.com/MLFlexer/resurrect.wezterm',
   ---@type table
   workspace_switcher = wezterm.plugin.require 'https://github.com/MLFlexer/smart_workspace_switcher.wezterm',
-  domains = wezterm.plugin.require 'https://github.com/DavidRR-F/quick_domains.wezterm',
   smart_splits = wezterm.plugin.require 'https://github.com/mrjones2014/smart-splits.nvim',
+  smart_ssh = wezterm.plugin.require 'https://github.com/DavidRR-F/smart_ssh.wezterm',
 }
 
 -- Modules
@@ -209,9 +209,9 @@ wezterm.on('smart_workspace_switcher.workspace_switcher.selected', function(wind
   plugins.resurrect.state_manager.save_state(workspace_state.get_workspace_state())
 end)
 
--- Domains
+-- Smart SSH
 ---@diagnostic disable-next-line: inject-field
-plugins.domains.formatter = function(icon, name)
+plugins.smart_ssh.formatter = function(icon, name)
   return wezterm.format {
     { Foreground = { Color = scheme.ansi[5] } },
     { Background = { Color = scheme.background } },
