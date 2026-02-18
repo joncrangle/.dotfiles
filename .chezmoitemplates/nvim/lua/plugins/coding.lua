@@ -54,7 +54,7 @@ return {
       return {
         ---@type markview.config.markdown|{}
         preview = {
-          filetypes = { 'Avante', 'md', 'markdown' },
+          filetypes = { 'md', 'markdown' },
           icon_provider = 'mini',
           ignore_buftypes = {},
         },

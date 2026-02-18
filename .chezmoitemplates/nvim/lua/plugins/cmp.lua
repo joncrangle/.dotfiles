@@ -7,7 +7,6 @@ return {
     dependencies = {
       'rafamadriz/friendly-snippets',
       'moyiz/blink-emoji.nvim',
-      'Kaiser-Yang/blink-cmp-avante',
       {
         'Exafunction/windsurf.nvim',
         event = 'InsertEnter',
@@ -62,13 +61,11 @@ return {
       sources = {
         default = { 'lsp', 'path', 'snippets', 'buffer', 'codeium' },
         per_filetype = {
-          AvanteInput = { 'avante' },
           lua = { inherit_defaults = true, 'lazydev' },
           markdown = { inherit_defaults = true, 'emoji' },
           sql = { inherit_defaults = true, 'dadbod' },
         },
         providers = {
-          avante = { name = 'Avante', module = 'blink-cmp-avante' },
           dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink', score_offset = 3 },
           emoji = { name = 'Emoji', module = 'blink-emoji', score_offset = 3 },
           lazydev = { name = 'LazyDev', module = 'lazydev.integrations.blink', score_offset = 100 },
