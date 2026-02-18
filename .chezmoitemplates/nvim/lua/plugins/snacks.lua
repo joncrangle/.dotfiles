@@ -26,8 +26,7 @@ return {
           },
         },
       },
-      ---@type snacks.explorer.Config
-      explorer = { replace_netrw = true },
+      explorer = {},
       ---@type snacks.image.Config|{}
       image = { doc = { inline = false } },
       ---@type snacks.indent.Config
@@ -69,7 +68,7 @@ return {
       { '<leader>.',        function() Snacks.scratch() end,                                                               desc = 'Toggle Scratch Buffer' },
       { '<leader>y',        function() Snacks.terminal('yazi', { win = { style = 'lazygit' } }) end,                       desc = 'Open [Y]azi' },
       -- Pickers
-      { '-',                function() Snacks.explorer({ hidden = true }) end,                                             desc = 'File Explorer' },
+      { '<leader>-',        function() Snacks.explorer({ hidden = true }) end,                                             desc = 'File Explorer' },
       { '<leader><leader>', function() Snacks.picker.buffers() end,                                                        desc = '[ ] Find existing buffers' },
       { '<leader>/',        function() Snacks.picker.lines() end,                                                          desc = '[/] Search in current Buffer' },
       { '<leader>sf',       function() Snacks.picker.smart() end,                                                          desc = '[S]earch [F]iles' },

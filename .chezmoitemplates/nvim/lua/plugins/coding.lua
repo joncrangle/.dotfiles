@@ -113,8 +113,8 @@ return {
   },
   {
     'zeybek/camouflage.nvim',
-    event = 'VeryLazy',
-    opts = {},
+    event = { 'BufReadPre', 'BufNewFile' },
+    opts = { pwned = { enabled = false } },
       -- stylua: ignore
     keys = {
       { '<leader>te', '<cmd>CamouflageToggle<cr>', desc = '[T]oggle [E]nv for line' },

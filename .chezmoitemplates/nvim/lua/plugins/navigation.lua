@@ -89,43 +89,5 @@ return {
       })
     end,
   },
-  ---@module 'snacks'
-  ---@module 'oil'
-  {
-    'stevearc/oil.nvim',
-    cmd = 'Oil',
-    ---@type oil.Config|{}
-    opts = {
-      default_file_explorer = false,
-      keymaps = {
-        ['<C-f>'] = 'actions.preview_scroll_down',
-        ['<C-b>'] = 'actions.preview_scroll_up',
-        ['q'] = { 'actions.close', mode = 'n' },
-      },
-      ---@type oil.FloatWindowConfig|{}
-      float = { max_width = 0.85, max_height = 0.85, border = 'rounded' },
-      ---@type oil.LspFileMethods|{}
-      lsp_file_methods = { autosave_changes = 'unmodified' },
-      skip_confirm_for_simple_edits = true,
-      ---@type oil.ViewOptions|{}
-      view_options = {
-        show_hidden = true,
-        natural_order = true,
-        is_always_hidden = function(name, _)
-          return name == '.git' or name == '.jj'
-        end,
-      },
-      win_options = {
-        wrap = true,
-      },
-    },
-    keys = {
-      {
-        '<leader>-',
-        '<cmd>Oil --float<cr>',
-        desc = 'Open parent directory in oil.nvim',
-      },
-    },
-  },
 }
 -- vim: ts=2 sts=2 sw=2 et

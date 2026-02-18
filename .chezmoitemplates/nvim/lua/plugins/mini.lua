@@ -1,7 +1,7 @@
 return {
   {
     'nvim-mini/mini.nvim',
-    event = { 'BufReadPost', 'BufNewFile', 'CmdlineEnter' },
+    lazy = false,
     config = function()
       require('mini.ai').setup { n_lines = 500 }
       -- Examples:
@@ -21,12 +21,12 @@ return {
           signs = {
             add = '▎',
             change = '▎',
-            delete = '',
+            delete = '',
           },
         },
-        vim.keymap.set('n', '<leader>go', '<cmd>lua MiniDiff.toggle_overlay(0)<cr>', { desc = 'Toggle [G]it mini.diff [O]verlay' }),
       }
 
+      require('mini.files').setup()
       require('mini.git').setup()
 
       -- Customize git summary to show only branch name (no status)
@@ -101,11 +101,23 @@ return {
       local statusline = require 'mini.statusline'
       local disabled_filetypes = { 'snacks_dashboard', 'lazygit' }
 
+      -- Redraw statusline while LSP progress is active
+      vim.api.nvim_create_autocmd('LspProgress', {
+        callback = function()
+          vim.cmd.redrawstatus()
+        end,
+      })
+
+      local function grapple_loaded()
+        return package.loaded['grapple'] and require 'grapple' or nil
+      end
+
       local function get_special_statusline()
         local ft = vim.bo.filetype
         local truncated = statusline.is_truncated(80)
         if ft == 'grapple' then
-          return 'Grapple', package.loaded['grapple'] and (require('grapple').statusline() or '') or ''
+          local grapple = grapple_loaded()
+          return 'Grapple', grapple and (grapple.statusline() or '') or ''
         elseif ft == 'snacks_terminal' then
           return ' Terminal', vim.fn.expand('%:t'):match '.*:(%S+)$' or vim.fn.expand '%:t'
         elseif ft == 'opencode_terminal' then
@@ -166,20 +178,21 @@ return {
         local filename = vim.fn.expand '%:t'
         local mod_hl = vim.bo.modified and '%#StatuslineMatchParen#' or '%#StatuslineTitle#'
 
-        local grapple = ''
-        if package.loaded['grapple'] and require('grapple').exists() then
-          grapple = ' %#StatuslineGrapple#󰛢 ' .. require('grapple').name_or_index()
+        local grapple_str = ''
+        local grapple = grapple_loaded()
+        if grapple and grapple.exists() then
+          grapple_str = ' %#StatuslineGrapple#󰛢 ' .. grapple.name_or_index()
         end
 
         local readonly = vim.bo.readonly and '%#StatuslineReadonly# 󰌾 ' or ''
 
         -- Only show directory when not truncated
         if statusline.is_truncated(80) then
-          return mod_hl .. filename .. grapple .. readonly .. '%*'
+          return mod_hl .. filename .. grapple_str .. readonly .. '%*'
         end
 
         local dir = filepath:sub(1, -(#filename + 1))
-        return '%#StatuslineDir#' .. dir .. mod_hl .. filename .. grapple .. readonly .. '%*'
+        return '%#StatuslineDir#' .. dir .. mod_hl .. filename .. grapple_str .. readonly .. '%*'
       end
 
       local function section_dap()
@@ -219,7 +232,6 @@ return {
             progress_messages[client_id][token] = params.value
           end
 
-          -- Clean up empty clients
           if vim.tbl_count(progress_messages[client_id]) == 0 then
             progress_messages[client_id] = nil
           end
@@ -232,7 +244,6 @@ return {
         callback = function(ev)
           local client_id = ev.data.client_id
           vim.defer_fn(function()
-            -- If client hasn't reported progress, mark it as ready
             if not clients_with_progress[client_id] then
               clients_ready[client_id] = true
               vim.cmd.redrawstatus()
@@ -337,19 +348,12 @@ return {
       local function create_compound_hl(name, fg_name, bg_name)
         local fg_hl = vim.api.nvim_get_hl(0, { name = fg_name, link = false })
         local bg_hl = vim.api.nvim_get_hl(0, { name = bg_name, link = false })
-
-        local new_hl = {
+        vim.api.nvim_set_hl(0, name, {
+          fg = fg_hl.fg,
           bg = bg_hl.bg,
-          fg = fg_hl.fg or bg_hl.fg,
-          sp = fg_hl.sp or bg_hl.sp,
           bold = fg_hl.bold,
           italic = fg_hl.italic,
-          underline = fg_hl.underline,
-          undercurl = fg_hl.undercurl,
-          strikethrough = fg_hl.strikethrough,
-          reverse = fg_hl.reverse,
-        }
-        vim.api.nvim_set_hl(0, name, new_hl)
+        })
       end
 
       local function setup_statusline_hl()
@@ -381,6 +385,18 @@ return {
 
       vim.o.laststatus = 3
     end,
+    keys = {
+      { '<leader>go', '<cmd>lua MiniDiff.toggle_overlay(0)<cr>', { desc = 'Toggle [G]it mini.diff [O]verlay' } },
+      {
+        '-',
+        function()
+          if not MiniFiles.close() then
+            MiniFiles.open(vim.api.nvim_buf_get_name(0), false)
+          end
+        end,
+        { desc = 'MiniFiles toggle' },
+      },
+    },
   },
 }
 -- vim: ts=2 sts=2 sw=2 et
