@@ -127,7 +127,7 @@ config.font_rules = {
 -- Sessions
 local is_windows = wezterm.target_triple:find 'windows'
 local separator = is_windows and '\\' or '/'
-local age_binary = is_windows and (wezterm.home_dir .. [[\.local\share\mise\shims\age.exe]]) or (wezterm.home_dir .. '/.config/.local/share/mise/shims/age')
+local age_binary = is_windows and (wezterm.home_dir .. [[\AppData\Local\mise\shims\age.exe]]) or (wezterm.home_dir .. '/.config/.local/share/mise/shims/age')
 plugins.resurrect.state_manager.set_encryption {
   enable = true,
   method = age_binary,
