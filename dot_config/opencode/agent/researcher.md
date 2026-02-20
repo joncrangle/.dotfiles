@@ -1,6 +1,6 @@
 ---
 description: The Librarian. Fast research, docs lookup, and summarization.
-model: google/gemini-3-flash
+model: google-vertex/gemini-3-flash-preview
 mode: subagent
 
 tools:

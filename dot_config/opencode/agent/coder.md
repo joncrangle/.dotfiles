@@ -1,6 +1,6 @@
 ---
 description: The Builder. Implements code changes with strict precision.
-model: google/gemini-3-flash
+model: google-vertex/gemini-3.1-pro-preview-customtools
 mode: subagent
 
 tools:

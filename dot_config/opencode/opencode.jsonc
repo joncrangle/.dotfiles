@@ -6,220 +6,49 @@
 			"npm": "@ai-sdk/openai-compatible",
 			"name": "vLLM-MLX",
 			"options": {
-				"baseURL": "http://127.0.0.1:8000/v1"
+				"baseURL": "http://127.0.0.1:8000/v1",
 			},
 			"models": {
 				"mlx-community/Qwen3-4B-Sky-High-Hermes-4bit": {
-					"name": "Qwen3 4B Sky High Hermes (local)"
-				}
-			}
+					"name": "Qwen3 4B Sky High Hermes (local)",
+				},
+			},
 		},
-		"google": {
-			"models": {
-				"gemini-3-pro": {
-					"name": "Gemini 3 Pro (Antigravity)",
-					"limit": {
-						"context": 1048576,
-						"output": 65535
-					},
-					"modalities": {
-						"input": [
-							"text",
-							"image",
-							"pdf"
-						],
-						"output": [
-							"text"
-						]
-					},
-					"variants": {
-						"low": {
-							"thinkingLevel": "low"
-						},
-						"high": {
-							"thinkingLevel": "high"
-						}
-					}
-				},
-				"gemini-3-flash": {
-					"name": "Gemini 3 Flash (Antigravity)",
-					"limit": {
-						"context": 1048576,
-						"output": 65536
-					},
-					"modalities": {
-						"input": [
-							"text",
-							"image",
-							"pdf"
-						],
-						"output": [
-							"text"
-						]
-					},
-					"variants": {
-						"minimal": {
-							"thinkingLevel": "minimal"
-						},
-						"low": {
-							"thinkingLevel": "low"
-						},
-						"medium": {
-							"thinkingLevel": "medium"
-						},
-						"high": {
-							"thinkingLevel": "high"
-						}
-					}
-				},
-				"claude-sonnet-4-5": {
-					"name": "Claude Sonnet 4.5 (Antigravity)",
-					"limit": {
-						"context": 200000,
-						"output": 64000
-					},
-					"modalities": {
-						"input": [
-							"text",
-							"image",
-							"pdf"
-						],
-						"output": [
-							"text"
-						]
-					}
-				},
-				"claude-sonnet-4-5-thinking": {
-					"name": "Claude Sonnet 4.5 Thinking (Antigravity)",
-					"limit": {
-						"context": 200000,
-						"output": 64000
-					},
-					"modalities": {
-						"input": [
-							"text",
-							"image",
-							"pdf"
-						],
-						"output": [
-							"text"
-						]
-					},
-					"variants": {
-						"low": {
-							"thinkingConfig": {
-								"thinkingBudget": 8192
-							}
-						},
-						"max": {
-							"thinkingConfig": {
-								"thinkingBudget": 32768
-							}
-						}
-					}
-				},
-				"claude-opus-4-6-thinking": {
-					"name": "Claude Opus 4.6 Thinking (Antigravity)",
-					"limit": {
-						"context": 200000,
-						"output": 64000
-					},
-					"modalities": {
-						"input": [
-							"text",
-							"image",
-							"pdf"
-						],
-						"output": [
-							"text"
-						]
-					},
-					"variants": {
-						"low": {
-							"thinkingConfig": {
-								"thinkingBudget": 8192
-							}
-						},
-						"max": {
-							"thinkingConfig": {
-								"thinkingBudget": 32768
-							}
-						}
-					}
-				},
-				"gemini-3-flash-preview": {
-					"name": "Gemini 3 Flash Preview (Gemini CLI)",
-					"limit": {
-						"context": 1048576,
-						"output": 65536
-					},
-					"modalities": {
-						"input": [
-							"text",
-							"image",
-							"pdf"
-						],
-						"output": [
-							"text"
-						]
-					}
-				},
-				"gemini-3-pro-preview": {
-					"name": "Gemini 3 Pro Preview (Gemini CLI)",
-					"limit": {
-						"context": 1048576,
-						"output": 65535
-					},
-					"modalities": {
-						"input": [
-							"text",
-							"image",
-							"pdf"
-						],
-						"output": [
-							"text"
-						]
-					}
-				}
-			}
-		}
 	},
 	"enabled_providers": [
 		"cerebras",
-		"google",
 		"google-vertex",
 		"google-vertex-anthropic",
 		"opencode",
-		"vllm-mlx"
+		"vllm-mlx",
 	],
 	"share": "manual",
 	"permission": {
-		"doom_loop": "ask"
+		"doom_loop": "ask",
 	},
 	"autoupdate": false,
-	"small_model": "opencode/minimax-m2.1-free",
+	"small_model": "opencode/minimax-m2.5-free",
 	"agent": {
 		"explore": {
-			"disable": true
+			"disable": true,
 		},
 		"general": {
-			"disable": true
-		}
+			"disable": true,
+		},
 	},
 	"plugin": [
-		"opencode-antigravity-auth@latest",
 		"@tarquinen/opencode-dcp@latest"
 	],
 	"mcp": {
 		"context7": {
 			"type": "remote",
 			"url": "https://mcp.context7.com/mcp",
-			"enabled": false
+			"enabled": false,
 		},
 		"websearch": {
 			"type": "remote",
 			"url": "https://mcp.exa.ai/mcp",
-			"enabled": false
+			"enabled": false,
 		},
 		"playwriter": {
 			"type": "local",
@@ -227,8 +56,7 @@
 				"bunx",
 				"playwriter@latest"
 			],
-			"enabled": false
-		}
-	}
+			"enabled": false,
+		},
+	},
 }
-// vim: ft=jsonc

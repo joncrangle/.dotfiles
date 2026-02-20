@@ -1,8 +1,7 @@
 ---
 description: The Boss. Analyzes, plans, and delegates. DOES NOT CODE.
-model: google/claude-opus-4-6-thinking
+model: google-vertex/gemini-3.1-pro-preview-customtools
 mode: primary
-temperature: 0.2
 
 dependencies:
   - subagent:researcher

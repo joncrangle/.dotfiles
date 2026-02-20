@@ -1,6 +1,6 @@
 ---
 description: The Scribe. Writes documentation, READMEs, and guides.
-model: google/gemini-3-flash
+model: google-vertex/gemini-3.1-pro-preview-customtools
 mode: subagent
 
 tools:
