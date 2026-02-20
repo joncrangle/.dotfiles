@@ -75,6 +75,7 @@ return {
       {
         'hat0uma/csvview.nvim',
         cmd = { 'CsvViewEnable', 'CsvViewDisable', 'CsvViewToggle' },
+        ---@module "csvview"
         ---@type CsvView.Options
         opts = {
           parser = { comments = { '#', '//' } },
@@ -113,9 +114,24 @@ return {
   },
   {
     'zeybek/camouflage.nvim',
-    event = { 'BufReadPre', 'BufNewFile' },
+    event = 'VeryLazy',
+    init = function()
+      vim.api.nvim_create_autocmd('FileType', {
+        callback = function(ev)
+          local ft = ev.match
+          local bt = vim.bo[ev.buf].buftype
+
+          local ignore_ft = { 'minifiles' }
+          local ignore_bt = { 'nofile', 'terminal', 'prompt', 'quickfix' }
+
+          if vim.tbl_contains(ignore_ft, ft) or vim.tbl_contains(ignore_bt, bt) then
+            vim.b[ev.buf].camouflage_enabled = false
+          end
+        end,
+      })
+    end,
     opts = { pwned = { enabled = false } },
-      -- stylua: ignore
+    -- stylua: ignore
     keys = {
       { '<leader>te', '<cmd>CamouflageToggle<cr>', desc = '[T]oggle [E]nv for line' },
     },
