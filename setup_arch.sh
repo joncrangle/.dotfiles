@@ -423,6 +423,7 @@ packages=(
 	"luarocks"
 	"make"
 	"maplemono-ttf"
+	"mariadb-libs"
 	"mpv"
 	"aur/noctalia-shell-git"
 	"noto-fonts"
