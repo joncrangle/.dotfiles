@@ -1,6 +1,6 @@
 ---
 description: The Critic. Reviews code, architecture, and security.
-model: google-vertex/gemini-3.1-pro-preview-customtools
+model: google-vertex/gemini-3.1-pro-preview
 mode: subagent
 
 tools:
