@@ -40,9 +40,8 @@ python = "latest"
 ripgrep = "latest"
 ruff = "latest"
 {{ if ne .chezmoi.os "windows" -}}
-rust = { version = "nightly", components = "clippy,llvm-tools,rust-src" }
+rust = { version = "nightly", components = "clippy,llvm-tools,rust-analyzer,rust-src" }
 {{ end -}}
-rust-analyzer = "latest"
 shellcheck = "latest"
 shfmt = "latest"
 starship = "latest"
