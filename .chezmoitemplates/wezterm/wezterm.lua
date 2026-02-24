@@ -15,7 +15,6 @@ local config = wezterm.config_builder() ---@class Config
 local plugins = {
   ---@type table
   resurrect = wezterm.plugin.require 'https://github.com/joncrangle/resurrect.wezterm',
-  ---@type table
   workspace_switcher = wezterm.plugin.require 'https://github.com/MLFlexer/smart_workspace_switcher.wezterm',
   smart_splits = wezterm.plugin.require 'https://github.com/mrjones2014/smart-splits.nvim',
   smart_ssh = wezterm.plugin.require 'https://github.com/DavidRR-F/smart_ssh.wezterm',
