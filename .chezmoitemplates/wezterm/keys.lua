@@ -18,6 +18,7 @@ M.smart_split = wezterm.action_callback(function(window, pane)
 end)
 
 function M.apply_to_config(config, plugins)
+  ---@type Resurrect
   local resurrect = plugins.resurrect
   local workspace_switcher = plugins.workspace_switcher
   local smart_ssh = plugins.smart_ssh
