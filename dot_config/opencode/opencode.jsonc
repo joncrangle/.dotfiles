@@ -1,6 +1,5 @@
 {
 	"$schema": "https://opencode.ai/config.json",
-	"theme": "catppuccin",
 	"provider": {
 		"vllm-mlx": {
 			"npm": "@ai-sdk/openai-compatible",
@@ -18,7 +17,6 @@
 	"enabled_providers": [
 		"cerebras",
 		"google-vertex",
-		"google-vertex-anthropic",
 		"opencode",
 		"vllm-mlx",
 	],
