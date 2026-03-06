@@ -36,7 +36,6 @@ local media = sbar.add('item', 'media', {
   scroll_texts = true,
   position = 'center',
   updates = true,
-  color = colors.green,
   background = {
     color = colors.with_alpha(colors.surface0, 0),
     corner_radius = 10,
