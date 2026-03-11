@@ -86,7 +86,6 @@ zoxide = "latest"
 {{- end }}
 {{- if eq .chezmoi.os "windows" }}
 "go:github.com/joncrangle/teams-green" = "latest"
-"npm:n8n" = "latest"
 {{- end }}
 {{- if ne .chezmoi.os "windows" }}
 "cargo:skim" = "latest"
