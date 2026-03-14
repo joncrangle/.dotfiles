@@ -1,18 +1,15 @@
 {
 	"$schema": "https://opencode.ai/config.json",
 	"provider": {
-		"vllm-mlx": {
+		"mlx": {
 			"npm": "@ai-sdk/openai-compatible",
-			"name": "vLLM-MLX",
+			"name": "MLX",
 			"options": {
-				"baseURL": "http://127.0.0.1:8000/v1",
+				"baseURL": "http://127.0.0.1:8081/v1",
 			},
 			"models": {
-				"mlx-community/Qwen3.5-9B-4bit": {
-					"name": "Qwen3.5 9B (local)",
-				},
-				"mlx-community/Qwen3.5-4B-4bit": {
-					"name": "Qwen3.5 4B (local)",
+				"NexVeridian/OmniCoder-9B-4bit": {
+					"name": "OmniCoder 9B (local)",
 				},
 			},
 		},
@@ -21,7 +18,7 @@
 		"cerebras",
 		"google-vertex",
 		"opencode",
-		"vllm-mlx",
+		"mlx",
 	],
 	"share": "manual",
 	"permission": {
