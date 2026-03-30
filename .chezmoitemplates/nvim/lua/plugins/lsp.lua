@@ -78,11 +78,7 @@ return {
           end
 
           if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_codeLens, event.buf) then
-            vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'InsertLeave' }, {
-              buffer = event.buf,
-              callback = vim.lsp.codelens.refresh,
-            })
-            vim.lsp.codelens.refresh()
+            vim.lsp.codelens.enable(true, { bufnr = event.buf })
           end
 
           map('<leader>cr', vim.lsp.codelens.run, '[C]ode Lens [R]un')
