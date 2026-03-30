@@ -536,7 +536,6 @@ fi
 # Mise runtimes
 if _isInstalled "mise"; then
 	log_info "Locking and installing mise tools..."
-	run_cmd mise lock
 	run_cmd mise install --yes
 fi
 

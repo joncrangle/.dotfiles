@@ -152,7 +152,6 @@ scoop install $scoopApps
 # DEV TOOLS (Mise)
 # This uses the config.toml pulled down by chezmoi
 Write-Host ":: Installing Dev Tools via Mise..." -ForegroundColor Green
-mise lock
 mise install --yes
 
 # ------------------------------------------------------
