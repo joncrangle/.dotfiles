@@ -62,19 +62,6 @@ return {
         end,
       },
       {
-        'MeanderingProgrammer/treesitter-modules.nvim',
-        opts = {
-          incremental_selection = {
-            enable = true,
-            keymaps = {
-              init_selection = '<CR>',
-              node_incremental = '<CR>',
-              node_decremental = '<BS>',
-            },
-          },
-        },
-      },
-      {
         'Wansmer/treesj',
         opts = { use_default_keymaps = false, max_join_length = 150 },
         keys = { { '<leader>j', '<cmd>TSJToggle<cr>', desc = '[J]oin Toggle' } },
@@ -151,6 +138,41 @@ return {
       end
       vim.api.nvim_create_autocmd('FileType', { pattern = filetypes, callback = ts_start })
     end,
+    keys = {
+      -- Increment / start selection
+      {
+        '<CR>',
+        function()
+          -- start visual mode if needed
+          if vim.fn.mode() == 'n' then
+            vim.cmd 'normal! v'
+          end
+
+          -- prefer treesitter, fallback to LSP
+          if vim.treesitter.get_parser(0, nil, { error = false }) then
+            require('vim.treesitter._select').select_parent(vim.v.count1)
+          else
+            vim.lsp.buf.selection_range(vim.v.count1)
+          end
+        end,
+        mode = { 'n', 'x' },
+        desc = 'Increment selection',
+      },
+
+      -- Decrement selection
+      {
+        '<BS>',
+        function()
+          if vim.treesitter.get_parser(0, nil, { error = false }) then
+            require('vim.treesitter._select').select_child(vim.v.count1)
+          else
+            vim.lsp.buf.selection_range(-vim.v.count1)
+          end
+        end,
+        mode = 'x',
+        desc = 'Decrement selection',
+      },
+    },
   },
   {
     'windwp/nvim-ts-autotag',
