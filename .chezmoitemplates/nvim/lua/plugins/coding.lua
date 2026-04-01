@@ -174,7 +174,7 @@ return {
         },
       }
     end,
-    opts = { ui = { formatter = true } },
+    opts = {},
     -- stylua: ignore
     keys = {
       { '<leader>Rb', '<cmd>lua require("kulala").scratchpad()<cr>',              desc = 'Open scratchpad',          ft = 'http' },
