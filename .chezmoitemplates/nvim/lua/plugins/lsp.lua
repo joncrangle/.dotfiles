@@ -3,7 +3,7 @@ return {
     'neovim/nvim-lspconfig',
     event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
-      { 'mason-org/mason.nvim', cmd = 'Mason', opts = {} },
+      { 'mason-org/mason.nvim', cmd = { 'Mason' }, opts = {} },
       { 'mason-org/mason-lspconfig.nvim', opts = {} },
       'WhoIsSethDaniel/mason-tool-installer.nvim',
       { 'b0o/schemastore.nvim', lazy = true, opts = nil },

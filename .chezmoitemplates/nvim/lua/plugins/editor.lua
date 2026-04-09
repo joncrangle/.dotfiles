@@ -4,7 +4,7 @@ return {
     'folke/trouble.nvim',
     lazy = true,
     opts = {},
-    cmd = 'Trouble',
+    cmd = { 'Trouble' },
     dependencies = { 'echasnovski/mini.nvim' },
     keys = {
       { '<leader>x', '<cmd>Trouble diagnostics toggle<cr>', desc = 'Toggle Trouble' },
@@ -28,7 +28,7 @@ return {
   ---@module 'neotest'
   {
     'nvim-neotest/neotest',
-    cmd = 'Neotest',
+    cmd = { 'Neotest' },
     dependencies = {
       'nvim-neotest/nvim-nio',
       'nvim-neotest/neotest-plenary',

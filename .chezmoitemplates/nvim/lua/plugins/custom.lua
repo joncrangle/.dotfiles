@@ -10,13 +10,13 @@ return {
     'joncrangle/itchy.nvim',
     -- 'itchy.nvim',
     -- dev = true,
-    event = { 'BufReadPre', 'BufNewFile' },
+    cmd = { 'Itchy' },
     ---@type itchy.Opts
     opts = {
       -- debug_mode = true,
     },
     keys = {
-      { '<leader>tD', mode = { 'n', 'v' }, '<cmd>Itchy run<cr>', desc = '[T]est [D]ebug' },
+      { '<leader>tD', mode = { 'n', 'v' }, '<cmd>Itchy run<cr>', desc = '[T]est [D]ebug with Itchy' },
     },
   },
 }
