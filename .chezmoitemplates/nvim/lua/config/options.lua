@@ -10,6 +10,7 @@ vim.o.virtualedit = 'block' -- Enable virtual edit in block mode
 vim.o.autoread = true -- Auto reload files changed outside of Neovim
 vim.o.winbar = ' '
 vim.o.winborder = 'rounded'
+vim.o.shada = "'100,<50,s10,:1000,/100,@100,h" -- Limit ShaDa file (for startup)
 
 require 'custom.tabline'
 
