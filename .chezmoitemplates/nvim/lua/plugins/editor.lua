@@ -5,7 +5,7 @@ return {
     lazy = true,
     opts = {},
     cmd = { 'Trouble' },
-    dependencies = { 'echasnovski/mini.nvim' },
+    dependencies = { 'nvim-mini/mini.nvim' },
     keys = {
       { '<leader>x', '<cmd>Trouble diagnostics toggle<cr>', desc = 'Toggle Trouble' },
     },
