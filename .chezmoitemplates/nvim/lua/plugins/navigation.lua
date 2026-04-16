@@ -1,46 +1,5 @@
 return {
   { 'serhez/bento.nvim', event = { 'BufReadPost', 'BufNewFile' }, opts = {} },
-  ---@module 'grapple'
-  {
-    'cbochs/grapple.nvim',
-    event = { 'BufReadPost', 'BufNewFile' },
-    dependencies = { 'echasnovski/mini.nvim' },
-    ---@type grapple.options
-    opts = {
-      scope = 'git',
-      icons = true,
-      tag_title = function()
-        return 'Grapple Tags'
-      end,
-      win_opts = {
-        width = 60,
-        height = 12,
-        border = 'rounded',
-      },
-    },
-    config = function(_, opts)
-      local wk = require 'which-key'
-      local grapple = require 'grapple'
-
-      local keys = {}
-      for i = 1, 9 do
-        table.insert(keys, {
-          '<leader>' .. i,
-          '<cmd>Grapple select index=' .. i .. '<cr>',
-          desc = 'Grapple tag ' .. i,
-          hidden = true,
-        })
-      end
-      -- stylua: ignore
-      wk.add({
-        { '<leader>#', desc = 'Grapple tag item [1-9]' },
-        { '<leader>n', function() grapple.toggle() end,      desc = 'Grapple a file' },
-        { '<c-n>', function() grapple.toggle_tags() end, desc = 'Toggle Grapple menu' },
-        keys,
-      })
-      grapple.setup(opts)
-    end,
-  },
   {
     'folke/flash.nvim',
     event = 'VeryLazy',

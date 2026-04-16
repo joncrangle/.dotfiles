@@ -57,14 +57,6 @@ return {
         end,
       })
 
-      -- Refresh statusline on Grapple events
-      vim.api.nvim_create_autocmd('User', {
-        pattern = { 'GrappleUpdate', 'GrappleScopeChanged' },
-        callback = function()
-          vim.cmd.redrawstatus()
-        end,
-      })
-
       require('mini.icons').setup {
         file = {
           ['.chezmoiignore'] = { glyph = '', hl = 'MiniIconsGrey' },
@@ -96,8 +88,6 @@ return {
           gotmpl = { glyph = '󰟓', hl = 'MiniIconsGrey' },
         },
       }
-      MiniIcons.mock_nvim_web_devicons() --NOTE: Until other plugins support mini.icons natively
-
       local statusline = require 'mini.statusline'
       local disabled_filetypes = { 'snacks_dashboard', 'lazygit' }
 
@@ -108,17 +98,10 @@ return {
         end,
       })
 
-      local function grapple_loaded()
-        return package.loaded['grapple'] and require 'grapple' or nil
-      end
-
       local function get_special_statusline()
         local ft = vim.bo.filetype
         local truncated = statusline.is_truncated(80)
-        if ft == 'grapple' then
-          local grapple = grapple_loaded()
-          return 'Grapple', grapple and (grapple.statusline() or '') or ''
-        elseif ft == 'snacks_terminal' then
+        if ft == 'snacks_terminal' then
           return ' Terminal', vim.fn.expand('%:t'):match '.*:(%S+)$' or vim.fn.expand '%:t'
         elseif ft == 'opencode_terminal' then
           return '🤖 OpenCode'
@@ -178,21 +161,15 @@ return {
         local filename = vim.fn.expand '%:t'
         local mod_hl = vim.bo.modified and '%#StatuslineMatchParen#' or '%#StatuslineTitle#'
 
-        local grapple_str = ''
-        local grapple = grapple_loaded()
-        if grapple and grapple.exists() then
-          grapple_str = ' %#StatuslineGrapple#󰛢 ' .. grapple.name_or_index()
-        end
-
         local readonly = vim.bo.readonly and '%#StatuslineReadonly# 󰌾 ' or ''
 
         -- Only show directory when not truncated
         if statusline.is_truncated(80) then
-          return mod_hl .. filename .. grapple_str .. readonly .. '%*'
+          return mod_hl .. filename .. readonly .. '%*'
         end
 
         local dir = filepath:sub(1, -(#filename + 1))
-        return '%#StatuslineDir#' .. dir .. mod_hl .. filename .. grapple_str .. readonly .. '%*'
+        return '%#StatuslineDir#' .. dir .. mod_hl .. filename .. readonly .. '%*'
       end
 
       local function section_dap()
@@ -371,7 +348,6 @@ return {
           StatuslineDir = { fg = 'Italic', bg = 'PmenuSbar' },
           StatuslineTitle = { fg = 'Title', bg = 'PmenuSbar' },
           StatuslineMatchParen = { fg = 'MatchParen', bg = 'PmenuSbar' },
-          StatuslineGrapple = { fg = 'GrappleName', bg = 'PmenuSbar' },
           StatuslineReadonly = { fg = 'DiagnosticWarn', bg = 'PmenuSbar' },
         }
 
