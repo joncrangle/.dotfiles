@@ -11,6 +11,9 @@
 				"NexVeridian/OmniCoder-9B-4bit": {
 					"name": "OmniCoder 9B (local)",
 				},
+				"mlx-community/gemma-4-e4b-it-4bit": {
+					"name": "Gemma 4 E4B (local)",
+				},
 			},
 		},
 	},
@@ -18,7 +21,7 @@
 		"cerebras",
 		"google-vertex",
 		"opencode",
-		"mlx",
+		"mlx"
 	],
 	"share": "manual",
 	"permission": {

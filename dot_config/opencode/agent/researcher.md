@@ -5,11 +5,9 @@ mode: subagent
 
 tools:
   task: true
-  list_files: true
   searxng_search: true
-  search_files: true
-  grep: false
-  list: false
+  grep: true
+  list: true
   glob: true
   read: true
   state: true
@@ -50,11 +48,11 @@ You do not just "search"; you *investigate* and report back to *Orchestrator\*.
 <archaeologist_protocol>
 
 1.  **Orientation**:
-    - Use `list_files` tool to get directory structure and file listings.
-    - Use `bun tool/hotspots.ts` to identify frequently changed files.
+    - Get directory structure and file listings.
+    - Identify existing coding patterns.
 2.  **Entry Point**:
     - Identify the trigger (route, event, script) that starts the flow.
-    - Use `search_files` for the URL string, CLI command name, or symbol.
+    - Use URL string, CLI command name, or symbol.
 3.  **Trace**:
     - Follow the execution path from Entry Point to Data Access.
     - Don't just list files; explain _how_ A calls B.

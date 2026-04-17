@@ -10,11 +10,9 @@ tools:
   read: true
   write: true
   edit: true
-  list_files: true
   searxng_search: true
-  search_files: true
-  grep: false
-  list: false
+  grep: true
+  list: true
   glob: true
   bash: true
   skill: true
@@ -94,18 +92,18 @@ You BLOCK delivery until implementation, review, and documentation are verified.
    REPORT "Gate Check Failed: Documentation not complete" -> STOP
 
 6. files = state(get, "files_changed")
-7. [Use `git_safe(action: "diff", target: "--cached")` to check for secrets]
-8. [Create commit and PR using `git_safe` tool]
+7. Ensure no secrets are committed
+8. Create commit and PR
 9. state(set, "pr_url", "https://...")
 10. state(set, "git_done", "true")
     </state_coordination>
 
 <capabilities>
-- **Status**: `git_safe(action: "status")`
-- **Diff**: `git_safe(action: "diff", target: "--cached")`
-- **Log**: `git_safe(action: "log")`
-- **Stage**: `git_safe(action: "add", target: "<files>")`
-- **Commit**: `git_safe(action: "commit", message: "type: desc")`
-- **Push**: `git_safe(action: "push")`
+- **Status**: `git status -s'
+- **Diff**: `git diff --cached`
+- **Log**: `git log`
+- **Stage**: `git add <files>`
+- **Commit**: `git commit -m "type: desc"`
+- **Push**: `git push`
 - **PR**: `gh pr create` (Why-focused)
 </capabilities>

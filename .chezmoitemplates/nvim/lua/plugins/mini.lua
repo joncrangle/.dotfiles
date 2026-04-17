@@ -88,6 +88,7 @@ return {
           gotmpl = { glyph = '󰟓', hl = 'MiniIconsGrey' },
         },
       }
+
       local statusline = require 'mini.statusline'
       local disabled_filetypes = { 'snacks_dashboard', 'lazygit' }
 

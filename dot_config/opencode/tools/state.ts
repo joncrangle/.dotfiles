@@ -32,8 +32,8 @@ let _stmts: {
 async function getDb(): Promise<Database> {
   if (_db) return _db;
 
-  await mkdir(".opencode", { recursive: true });
-  _db = new Database(".opencode/state.db", { create: true });
+  await mkdir(".state", { recursive: true });
+  _db = new Database(".state/state.db", { create: true });
 
   _db.run("PRAGMA journal_mode = WAL");
   _db.run("PRAGMA synchronous = NORMAL");
@@ -53,9 +53,7 @@ async function getDb(): Promise<Database> {
     ) WITHOUT ROWID
   `);
 
-  _db.run(
-    "CREATE INDEX IF NOT EXISTS idx_state_updated ON state(updated_at DESC)",
-  );
+  _db.run("CREATE INDEX IF NOT EXISTS idx_state_updated ON state(updated_at DESC)");
   _db.run("CREATE INDEX IF NOT EXISTS idx_state_agent ON state(agent)");
   _db.run("CREATE INDEX IF NOT EXISTS idx_state_expires ON state(expires_at)");
 
@@ -153,17 +151,13 @@ function byteLength(str: string): number {
 // -----------------------------------------------------------------------------
 
 export default tool({
-  description:
-    "Agent-only persistent state database with TTL, metadata, and size limits.",
+  description: "Agent-only persistent state database with TTL, metadata, and size limits.",
 
   args: {
     action: tool.schema.enum(["get", "set", "del", "list", "clear", "meta"]),
     key: tool.schema.string().optional(),
     value: tool.schema.any().optional(),
-    ttl: tool.schema
-      .number()
-      .optional()
-      .describe("Time-to-live in milliseconds (set only)."),
+    ttl: tool.schema.number().optional().describe("Time-to-live in milliseconds (set only)."),
   },
 
   async execute({ action, key, value, ttl }, context) {

@@ -21,11 +21,9 @@ tools:
   # Context
   read: true
   glob: true
-  list_files: true
   searxng_search: true
-  search_files: true
-  grep: false
-  list: false
+  grep: true
+  list: true
   todowrite: true
   todoread: true
 
