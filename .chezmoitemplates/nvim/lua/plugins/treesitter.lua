@@ -146,16 +146,21 @@ return {
       {
         '<CR>',
         function()
-          -- start visual mode if needed
+          if vim.bo.buftype == 'quickfix' then
+            return vim.cmd 'cc'
+          end
+
           if vim.fn.mode() == 'n' then
             vim.cmd 'normal! v'
           end
 
-          -- prefer treesitter, fallback to LSP
           if vim.treesitter.get_parser(0, nil, { error = false }) then
             require('vim.treesitter._select').select_parent(vim.v.count1)
           else
-            vim.lsp.buf.selection_range(vim.v.count1)
+            local clients = vim.lsp.get_clients { bufnr = 0, method = 'textDocument/selectionRange' }
+            if #clients > 0 then
+              vim.lsp.buf.selection_range(vim.v.count1)
+            end
           end
         end,
         mode = { 'n', 'x' },
@@ -169,7 +174,10 @@ return {
           if vim.treesitter.get_parser(0, nil, { error = false }) then
             require('vim.treesitter._select').select_child(vim.v.count1)
           else
-            vim.lsp.buf.selection_range(-vim.v.count1)
+            local clients = vim.lsp.get_clients { bufnr = 0, method = 'textDocument/selectionRange' }
+            if #clients > 0 then
+              vim.lsp.buf.selection_range(-vim.v.count1)
+            end
           end
         end,
         mode = 'x',
