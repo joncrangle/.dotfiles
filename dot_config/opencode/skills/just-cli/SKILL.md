@@ -265,22 +265,6 @@ ni := require("ni")
 nlx := require("nlx")
 ```
 
-## Context7 Fallback
-
-For Just features not covered in this skill (new attributes, advanced functions, edge cases), fetch the latest documentation:
-
-```
-Use context7 MCP with library ID `/websites/just_systems-man` to get up-to-date Just documentation.
-```
-
-Example topics to search:
-
-- `modules import mod` - Module system details
-- `settings` - All available settings
-- `attributes` - Recipe attributes
-- `functions` - Built-in functions
-- `script recipes` - Script block syntax
-
 ## Additional Resources
 
 ### Reference Files
@@ -294,7 +278,6 @@ For detailed patterns and comprehensive coverage, consult:
 
 - **Official Manual**: https://just.systems/man/en/
 - **GitHub Repository**: https://github.com/casey/just
-- **Context7 Library ID**: `/websites/just_systems-man`
 
 ## Important Limitations
 

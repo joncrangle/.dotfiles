@@ -356,19 +356,6 @@ async fn rate_limited(items: Vec<String>, max: usize) -> Vec<String> {
 
 ---
 
-## Context7 Integration
-
-Library Documentation Access:
-- `/rust-lang/rust` - Rust language and stdlib
-- `/tokio-rs/tokio` - Tokio async runtime
-- `/tokio-rs/axum` - Axum web framework
-- `/launchbadge/sqlx` - SQLx async SQL
-- `/serde-rs/serde` - Serialization framework
-- `/dtolnay/thiserror` - Error derive
-- `/clap-rs/clap` - CLI parser
-
----
-
 ## Troubleshooting
 
 Common Issues:
@@ -388,7 +375,7 @@ Performance Characteristics:
 
 ## Additional Resources
 
-See [reference.md](references/reference.md) for complete language reference and Context7 library mappings.
+See [reference.md](references/reference.md) for complete language reference.
 
 See [examples.md](examples/examples.md) for production-ready code examples.
 </skill_doc>

@@ -16,14 +16,10 @@ tools:
   webfetch: true
   searxng_searxng_web_search: true
   searxng_web_url_read: true
-  context7_resolve-library-id: true
-  context7_query-docs: true
-  context7_get-library-docs: true
   websearch_web_search_exa: true
 
   # Utils
   skill: true
-  btca: true
   bash: true
   todowrite: true
   todoread: true
@@ -59,24 +55,12 @@ You do not just "search"; you *investigate* and report back to *Orchestrator\*.
 4.  **Map**: - Synthesize your findings into a clear mental model. - Record impacted files, symbols, and dependencies in the manifest.
     </archaeologist_protocol>
 
-<btca_integration>
-
-## btca - Better Context Tool
-
-When investigating library-specific questions, use the `btca` tool if resources are configured:
-
-**Tool Actions**:
-
-- `btca({ action: "list" })` — Check available resources
-- `btca({ action: "ask", resource: "<name>", question: "<question>" })` — Query indexed repo source
-- `btca({ action: "add", url: "<git-url-or-path>" })` — Add a new resource for future queries
+<btca_skill>
 
 **When to use**:
 
 - User explicitly says "use btca"
 - Need authoritative answers from a library's actual source code
-- Context7 doesn't have the library or results are insufficient
-- **Use 'add' to register a library's repo when it's not already available**
 
 btca queries the actual git repo source — often more accurate than web search for library internals.
 </btca_integration>
@@ -118,6 +102,6 @@ btca queries the actual git repo source — often more accurate than web search 
 
 <tasks>
 - **Audit**: "Find all usages of X".
-- **Docs**: "Read the documentation for library Y using Context7 or btca".
+- **Docs**: "Read the documentation for library Y using btca skill".
 - **Summary**: "Summarize the auth flow in `auth.ts`".
 </tasks>

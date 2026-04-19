@@ -90,20 +90,8 @@ function isUser(v: unknown): v is User {
 ```
 
 - [patterns.md](references/patterns.md) - Implementation patterns (SolidJS, TanStack, Valibot)
-- [reference.md](references/reference.md) - Complete API reference, Context7 library mappings, advanced type patterns
+- [reference.md](references/reference.md) - Complete API reference, advanced type patterns
 - [examples.md](examples/examples.md) - Production-ready code examples, full-stack patterns, testing templates
-
-### Context7 Integration
-
-```typescript
-// TypeScript - mcp__context7__get_library_docs("/microsoft/TypeScript", "decorators satisfies", 1)
-// SolidJS - mcp__context7__get_library_docs("/solidjs/solid", "createSignal createStore", 1)
-// TanStack Start - mcp__context7__get_library_docs("/tanstack/start", "server-functions routing", 1)
-// TanStack Router - mcp__context7__get_library_docs("/tanstack/router", "file-based-routing loaders", 1)
-// Valibot - mcp__context7__get_library_docs("/fabian-hiller/valibot", "schema validation pipe", 1)
-```
-
----
 
 ## Works Well With
 

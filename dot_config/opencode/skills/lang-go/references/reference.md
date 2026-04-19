@@ -672,43 +672,6 @@ func initConfig() error {
 
 ---
 
-## Context7 Library Mappings
-
-### Core Language and Tools
-
-- `/golang/go` - Go language and stdlib
-- `/golang/tools` - Go tools (gopls, goimports)
-
-### Web Frameworks
-
-- `/gofiber/fiber` - Fiber v3 web framework
-- `/gin-gonic/gin` - Gin web framework
-- `/labstack/echo` - Echo 4.13 web framework
-- `/go-chi/chi` - Chi router
-
-### Database
-
-- `/go-gorm/gorm` - GORM ORM
-- `/sqlc-dev/sqlc` - Type-safe SQL generator
-- `/jackc/pgx` - PostgreSQL driver
-- `/jmoiron/sqlx` - SQL extensions
-
-### Testing
-
-- `/stretchr/testify` - Testing toolkit
-- `/golang/mock` - Mocking framework
-
-### CLI
-
-- `/spf13/cobra` - CLI framework
-- `/spf13/viper` - Configuration
-
-### Concurrency
-
-- `/golang/sync` - Sync primitives (errgroup, semaphore)
-
----
-
 ## Performance Characteristics
 
 ### Startup Time

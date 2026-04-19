@@ -127,17 +127,8 @@ bun outdated
 For comprehensive documentation including advanced async patterns, module system details, performance optimization, and production deployment configurations, see:
 
 - [patterns.md](references/patterns.md) - Implementation patterns (Bun, Hono, Biome)
-- [reference.md](references/reference.md) - Complete API reference, Context7 library mappings, Bun APIs
+- [reference.md](references/reference.md) - Complete API reference and Bun APIs
 - [examples.md](examples/examples.md) - Production-ready code examples, full-stack patterns, testing templates
-
-### Context7 Integration
-
-```javascript
-// Bun - mcp__context7__get_library_docs("/oven-sh/bun", "runtime bundler test", 1)
-// Hono - mcp__context7__get_library_docs("/honojs/hono", "middleware validators routing", 1)
-// Valibot - mcp__context7__get_library_docs("/fabian-hiller/valibot", "schema validation", 1)
-// Drizzle - mcp__context7__get_library_docs("/drizzle-team/drizzle-orm", "queries migrations", 1)
-```
 
 ---
 

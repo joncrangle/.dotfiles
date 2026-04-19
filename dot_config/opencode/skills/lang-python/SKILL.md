@@ -136,22 +136,6 @@ See:
 
 ---
 
-## Context7 Library Mappings
-
-```
-/docs/astral.sh/uv
-/tiangolo/fastapi - FastAPI async web framework
-/django/django - Django web framework
-/pydantic/pydantic - Data validation with type annotations
-/sqlalchemy/sqlalchemy - SQL toolkit and ORM
-/pytest-dev/pytest - Testing framework
-/numpy/numpy - Numerical computing
-/pandas-dev/pandas - Data analysis library
-/pola-rs/polars - Fast DataFrame library
-```
-
----
-
 ## Troubleshooting
 
 Common Issues:

@@ -663,43 +663,6 @@ const asyncResult = await v.safeParseAsync(AsyncSchema, data);
 
 ---
 
-## Context7 Library Mappings
-
-### Primary Libraries
-
-```
-/microsoft/TypeScript       - TypeScript language and compiler
-/solidjs/solid              - SolidJS reactive UI library
-/tanstack/start             - TanStack Start full-stack framework
-/tanstack/router            - TanStack Router (file-based routing)
-/fabian-hiller/valibot      - Valibot schema validation
-```
-
-### UI Libraries
-
-```
-/kobalte-ui/kobalte         - Kobalte (SolidJS accessible components)
-/tailwindlabs/tailwindcss   - Tailwind CSS
-```
-
-### Testing
-
-```
-/vitest-dev/vitest          - Vitest testing framework
-/solidjs/solid-testing-library - Solid Testing Library
-/microsoft/playwright       - Playwright E2E testing
-```
-
-### Build Tools
-
-```
-/vercel/turbo               - Turborepo monorepo
-/evanw/esbuild              - esbuild bundler
-/biomejs/biome              - Biome linter/formatter
-```
-
----
-
 ## Performance Optimization
 
 ### Bundle Optimization

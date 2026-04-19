@@ -25,7 +25,6 @@ tools:
   skill: true
   todowrite: true
   todoread: true
-  btca: true
   code_rewrite: true
 
 permission:
@@ -59,7 +58,7 @@ You DO NOT plan. You DO NOT manage git. You build and report back to \_Orchestra
 4.  **Code Intelligence**:
     - Use `lsp_diagnostics` to check for errors before reporting success.
     - Use `lsp_find_references` to safely rename variables.
-5.  **Library Context**: - Use `btca` to query library documentation when implementing unfamiliar APIs.
+5.  **Library Context**: - Use the btca skill to query library documentation when implementing unfamiliar APIs.
     </core_directives>
 
 <state_coordination>

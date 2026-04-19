@@ -671,32 +671,6 @@ if (result.success) {
 
 ---
 
-## Context7 Library Mappings
-
-### Primary Libraries
-
-```
-/oven-sh/bun             - Bun runtime
-/honojs/hono             - Hono web framework
-/fabian-hiller/valibot   - Valibot validation
-/drizzle-team/drizzle-orm - Drizzle ORM
-```
-
-### Build Tools
-
-```
-/biomejs/biome           - Biome linter/formatter
-/evanw/esbuild           - esbuild bundler
-```
-
-### Utilities
-
-```
-/date-fns/date-fns       - Date utilities
-```
-
----
-
 ## Security Best Practices
 
 ### Input Validation

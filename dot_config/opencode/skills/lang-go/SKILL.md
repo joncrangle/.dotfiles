@@ -352,25 +352,6 @@ app.Shutdown()
 
 ---
 
-## Context7 Libraries
-
-```
-/air-verse/air    - Live reload for Go apps
-/golang/go        - Go language and stdlib
-/gofiber/docs     - Fiber web framework
-/gin-gonic/gin    - Gin web framework
-/labstack/echo    - Echo web framework
-/go-chi/docs      - Chi router
-/go-gorm/gorm     - GORM ORM
-/sqlc-dev/sqlc    - Type-safe SQL
-/jackc/pgx        - PostgreSQL driver
-/spf13/cobra      - CLI framework
-/spf13/viper      - Configuration
-/stretchr/testify - Testing toolkit
-```
-
----
-
 ## Troubleshooting
 
 Common Issues:
@@ -387,7 +368,7 @@ Performance Diagnostics:
 
 ## Additional Resources
 
-See [reference.md](references/reference.md) for complete framework reference, advanced patterns, and Context7 library mappings.
+See [reference.md](references/reference.md) for complete framework reference and advanced patterns.
 
 See [examples.md](examples/examples.md) for production-ready code including REST APIs, CLI tools, and deployment configurations.
 </skill_doc>

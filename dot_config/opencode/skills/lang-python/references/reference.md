@@ -770,37 +770,5 @@ class AdvancedBuilder(Builder):
 
 ---
 
-## Context7 Integration
-
-Library ID Resolution:
-```python
-# Step 1: Resolve library ID
-library_id = await mcp__context7__resolve_library_id("fastapi")
-# Returns: /tiangolo/fastapi
-
-# Step 2: Get documentation
-docs = await mcp__context7__get_library_docs(
-    context7CompatibleLibraryID="/tiangolo/fastapi",
-    topic="dependency injection async",
-    tokens=5000,
-)
-```
-
-Available Libraries:
-
-| Library | Context7 ID | Topics |
-|---------|-------------|--------|
-| uv | /astral-sh/uv | preferred package and project manager |
-| FastAPI | /tiangolo/fastapi | async, dependencies, security, websockets |
-| Django | /django/django | views, models, forms, admin |
-| Pydantic | /pydantic/pydantic | validation, serialization, settings |
-| SQLAlchemy | /sqlalchemy/sqlalchemy | orm, async, queries, migrations |
-| pytest | /pytest-dev/pytest | fixtures, markers, plugins |
-| numpy | /numpy/numpy | arrays, broadcasting, ufuncs |
-| pandas | /pandas-dev/pandas | dataframe, series, io |
-| polars | /pola-rs/polars | lazy, expressions, streaming |
-
----
-
 Last Updated: 2025-12-07
 Version: 1.0.0
