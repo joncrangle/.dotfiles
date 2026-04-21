@@ -69,7 +69,9 @@ local last_view = {
 
 -- Listener script using jq for JSON parsing
 local listener_cmd = [[
-killall media-control >/dev/null 2>&1
+if pgrep -f "media-control stream" > /dev/null; then
+  pkill -f "media-control stream"
+fi
 sleep 0.1
 
 # State cache
