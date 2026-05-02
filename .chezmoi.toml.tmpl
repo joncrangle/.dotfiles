@@ -7,7 +7,6 @@
 {{- $archAddress := (hasKey . "archAddress") | ternary (index . "archAddress") (promptStringOnce . "archAddress" "Arch IP address") -}}
 {{- $archUser := (hasKey . "archUser") | ternary (index . "archUser") (promptStringOnce . "archUser" "Arch username") -}}
 {{- $nasSite := (hasKey . "nasSite") | ternary (index . "nasSite") (promptStringOnce . "nasSite" "NAS Website") -}}
-{{- $gcp_id := (hasKey . "gcp_project_id") | ternary (index . "gcp_project_id") (promptStringOnce . "gcp_project_id" "GCP Project ID") -}}
 
 encryption = "age"
 
@@ -29,7 +28,6 @@ encryption = "age"
     archAddress = {{ $archAddress | quote }}
     archUser = {{ $archUser | quote }}
     nasSite = {{ $nasSite | quote }}
-    gcp_project_id = {{ $gcp_id | quote }}
     {{ if eq .chezmoi.os "linux" }}
     {{- $keyboard := promptStringOnce . "keyboard" "Enter 'laptop' or 'desktop' ..." -}}
     keyboard = {{ $keyboard | quote }}
