@@ -19,7 +19,7 @@
 	},
 	"enabled_providers": [
 		"cerebras",
-		"google-vertex",
+		"google",
 		"opencode",
 		"mlx"
 	],
