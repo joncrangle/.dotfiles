@@ -77,7 +77,6 @@ return {
         },
         pattern = {
           ['.*/waybar/config'] = 'jsonc',
-          ['.*/hypr/.+%.conf'] = 'hyprlang',
           ['%.env%.[%w_.-]+'] = 'sh',
         },
       }
@@ -97,7 +96,6 @@ return {
         'go',
         'html',
         'http',
-        'hyprlang',
         'javascript',
         'jsdoc',
         'json5',
