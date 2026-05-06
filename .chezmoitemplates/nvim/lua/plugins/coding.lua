@@ -151,14 +151,7 @@ return {
   },
   {
     'mistweaverco/kulala.nvim',
-    ft = { 'http' },
-    init = function()
-      vim.filetype.add {
-        extension = {
-          ['http'] = 'http',
-        },
-      }
-    end,
+    ft = { 'http', 'rest' },
     opts = {},
     -- stylua: ignore
     keys = {
