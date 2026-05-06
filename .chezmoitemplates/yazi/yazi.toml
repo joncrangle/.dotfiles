@@ -1,29 +1,41 @@
-"$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
-
 [mgr]
 show_hidden = true
 
 [opener]
 edit = [
-	{ run = 'nvim "$@"', block = true, desc = "nvim", for = "unix" },
-	{ run = 'nvim "%*"', block = true, desc = "nvim", for = "windows" }
+  { run = 'nvim "$@"', block = true, desc = "nvim", for = "unix" },
+  { run = 'nvim "%*"', block = true, desc = "nvim", for = "windows" },
 ]
 reveal = [
-	{ run = 'xdg-open "$(dirname "$0")"',            desc = "Reveal", for = "linux" },
-	{ run = 'open -R "$1"',                          desc = "Reveal", for = "macos" },
-	{ run = 'explorer /select, "%1"', orphan = true, desc = "Reveal", for = "windows" },
-	{ run = '''exiv2 "$1"; echo "Press enter to exit"; read _''', block = true, desc = "Show EXIF", for = "unix" },
+  { run = 'xdg-open "$(dirname "$0")"', desc = "Reveal", for = "linux" },
+  { run = 'open -R "$1"', desc = "Reveal", for = "macos" },
+  { run = 'explorer /select, "%1"', orphan = true, desc = "Reveal", for = "windows" },
+  { run = '''exiv2 "$1"; echo "Press enter to exit"; read _''', block = true, desc = "Show EXIF", for = "unix" },
 ]
 play = [
-	{ run = 'iina --no-stdin "$@"', orphan = true, for = "macos" },
-	{ run = 'vlc "%1"', orphan = true, for = "windows" },
-	{ run = 'mpv "$@"', orphan = true, for = "linux" },
+  { run = 'iina --no-stdin "$@"', orphan = true, for = "macos" },
+  { run = 'vlc "%1"', orphan = true, for = "windows" },
+  { run = 'mpv "$@"', orphan = true, for = "linux" },
 ]
 
 [plugin]
 prepend_previewers = [
-  { name = "*.md", run = 'piper -- CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"' },
-  { name = "*.csv", run =  'piper -- bat -p --color=always "$1"' },
-  { mime = "text/*", run = 'piper -- bat -p --color=always "$1"' },
-  { name = "*/", run = 'piper -- eza -TL=1 --icons=always --color=always --sort=extension "$1"' },
+  { url = "*.md", run = 'faster-piper --rely-on-preloader' },
+  { url = "*.csv", run = 'faster-piper --rely-on-preloader' },
+  { mime = "text/*", run = 'faster-piper --rely-on-preloader' },
+  { url = "*/", run = 'faster-piper --rely-on-preloader' },
+]
+prepend_preloaders = [
+  { url = "*.md", run = 'faster-piper -- CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"' },
+  { url = "*.csv", run = 'faster-piper -- bat -p --color=always "$1"' },
+  { mime = "text/*", run = 'faster-piper -- bat -p --color=always "$1"' },
+  { url = "*/", run = 'faster-piper -- eza -TL=1 --icons=always --color=always --sort=extension "$1"' },
+]
+prepend_keymap = [
+  { on = "<A-Up>", run = "seek -1", desc = "Scroll up" },
+  { on = "<A-Down>", run = "seek +1", desc = "Scroll down" },
+  { on = "<A-PageUp>", run = "seek -15", desc = "Scroll page up" },
+  { on = "<A-PageDown>", run = "seek +15", desc = "Scroll page down" },
+  { on = "<A-Home>", run = "seek -10000", desc = "Scroll to the top" },
+  { on = "<A-End>", run = "seek +10000", desc = "Scroll to the bottom" },
 ]
