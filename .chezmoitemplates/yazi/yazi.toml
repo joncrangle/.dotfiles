@@ -31,11 +31,3 @@ prepend_preloaders = [
   { mime = "text/*", run = 'faster-piper -- bat -p --color=always "$1"' },
   { url = "*/", run = 'faster-piper -- eza -TL=1 --icons=always --color=always --sort=extension "$1"' },
 ]
-prepend_keymap = [
-  { on = "<A-Up>", run = "seek -1", desc = "Scroll up" },
-  { on = "<A-Down>", run = "seek +1", desc = "Scroll down" },
-  { on = "<A-PageUp>", run = "seek -15", desc = "Scroll page up" },
-  { on = "<A-PageDown>", run = "seek +15", desc = "Scroll page down" },
-  { on = "<A-Home>", run = "seek -10000", desc = "Scroll to the top" },
-  { on = "<A-End>", run = "seek +10000", desc = "Scroll to the bottom" },
-]
