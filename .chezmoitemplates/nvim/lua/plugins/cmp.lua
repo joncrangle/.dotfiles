@@ -14,7 +14,6 @@ return {
         config = function()
           require('codeium').setup {
             enable_cmp_source = false,
-            default_filetype_enabled = false,
           }
         end,
       },
@@ -64,6 +63,7 @@ return {
           lua = { inherit_defaults = true, 'lazydev' },
           markdown = { inherit_defaults = true, 'emoji' },
           sql = { inherit_defaults = true, 'dadbod' },
+          minifiles = { 'path', 'buffer' },
         },
         providers = {
           dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink', score_offset = 3 },
