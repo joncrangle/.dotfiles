@@ -1,5 +1,5 @@
 ---
-name: PreventionPatterns
+name: prevention-patterns
 description: Known bug patterns and their fixes to prevent regression.
 ---
 
