@@ -90,6 +90,7 @@ path=(
     {{- end -}}
     {{- if eq .chezmoi.os "linux" -}}
     /usr/bin(N-/)
+    $HOME/.config/.local/share/pnpm/bin(N-/)
     $HOME/.config/hypr/scripts(N-/)
     {{ end }}
     $path
