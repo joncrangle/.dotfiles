@@ -425,7 +425,7 @@ packages=(
 	"maplemono-ttf"
 	"mariadb-libs"
 	"mpv"
-	"aur/noctalia-shell-git"
+	"aur/noctalia-shell"
 	"noto-fonts"
 	"noto-fonts-emoji"
 	"nwg-look"
