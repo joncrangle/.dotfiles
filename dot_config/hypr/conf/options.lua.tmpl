@@ -1,0 +1,65 @@
+local theme = require 'conf.theme'
+
+hl.config {
+  cursor = {
+    no_warps = true,
+    no_hardware_cursors = true,
+  },
+  decoration = {
+    rounding = 10,
+    rounding_power = 2,
+    blur = {
+      enabled = true,
+      size = 3,
+      passes = 2,
+      vibrancy = 0.1696,
+    },
+    shadow = {
+      enabled = true,
+      range = 4,
+      render_power = 3,
+      color = 'rgba(1a1a1aee)',
+    },
+    active_opacity = 1.0,
+    inactive_opacity = 0.8,
+    fullscreen_opacity = 1.0,
+  },
+  dwindle = {
+    preserve_split = true,
+  },
+  general = {
+    gaps_in = 3,
+    gaps_out = 6,
+    border_size = 3,
+    col = {
+      active_border = { colors = { theme.mauve, theme.green }, angle = 90 },
+      inactive_border = 'rgba(' .. theme.peachAlpha .. '99)',
+    },
+    layout = 'dwindle',
+    resize_on_border = true,
+  },
+  input = {
+    kb_layout = 'us',
+    repeat_rate = 35,
+    repeat_delay = 250,
+    numlock_by_default = true,
+    mouse_refocus = false,
+    follow_mouse = 2,
+    touchpad = {
+      {{ if eq .keyboard "desktop" }}
+      natural_scroll = false,
+      {{- else -}}
+      natural_scroll = true,
+      middle_button_emulation = true,
+      clickfinger_behavior = true,
+      disable_while_typing = true,
+      {{ end }}
+    },
+    sensitivity = 0.2,
+  },
+  misc = {
+    disable_hyprland_logo = true,
+    disable_splash_rendering = true,
+    focus_on_activate = true,
+  },
+}
