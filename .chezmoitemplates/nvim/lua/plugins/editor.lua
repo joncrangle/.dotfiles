@@ -1,4 +1,22 @@
 return {
+  {
+    'dmtrKovalenko/fff.nvim',
+    build = function()
+      require('fff.download').download_or_build_binary()
+    end,
+    opts = {
+      layout = {
+        prompt_position = 'top',
+        flex = { wrap = 'bottom' },
+      },
+    },
+    lazy = false,
+    -- stylua: ignore
+    keys = {
+      { '<leader>sf', function() require('fff').find_files() end, desc = 'FFFind files' },
+      { '<leader>sg', function() require('fff').live_grep() end, desc = 'LiFFFe grep' },
+    },
+  },
   { 'NMAC427/guess-indent.nvim', opts = {} },
   {
     'folke/trouble.nvim',

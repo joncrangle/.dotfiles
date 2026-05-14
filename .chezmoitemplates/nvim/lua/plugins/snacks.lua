@@ -13,12 +13,10 @@ return {
         preset = {
           -- stylua: ignore
           keys = {
-            { action = ':lua Snacks.dashboard.pick("smart")',                                                     desc = ' Find File',       icon = ' ', key = 'f' },
+            { action = ':lua require("fff").find_files()',                                                     desc = ' Find File',       icon = ' ', key = 'f' },
             { action = ':ene | startinsert',                                                                      desc = ' New File',        icon = ' ', key = 'n' },
             { action = ':lua Snacks.dashboard.pick("oldfiles")',                                                  desc = ' Recent Files',    icon = ' ', key = 'r' },
-            { action = ':lua Snacks.dashboard.pick("live_grep")',                                                 desc = ' Find Text',       icon = ' ', key = 'g' },
-            { action = ':lua Snacks.dashboard.pick("files", {cwd = vim.fn.stdpath("config")})',                   desc = ' Neovim Config',   icon = ' ', key = 'v' },
-            { action = ':lua Snacks.dashboard.pick("files", {cwd = vim.fn.expand("$XDG_CONFIG_HOME/wezterm")})',  desc = ' Wezterm Config',  icon = ' ', key = 'w' },
+            { action = ':lua require("fff").live_grep()',                                                 desc = ' Find Text',       icon = ' ', key = 'g' },
             { action = ':lua require("persistence").load()',                                                      desc = ' Restore Session', icon = ' ', key = 's' },
             { action = ':Lazy',                                                                                   desc = ' Lazy',            icon = '󰒲 ', key = 'l' },
             { action = ':Mason',                                                                                  desc = ' Mason',           icon = '󱊈 ', key = 'm' },
@@ -71,9 +69,7 @@ return {
       { '<leader>-',        function() Snacks.explorer({ hidden = true }) end,                                             desc = 'File Explorer' },
       { '<leader><leader>', function() Snacks.picker.buffers() end,                                                        desc = '[ ] Find existing buffers' },
       { '<leader>/',        function() Snacks.picker.lines() end,                                                          desc = '[/] Search in current Buffer' },
-      { '<leader>sf',       function() Snacks.picker.smart() end,                                                          desc = '[S]earch [F]iles' },
-      { '<leader>sF',       function() Snacks.picker.files({ hidden = true }) end,                                         desc = '[S]earch All [F]iles' },
-      { '<leader>sg',       function() Snacks.picker.grep() end,                                                           desc = '[S]earch by [G]rep' },
+      { '<leader>sF',       function() Snacks.picker.smart() end,                                                          desc = '[S]earch [F]iles' },
       { '<leader>\\',       function() Snacks.picker.grep_buffers() end,                                                   desc = '[\\] Search in open Buffers' },
       { '<leader>s.',       function() Snacks.picker.recent() end,                                                         desc = '[S]earch Recent Files' },
       { '<leader>s"',       function() Snacks.picker.registers() end,                                                      desc = '[S]earch Registers' },
@@ -88,7 +84,6 @@ return {
       { '<leader>sk',       function() Snacks.picker.keymaps() end,                                                        desc = '[S]earch [K]eymaps' },
       { '<leader>sl',       function() Snacks.picker.loclist() end,                                                        desc = '[S]earch [L]ocation List' },
       { '<leader>sm',       function() Snacks.picker.man() end,                                                            desc = '[S]earch [M]an Pages' },
-      ---@diagnostic disable-next-line: assign-type-mismatch
       { '<leader>sn',       function() Snacks.picker.files({cwd = vim.fn.stdpath('config')}) end,                          desc = '[S]earch [N]eovim files' },
       { '<leader>sR',       function() Snacks.picker.resume() end,                                                         desc = '[S]earch [R]esume' },
       { "<leader>ss",       function() Snacks.scratch.select() end,                                                        desc = "[S]earch [S]cratch Buffer" },
