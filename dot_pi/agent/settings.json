@@ -1,0 +1,12 @@
+{
+  "lastChangelogVersion": "0.75.1",
+  "defaultProvider": "omlx",
+  "defaultModel": "OmniCoder-9B-4bit",
+  "defaultThinkingLevel": "high",
+  "packages": [
+    "npm:pi-mono-usage",
+    "file:./extensions/omlx-provider"
+  ],
+  "enableInstallTelemetry": false,
+  "theme": "catppuccin-mocha"
+}

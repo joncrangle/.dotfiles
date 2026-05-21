@@ -5,9 +5,9 @@ disable = [
     "system", 
 {{- end -}}
 {{- if eq .chezmoi.os "windows" -}}
-    "rustup", 
+    "rustup","yazi"
 {{- end -}}
-    "containers","mas","vim","chocolatey","winget","microsoft_store"]
+    "containers","mas","vim","chocolatey","winget","microsoft_store","pi"]
 set_title = false
 cleanup = true
 skip_notify = true
