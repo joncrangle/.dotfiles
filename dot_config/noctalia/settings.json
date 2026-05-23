@@ -89,14 +89,11 @@
                 },
                 {
                     "compactMode": false,
-                    "compactShowAlbumArt": true,
-                    "compactShowVisualizer": false,
                     "hideMode": "hidden",
                     "hideWhenIdle": false,
                     "id": "MediaMini",
                     "maxWidth": 145,
                     "panelShowAlbumArt": true,
-                    "panelShowVisualizer": true,
                     "scrollingMode": "hover",
                     "showAlbumArt": false,
                     "showArtistFirst": true,
@@ -111,6 +108,7 @@
                 {
                     "colorizeDistroLogo": false,
                     "colorizeSystemIcon": "none",
+                    "colorizeSystemText": "none",
                     "customIconPath": "",
                     "enableColorization": false,
                     "icon": "noctalia",
@@ -124,6 +122,7 @@
                     "enableScrollWheel": true,
                     "focusedColor": "primary",
                     "followFocusedScreen": false,
+                    "fontWeight": "bold",
                     "groupedBorderOpacity": 1,
                     "hideUnoccupied": false,
                     "iconScale": 0.8,
@@ -132,6 +131,7 @@
                     "occupiedColor": "secondary",
                     "pillSize": 0.6,
                     "showApplications": true,
+                    "showApplicationsHover": false,
                     "showBadge": true,
                     "showLabelsOnlyWhenOccupied": false,
                     "unfocusedIconsOpacity": 1
@@ -143,6 +143,7 @@
                     "maxWidth": 300,
                     "scrollingMode": "hover",
                     "showIcon": true,
+                    "showText": true,
                     "textColor": "none",
                     "useFixedWidth": false
                 }
@@ -153,6 +154,7 @@
                     "diskPath": "/",
                     "iconColor": "none",
                     "id": "SystemMonitor",
+                    "showCpuCores": false,
                     "showCpuFreq": false,
                     "showCpuTemp": true,
                     "showCpuUsage": true,
@@ -374,7 +376,8 @@
                 "Down"
             ],
             "keyEnter": [
-                "Return"
+                "Return",
+                "Enter"
             ],
             "keyEscape": [
                 "Esc"
@@ -584,7 +587,7 @@
         "showHeader": true,
         "showKeybinds": true
     },
-    "settingsVersion": 53,
+    "settingsVersion": 59,
     "systemMonitor": {
         "batteryCriticalThreshold": 5,
         "batteryWarningThreshold": 20,
