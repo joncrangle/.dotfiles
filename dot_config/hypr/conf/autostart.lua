@@ -9,6 +9,7 @@ hl.on('hyprland.start', function()
 
   -- Startup apps
   hl.exec_cmd 'gsettings set org.gnome.desktop.interface cursor-theme catppuccin-mocha-dark-cursors'
+  hl.exec_cmd 'gsettings set org.gnome.desktop.interface color-scheme prefer-dark'
   hl.exec_cmd 'vicinae server'
   hl.exec_cmd 'hypridle'
   hl.exec_cmd '[workspace 1 silent] wezterm'
