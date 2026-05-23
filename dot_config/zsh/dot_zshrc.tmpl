@@ -107,7 +107,14 @@ function zvm_after_select_vi_mode() {
 zvm_after_init_commands+=(
   'zle -N zle-line-finish transient-line-finish'
 
-  '[[ -f "$HOME/.config/zsh/lib/sk_init.zsh" ]] && source "$HOME/.config/zsh/lib/sk_init.zsh"'
+  'if [[ ! -f "$HOME/.config/zsh/lib/sk_init.zsh" ]]; then
+     if [[ -f "$HOME/.config/zsh/update_completions.zsh" ]]; then
+       source "$HOME/.config/zsh/update_completions.zsh"
+     fi
+   else
+     source "$HOME/.config/zsh/lib/sk_init.zsh"
+   fi'
+
   'zle -N sk-history-widget __sk_history__'
 
   'function zle-line-init() {
