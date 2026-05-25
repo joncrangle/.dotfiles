@@ -19,6 +19,14 @@ play = [
 ]
 
 [plugin]
+{{- if eq .chezmoi.os "windows" }}
+prepend_previewers = [
+  { url = "*.md", run = 'piper -- CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"' },
+  { url = "*.csv", run = 'piper -- bat -p --color=always "$1"' },
+  { mime = "text/*", run = 'piper -- bat -p --color=always "$1"' },
+  { url = "*/", run = 'piper -- eza -TL=1 --icons=always --color=always --sort=extension "$1"' },
+]
+{{- else }}
 prepend_previewers = [
   { url = "*.md", run = 'faster-piper --rely-on-preloader' },
   { url = "*.csv", run = 'faster-piper --rely-on-preloader' },
@@ -31,3 +39,4 @@ prepend_preloaders = [
   { mime = "text/*", run = 'faster-piper -- bat -p --color=always "$1"' },
   { url = "*/", run = 'faster-piper -- eza -TL=1 --icons=always --color=always --sort=extension "$1"' },
 ]
+{{ end }}
