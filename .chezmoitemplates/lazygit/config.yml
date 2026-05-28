@@ -89,7 +89,7 @@ quitOnTopLevelReturn: false
 keybinding:
   universal:
     quit: q
-    quit-alt1: <c-c>
+    quit-alt1: <c+c>
     return: <esc>
     quitWithoutChangingDirectory: Q
     togglePanel: <tab>
@@ -131,28 +131,28 @@ keybinding:
     scrollDownMain: <pgdown>
     scrollUpMain-alt1: K
     scrollDownMain-alt1: J
-    scrollUpMain-alt2: <c-u>
-    scrollDownMain-alt2: <c-d>
+    scrollUpMain-alt2: <c+u>
+    scrollDownMain-alt2: <c+d>
     executeShellCommand: ":"
     createRebaseOptionsMenu: m
     pushFiles: P
     pullFiles: p
     refresh: R
-    createPatchOptionsMenu: <c-P>
+    createPatchOptionsMenu: <c+s+p>
     nextTab: "]"
     prevTab: "["
     nextScreenMode: +
     prevScreenMode: _
     undo: z
-    redo: <c-z>
-    filteringMenu: <c-s>
+    redo: <c+z>
+    filteringMenu: <c+s>
     diffingMenu: W
-    diffingMenu-alt: <c-e>
-    copyToClipboard: <c-o>
-    openRecentRepos: <c-r>
+    diffingMenu-alt: <c+e>
+    copyToClipboard: <c+o>
+    openRecentRepos: <c+r>
     submitEditorText: <enter>
     extrasMenu: "@"
-    toggleWhitespaceInDiffView: <c-w>
+    toggleWhitespaceInDiffView: <c+w>
     increaseContextInDiffView: "}"
     decreaseContextInDiffView: "{"
   status:
@@ -172,11 +172,11 @@ keybinding:
     fetch: f
     toggleTreeView: "`"
     openMergeOptions: M
-    openStatusFilter: <c-b>
+    openStatusFilter: <c+b>
   branches:
     createPullRequest: o
     viewPullRequestOptions: O
-    copyPullRequestURL: <c-y>
+    copyPullRequestURL: <c+y>
     checkoutBranchByName: c
     forceCheckoutBranch: F
     rebaseBranch: r
@@ -195,8 +195,8 @@ keybinding:
     markCommitAsFixup: f
     createFixupCommit: F
     squashAboveCommits: S
-    moveDownCommit: <c-j>
-    moveUpCommit: <c-k>
+    moveDownCommit: <c+j>
+    moveUpCommit: <c+k>
     amendToCommit: A
     resetCommitAuthor: a
     pickCommit: p
@@ -205,9 +205,9 @@ keybinding:
     pasteCommits: v
     tagCommit: T
     checkoutCommit: <space>
-    resetCherryPick: <c-R>
+    resetCherryPick: <c+s+r>
     copyCommitAttributeToClipboard: "y"
-    openLogMenu: <c-l>
+    openLogMenu: <c+l>
     openInBrowser: o
     viewBisectOptions: b
   stash:
@@ -232,7 +232,7 @@ customCommands:
   - key: "b"
     command: 'gh browse "{{ "{{.SelectedLocalCommit.Sha}}" }}"'
     context: "commits"
-  - key: "<c-p>"
+  - key: "<c+p>"
     context: "localBranches"
     description: "Force push to all origin URLs"
     prompts:
@@ -242,7 +242,7 @@ customCommands:
     command: 'git push --force origin {{"{{.SelectedLocalBranch.Name}}"}}'
     loadingText: "Force pushing to all remotes..."
     output: "terminal"
-  - key: "<c-p>"
+  - key: "<c+p>"
     context: "files"
     description: "Force push current branch to all origin URLs"
     prompts:
@@ -252,7 +252,7 @@ customCommands:
     command: 'git push --force origin {{"{{.CheckedOutBranch.Name}}"}}'
     loadingText: "Force pushing to all remotes..."
     output: "terminal"
-  - key: "<c-p>"
+  - key: "<c+p>"
     context: "commits"
     description: "Force push current branch to all origin URLs"
     prompts:
