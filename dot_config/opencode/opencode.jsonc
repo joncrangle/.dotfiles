@@ -8,10 +8,10 @@
 				"baseURL": "http://127.0.0.1:8081/v1",
 			},
 			"models": {
-				"NexVeridian/OmniCoder-9B-4bit": {
-					"name": "OmniCoder 9B (local)",
+				"MLX-Qwopus3.5-9B-v3-4bit": {
+					"name": "Qwopus 9B v3 (local)",
 				},
-				"mlx-community/gemma-4-e4b-it-4bit": {
+				"gemma-4-e4b-it-4bit": {
 					"name": "Gemma 4 E4B (local)",
 				},
 			},
