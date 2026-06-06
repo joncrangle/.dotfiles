@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.77.0",
+  "lastChangelogVersion": "{{ output "sh" "-c" "mise exec -- pi --version 2>/dev/null" | trim | default "0.78.1" }}",
   "defaultProvider": "omlx",
   "defaultModel": "MLX-Qwopus3.5-9B-v3-4bit",
   "defaultThinkingLevel": "high",
