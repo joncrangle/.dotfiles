@@ -107,6 +107,11 @@ if _is_installed btop; then
 	alias top="btop"
 fi
 
+# Hunk
+if _is_installed hunk; then
+	alias gd="hunk diff --watch"
+fi
+
 alias refresh-completions="~/.config/zsh/update_completions.zsh"
 
 ########## Functions ##########
