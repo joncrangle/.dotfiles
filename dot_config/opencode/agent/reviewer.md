@@ -6,7 +6,7 @@ mode: subagent
 tools:
   task: true
   read: true
-  searxng_search: true
+  degoog_search: true
   grep: true
   list: true
   glob: true

@@ -1,33 +1,30 @@
 import { tool, ToolContext } from "@opencode-ai/plugin";
 
-const INSTANCE_URL = "https://searxng.{{- .nasSite -}}";
+const INSTANCE_URL = "https://degoog.{{- .nasSite -}}";
+const API_KEY = process.env.DEGOOG_API_KEY;
 const SEARCH_TIMEOUT_MS = 10000;
 const HEALTH_CACHE_TTL_AVAILABLE_MS = 60000;
 const HEALTH_CACHE_TTL_UNAVAILABLE_MS = 15000;
 
-interface SearXNGResult {
+interface DegoogResult {
   title?: string;
   url?: string;
+  snippet?: string;
   content?: string;
-  engine?: string;
-  category?: string;
-  thumbnail?: string;
-  publishedDate?: string;
-  author?: string;
+  source?: string;
+  sources?: string[];
   score?: number;
 }
 
-interface SearXNGResponse {
-  results?: SearXNGResult[];
-  unresponsive_engines?: string[];
+interface DegoogResponse {
+  results?: DegoogResult[];
   error?: string;
 }
 
-let cachedAvailability: { isAvailable: boolean; timestamp: number } | null =
-  null;
+let cachedAvailability: { isAvailable: boolean; timestamp: number } | null = null;
 
 /**
- * Checks if the SearXNG instance is reachable.
+ * Checks if the Degoog instance is reachable.
  * Returns true if reachable, false otherwise.
  * Implements caching for unreachable state to avoid repeated timeout waits.
  */
@@ -49,8 +46,13 @@ async function checkHealth(): Promise<boolean> {
   const id = setTimeout(() => controller.abort(), 2000); // 2s health check timeout
 
   try {
+    const headers: Record<string, string> = {};
+    if (API_KEY) {
+      headers["Authorization"] = `Bearer ${API_KEY}`;
+    }
     const response = await fetch(INSTANCE_URL, {
       method: "HEAD", // Use HEAD for faster check
+      headers,
       signal: controller.signal,
     });
     clearTimeout(id);
@@ -67,7 +69,7 @@ async function checkHealth(): Promise<boolean> {
 
 export default tool({
   description:
-    "Search the web using SearXNG with enhanced filtering and timeout control.",
+    "Search the web using Degoog search aggregator with enhanced filtering and timeout control.",
   args: {
     query: tool.schema.string().describe("The search query"),
     category: tool.schema
@@ -93,56 +95,36 @@ export default tool({
       .enum(["day", "week", "month", "year"])
       .optional()
       .describe("Filter results by time range"),
-    safesearch: tool.schema
-      .number()
-      .optional()
-      .describe("SafeSearch level: 0 (None), 1 (Moderate), 2 (Strict)"),
     limit: tool.schema
       .number()
       .optional()
       .describe("Maximum number of results to return (default: 10)"),
-    engines: tool.schema
-      .string()
-      .optional()
-      .describe("Specific engines to use (comma-separated)"),
   },
-  async execute(
-    {
-      query,
-      category = "general",
-      time_range,
-      safesearch = 0,
-      limit = 10,
-      engines,
-    },
-    ctx: ToolContext,
-  ) {
-    if (ctx) {
-      ctx.metadata({ title: `SearXNG Search: ${query}` });
+  async execute({ query, category = "general", time_range, limit = 10 }, ctx: ToolContext) {
+    if (ctx && typeof ctx.metadata === "function") {
+      ctx.metadata({ title: `Degoog Search: ${query}` });
     }
 
     // 1. Health Check
     const isAvailable = await checkHealth();
     if (!isAvailable) {
       return JSON.stringify({
-        error: `SearXNG instance is unreachable.`,
+        error: `Degoog instance at ${INSTANCE_URL} is unreachable.`,
       });
     }
 
     // 2. Prepare Search URL
-    const url = new URL(`${INSTANCE_URL}/search`);
+    const url = new URL(`${INSTANCE_URL}/api/search`);
     url.searchParams.set("q", query);
-    url.searchParams.set("format", "json");
-    url.searchParams.set("safesearch", String(safesearch));
 
-    if (category) {
-      url.searchParams.set("categories", category);
+    let type = "web";
+    if (category === "news" || category === "images" || category === "videos") {
+      type = category;
     }
+    url.searchParams.set("type", type);
+
     if (time_range) {
-      url.searchParams.set("time_range", time_range);
-    }
-    if (engines) {
-      url.searchParams.set("engines", engines);
+      url.searchParams.set("time", time_range);
     }
 
     // 3. Execute Search with Timeout
@@ -150,7 +132,15 @@ export default tool({
     const timeoutId = setTimeout(() => controller.abort(), SEARCH_TIMEOUT_MS);
 
     try {
+      const headers: Record<string, string> = {
+        Accept: "application/json",
+      };
+      if (API_KEY) {
+        headers["Authorization"] = `Bearer ${API_KEY}`;
+      }
+
       const response = await fetch(url.toString(), {
+        headers,
         signal: controller.signal,
       });
       clearTimeout(timeoutId);
@@ -159,8 +149,16 @@ export default tool({
         throw new Error(`Search failed with status ${response.status}`);
       }
 
-      const data = (await response.json()) as SearXNGResponse;
-      const results = (data.results || []).slice(0, limit);
+      const data = (await response.json()) as DegoogResponse;
+      const rawResults = data.results || [];
+      const mappedResults = rawResults.map((r) => ({
+        title: r.title,
+        url: r.url,
+        content: r.snippet || r.content || "", // Map snippet to content for backward compatibility
+        engine: r.source,
+        score: r.score,
+      }));
+      const results = mappedResults.slice(0, limit);
 
       return JSON.stringify(results);
     } catch (error: unknown) {

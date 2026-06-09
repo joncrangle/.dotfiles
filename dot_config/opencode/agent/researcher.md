@@ -5,7 +5,7 @@ mode: subagent
 
 tools:
   task: true
-  searxng_search: true
+  degoog_search: true
   grep: true
   list: true
   glob: true
@@ -14,8 +14,6 @@ tools:
 
   # External Search
   webfetch: true
-  searxng_searxng_web_search: true
-  searxng_web_url_read: true
   websearch_web_search_exa: true
 
   # Utils

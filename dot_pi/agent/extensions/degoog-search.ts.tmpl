@@ -1,0 +1,159 @@
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import { Type } from "typebox";
+
+const INSTANCE_URL = "https://degoog.{{- .nasSite -}}";
+const API_KEY = process.env.DEGOOG_API_KEY;
+
+export default function (pi: ExtensionAPI) {
+  pi.registerTool({
+    name: "degoog_search",
+    label: "Degoog Search",
+    description: "Search the web using a private, self-hosted Degoog search engine aggregator.",
+    parameters: Type.Object({
+      query: Type.String({ description: "The search query term(s) to search for" }),
+      type: Type.Optional(
+        Type.Union(
+          [
+            Type.Literal("web"),
+            Type.Literal("images"),
+            Type.Literal("videos"),
+            Type.Literal("news"),
+          ],
+          { description: "The type of search category (default: web)" },
+        ),
+      ),
+      page: Type.Optional(
+        Type.Integer({
+          description: "The page number of results to retrieve (starts at 1, max 10)",
+          minimum: 1,
+          maximum: 10,
+        }),
+      ),
+      time: Type.Optional(
+        Type.Union(
+          [
+            Type.Literal("any"),
+            Type.Literal("hour"),
+            Type.Literal("day"),
+            Type.Literal("week"),
+            Type.Literal("month"),
+            Type.Literal("year"),
+          ],
+          { description: "Filter search results by a time range" },
+        ),
+      ),
+      lang: Type.Optional(
+        Type.String({
+          description:
+            "ISO 639-1 language code to override the default search language (e.g. 'en')",
+        }),
+      ),
+    }),
+    async execute(_toolCallId, params, signal, _onUpdate, _ctx) {
+      const url = new URL(`${INSTANCE_URL.replace(/\/$/, "")}/api/search`);
+      url.searchParams.set("q", params.query);
+      if (params.type) url.searchParams.set("type", params.type);
+      if (params.page) url.searchParams.set("page", params.page.toString());
+      if (params.time) url.searchParams.set("time", params.time);
+      if (params.lang) url.searchParams.set("lang", params.lang);
+
+      try {
+        const headers: Record<string, string> = {
+          Accept: "application/json",
+        };
+        if (API_KEY) {
+          headers["Authorization"] = `Bearer ${API_KEY}`;
+        }
+
+        const res = await fetch(url.toString(), {
+          headers,
+          signal,
+        });
+
+        if (!res.ok) {
+          const errText = await res.text().catch(() => "");
+          return {
+            content: [
+              {
+                type: "text",
+                text: `Degoog search failed with status ${res.status}: ${errText || res.statusText}`,
+              },
+            ],
+            isError: true,
+            details: { status: res.status, error: errText },
+          };
+        }
+
+        interface SearchResult {
+          title?: string;
+          url?: string;
+          snippet?: string;
+          source?: string;
+          score?: number;
+          sources?: string[];
+        }
+
+        interface SearchResponse {
+          results?: SearchResult[];
+          query?: string;
+          totalTime?: number;
+          type?: string;
+          relatedSearches?: string[];
+        }
+
+        const data = (await res.json()) as SearchResponse;
+        if (!data.results || data.results.length === 0) {
+          return {
+            content: [
+              {
+                type: "text",
+                text: `No search results found for query: "${params.query}"`,
+              },
+            ],
+            details: data,
+          };
+        }
+
+        const formattedResults = data.results.map((result, index) => {
+          let item = `[Result ${index + 1}]\n`;
+          if (result.title) item += `Title: ${result.title}\n`;
+          if (result.url) item += `URL: ${result.url}\n`;
+          if (result.snippet) item += `Snippet: ${result.snippet}\n`;
+          if (result.sources && result.sources.length > 0) {
+            item += `Sources: ${result.sources.join(", ")}\n`;
+          }
+          return item.trim();
+        });
+
+        let outputText = formattedResults.join("\n\n");
+
+        if (data.relatedSearches && data.relatedSearches.length > 0) {
+          outputText +=
+            `\n\nRelated Searches:\n` + data.relatedSearches.map((s) => `- ${s}`).join("\n");
+        }
+
+        return {
+          content: [
+            {
+              type: "text",
+              text: outputText,
+            },
+          ],
+          details: data,
+        };
+      } catch (error: any) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: `Failed to query Degoog: ${error.message || String(error)}`,
+            },
+          ],
+          isError: true,
+          details: { error: String(error) },
+        };
+      }
+    },
+  });
+}
+
