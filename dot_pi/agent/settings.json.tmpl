@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "{{ output "sh" "-c" "mise exec -- pi --version 2>/dev/null" | trim | default "0.78.1" }}",
+  "lastChangelogVersion": "{{- $pi := "" -}}{{- if eq .chezmoi.os "windows" -}}{{- $pi = joinPath .chezmoi.homeDir "AppData/Local/share/mise/shims/pi.cmd" -}}{{- else -}}{{- $pi = joinPath .chezmoi.homeDir ".local/share/mise/shims/pi" -}}{{- end -}}{{- if stat $pi -}}{{- output $pi "--version" | trim | default "0.79.0" -}}{{- else -}}0.79.0{{- end -}}",
   "defaultProvider": "omlx",
   "defaultModel": "MLX-Qwopus3.5-9B-v3-4bit",
   "defaultThinkingLevel": "high",
