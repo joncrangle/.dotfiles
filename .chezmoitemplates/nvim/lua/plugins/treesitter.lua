@@ -145,7 +145,7 @@ return {
         '<CR>',
         function()
           if vim.bo.buftype == 'quickfix' then
-            return vim.cmd 'cc'
+            return vim.cmd(vim.fn.line '.' .. 'cc')
           end
 
           if vim.fn.mode() == 'n' then

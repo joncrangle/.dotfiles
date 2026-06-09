@@ -30,7 +30,7 @@ return {
   ---@module 'quicker'
   {
     'stevearc/quicker.nvim',
-    lazy = true,
+    ft = 'qf',
     ---@type quicker.Config|{}
     opts = {
       -- stylua: ignore
