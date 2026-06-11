@@ -153,7 +153,7 @@ return {
           end
 
           if vim.treesitter.get_parser(0, nil, { error = false }) then
-            require('vim.treesitter._select').select_parent(vim.v.count1)
+            vim.treesitter.select('parent', vim.v.count1)
           else
             local clients = vim.lsp.get_clients { bufnr = 0, method = 'textDocument/selectionRange' }
             if #clients > 0 then
@@ -170,7 +170,7 @@ return {
         '<BS>',
         function()
           if vim.treesitter.get_parser(0, nil, { error = false }) then
-            require('vim.treesitter._select').select_child(vim.v.count1)
+            vim.treesitter.select('child', vim.v.count1)
           else
             local clients = vim.lsp.get_clients { bufnr = 0, method = 'textDocument/selectionRange' }
             if #clients > 0 then
