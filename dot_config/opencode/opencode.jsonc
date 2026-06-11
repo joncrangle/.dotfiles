@@ -55,4 +55,7 @@
 			"enabled": false,
 		},
 	},
+	"references": {
+    "effect": "Effect-TS/effect",
+  },
 }
