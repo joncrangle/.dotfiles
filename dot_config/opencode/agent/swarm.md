@@ -1,6 +1,5 @@
 ---
 description: The Swarm Manager. Coordinates specialized multi-agent workflows.
-model: google-vertex/gemini-3-flash-preview
 mode: subagent
 dependencies:
   - subagent:coder

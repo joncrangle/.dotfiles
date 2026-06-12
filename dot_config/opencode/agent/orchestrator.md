@@ -1,6 +1,5 @@
 ---
 description: The Boss. Analyzes, plans, and delegates. DOES NOT CODE.
-model: google/gemini-3.1-pro-preview
 mode: primary
 
 dependencies:

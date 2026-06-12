@@ -1,8 +1,6 @@
 ---
 description: The Publisher. Manages Git and GitHub interactions.
-model: google/gemini-3-flash-preview
 mode: subagent
-temperature: 1.0
 
 tools:
   task: true
