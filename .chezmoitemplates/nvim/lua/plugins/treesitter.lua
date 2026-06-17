@@ -70,8 +70,11 @@ return {
     build = ':TSUpdate',
     event = { 'BufReadPre', 'BufNewFile' },
     cmd = { 'TSInstall', 'TSInstallInfo', 'TSBufEnable', 'TSBufDisable', 'TSEnable', 'TSDisable', 'TSModuleInfo', 'TSUpdate' },
-    config = function()
+    init = function()
       vim.filetype.add {
+        extension = {
+          tmpl = 'gotmpl',
+        },
         filename = {
           ['vifmrc'] = 'vim',
         },
@@ -80,7 +83,34 @@ return {
           ['%.env%.[%w_.-]+'] = 'sh',
         },
       }
+      local host_lang_cache = {}
 
+      vim.treesitter.query.add_directive('inject-go-tmpl!', function(_, _, bufnr, _, metadata)
+        if type(bufnr) ~= 'number' then
+          return
+        end
+        if host_lang_cache[bufnr] == nil then
+          local filepath = vim.api.nvim_buf_get_name(bufnr)
+          if filepath ~= '' then
+            local actual_file = vim.fs.basename(filepath):gsub('%.tmpl$', '')
+            local host_ft = vim.filetype.match { filename = actual_file }
+            host_lang_cache[bufnr] = host_ft or false
+          end
+        end
+        if host_lang_cache[bufnr] then
+          metadata['injection.language'] = host_lang_cache[bufnr]
+        end
+      end, { force = true })
+
+      vim.api.nvim_create_autocmd({ 'BufDelete', 'BufFilePost' }, {
+        callback = function(ev)
+          host_lang_cache[ev.buf] = nil
+        end,
+      })
+
+      vim.treesitter.query.set('gotmpl', 'injections', '((text) @injection.content (#inject-go-tmpl!) (#set! injection.combined))')
+    end,
+    config = function()
       local ensure_installed = {
         'astro',
         'bash',
@@ -94,10 +124,12 @@ return {
         'gitcommit',
         'gitignore',
         'go',
+        'gotmpl',
         'html',
         'http',
         'javascript',
         'jsdoc',
+        'json',
         'json5',
         'just',
         'jq',
@@ -110,6 +142,7 @@ return {
         'query',
         'regex',
         'ron',
+        'ruby',
         'rust',
         'svelte',
         'sql',
