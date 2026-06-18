@@ -1,0 +1,7 @@
+{
+  "tui.editor.cursorUp": ["up", "ctrl+p"],
+  "tui.editor.cursorDown": ["down", "ctrl+n"],
+  "tui.select.up": ["up", "ctrl+p"],
+  "tui.select.down": ["down", "ctrl+n"],
+  "tui.editor.deleteWordBackward": ["ctrl+w", "alt+backspace"]
+}
