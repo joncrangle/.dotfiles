@@ -18,9 +18,9 @@
 		},
 	},
 	"enabled_providers": [
-		"cerebras",
 		"google",
 		"opencode",
+		"openrouter",
 		"mlx"
 	],
 	"share": "manual",
@@ -28,7 +28,6 @@
 		"doom_loop": "ask",
 	},
 	"autoupdate": false,
-	"small_model": "opencode/minimax-m2.5-free",
 	"agent": {
 		"explore": {
 			"disable": true,
@@ -56,6 +55,6 @@
 		},
 	},
 	"references": {
-    "effect": "Effect-TS/effect",
-  },
+		"effect": "Effect-TS/effect",
+	},
 }
