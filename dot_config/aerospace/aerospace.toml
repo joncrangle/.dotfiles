@@ -160,6 +160,14 @@ if.app-id = 'com.apple.finder'
 run = 'layout floating'
 
 [[on-window-detected]]
+if.app-id = 'com.apple.ActivityMonitor'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.apple.reminders'
+run = 'layout floating'
+
+[[on-window-detected]]
 if.app-id = 'com.raycast.macos'
 run = 'layout floating'
 
@@ -169,4 +177,12 @@ run = 'layout floating'
 
 [[on-window-detected]]
 if.app-id = 'com.colliderli.iina'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.aone.keka'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-id = 'com.sw33tlie.macshot.macshot'
 run = 'layout floating'
