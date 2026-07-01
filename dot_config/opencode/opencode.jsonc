@@ -8,8 +8,8 @@
 				"baseURL": "http://127.0.0.1:8081/v1",
 			},
 			"models": {
-				"MLX-Qwopus3.5-9B-v3-4bit": {
-					"name": "Qwopus 9B v3 (local)",
+				"Qwen3.5-9B-MLX-4bit": {
+					"name": "Qwen 3.5 9B (local)",
 				},
 				"gemma-4-e4b-it-4bit": {
 					"name": "Gemma 4 E4B (local)",
