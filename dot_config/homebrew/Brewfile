@@ -4,15 +4,16 @@
 #  | ' \/ _ \ '  \/ -_) '_ \ '_/ -_) V  V /
 #  |_||_\___/_|_|_\___|_.__/_| \___|\_/\_/
 
-tap "felixkratz/formulae"
-tap "homebrew-ffmpeg/ffmpeg"
+tap "felixkratz/formulae", trusted = true
+tap "homebrew-ffmpeg/ffmpeg", trusted = true
 tap "homebrew/bundle"
-tap "homebrew/cask-fonts"
-tap "homebrew/cask-versions"
 tap "homebrew/services"
-tap "microsoft/git"
-tap "nikitabobko/tap"
+tap "jundot/omlx", "https://github.com/jundot/omlx", trusted: true
+tap "nikitabobko/tap", trusted = true
+tap "nohajc/anylinuxfs", trusted = true
+tap "tw93/tap", trusted: true
 brew "antidote"
+brew "anylinuxfs"
 brew "autoconf"
 brew "btop"
 brew "cmake"
@@ -53,6 +54,7 @@ cask "balenaetcher"
 cask "betterdisplay"
 cask "bruno"
 cask "calibre"
+cask "codex-app"
 cask "dbeaver-community"
 cask "discord"
 cask "dropbox"
