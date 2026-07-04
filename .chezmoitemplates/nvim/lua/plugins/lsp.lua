@@ -101,6 +101,7 @@ return {
           },
         },
         bashls = {},
+        copilot = {},
         clangd = {},
         denols = {
           root_markers = { 'deno.json', 'deno.jsonc' },

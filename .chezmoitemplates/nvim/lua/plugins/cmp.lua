@@ -7,17 +7,7 @@ return {
     dependencies = {
       'rafamadriz/friendly-snippets',
       'moyiz/blink-emoji.nvim',
-      {
-        'Exafunction/windsurf.nvim',
-        event = 'InsertEnter',
-        dependencies = 'nvim-lua/plenary.nvim',
-        build = ':Codeium Auth',
-        config = function()
-          require('codeium').setup {
-            enable_cmp_source = false,
-          }
-        end,
-      },
+      'fang2hou/blink-copilot',
     },
     opts_extend = { 'sources.default' },
     ---@type blink.cmp.Config
@@ -59,7 +49,7 @@ return {
         },
       },
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer', 'codeium' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot' },
         per_filetype = {
           lua = { inherit_defaults = true, 'lazydev' },
           markdown = { inherit_defaults = true, 'emoji' },
@@ -70,7 +60,7 @@ return {
           dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink', score_offset = 3 },
           emoji = { name = 'Emoji', module = 'blink-emoji', score_offset = 3 },
           lazydev = { name = 'LazyDev', module = 'lazydev.integrations.blink', score_offset = 100 },
-          codeium = { name = 'Codeium', module = 'codeium.blink', async = true },
+          copilot = { name = 'Copilot', module = 'blink-copilot', score_offset = 100, async = true },
         },
       },
       keymap = {
