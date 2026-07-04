@@ -18,15 +18,6 @@ return {
       },
     },
   },
-  ---@module 'todo-comments'
-  {
-    'folke/todo-comments.nvim',
-    lazy = true,
-    event = { 'BufReadPost', 'BufNewFile' },
-    dependencies = { 'nvim-lua/plenary.nvim' },
-    ---@type TodoOptions|{}
-    opts = { signs = false },
-  },
   ---@module 'quicker'
   {
     'stevearc/quicker.nvim',

@@ -10,6 +10,7 @@ return {
       {
         'Exafunction/windsurf.nvim',
         event = 'InsertEnter',
+        dependencies = 'nvim-lua/plenary.nvim',
         build = ':Codeium Auth',
         config = function()
           require('codeium').setup {

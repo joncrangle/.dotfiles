@@ -1,3 +1,62 @@
+local function search_todos(filter_keywords)
+  local todo_map = {
+    MiniHipatternsFixme = { 'FIXME', 'FIX', 'BUG', 'FIXIT', 'ISSUE' },
+    MiniHipatternsTodo = { 'TODO', 'TEST', 'TESTING', 'PASSED', 'FAILED' },
+    MiniHipatternsHack = { 'HACK', 'WARN', 'WARNING', 'XXX' },
+    MiniHipatternsNote = { 'NOTE', 'INFO', 'README', 'PERF', 'OPTIMIZE', 'PERFORMANCE' },
+  }
+
+  local search_list = {}
+  local hl_map = {}
+
+  for hl_group, kws in pairs(todo_map) do
+    for _, kw in ipairs(kws) do
+      if not filter_keywords or vim.tbl_contains(filter_keywords, kw) then
+        table.insert(search_list, kw)
+        hl_map[kw] = hl_group
+      end
+    end
+  end
+
+  if #search_list == 0 then
+    return
+  end
+
+  -- ripgrep regex syntax: word boundary, keywords, optional colon
+  local pattern = [[\b(]] .. table.concat(search_list, '|') .. [[)\b:?]]
+
+  Snacks.picker.grep {
+    title = 'Todo Comments',
+    search = pattern,
+    regex = true,
+    live = false,
+    format = function(item, picker)
+      local a = Snacks.picker.util.align
+      local ret = {}
+
+      local match_kw = nil
+      for _, kw in ipairs(search_list) do
+        if item.text:match('%f[%w]' .. kw .. '%f[%W]') then
+          match_kw = kw
+          break
+        end
+      end
+
+      if match_kw and hl_map[match_kw] then
+        local hl = hl_map[match_kw]
+        local width = math.max(#match_kw + 2, 6)
+        table.insert(ret, { a(' ', 1), hl })
+        table.insert(ret, { a(match_kw, width, { align = 'center' }), hl })
+        table.insert(ret, { ' ' })
+      else
+        table.insert(ret, { a(' ', 8) })
+      end
+
+      return Snacks.picker.highlight.extend(ret, Snacks.picker.format.file(item, picker))
+    end,
+  }
+end
+
 return {
   ---@module 'snacks'
   {
@@ -87,10 +146,8 @@ return {
       { '<leader>sn',       function() Snacks.picker.files({cwd = vim.fn.stdpath('config')}) end,                          desc = '[S]earch [N]eovim files' },
       { '<leader>sR',       function() Snacks.picker.resume() end,                                                         desc = '[S]earch [R]esume' },
       { "<leader>ss",       function() Snacks.scratch.select() end,                                                        desc = "[S]earch [S]cratch Buffer" },
-      ---@diagnostic disable-next-line: undefined-field
-      { '<leader>st',       function() Snacks.picker.todo_comments() end,                                                  desc = '[S]earch [T]odo Comments' },
-      ---@diagnostic disable-next-line: undefined-field
-      { '<leader>sT',       function() Snacks.picker.todo_comments({ keywords = { 'TODO', 'FIX', 'FIXME' } }) end,         desc = 'Narrowly [S]earch [T]odos' },
+      { '<leader>st',       function() search_todos() end,                                                                 desc = '[S]earch [T]odo Comments' },
+      { '<leader>sT',       function() search_todos({ 'TODO', 'FIX', 'FIXME', 'BUG' }) end,                                desc = 'Narrowly [S]earch [T]odos' },
       { '<leader>su',       function() Snacks.picker.undo() end,                                                           desc = '[S]earch [U]ndo history' },
       { '<leader>sw',       function() Snacks.picker.files({ cwd = vim.fn.expand '$XDG_CONFIG_HOME/wezterm' }) end,        desc = '[S]earch [W]ezterm files' },
       { '<leader>sq',       function() Snacks.picker.qflist() end,                                                         desc = '[S]earch [Q]uickfix List' },
