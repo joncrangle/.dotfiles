@@ -9,7 +9,7 @@ adjust-underline-position = 4
 adjust-underline-thickness = 2
 
 # Theme
-theme = Catppuccin mocha
+theme = Catppuccin Mocha
 cursor-invert-fg-bg = true
 window-theme = ghostty
 cursor-style = bar
