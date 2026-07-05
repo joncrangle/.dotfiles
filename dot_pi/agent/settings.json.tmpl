@@ -1,7 +1,7 @@
 {
   "lastChangelogVersion": "{{- $pi := "" -}}{{- if eq .chezmoi.os "windows" -}}{{- $pi = lookPath "pi.exe" -}}{{- else -}}{{- $pi = joinPath .chezmoi.homeDir ".config/.local/share/mise/shims/pi" -}}{{- end -}}{{- if $pi -}}{{- output $pi "--version" | trim | default "0.79.0" -}}{{- else -}}0.79.0{{- end -}}",
   "defaultProvider": "omlx",
-  "defaultModel": "Qwen3.5-9B-MLX-4bit",
+  "defaultModel": "Ornith-1.0-9B-4bit",
   "defaultThinkingLevel": "high",
   "packages": [
     "npm:pi-mono-usage",
