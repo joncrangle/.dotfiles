@@ -3,11 +3,11 @@
 <!-- toc -->
 
 - [📘 Overview](#%F0%9F%93%98-overview)
-  * [🍎 MacOS](#%F0%9F%8D%8E-macos)
+  - [🍎 MacOS](#%F0%9F%8D%8E-macos)
 - [🪟 Windows](#%F0%9F%AA%9F-windows)
 - [📱 Termux (Android)](#%F0%9F%93%B1-termux-android)
 - [🐧 Arch Linux](#%F0%9F%90%A7-arch-linux)
-  * [Paru commands](#paru-commands)
+  - [Paru commands](#paru-commands)
 - [🧭 Keymapping](#%F0%9F%A7%AD-keymapping)
 
 <!-- tocstop -->
@@ -122,7 +122,7 @@ iwr -useb https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_win.
 > Some useful PowerToys settings that can be configured:
 >
 > 1. File Explorer add-ons for previews
-> 2. Enable Keyboard Manager and remap `Ctrl` + `F` to `F4` within `outlook`
+> 2. Enable Keyboard Manager and remap `Ctrl` + `F` to `F4` within `olk` (Outlook)
 >    Remap `Ctrl` + `Shift` + `O` and `Ctrl` + `Shift` + `M` to camera and microphone toggle buttons in `ms-teams`
 >    Remap `Down` and `Up` to `Ctrl` + `N` and `Ctrl` + `P` for `powertoys.powerlauncher`
 > 3. Enable Paste as Plain Text
