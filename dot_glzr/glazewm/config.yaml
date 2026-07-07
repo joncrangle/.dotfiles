@@ -219,7 +219,7 @@ window_rules:
   - commands: ["move --workspace 2"]
     match:
       # Move comms to workspace 2.
-      - window_process: { regex: "ms-teams|OUTLOOK" }
+      - window_process: { regex: "ms-teams|OUTLOOK|olk" }
 
   - commands: ["move --workspace 3"]
     match:
