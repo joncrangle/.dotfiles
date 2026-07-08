@@ -429,7 +429,8 @@
 			"Réglages Système",
 			"システム設定",
 			"Systemeinstellungen",
-			"System­einstellungen"
+			"System­einstellungen",
+			"Settings"
 		]
 	},
 	{
@@ -704,7 +705,7 @@
 	},
 	{
 		"iconName": ":microsoft_outlook:",
-		"appNames": ["Microsoft Outlook", "OUTLOOK"]
+		"appNames": ["olk", "Microsoft Outlook", "OUTLOOK"]
 	},
 	{
 		"iconName": ":microsoft_power_point:",
@@ -716,7 +717,7 @@
 	},
 	{
 		"iconName": ":microsoft_teams:",
-		"appNames": ["Microsoft Teams", "Microsoft Teams (work or school)"]
+		"appNames": ["ms-teams", "Microsoft Teams", "Microsoft Teams (work or school)", "Calendar | Microsoft Teams"]
 	},
 	{
 		"iconName": ":microsoft_word:",
