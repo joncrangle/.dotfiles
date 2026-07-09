@@ -210,6 +210,8 @@ window_rules:
       - window_process: { equals: "POWERPNT" }
         window_class: { not_regex: "PPTFrameClass" }
       - window_process: { equals: "handy" }
+      - window_process: { equals: "olk" }
+        window_title: { regex: "^Reminder.*" }
 
   - commands: ["move --workspace 1"]
     match:
