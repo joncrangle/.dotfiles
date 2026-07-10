@@ -43,10 +43,10 @@ keybind = super+shift+enter=new_split:auto
 keybind = super+shift+backslash=new_split:right
 keybind = super+shift+minus=new_split:down
 keybind = alt+m=toggle_split_zoom
-keybind = unconsumed:ctrl+h=goto_split:left
-keybind = unconsumed:ctrl+l=goto_split:right
-keybind = unconsumed:ctrl+j=goto_split:bottom
-keybind = unconsumed:ctrl+k=goto_split:top
+keybind = performable:ctrl+h=goto_split:left
+keybind = performable:ctrl+j=goto_split:bottom
+keybind = performable:ctrl+k=goto_split:top
+keybind = performable:ctrl+l=goto_split:right
 keybind = unconsumed:alt+h=resize_split:left,10
 keybind = unconsumed:alt+l=resize_split:right,10
 keybind = unconsumed:alt+j=resize_split:down,10
