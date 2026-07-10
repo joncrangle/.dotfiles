@@ -109,6 +109,7 @@ zoxide = "latest"
 "npm:@earendil-works/pi-coding-agent" = "latest"
 "npm:svelte-language-server" = "latest"
 "npm:@tailwindcss/language-server" = "latest"
+"npm:typescript" = "latest"
 "npm:vscode-langservers-extracted" = "latest"
 "npm:yaml-language-server" = "latest"
 "pipx:qmk" = { version = "latest" }
