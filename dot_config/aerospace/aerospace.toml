@@ -1,3 +1,4 @@
+config-version = 2
 after-startup-command = [
   'exec-and-forget open -n /Applications/WezTerm.app',
   'exec-and-forget open -n /Applications/Zen Browser.app',
@@ -17,6 +18,7 @@ default-root-container-layout = 'tiles'
 default-root-container-orientation = 'auto'
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 automatically-unhide-macos-hidden-apps = true
+persistent-workspaces = ["1", "2", "3", "4", "5"]
 
 [key-mapping]
 preset = 'qwerty'
