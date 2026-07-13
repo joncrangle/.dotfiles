@@ -26,28 +26,6 @@ return {
         },
       }
 
-      require('mini.hipatterns').setup {
-        highlighters = (function()
-          local todo_map = {
-            MiniHipatternsFixme = { 'FIXME', 'FIX', 'BUG', 'FIXIT', 'ISSUE' },
-            MiniHipatternsTodo = { 'TODO', 'TEST', 'TESTING', 'PASSED', 'FAILED' },
-            MiniHipatternsHack = { 'HACK', 'WARN', 'WARNING', 'XXX' },
-            MiniHipatternsNote = { 'NOTE', 'INFO', 'README', 'PERF', 'OPTIMIZE', 'PERFORMANCE' },
-          }
-
-          local map = {}
-          for hl_group, keywords in pairs(todo_map) do
-            for _, kw in ipairs(keywords) do
-              map[kw:lower()] = {
-                pattern = '%f[%w]()' .. kw .. '()%f[%W]',
-                group = hl_group,
-              }
-            end
-          end
-          return map
-        end)(),
-      }
-
       require('mini.files').setup()
       require('mini.git').setup()
 
