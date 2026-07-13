@@ -34,6 +34,16 @@ function Set-AliasIfExists
     }
 }
 
+function CleanPath 
+{
+    if ($env:Path) 
+    {
+        # Split, filter out empty elements, select unique entries, and join cleanly
+        $Cleaned = ($env:Path -split ';' | Where-Object { $_ -and (Test-Path $_) } | Select-Object -Unique) -join ';'
+        $env:Path = $Cleaned
+    }
+}
+
 # ------------------------------------------------------
 # 1. MODULES (SAFE LOAD)
 # ------------------------------------------------------
@@ -69,6 +79,8 @@ if ($IsPwsh)
     {
         zoxide init powershell | Out-String | Invoke-Expression
     }
+
+    CleanPath
 }
 
 # ------------------------------------------------------
