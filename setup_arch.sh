@@ -418,6 +418,7 @@ packages=(
 	"krita"
 	"libgtop"
 	"libreoffice-fresh"
+	"localsend-bin"
 	"lua"
 	"luajit"
 	"luarocks"

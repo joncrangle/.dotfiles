@@ -141,7 +141,7 @@ if (-not (Test-Path "$env:USERPROFILE\.local\share\chezmoi"))
 # SYSTEM / GUI TOOLS (Scoop)
 $scoopApps = @(
     "7zip", "bruno", "btop", "chafa", "curl", "dbeaver", "diffutils", "ffmpeg", "ghostscript", "glazewm",
-    "gzip", "imagemagick", "IosevkaTerm-NF", "JetBrainsMono-NF", "krita", "lua", "luarocks", "make", "Maple-Mono",
+    "gzip", "imagemagick", "IosevkaTerm-NF", "JetBrainsMono-NF", "localsend", "lua", "luarocks", "make", "Maple-Mono",
     "Meslo-NF", "mingw-winlibs", "obsidian", "podman", "poppler", "python", "rustup-msvc", "sqlite", "topgrade", "unar",
     "unzip", "vlc", "vcredist2022", "wezterm-nightly", "win32yank", "wget", "zebar", "zed", "zoom"
 ) 
