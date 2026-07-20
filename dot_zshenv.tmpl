@@ -67,7 +67,7 @@ export SKIM_DEFAULT_COMMAND="rg --files --no-ignore-vcs --hidden --follow --glob
 export SKIM_CTRL_T_COMMAND="$SKIM_DEFAULT_COMMAND --glob '!node_modules/' --glob '!target/'"
 export SKIM_CTRL_T_OPTS="--ansi --preview 'bat -n --color=always {}' --bind 'ctrl-/:toggle-preview'"
 export SKIM_ALT_C_COMMAND="fd --type d --hidden --follow --exclude .git --exclude .jj --exclude node_modules --exclude target"
-export SKIM_ALT_C_OPTS="--ansi --preview 'eza --tree --color=always --icons {}'"
+export SKIM_ALT_C_OPTS="--ansi --preview 'eza --tree --color=always --icons auto {}'"
 {{ if eq .chezmoi.os "linux" }}
 export SKIM_CTRL_R_OPTS="--ansi --tiebreak=index --with-nth=4.. \
 --bind 'ctrl-y:execute-silent(echo {4..} | wl-copy)+abort'"
