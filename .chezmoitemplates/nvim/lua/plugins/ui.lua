@@ -54,7 +54,6 @@ return {
         { '<leader>s', group = '[S]earch',                      icon = { icon = '', color = 'green' } },
         { '<leader>t', group = '[T]oggle/[T]est',               icon = { icon = '', color = 'orange' } },
         { '<leader>u', group = '[U]pdate',                      icon = { icon = '󰚰', color = 'orange' } },
-        { '<leader>w', group = '[W]orkspace',                   icon = { icon = '', color = 'yellow' } },
       }
       wk.setup(opts)
     end,
