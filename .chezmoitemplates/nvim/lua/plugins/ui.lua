@@ -9,21 +9,10 @@ return {
       flavour = 'mocha',
       transparent_background = true,
       float = { transparent = true, solid = false },
+      auto_integrations = true,
       integrations = {
-        dadbod_ui = true,
-        grug_far = true,
-        lsp_trouble = true,
-        markview = true,
-        mason = true,
-        mini = { enabled = true },
-        navic = {
-          enabled = true,
-          custom_bg = 'NONE',
-        },
-        neotest = true,
-        noice = true,
+        navic = { enabled = true, custom_bg = 'NONE' },
         snacks = { enabled = true, indent_scope_color = 'lavender' },
-        which_key = true,
       },
       highlight_overrides = {
         mocha = function(mocha)
