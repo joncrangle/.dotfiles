@@ -250,10 +250,10 @@ if (Test-Cmd eza)
     { eza --icons      $args 
     }
     function ll
-    { eza --icons -l   $args 
+    { eza --icons -l --loc --header   $args 
     }
     function la
-    { eza --icons -la  $args 
+    { eza --icons -la --loc --header  $args 
     }
     function tree
     { eza -T --icons   $args 
