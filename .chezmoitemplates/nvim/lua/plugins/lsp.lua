@@ -101,7 +101,11 @@ return {
           },
         },
         bashls = {},
-        copilot = {},
+        copilot = {
+          cmd_env = {
+            NODE_OPTIONS = '--experimental-sqlite',
+          },
+        },
         clangd = {},
         denols = {
           root_markers = { 'deno.json', 'deno.jsonc' },
