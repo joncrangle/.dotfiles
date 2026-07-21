@@ -244,19 +244,19 @@ if (Test-Cmd eza)
     Remove-Item alias:ls -Force -ErrorAction SilentlyContinue
 
     function ls
-    { eza --icons      $args 
+    { eza --icons $args 
     }
     function l
-    { eza --icons      $args 
+    { eza --icons $args 
     }
     function ll
-    { eza --icons -l --loc --header   $args 
+    { eza --icons -l --loc --header $args 
     }
     function la
-    { eza --icons -la --loc --header  $args 
+    { eza --icons -la --loc --header $args 
     }
     function tree
-    { eza -T --icons   $args 
+    { eza -T --icons auto --color=always $args 
     }
 }
 
