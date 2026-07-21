@@ -66,6 +66,7 @@ format = "[$symbol]($style)"
 Arch = "   "
 Linux = "   "
 Macos = "   "
+Ubuntu = "  "
 Windows = "   "
 
 [directory]
