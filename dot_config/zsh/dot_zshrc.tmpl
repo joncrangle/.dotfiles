@@ -74,7 +74,7 @@ precmd_functions+=(set-long-prompt)
 function transient-line-finish() {
   set-short-prompt
   zle .reset-prompt 2>/dev/null
-  RPROMPT="" 
+  RPROMPT=""
 }
 zle -N transient-line-finish
 
@@ -88,24 +88,25 @@ function zvm_config() {
 
 function zvm_after_select_vi_mode() {
   case $ZVM_MODE in
-    $ZVM_MODE_NORMAL)
-      STARSHIP_KEYMAP=vicmd
-      echo -ne "\e[1 q" # Block
-      ;;
-    $ZVM_MODE_INSERT)
-      STARSHIP_KEYMAP=viins
-      echo -ne "\e[5 q" # Beam
-      ;;
-    $ZVM_MODE_VISUAL | $ZVM_MODE_VISUAL_LINE)
-      STARSHIP_KEYMAP=vicmd
-      echo -ne "\e[1 q" # Block
-      ;;
+  $ZVM_MODE_NORMAL)
+    STARSHIP_KEYMAP=vicmd
+    echo -ne "\e[1 q" # Block
+    ;;
+  $ZVM_MODE_INSERT)
+    STARSHIP_KEYMAP=viins
+    echo -ne "\e[5 q" # Beam
+    ;;
+  $ZVM_MODE_VISUAL | $ZVM_MODE_VISUAL_LINE)
+    STARSHIP_KEYMAP=vicmd
+    echo -ne "\e[1 q" # Block
+    ;;
   esac
   zle .reset-prompt
 }
 
 zvm_after_init_commands+=(
   'zle -N zle-line-finish transient-line-finish'
+  'zvm_bindkey viins "^ " autosuggest-accept'
 
   'if [[ ! -f "$HOME/.config/zsh/lib/sk_init.zsh" ]]; then
      if [[ -f "$HOME/.config/zsh/update_completions.zsh" ]]; then
@@ -126,5 +127,5 @@ zvm_after_init_commands+=(
 
 [[ -f "$ZDOTDIR/options.zsh" ]] && source "$ZDOTDIR/options.zsh"
 [[ -f "$ZDOTDIR/aliases.zsh" ]] && source "$ZDOTDIR/aliases.zsh"
-[[ -f "$ZDOTDIR/banner.zsh"  ]] && source "$ZDOTDIR/banner.zsh"
+[[ -f "$ZDOTDIR/banner.zsh" ]] && source "$ZDOTDIR/banner.zsh"
 # vim: ft=zsh
