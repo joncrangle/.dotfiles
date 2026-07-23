@@ -73,6 +73,8 @@ ensure_installed "brew" "Homebrew" || {
   run_cmd "/bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
 }
 
+run_cmd "touch ~/.hushlogin"
+
 # Mise
 ensure_installed "mise" "Mise" || {
   log_info "Installing Mise..."

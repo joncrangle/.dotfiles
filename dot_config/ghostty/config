@@ -1,5 +1,5 @@
 # Fonts
-font-family = Berkeley Mono
+font-family = TX-02
 font-family-bold = Maple Mono
 font-family-italic = Maple Mono
 font-family-bold-italic = Maple Mono
@@ -15,7 +15,7 @@ window-theme = ghostty
 cursor-style = bar
 cursor-style-blink = true
 background-opacity = 0.6
-background-blur-radius = 20
+background-blur = true
 unfocused-split-opacity = 0.6
 scrollback-limit = 5000
 macos-titlebar-style = tabs
@@ -52,4 +52,4 @@ keybind = unconsumed:alt+l=resize_split:right,10
 keybind = unconsumed:alt+j=resize_split:down,10
 keybind = unconsumed:alt+k=resize_split:up,10
 keybind = super+shift+i=inspector:toggle
-keybind = global:cmd+`=toggle_quick_terminal
+keybind = global:cmd+backquote=toggle_quick_terminal

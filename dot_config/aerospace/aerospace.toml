@@ -123,8 +123,8 @@ if.app-id = 'com.github.wez.wezterm'
 run = 'move-node-to-workspace 1 --focus-follows-window'
 
 [[on-window-detected]]
-if.app-id = 'com.mitchellh.ghostty'
-run = 'move-node-to-workspace 1 --focus-follows-window'
+if.app-id = "com.mitchellh.ghostty"
+run = ['move-node-to-workspace 1 --focus-follows-window', 'layout tiling']
 
 [[on-window-detected]]
 if.app-id = 'dev.zed.Zed'
