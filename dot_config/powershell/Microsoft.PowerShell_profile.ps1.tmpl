@@ -89,6 +89,12 @@ if ($IsPwsh)
 
 if ($IsPwsh -and $IsInteractive)
 {
+    # ast-grep
+    if (Test-Cmd ast-grep)
+    {
+        ast-grep completions powershell | Out-String | Invoke-Expression
+    }
+
     # deno
     if (Test-Cmd deno)
     {
@@ -129,12 +135,6 @@ if ($IsPwsh -and $IsInteractive)
     if (Test-Cmd rustup)
     {
         rustup completions powershell | Out-String | Invoke-Expression
-    }
-
-    # sg
-    if (Test-Cmd sg)
-    {
-        sg completions powershell | Out-String | Invoke-Expression
     }
 
     # teams-green

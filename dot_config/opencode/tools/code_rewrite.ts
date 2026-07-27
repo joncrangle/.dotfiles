@@ -10,13 +10,13 @@ const REWRITE_AGENTS = new Set(["coder", "swarm"]);
 // Preview-only agents can view what would change but not apply
 const PREVIEW_AGENTS = new Set(["researcher", "reviewer", "explore"]);
 
-// Check if ast-grep (sg) is installed
-const sgPath = Bun.which("sg");
+// Check if ast-grep is installed
+const astgrepPath = Bun.which("ast-grep");
 
 export default tool({
-  description: sgPath
+  description: astgrepPath
     ? "Rewrite code patterns using ast-grep. Uses AST-based matching for precise transformations. Only 'coder' and 'swarm' agents can apply changes; others get preview only."
-    : "ast-grep (sg) CLI is not installed. Install it first to use this tool.",
+    : "ast-grep CLI is not installed. Install it first to use this tool.",
   args: {
     pattern: tool.schema
       .string()
@@ -47,9 +47,9 @@ export default tool({
   ) {
     const { agent } = ctx;
 
-    // Guard: sg must be installed
-    if (!sgPath) {
-      return "Error: ast-grep (sg) is not installed. Install with: cargo install ast-grep";
+    // Guard: ast-grep must be installed
+    if (!astgrepPath) {
+      return "Error: ast-grep is not installed. Install with: cargo install ast-grep";
     }
 
     // =========================================================================
@@ -76,7 +76,7 @@ export default tool({
 
     try {
       // Build ast-grep command
-      const cmd = ["sg", "--pattern", pattern, "--rewrite", replacement];
+      const cmd = ["ast-grep", "--pattern", pattern, "--rewrite", replacement];
 
       if (lang) cmd.push("--lang", lang);
       cmd.push(path);
