@@ -51,16 +51,17 @@ end
 vim.schedule(function()
   vim.opt.clipboard:append 'unnamedplus'
 
-  -- Standard SSH session handling
-  if vim.uv.os_getenv 'SSH_CLIENT' ~= nil or vim.uv.os_getenv 'SSH_TTY' ~= nil then
-    set_osc52_clipboard()
-  else
-    check_wezterm_remote_clipboard(function(is_remote_wezterm)
-      if is_remote_wezterm then
-        set_osc52_clipboard()
-      end
-    end)
-  end
+  local env = vim.uv.os_getenv
+  local is_ssh = env 'SSH_CLIENT' ~= nil or env 'SSH_TTY' ~= nil
+  local is_herdr = env 'HERDR_ENV' ~= nil
+
+  check_wezterm_remote_clipboard(function(is_remote_wezterm)
+    if is_ssh and not is_herdr then
+      set_osc52_clipboard()
+    elseif is_remote_wezterm and not is_herdr then
+      set_osc52_clipboard()
+    end
+  end)
 end)
 
 vim.o.undofile = true

@@ -1,0 +1,45 @@
+# NOTE:
+# ( )_( )( ___)(  _ \(  _ \(  _ \
+#  ) _ (  )__)  )   / )(_) ))   /
+# (_) (_)(____)(_)\_)(____/(_)\_)
+onboarding = false
+
+[terminal]
+new_cwd = "follow"
+
+[keys]
+prefix = "ctrl+a"
+goto = ["prefix+g", "prefix+/"]
+split_horizontal = "prefix+backslash"
+split_vertical = "prefix+enter"
+copy_mode = ["prefix+v", "prefix+["]
+navigate_workspace_down = "j"
+navigate_workspace_up = "k"
+previous_workspace = "prefix+("
+next_workspace = "prefix+)"
+focus_agent = "prefix+alt+1..9"
+toggle_sidebar = ["prefix+b", "prefix+a"]
+
+[ui]
+sidebar_collapsed_mode = "hidden"
+right_click_passthrough_modifier = "ctrl"
+confirm_close = false
+prompt_new_workspace_name = true
+
+[ui.toast]
+delivery = "herdr"
+delay_seconds = 1
+
+[ui.toast.herdr]
+position = "top-right"
+
+[ui.toast.clipboard]
+enabled = true
+position = "bottom-center"
+
+[ui.sound]
+enabled = false
+
+[experimental]
+kitty_graphics = true
+pane_history = true
