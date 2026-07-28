@@ -1,0 +1,4 @@
+theme = "catppuccin-mocha"
+agent_notes = true
+transparent_background = true
+wrap_lines = true
