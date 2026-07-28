@@ -21,7 +21,7 @@ if [[ -f "$HOME/.config/mise/gh_public.json" ]]; then
   export MISE_GITHUB_TOKEN=$(jq -r '.github_token' "$HOME/.config/mise/gh_public.json")
 fi
 if command -v mise &>/dev/null; then
-  eval "$(mise activate zsh --shims)" 
+  eval "$(mise activate zsh --shims)"
 fi
 
 export EDITOR="$(which nvim 2>/dev/null || which vim 2>/dev/null || echo /usr/bin/vi)"
@@ -49,13 +49,31 @@ else
   compinit -i -d "$ZSH_COMPDUMP"
 fi
 
+# Zsh completion
 zstyle ':completion:*' group-name ''
-zstyle ':fzf-tab:*' single-group header
-zstyle ':completion:*' format '-- %d --'
-zstyle ':completion:*:descriptions' format '-- %d --'
-zstyle ':completion:*:messages' format '-- %d --'
-zstyle ':completion:*:warnings' format '-- %d --'
-zstyle ':fzf-tab:*' format '-- %d --'
+zstyle ':completion:*' menu select
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*:descriptions' format ' %F{cyan}%d%f'
+zstyle ':completion:*:messages' format ' %F{yellow}%d%f'
+zstyle ':completion:*:warnings' format ' %F{red}%d%f'
+
+zstyle ':fzf-tab:*' single-group ''
+zstyle ':fzf-tab:*' fzf-flags \
+  '--height=~100%' \
+  '--layout=reverse' \
+  '--border=rounded' \
+  '--padding=0' \
+  '--info=hidden' \
+  '--no-scrollbar' \
+  '--prompt=  ' \
+  '--color=pointer:#cba6f7'
+
+# Completion navigation
+zstyle ':fzf-tab:*' fzf-bindings \
+  'ctrl-f:preview-page-down' \
+  'ctrl-b:preview-page-up'
+
+zstyle ':fzf-tab:*' switch-group '<' '>'
 bindkey -M vicmd ":" undefined-key
 
 eval "$(starship init zsh)"
