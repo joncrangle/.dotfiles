@@ -124,7 +124,7 @@ function zvm_after_select_vi_mode() {
 
 zvm_after_init_commands+=(
   'zle -N zle-line-finish transient-line-finish'
-  'zvm_bindkey viins "^ " autosuggest-accept'
+  'zvm_bindkey viins "^Y" autosuggest-accept'
 
   'if [[ ! -f "$HOME/.config/zsh/lib/sk_init.zsh" ]]; then
      if [[ -f "$HOME/.config/zsh/update_completions.zsh" ]]; then
