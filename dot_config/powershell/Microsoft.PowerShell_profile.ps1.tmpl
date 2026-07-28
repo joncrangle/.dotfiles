@@ -224,8 +224,8 @@ Set-AliasIfExists oc opencode
 Set-AliasIfExists cm chezmoi
 Set-AliasIfExists wez wezterm
 
-# Clear screen (native)
 Set-Alias c Clear-Host -Force
+Set-Alias weather wx
 
 # zoxide replaces cd
 if (Test-Cmd z)
@@ -410,6 +410,11 @@ function up
 function which ($name)
 {
     Get-Command $name -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source
+}
+
+function wx
+{
+    Invoke-RestMethod https://v2.wttr.in
 }
 
 function x

@@ -171,6 +171,8 @@ alias wget='wget -c'
 alias x='exit'
 alias upgrade='pkg update && pkg upgrade -y'
 alias pku='pkg update && pkg upgrade -y'
+alias weather='curl v2.wttr.in'
+alias wx='curl v2.wttr.in'
 
 eval "$(zoxide init zsh)"
 source <(fzf --zsh)
