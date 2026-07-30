@@ -120,6 +120,14 @@ function Invoke-WinUtilDarkMode
     Write-Host "Dark Mode enabled successfully!" -ForegroundColor Green
 }
 
+function Invoke-WinUtilDisableGameBar
+{
+    Write-Host "Disabling Xbox Gaming Overlay..." -ForegroundColor Cyan
+    Stop-Process -Name GameBarFTServer -Force -Confirm:$false -ErrorAction SilentlyContinue
+    Set-RegistryValueSafe -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Value 0 -Type "DWord"
+    Write-Host "PowerShell telemetry disabled successfully!" -ForegroundColor Green
+}
+
 function Invoke-WinUtilDisablePSTelemetry
 {
     Write-Host "Disabling PowerShell telemetry..." -ForegroundColor Cyan
@@ -180,6 +188,7 @@ function Show-AvailableFunctions
     Write-Host "- Invoke-WinUtilHiddenFiles"
     Write-Host "- Invoke-WinUtilShowExt"
     Write-Host "- Invoke-WinUtilDarkMode"
+    Write-Host "- Invoke-WinUtilDisableGameBar"
     Write-Host "- Invoke-WinUtilDisablePSTelemetry"
     Write-Host "- Invoke-WinUtilEnableEndTask"
     Write-Host "- Invoke-WinUtilSetServicesManual"
