@@ -15,10 +15,15 @@ split_vertical = "prefix+enter"
 copy_mode = ["prefix+v", "prefix+["]
 navigate_workspace_down = "j"
 navigate_workspace_up = "k"
-previous_workspace = "prefix+("
-next_workspace = "prefix+)"
+previous_workspace = ["prefix+(", "ctrl+alt+k"]
+next_workspace = ["prefix+)", "ctrl+alt+j"]
 focus_agent = "prefix+alt+1..9"
 toggle_sidebar = ["prefix+b", "prefix+a"]
+toggle_sidebar = ["prefix+b", "prefix+a"]
+focus_pane_left = ["prefix+h", "ctrl+h"]
+focus_pane_down = ["prefix+j", "ctrl+j"]
+focus_pane_up = ["prefix+k", "ctrl+k"]
+focus_pane_right = ["prefix+l", "ctrl+l"]
 
 [ui]
 sidebar_collapsed_mode = "hidden"
