@@ -55,19 +55,7 @@ if ($IsInteractive -and (Get-Module -ListAvailable PSReadLine))
 
 if ($IsPwsh)
 {
-    # mise activation
-    $miseScript = (&mise activate pwsh | Out-String)
-    $miseScript = $miseScript -replace '\[Microsoft.PowerShell.PSConsoleReadLine\]::GetHistoryItems\(\)', '@()'
-    
-    # Inject CleanPath directly into mise's hook loop
-    $patchCode = @'
-    if ($(Test-Path -Path Function:\_mise_hook)){
-        _mise_hook
-        CleanPath
-    }
-'@
-    $miseScript = $miseScript -replace 'if \$\(Test-Path -Path Function:\\_mise_hook\)\{\s*_mise_hook\s*\}', $patchCode
-    Invoke-Expression $miseScript
+    Invoke-Expression (& mise activate pwsh --no-hook-env | Out-String)
 
     if ((Get-Module -ListAvailable Terminal-Icons) -and (Get-Command Import-PowerShellDataFile -ErrorAction SilentlyContinue))
     {
@@ -88,8 +76,6 @@ if ($IsPwsh)
     {
         zoxide init powershell | Out-String | Invoke-Expression
     }
-
-    CleanPath
 }
 
 # ------------------------------------------------------

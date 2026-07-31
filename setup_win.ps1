@@ -342,42 +342,45 @@ if (Test-Path $zenConfig)
 # ------------------------------------------------------
 Write-Host ":: Configuring Environment Variables..." -ForegroundColor Green
 
+# 1. SCOOP GIT & YAZI SETUP
 $ScoopGitBin = "$env:USERPROFILE\scoop\apps\git\current\bin"
 $GitFileExe  = "$env:USERPROFILE\scoop\apps\git\current\usr\bin\file.exe"
+$UserBin   = "$env:USERPROFILE\bin"
+$MiseShims = "$env:LOCALAPPDATA\mise\shims"
 
 if (Test-Path $ScoopGitBin)
 {
     $UserPath = [Environment]::GetEnvironmentVariable("Path", "User")
-
     if ($UserPath -notlike "*$ScoopGitBin*")
     {
-        $NewPath = "$ScoopGitBin;$UserPath" # Prepend to beat shims
-        [Environment]::SetEnvironmentVariable("Path", $NewPath, "User")
-        Write-Host "   Prepended Git Bin to PATH (Priority over shims)" -ForegroundColor Gray
+        [Environment]::SetEnvironmentVariable("Path", "$ScoopGitBin;$UserPath", "User")
+        Write-Host "    Prepended Git Bin to PATH" -ForegroundColor Gray
     }
 
     if (Test-Path $GitFileExe)
     {
         [Environment]::SetEnvironmentVariable("YAZI_FILE_ONE", $GitFileExe, "User")
-        Write-Host "   Set YAZI_FILE_ONE -> $GitFileExe" -ForegroundColor Gray
+        Write-Host "    Set YAZI_FILE_ONE -> $GitFileExe" -ForegroundColor Gray
     }
 } else
 {
-    Write-Warning "   Could not find 'file.exe' in Scoop Git installation. Yazi might malfunction."
+    Write-Warning "    Could not find 'file.exe' in Scoop Git installation."
 }
 
-# 2. PATH CLEANUP
-#    Ensure the user's bin folder is in PATH (useful for scripts)
-$UserBin = "$env:USERPROFILE\bin"
 if (-not (Test-Path $UserBin))
 { New-Item -ItemType Directory -Path $UserBin -Force | Out-Null 
 }
+if (-not (Test-Path $MiseShims))
+{ New-Item -ItemType Directory -Path $MiseShims -Force | Out-Null 
+}
 
-$CurrentPath = [Environment]::GetEnvironmentVariable("Path", [EnvironmentVariableTarget]::User)
-if ($CurrentPath -notlike "*$UserBin*")
+$UserPath = [Environment]::GetEnvironmentVariable("Path", "User")
+if ($UserPath -notlike "*$UserBin*" -or $UserPath -notlike "*$MiseShims*")
 {
-    [Environment]::SetEnvironmentVariable("Path", "$CurrentPath;$UserBin", [EnvironmentVariableTarget]::User)
-    Write-Host "   Added ~\bin to PATH" -ForegroundColor Gray
+    # Deduplicate and format cleanly before setting persistent registry key
+    $NewPath = ("$UserBin;$MiseShims;$UserPath" -split ';' | Where-Object { $_ } | Select-Object -Unique) -join ';'
+    [Environment]::SetEnvironmentVariable("Path", $NewPath, "User")
+    Write-Host "    Added ~\bin and mise shims to User PATH" -ForegroundColor Gray
 }
 
 # ------------------------------------------------------
