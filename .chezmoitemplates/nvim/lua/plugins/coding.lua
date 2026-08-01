@@ -143,6 +143,9 @@ return {
   {
     'mistweaverco/kulala.nvim',
     ft = { 'http', 'rest' },
+    init = function()
+      vim.treesitter.language.register('kulala_http', 'http')
+    end,
     opts = {},
     -- stylua: ignore
     keys = {
