@@ -34,6 +34,8 @@ permission:
     "bun run*": allow
     "make *": allow
     "just *": allow
+    "uv run *": allow
+    "uv test *": allow
     "*": deny
 ---
 
