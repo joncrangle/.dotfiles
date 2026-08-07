@@ -75,4 +75,13 @@
 [credential]
 	helper = !\"{{ .chezmoi.homeDir }}/scoop/apps/git/current/mingw64/bin/git-credential-manager.exe\"
 {{ end -}}
+
+{{ $gh := lookPath "gh" -}}
+{{ if $gh }}
+[credential "https://github.com"]
+    helper = !"gh" auth git-credential
+
+[credential "https://gist.github.com"]
+    helper = !"gh" auth git-credential
+{{ end -}}
 # vim: ft=gitconfig
