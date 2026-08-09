@@ -21,6 +21,12 @@ tools:
 permission:
   bash:
     "gh *": allow
+    "git status": allow
+    "git diff": allow
+    "git log": allow
+    "git add *": allow
+    "git commit -m *": allow
+    "git push": allow
     "just *": allow
     "*": deny
 ---
