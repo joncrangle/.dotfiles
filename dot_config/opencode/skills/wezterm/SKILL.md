@@ -1,16 +1,24 @@
 ---
 name: wezterm
-description: Control and inspect WezTerm terminal panes. Use when terminal interaction, command execution, reading terminal output, monitoring running processes, or working with existing shell sessions is required.
+description: Interact with an ALREADY-RUNNING WezTerm GUI session by sending text to and reading from its existing panes. Use ONLY when the user explicitly asks you to drive a command inside a WezTerm window they have open (e.g. "run this in wezterm"). Do NOT use for ordinary command execution, reading output, or monitoring processes — the agent's own bash tool covers those. If WezTerm is not running, do not use this skill.
 tags:
   - terminal
-  - shell
   - wezterm
-  - development
 ---
 
 # WezTerm Terminal Control
 
 Interact with existing WezTerm panes via the CLI. WezTerm must be running and on PATH.
+
+---
+
+## Preconditions — check before anything else
+
+This skill applies ONLY when a WezTerm GUI instance is already running.
+
+1. Verify: `wezterm cli list --format json` — fails or returns nothing if WezTerm isn't running.
+2. If WezTerm is not running, STOP. Do not launch it, do not use `wezterm start`. Ordinary commands belong in your own bash tool.
+3. Never reach for this skill just because you need to run a command, read terminal output, or watch a process.
 
 ---
 
