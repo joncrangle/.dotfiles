@@ -5,9 +5,18 @@ dependencies:
   - subagent:coder
   - subagent:reviewer
   - subagent:writer
-tools:
-  task: true
-  state: true
+permission:
+  task: allow
+  state: allow
+  todowrite: allow
+  todoread: allow
+  read: allow
+  glob: allow
+  grep: allow
+  list: allow
+  skill: allow
+  bash: deny
+  edit: deny
 ---
 
 <agent_identity>

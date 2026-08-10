@@ -24,6 +24,7 @@
 		"mlx"
 	],
 	"share": "manual",
+	"lsp": true,
 	"permission": {
 		"doom_loop": "ask",
 	},

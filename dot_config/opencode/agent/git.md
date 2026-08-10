@@ -2,31 +2,26 @@
 description: The Publisher. Manages Git and GitHub interactions.
 mode: subagent
 
-tools:
-  task: true
-  patch: true
-  read: true
-  write: true
-  edit: true
-  degoog_search: true
-  grep: true
-  list: true
-  glob: true
-  bash: true
-  skill: true
-  todowrite: true
-  todoread: true
-  state: true
-
 permission:
+  task: allow
+  read: allow
+  edit: deny
+  degoog_search: allow
+  grep: allow
+  list: allow
+  glob: allow
+  skill: allow
+  todowrite: allow
+  todoread: allow
+  state: allow
   bash:
     "gh *": allow
-    "git status": allow
-    "git diff": allow
-    "git log": allow
+    "git status *": allow
+    "git diff *": allow
+    "git log *": allow
     "git add *": allow
     "git commit -m *": allow
-    "git push": allow
+    "git push *": allow
     "just *": allow
     "*": deny
 ---

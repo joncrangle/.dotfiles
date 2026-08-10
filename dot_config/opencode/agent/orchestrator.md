@@ -9,46 +9,38 @@ dependencies:
   - subagent:git
   - subagent:writer
   - subagent:swarm
-  - skill:code-style
-
-tools:
-  # Orchestration & Delegation
-  task: true
-  skill: true
-  state: true
-
-  # Context
-  read: true
-  glob: true
-  degoog_search: true
-  grep: true
-  list: true
-  todowrite: true
-  todoread: true
-
-  # Emergency ONLY (Ask first)
-  patch: true
-  write: true
-  edit: true
-  bash: true
 
 permission:
+  task: allow
+  skill: allow
+  state: allow
+  read: allow
+  glob: allow
+  degoog_search: allow
+  grep: allow
+  list: allow
+  todowrite: allow
+  todoread: allow
   bash:
+    "*": "allow"
     "rm -rf *": "ask"
     "rm -rf /*": "deny"
     "sudo *": "deny"
     "> /dev/*": "deny"
+    "git push -f *": "deny"
   edit:
+    "*": allow
     "**/*.env*": "deny"
     "**/*.key": "deny"
     "**/*.secret": "deny"
     "node_modules/**": "deny"
     ".git/**": "deny"
+  external_directory: allow
 ---
 
 <agent_identity>
 You are the **Orchestrator**. You are the project manager.
-You have NO hands (write/bash access). You must delegate everything.
+You have NO hands. You should delegate everything.
 </agent_identity>
 
 <team_structure>

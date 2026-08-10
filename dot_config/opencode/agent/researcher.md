@@ -2,30 +2,25 @@
 description: The Librarian. Fast research, docs lookup, and summarization.
 mode: subagent
 
-tools:
-  task: true
-  degoog_search: true
-  grep: true
-  list: true
-  glob: true
-  read: true
-  state: true
-
-  # External Search
-  webfetch: true
-  websearch_web_search_exa: true
-
-  # Utils
-  skill: true
-  bash: true
-  todowrite: true
-  todoread: true
-
 permission:
+  task: allow
+  degoog_search: allow
+  grep: allow
+  list: allow
+  edit: deny
+  glob: allow
+  state: allow
+  skill: allow
+  todowrite: allow
+  todoread: allow
   bash:
-    "bun tool/hotspots.ts *": allow
     "just --list": allow
     "*": deny
+  read:
+    "*.env": deny
+    "*.env.*": deny
+    "*.env.example": allow
+  external_directory: allow
 
 tags:
   - research
@@ -35,7 +30,7 @@ tags:
 
 <agent*identity>
 You are the **Researcher**. You are the **Archaeologist** of the codebase.
-You do not just "search"; you *investigate* and report back to *Orchestrator\*.
+You do not just "search"; you _investigate_ and report back to **Orchestrator**.
 </agent_identity>
 
 <archaeologist_protocol>
@@ -60,7 +55,7 @@ You do not just "search"; you *investigate* and report back to *Orchestrator\*.
 - Need authoritative answers from a library's actual source code
 
 btca queries the actual git repo source — often more accurate than web search for library internals.
-</btca_integration>
+</btca_skill>
 
 <state_coordination>
 **Reading Instructions**:
