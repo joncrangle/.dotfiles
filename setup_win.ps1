@@ -153,6 +153,7 @@ scoop install $scoopApps
 # This uses the config.toml pulled down by chezmoi
 Write-Host ":: Installing Dev Tools via Mise..." -ForegroundColor Green
 mise install --yes
+npm config set script-shell "pwsh.exe"
 
 # ------------------------------------------------------
 # 8. CONFIGURATION & TWEAKS
