@@ -253,12 +253,9 @@ return {
           formatterMode = 'typstyle',
           exportPdf = 'never',
         },
-        tsgo = {
+        tsc = {
+          cmd = { 'tsc', '--lsp', '--stdio' },
           settings = {
-            tsgo = {
-              diagnostics = { translation = 'pretty' },
-              enableMoveToFileCodeAction = true,
-            },
             javascript = {
               updateImportsOnFileMove = { enabled = 'always' },
               suggest = { completeFunctionCalls = true },
@@ -324,31 +321,16 @@ return {
       local server_to_package = require('mason-lspconfig').get_mappings().lspconfig_to_package
 
       local function is_executable_available(server_name, server_opts)
+        local cmd = server_opts and server_opts.cmd
+
         -- Check if server_opts.cmd[1] is executable
-        if server_opts and server_opts.cmd and type(server_opts.cmd) == 'table' and server_opts.cmd[1] then
-          if vim.fn.executable(server_opts.cmd[1]) == 1 then
-            return true
-          end
+        if type(cmd) == 'table' and cmd[1] then
+          return vim.fn.executable(cmd[1]) == 1
         end
 
-        -- First try the server name itself
+        -- Try the server name itself
         if vim.fn.executable(server_name) == 1 then
           return true
-        end
-
-        -- Then try the lspconfig default command
-        local config = require('lspconfig.configs')[server_name]
-        if config and config.default_config and config.default_config.cmd then
-          local binary
-          local cmd = config.default_config.cmd
-
-          if type(cmd) == 'table' then
-            binary = cmd[1]
-          end
-
-          if binary and vim.fn.executable(binary) == 1 then
-            return true
-          end
         end
 
         -- Then try the mason package name
