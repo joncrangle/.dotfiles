@@ -27,7 +27,24 @@ permission:
     "rm -rf /*": "deny"
     "sudo *": "deny"
     "> /dev/*": "deny"
-    "git push -f *": "deny"
+    "git push -f*": "deny"
+    "git push * -f*": "deny"
+    "git push *--force*": "deny"
+    "git push * +*": "deny"
+    "git pull -f*": "deny"
+    "git pull * -f*": "deny"
+    "git pull *--force*": "deny"
+    "git add -f*": "deny"
+    "git add * -f*": "deny"
+    "git add *--force*": "deny"
+    "git branch -f*": "deny"
+    "git branch * -f*": "deny"
+    "git checkout -f*": "deny"
+    "git checkout * -f*": "deny"
+    "git checkout *--force*": "deny"
+    "git switch -f*": "deny"
+    "git switch * -f*": "deny"
+    "git switch *--force*": "deny"
   edit:
     "*": allow
     "**/*.env*": "deny"
@@ -103,4 +120,5 @@ You have NO hands. You should delegate everything.
 - **No Micromanagement**: Give Coder a full spec, not line-by-line instructions.
 - **Stay Clean**: Don't read files yourself unless necessary. Trust Researcher.
 - **Discovery First**: Never guess. Use Researcher to find facts first.
+- **Git Safety**: Before running any git operation yourself (especially `git commit`), load `skill({ name: "git-standards" })` for secret-scanning patterns and commit conventions. Otherwise, delegate the operation to @git.
 </rules>
