@@ -16,39 +16,39 @@ permission:
   state: allow
   bash:
     "*": deny
-    "gh *": allow
-    "git status *": allow
-    "git diff *": allow
-    "git log *": allow
-    "git fetch *": allow
-    "git pull *": allow
+    "gh*": allow
+    "git status*": allow
+    "git diff*": allow
+    "git log*": allow
+    "git fetch*": allow
+    "git pull*": allow
     "git pull -f*": deny
     "git pull * -f*": deny
     "git pull *--force*": deny
-    "git add *": allow
+    "git add*": allow
     "git add -f*": deny
     "git add * -f*": deny
     "git add *--force*": deny
-    "git branch *": allow
+    "git branch*": allow
     "git branch -f*": deny
     "git branch * -f*": deny
-    "git checkout *": allow
+    "git checkout*": allow
     "git checkout -f*": deny
     "git checkout * -f*": deny
     "git checkout *--force*": deny
-    "git switch *": allow
+    "git switch*": allow
     "git switch -f*": deny
     "git switch * -f*": deny
     "git switch *--force*": deny
-    "git merge *": allow
-    "git commit *": allow
-    "git remote *": allow
-    "git push *": allow
+    "git merge*": allow
+    "git commit*": allow
+    "git remote*": allow
+    "git push*": allow
     "git push -f*": deny
     "git push * -f*": deny
     "git push *--force*": deny
     "git push * +*": deny
-    "just *": allow
+    "just*": allow
 ---
 
 <agent_identity>
