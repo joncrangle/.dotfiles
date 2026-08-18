@@ -254,7 +254,6 @@ return {
           exportPdf = 'never',
         },
         tsc = {
-          cmd = { 'tsc', '--lsp', '--stdio' },
           settings = {
             javascript = {
               updateImportsOnFileMove = { enabled = 'always' },
