@@ -146,7 +146,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 vim.api.nvim_create_autocmd('FileType', {
   group = vim.api.nvim_create_augroup('close-with-q', { clear = true }),
   pattern = {
-    'PlenaryTestPopup',
     'checkhealth',
     'dbout',
     'grug-far',

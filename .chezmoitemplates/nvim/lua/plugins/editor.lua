@@ -49,7 +49,6 @@ return {
     cmd = { 'Neotest' },
     dependencies = {
       'nvim-neotest/nvim-nio',
-      'nvim-neotest/neotest-plenary',
       'antoinemadec/FixCursorHold.nvim',
       'nvim-treesitter/nvim-treesitter',
       'marilari88/neotest-vitest',
@@ -67,7 +66,6 @@ return {
         ---@type neotest.Config|{}
         adapters = {
           require 'neotest-vitest',
-          require 'neotest-plenary',
           require 'neotest-bun',
           require 'rustaceanvim.neotest',
           require 'neotest-golang' { runner = 'gotestsum' },
