@@ -86,11 +86,9 @@ return {
       },
       { 'toppair/peek.nvim', ft = 'markdown', build = 'deno task --quiet build:fast' },
       {
-        'barrett-ruth/live-server.nvim',
+        'https://git.barrettruth.com/barrettruth/live-server.nvim',
         ft = 'html',
-        build = 'bun install -g live-server',
         cmd = { 'LiveServerStart', 'LiveServerStop' },
-        opts = {},
       },
     },
     opts = {},
