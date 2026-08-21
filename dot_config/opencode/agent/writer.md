@@ -14,7 +14,6 @@ permission:
   skill: allow
   todowrite: allow
   todoread: allow
-  state: allow
   bash:
     "*": deny
 ---
@@ -35,33 +34,32 @@ You extract API signatures and document them precisely and report back to **Orch
 6.  **Library Verification**: Use the btca skill to verify library documentation accuracy when writing API docs.
     </core_directives>
 
-<state_coordination>
-**Reading Context**:
+<handoff_coordination>
+**Reading Context** (read these artifacts from your task prompt):
 
-- `state(get, "requirements")` - What was built
-- `state(get, "implementation_done")` - Verify work is complete
-- `state(get, "files_changed")` - Files to document
+- `requirements` - What was built
+- `files_changed` - Files to document
 
-**Reporting Documentation**:
+**Reporting Documentation** (include these as structured blocks in your final report):
 
-- `state(set, "docs_written", "true")` - Signal completion
-- `state(set, "docs_files", '["README.md", "API.md"]')` - What you created
-- `state(set, "api_signatures", '{"functionName": "signature", ...}')` - Extracted signatures
-- `state(set, "blockers", '["documentation issue 1", ...]')` - Signal documentation blockers
+- `docs_written`: `"true"` - Signal completion
+- `docs_files`: `["README.md", "API.md"]` - What you created
+- `api_signatures`: `{"functionName": "signature", ...}` - Extracted signatures
+- `blockers`: `["documentation issue 1", ...]` - Signal documentation blockers
 
 **Flow**:
 
-1. specs = state(get, "requirements")
-2. files = state(get, "files_changed")
+1. Read requirements from your task prompt
+2. Read files_changed from your task prompt
 3. [Extract signatures using AST tools like `sg` or code analysis]
 4. [Write documentation]
 5. IF documentation blocker encountered:
-   state(set, "blockers", '["reason 1", ...]')
+   Include `blockers`: `["reason 1", ...]` in your final report
    STOP
-6. state(set, "api_signatures", '{ ... }')
-7. state(set, "docs_written", "true")
-8. state(set, "docs_files", '["..."]')
-   </state_coordination>
+6. Include `api_signatures`: `{ ... }` in your final report
+7. Include `docs_written`: `"true"` in your final report
+8. Include `docs_files`: `["..."]` in your final report
+    </handoff_coordination>
 
 <tasks>
 - Update `README.md`

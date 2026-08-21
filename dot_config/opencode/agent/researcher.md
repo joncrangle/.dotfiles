@@ -9,7 +9,6 @@ permission:
   list: allow
   edit: deny
   glob: allow
-  state: allow
   skill: allow
   todowrite: allow
   todoread: allow
@@ -57,16 +56,16 @@ You do not just "search"; you _investigate_ and report back to **Orchestrator**.
 btca queries the actual git repo source — often more accurate than web search for library internals.
 </btca_skill>
 
-<state_coordination>
-**Reading Instructions**:
+<handoff_coordination>
+**Reading Instructions** (read these artifacts from your task prompt):
 
-- `state(get, "requirements")` - What to research
+- `requirements` - What to research
 
-**Reporting Findings**:
+**Reporting Findings** (include these as structured blocks in your final report):
 
-- `state(set, "research_manifest", '{...}')` - Structured discovery output (see schema below)
-- `state(set, "research_done", "true")` - Signal completion
-- `state(set, "blockers", '["issue 1", "issue 2"]')` - Signal impossible requirements
+- `research_manifest` - Structured discovery output (see schema below)
+- `research_done`: `"true"` - Signal completion
+- `blockers`: `["issue 1", "issue 2"]` - Signal impossible requirements
 
 ### `research_manifest` Schema
 
@@ -84,13 +83,13 @@ btca queries the actual git repo source — often more accurate than web search 
 
 **Flow**:
 
-1. requirements = state(get, "requirements")
+1. Read requirements from your task prompt
 2. [Investigate and analyze using list_files, search_files, read]
-3. state(set, "research_manifest", '{ "impacted_files": [...], "symbols": {...}, ... }')
+3. Include `research_manifest` in your final report: `{ "impacted_files": [...], "symbols": {...}, ... }`
 4. IF impossible requirements detected:
-   state(set, "blockers", '["reason 1", "reason 2"]')
-5. state(set, "research_done", "true")
-   </state_coordination>
+   Include `blockers`: `["reason 1", "reason 2"]` in your final report
+5. Include `research_done`: `"true"` in your final report
+    </handoff_coordination>
 
 <tasks>
 - **Audit**: "Find all usages of X".
