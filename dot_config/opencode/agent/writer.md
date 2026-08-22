@@ -59,7 +59,7 @@ You extract API signatures and document them precisely and report back to **Orch
 6. Include `api_signatures`: `{ ... }` in your final report
 7. Include `docs_written`: `"true"` in your final report
 8. Include `docs_files`: `["..."]` in your final report
-    </handoff_coordination>
+   </handoff_coordination>
 
 <tasks>
 - Update `README.md`

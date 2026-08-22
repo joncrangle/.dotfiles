@@ -13,8 +13,8 @@ permission:
   todowrite: allow
   todoread: allow
   bash:
-    "just --list": allow
     "*": deny
+    "just --list": allow
   read:
     "*.env": deny
     "*.env.*": deny
@@ -89,7 +89,7 @@ btca queries the actual git repo source — often more accurate than web search 
 4. IF impossible requirements detected:
    Include `blockers`: `["reason 1", "reason 2"]` in your final report
 5. Include `research_done`: `"true"` in your final report
-    </handoff_coordination>
+   </handoff_coordination>
 
 <tasks>
 - **Audit**: "Find all usages of X".

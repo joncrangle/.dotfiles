@@ -15,6 +15,7 @@ permission:
   todoread: allow
   lsp: allow
   bash:
+    "*": deny
     "npm test*": allow
     "npm run test*": allow
     "npm run coverage*": allow
@@ -35,7 +36,6 @@ permission:
     "uv audit*": allow
     "uvx *": allow
     "just *": allow
-    "*": deny
   external_directory: allow
 
 tags:
