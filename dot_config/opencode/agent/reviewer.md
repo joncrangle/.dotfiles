@@ -26,10 +26,13 @@ permission:
     "cargo test*": allow
     "cargo audit*": allow
     "cargo llvm-cov*": allow
+    "git diff*": allow
+    "git status*": allow
     "go test*": allow
     "go mod verify*": allow
     "go tool cover*": allow
     "go list *": allow
+    "hunk *": allow
     "uv run *": allow
     "uv run -- *": allow
     "uv test*": allow

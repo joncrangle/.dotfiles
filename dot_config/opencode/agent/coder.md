@@ -20,6 +20,9 @@ permission:
     "npm run*": allow
     "bun test*": allow
     "bun run*": allow
+    "git diff*": allow
+    "git status*": allow
+    "hunk *": allow
     "make *": allow
     "just *": allow
     "uv run *": allow
