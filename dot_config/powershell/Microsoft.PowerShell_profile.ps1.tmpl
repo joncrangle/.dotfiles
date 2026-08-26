@@ -57,7 +57,7 @@ if ($IsInteractive -and (Get-Module -ListAvailable PSReadLine))
 
 if ($IsPwsh)
 {
-    (& mise activate pwsh --shims) | Out-String | Invoke-Expression
+    (& mise activate pwsh Out-String) | Invoke-Expression
 
     if ((Get-Module -ListAvailable Terminal-Icons) -and (Get-Command Import-PowerShellDataFile -ErrorAction SilentlyContinue))
     {
