@@ -37,9 +37,7 @@
 			"disable": true,
 		},
 	},
-	"plugin": [
-		"@tarquinen/opencode-dcp@latest"
-	],
+	"plugin": [],
 	"mcp": {
 		"websearch": {
 			"type": "remote",
