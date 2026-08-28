@@ -19,6 +19,7 @@
 	},
 	"enabled_providers": [
 		"google",
+		"openai",
 		"opencode",
 		"openrouter",
 		"mlx"
