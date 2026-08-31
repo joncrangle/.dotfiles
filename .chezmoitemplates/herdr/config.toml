@@ -6,6 +6,9 @@ onboarding = false
 
 [terminal]
 new_cwd = "follow"
+{{- if eq .chezmoi.os "windows" }}
+default_shell = "pwsh.exe"
+{{- end }}
 
 [keys]
 prefix = "ctrl+a"
