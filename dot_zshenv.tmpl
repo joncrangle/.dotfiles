@@ -82,6 +82,7 @@ export SKIM_CTRL_R_OPTS="--tiebreak=index --with-nth=4.. \
 
 # Bat
 export BAT_THEME="Catppuccin Mocha"
+export PNPM_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/pnpm"
 
 # Path
 path=(
@@ -89,6 +90,7 @@ path=(
     $HOME/.local/bin(N-/)
     $HOME/bin(N-/)
     $MISE_DIR/shims(N-/)
+    $PNPM_HOME/bin(N-/)
     {{ if eq .chezmoi.os "darwin" -}}
     $HOMEBREW_DIR/bin(N-/)
     {{- end -}}
