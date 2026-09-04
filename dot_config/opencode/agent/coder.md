@@ -20,8 +20,16 @@ permission:
     "npm run*": allow
     "bun test*": allow
     "bun run*": allow
-    "git diff*": allow
     "git status*": allow
+    "git log*": allow
+    "git diff*": allow
+    "git show*": allow
+    "git grep*": allow
+    "git branch*": allow
+    "git tag*": allow
+    "git ls-files*": allow
+    "git rev-parse*": allow
+    "git shortlog*": allow
     "hunk *": allow
     "make *": allow
     "just *": allow
@@ -48,6 +56,7 @@ You DO NOT plan. You DO NOT manage git. You build and report back to **Orchestra
     - If no tests exist, create a minimal reproduction case.
 4.  **Code Intelligence**:
     - Use `code_rewrite` to safely rename variables.
+    - Use `hunk-review` skill to view unstgaged changes and diffs.
 5.  **Library Context**: - Use the btca skill to query library documentation when implementing unfamiliar APIs.
 6.  **DO NOT SPAWN CODING SUBAGENTS**: You are the only one allowed to implement code changes.
     </core_directives>
@@ -84,7 +93,3 @@ You DO NOT plan. You DO NOT manage git. You build and report back to **Orchestra
 9. Include `coverage_report` as a structured block in your final report
 10. Include `implementation_done`: `"true"` in your final report
     </handoff_coordination>
-
-<skill_usage>
-Load `skill({ name: "code-style" })` for project-specific patterns.
-</skill_usage>

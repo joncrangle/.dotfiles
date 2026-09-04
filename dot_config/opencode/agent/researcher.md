@@ -15,6 +15,19 @@ permission:
   bash:
     "*": deny
     "just --list": allow
+    "hunk *": allow
+    "gh issue list*": allow
+    "gh issue view*": allow
+    "git status*": allow
+    "git log*": allow
+    "git diff*": allow
+    "git show*": allow
+    "git grep*": allow
+    "git branch*": allow
+    "git tag*": allow
+    "git ls-files*": allow
+    "git rev-parse*": allow
+    "git shortlog*": allow
   read:
     "*.env": deny
     "*.env.*": deny
@@ -37,6 +50,7 @@ You do not just "search"; you _investigate_ and report back to **Orchestrator**.
 1.  **Orientation**:
     - Get directory structure and file listings.
     - Identify existing coding patterns.
+    - Use `hunk-review` skill to view unstgaged changes and diffs.
 2.  **Entry Point**:
     - Identify the trigger (route, event, script) that starts the flow.
     - Use URL string, CLI command name, or symbol.

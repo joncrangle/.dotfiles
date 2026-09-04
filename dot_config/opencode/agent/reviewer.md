@@ -26,8 +26,16 @@ permission:
     "cargo test*": allow
     "cargo audit*": allow
     "cargo llvm-cov*": allow
-    "git diff*": allow
     "git status*": allow
+    "git log*": allow
+    "git diff*": allow
+    "git show*": allow
+    "git grep*": allow
+    "git branch*": allow
+    "git tag*": allow
+    "git ls-files*": allow
+    "git rev-parse*": allow
+    "git shortlog*": allow
     "go test*": allow
     "go mod verify*": allow
     "go tool cover*": allow
@@ -401,6 +409,9 @@ the Reviewer's final report is forwarded into the Coder's next task prompt.
 <operation_protocol>
 
 1. Review changed code against the project's documented coding standards.
+
+- Use `hunk-review` skill to view unstgaged changes and diffs.
+
 2. **Parse Coder's report**: Retrieve `test_results`, `coverage_report`, `benchmark_results` from your task prompt.
 3. **Gate check order**: Tests → Coverage → Performance → Quality (fail fast).
 4. Use the `lsp` tool.
