@@ -333,8 +333,9 @@ rip() {
 sudo() {
 	if [[ "$1" == "nvim" || "$1" == "v" || "$1" == "vim" ]]; then
 		shift
-		# Just use the variable you already defined
-		command sudoedit "$@"
+		local editor
+		editor="${EDITOR:-$(command -v nvim || command -v vim || command -v vi)}"
+		SUDO_EDITOR="$editor" command sudo -e "$@"
 	else
 		command sudo "$@"
 	fi
