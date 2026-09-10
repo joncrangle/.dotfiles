@@ -28,6 +28,11 @@ export EDITOR="$(which nvim 2>/dev/null || which vim 2>/dev/null || echo /usr/bi
 export VISUAL="$EDITOR"
 export SUDO_EDITOR="$EDITOR"
 
+if [[ "$SSH_AUTH_SOCK" == "$HOME/.local/share/wezterm/agent."* &&
+  ! -S "$SSH_AUTH_SOCK" ]]; then
+  unset SSH_AUTH_SOCK
+fi
+
 {{ if eq .chezmoi.os "darwin" -}}
 [[ -f /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
 . "$HOME/.config/.local/share/../bin/env"
