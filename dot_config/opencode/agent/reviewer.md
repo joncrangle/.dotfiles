@@ -14,8 +14,40 @@ permission:
   todowrite: allow
   todoread: allow
   lsp: allow
+  external_directory: allow
   bash:
     "*": deny
+    "git *": allow
+    "git add *": deny
+    "git commit *": deny
+    "git push *": deny
+    "git checkout *": deny
+    "git switch *": deny
+    "git reset *": deny
+    "git restore *": deny
+    "git clean *": deny
+    "git merge *": deny
+    "git rebase *": deny
+    "git cherry-pick *": deny
+    "gh issue list*": allow
+    "gh issue view*": allow
+    "gh pr list*": allow
+    "gh pr view*": allow
+    "gh pr diff*": allow
+    "gh pr checks*": allow
+    "gh repo view*": allow
+    "gh search *": allow
+    "gh release list*": allow
+    "gh release view*": allow
+    "gh api *": allow
+    "gh api * --method POST*": deny
+    "gh api * --method PUT*": deny
+    "gh api * --method PATCH*": deny
+    "gh api * --method DELETE*": deny
+    "gh api * -X POST*": deny
+    "gh api * -X PUT*": deny
+    "gh api * -X PATCH*": deny
+    "gh api * -X DELETE*": deny
     "npm test*": allow
     "npm run test*": allow
     "npm run coverage*": allow
@@ -26,28 +58,17 @@ permission:
     "cargo test*": allow
     "cargo audit*": allow
     "cargo llvm-cov*": allow
-    "git status*": allow
-    "git log*": allow
-    "git diff*": allow
-    "git show*": allow
-    "git grep*": allow
-    "git branch*": allow
-    "git tag*": allow
-    "git ls-files*": allow
-    "git rev-parse*": allow
-    "git shortlog*": allow
     "go test*": allow
     "go mod verify*": allow
     "go tool cover*": allow
     "go list *": allow
-    "hunk *": allow
     "uv run *": allow
     "uv run -- *": allow
     "uv test*": allow
     "uv audit*": allow
     "uvx *": allow
     "just *": allow
-  external_directory: allow
+    "hunk *": allow
 
 tags:
   - review
