@@ -3,11 +3,11 @@
 <!-- toc -->
 
 - [📘 Overview](#%F0%9F%93%98-overview)
-  - [🍎 MacOS](#%F0%9F%8D%8E-macos)
+  * [🍎 MacOS](#%F0%9F%8D%8E-macos)
 - [🪟 Windows](#%F0%9F%AA%9F-windows)
 - [📱 Termux (Android)](#%F0%9F%93%B1-termux-android)
 - [🐧 Arch Linux](#%F0%9F%90%A7-arch-linux)
-  - [Paru commands](#paru-commands)
+  * [Paru commands](#paru-commands)
 - [🧭 Keymapping](#%F0%9F%A7%AD-keymapping)
 
 <!-- tocstop -->
@@ -41,7 +41,7 @@ Features include:
 - [Aerospace](https://nikitabobko.github.io/AeroSpace/guide) window manager
 - [SketchyBar](https://github.com/FelixKratz/SketchyBar) bar
 - [JankyBorders](https://github.com/FelixKratz/JankyBorders) border styling
-- [Raycast](https://www.raycast.com/) launcher
+- [Vicinae](https://github.com/vicinaehq/vicinae) launcher
 - [Homebrew](https://brew.sh/) package management
 
 **Windows**

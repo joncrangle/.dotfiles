@@ -27,6 +27,7 @@ AppData/
 .config/mise/config.toml
 .config/nvim/
 .config/topgrade/
+.config/vicinae/
 .config/wezterm/
 .config/yazi/
 .config/zed/
