@@ -21,7 +21,7 @@ play = [
 [plugin]
 {{- if eq .chezmoi.os "windows" }}
 prepend_previewers = [
-  { url = "*.md", run = 'piper -- CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"' },
+  { url = "*.md", run = 'piper -- CLICOLOR_FORCE=1 glow -w=$w --style="{{ .chezmoi.homeDir }}/AppData/Roaming/ylow/catppuccin-mocha.json" "$1"' },
   { url = "*.csv", run = 'piper -- bat -p --color=always "$1"' },
   { mime = "text/*", run = 'piper -- bat -p --color=always "$1"' },
   { url = "*/", run = 'piper -- eza -TL=1 --icons=always --color=always --sort=extension "$1"' },
@@ -34,7 +34,7 @@ prepend_previewers = [
   { url = "*/", run = 'faster-piper --rely-on-preloader' },
 ]
 prepend_preloaders = [
-  { url = "*.md", run = 'faster-piper -- CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"' },
+  { url = "*.md", run = 'faster-piper -- CLICOLOR_FORCE=1 glow -w=$w --style="{{ .chezmoi.homeDir }}/.config/glow/catppuccin-mocha.json" "$1"' },
   { url = "*.csv", run = 'faster-piper -- bat -p --color=always "$1"' },
   { mime = "text/*", run = 'faster-piper -- bat -p --color=always "$1"' },
   { url = "*/", run = 'faster-piper -- eza -TL=1 --icons=always --color=always --sort=extension "$1"' },
