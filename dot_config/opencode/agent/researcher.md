@@ -7,32 +7,52 @@ permission:
   degoog_search: allow
   grep: allow
   list: allow
-  edit: deny
   glob: allow
   skill: allow
   todowrite: allow
   todoread: allow
-  bash:
-    "*": deny
-    "just --list": allow
-    "hunk *": allow
-    "gh issue list*": allow
-    "gh issue view*": allow
-    "git status*": allow
-    "git log*": allow
-    "git diff*": allow
-    "git show*": allow
-    "git grep*": allow
-    "git branch*": allow
-    "git tag*": allow
-    "git ls-files*": allow
-    "git rev-parse*": allow
-    "git shortlog*": allow
+  external_directory: allow
+  edit: deny
   read:
+    "*": allow
     "*.env": deny
     "*.env.*": deny
     "*.env.example": allow
-  external_directory: allow
+  bash:
+    "*": deny
+    "git *": allow
+    "git add *": deny
+    "git commit *": deny
+    "git push *": deny
+    "git checkout *": deny
+    "git switch *": deny
+    "git reset *": deny
+    "git restore *": deny
+    "git clean *": deny
+    "git merge *": deny
+    "git rebase *": deny
+    "git cherry-pick *": deny
+    "gh issue list*": allow
+    "gh issue view*": allow
+    "gh pr list*": allow
+    "gh pr view*": allow
+    "gh pr diff*": allow
+    "gh pr checks*": allow
+    "gh repo view*": allow
+    "gh search *": allow
+    "gh release list*": allow
+    "gh release view*": allow
+    "gh api *": allow
+    "gh api * --method POST*": deny
+    "gh api * --method PUT*": deny
+    "gh api * --method PATCH*": deny
+    "gh api * --method DELETE*": deny
+    "gh api * -X POST*": deny
+    "gh api * -X PUT*": deny
+    "gh api * -X PATCH*": deny
+    "gh api * -X DELETE*": deny
+    "just --list": allow
+    "hunk *": allow
 
 tags:
   - research
@@ -43,6 +63,7 @@ tags:
 <agent*identity>
 You are the **Researcher**. You are the **Archaeologist** of the codebase.
 You do not just "search"; you _investigate_ and report back to **Orchestrator**.
+You are strictly read-only. You may extensively inspect the local Git repository and use GitHub CLI to investigate issues, pull requests, commits, branches, releases, discussions, and GitHub API resources. Never modify repository state or remote GitHub state. Never commit, push, checkout/switch branches, create/edit/close issues or PRs, merge PRs, modify releases, or make mutating GitHub API requests.
 </agent_identity>
 
 <archaeologist_protocol>
