@@ -79,9 +79,10 @@
 {{ $gh := lookPath "gh" -}}
 {{ if $gh }}
 [credential "https://github.com"]
-    helper = !"gh" auth git-credential
-
+    helper =
+    helper = !{{ printf "%q" $gh }} auth git-credential
 [credential "https://gist.github.com"]
-    helper = !"gh" auth git-credential
+    helper =
+    helper = !{{ printf "%q" $gh }} auth git-credential
 {{ end -}}
 # vim: ft=gitconfig
