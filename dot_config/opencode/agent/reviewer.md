@@ -5,75 +5,109 @@ mode: subagent
 permission:
   task: allow
   read: allow
+  webfetch: allow
+  websearch: allow
   degoog_search: allow
   grep: allow
+  search_files: allow
   list: allow
+  list_files: allow
   edit: deny
   glob: allow
   skill: allow
   todowrite: allow
-  todoread: allow
   lsp: allow
   external_directory: allow
   bash:
-    "*": deny
-    "git *": allow
-    "git add *": deny
-    "git commit *": deny
-    "git push *": deny
-    "git checkout *": deny
-    "git switch *": deny
-    "git reset *": deny
-    "git restore *": deny
-    "git clean *": deny
-    "git merge *": deny
-    "git rebase *": deny
-    "git cherry-pick *": deny
+    "*": ask
+    "git status*": allow
+    "git diff*": allow
+    "git log*": allow
+    "git show*": allow
+    "git rev-parse*": allow
+    "git merge-base*": allow
+    "git ls-files*": allow
+    "git ls-tree*": allow
+    "git cat-file*": allow
+    "git blame*": allow
+    "git describe*": allow
+    "git name-rev*": allow
+    "git branch --show-current*": allow
+    "git remote -v*": allow
+    "git remote get-url*": allow
+    "git add*": deny
+    "git commit*": deny
+    "git push*": deny
+    "git checkout*": deny
+    "git switch*": deny
+    "git reset*": deny
+    "git restore*": deny
+    "git clean*": deny
+    "git merge*": deny
+    "git rebase*": deny
+    "git cherry-pick*": deny
+    "git revert*": deny
+    "git stash*": deny
+    "git rm*": deny
+    "git mv*": deny
+    "git tag*": deny
+    "git branch -d*": deny
+    "git branch -D*": deny
+    "git pull*": deny
+    "git fetch*": deny
+    "git apply*": deny
+    "git am*": deny
+    "git update-ref*": deny
+    "gh auth status*": allow
+    "gh repo view*": allow
+    "gh search *": allow
     "gh issue list*": allow
     "gh issue view*": allow
     "gh pr list*": allow
     "gh pr view*": allow
     "gh pr diff*": allow
     "gh pr checks*": allow
-    "gh repo view*": allow
-    "gh search *": allow
+    "gh pr status*": allow
+    "gh run list*": allow
+    "gh run view*": allow
+    "gh workflow list*": allow
+    "gh workflow view*": allow
     "gh release list*": allow
     "gh release view*": allow
-    "gh api *": allow
-    "gh api * --method POST*": deny
-    "gh api * --method PUT*": deny
-    "gh api * --method PATCH*": deny
-    "gh api * --method DELETE*": deny
-    "gh api * -X POST*": deny
-    "gh api * -X PUT*": deny
-    "gh api * -X PATCH*": deny
-    "gh api * -X DELETE*": deny
+    "gh api --method GET *": allow
+    "gh api -X GET *": allow
     "npm test*": allow
     "npm run test*": allow
     "npm run coverage*": allow
+    "npm run lint*": allow
+    "npm run audit*": allow
     "npm audit*": allow
     "bun test*": allow
     "bun run test*": allow
+    "bun run lint*": allow
     "bun audit*": allow
     "cargo test*": allow
     "cargo audit*": allow
+    "cargo clippy*": allow
     "cargo llvm-cov*": allow
     "go test*": allow
+    "go vet*": allow
     "go mod verify*": allow
     "go tool cover*": allow
     "go list *": allow
-    "uv run *": allow
-    "uv run -- *": allow
-    "uv test*": allow
-    "uv audit*": allow
-    "uvx *": allow
-    "just *": allow
-    "hunk *": allow
-
-tags:
-  - review
-  - quality
-  - security
+    "uv*": allow
+    "pytest*": allow
+    "python*": allow
+    "pip-audit*": allow
+    "safety*": allow
+    "just --list*": allow
+    "just test*": allow
+    "just check*": allow
+    "just coverage*": allow
+    "just audit*": allow
+    "just lint*": allow
+    "just build*": allow
+    "hunk*": allow
 ---
 
 <agent*identity>

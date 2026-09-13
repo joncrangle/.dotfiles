@@ -2,54 +2,114 @@
 description: The Boss. Analyzes, plans, and delegates. DOES NOT CODE.
 mode: primary
 
-dependencies:
-  - subagent:researcher
-  - subagent:coder
-  - subagent:reviewer
-  - subagent:writer
-  - subagent:swarm
-
 permission:
   task: allow
   skill: allow
   read: allow
   glob: allow
+  webfetch: allow
+  websearch: allow
   degoog_search: allow
+  question: allow
   grep: allow
+  search_files: allow
   list: allow
+  list_files: allow
   todowrite: allow
-  todoread: allow
   bash:
-    "*": "allow"
-    "rm -rf *": "ask"
-    "rm -rf /*": "deny"
-    "sudo *": "deny"
-    "> /dev/*": "deny"
-    "git push -f*": "deny"
-    "git push * -f*": "deny"
-    "git push *--force*": "deny"
-    "git push * +*": "deny"
-    "git pull -f*": "deny"
-    "git pull * -f*": "deny"
-    "git pull *--force*": "deny"
-    "git add -f*": "deny"
-    "git add * -f*": "deny"
-    "git add *--force*": "deny"
-    "git branch -f*": "deny"
-    "git branch * -f*": "deny"
-    "git checkout -f*": "deny"
-    "git checkout * -f*": "deny"
-    "git checkout *--force*": "deny"
-    "git switch -f*": "deny"
-    "git switch * -f*": "deny"
-    "git switch *--force*": "deny"
+    "*": allow
+    "gh auth status*": allow
+    "gh repo view*": allow
+    "gh repo clone*": allow
+    "gh search *": allow
+    "gh issue list*": allow
+    "gh issue view*": allow
+    "gh issue create*": allow
+    "gh issue edit*": allow
+    "gh issue comment*": allow
+    "gh pr list*": allow
+    "gh pr view*": allow
+    "gh pr diff*": allow
+    "gh pr checks*": allow
+    "gh pr status*": allow
+    "gh pr create*": allow
+    "gh pr edit*": allow
+    "gh pr comment*": allow
+    "gh pr review*": allow
+    "gh run list*": allow
+    "gh run view*": allow
+    "gh run watch*": allow
+    "gh workflow list*": allow
+    "gh workflow view*": allow
+    "gh release list*": allow
+    "gh release view*": allow
+    "gh api --method GET *": allow
+    "gh api -X GET *": allow
+    "gh api *": ask
+    "gh pr merge*": ask
+    "gh pr close*": ask
+    "gh issue close*": ask
+    "gh release create*": ask
+    "gh release edit*": ask
+    "gh release delete*": deny
+    "gh repo delete*": deny
+    "gh repo archive*": ask
+    "sudo *": deny
+    "rm -rf /*": deny
+    "rm -rf /": deny
+    "rm -rf *": ask
+    "> /dev/*": deny
+    "dd *": ask
+    "mkfs*": deny
+    "git push -f*": deny
+    "git push --force*": deny
+    "git push * -f*": deny
+    "git push * --force*": deny
+    "git push * +*": deny
+    "git pull -f*": deny
+    "git pull --force*": deny
+    "git pull * -f*": deny
+    "git pull * --force*": deny
+    "git add -f*": deny
+    "git add --force*": deny
+    "git add * -f*": deny
+    "git add * --force*": deny
+    "git branch -f*": deny
+    "git branch --force*": deny
+    "git branch * -f*": deny
+    "git branch * --force*": deny
+    "git branch -D*": ask
+    "git branch -d*": ask
+    "git update-ref *": ask
+    "git checkout -f*": deny
+    "git checkout --force*": deny
+    "git checkout * -f*": deny
+    "git checkout * --force*": deny
+    "git switch -f*": deny
+    "git switch --force*": deny
+    "git switch * -f*": deny
+    "git switch * --force*": deny
+    "git reset --hard*": ask
+    "git reset * --hard*": ask
+    "git clean*": ask
+    "git restore *": ask
+    "git rebase *": ask
+    "git commit --amend*": ask
+    "git commit * --amend*": ask
+    "git filter-branch*": deny
+    "git remote remove*": ask
+    "git remote rm*": ask
+    "git tag -d*": ask
+    "git tag --delete*": ask
+    "git stash drop*": ask
+    "git stash clear*": ask
   edit:
     "*": allow
-    "**/*.env*": "deny"
-    "**/*.key": "deny"
-    "**/*.secret": "deny"
-    "node_modules/**": "deny"
-    ".git/**": "deny"
+    "**/*.env*": deny
+    "**/*.key": deny
+    "**/*.secret": deny
+    "node_modules/**": deny
+    ".git/**": deny
   external_directory: allow
 ---
 

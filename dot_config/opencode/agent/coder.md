@@ -6,35 +6,131 @@ permission:
   task: allow
   edit: allow
   read: allow
+  webfetch: allow
+  websearch: allow
   degoog_search: allow
   grep: allow
+  search_files: allow
   list: allow
+  list_files: allow
   glob: allow
   skill: allow
   todowrite: allow
-  todoread: allow
   code_rewrite: allow
+  external_directory: allow
   bash:
-    "*": deny
+    "*": ask
     "npm test*": allow
-    "npm run*": allow
+    "npm run test*": allow
+    "npm run build*": allow
+    "npm run lint*": allow
+    "npm run typecheck*": allow
+    "npm run check*": allow
+    "npm run coverage*": allow
     "bun test*": allow
-    "bun run*": allow
+    "bun run test*": allow
+    "bun run build*": allow
+    "bun run lint*": allow
+    "bun run typecheck*": allow
+    "bun run check*": allow
+    "bun run coverage*": allow
+    "pnpm test*": allow
+    "pnpm run test*": allow
+    "pnpm run build*": allow
+    "pnpm run lint*": allow
+    "pnpm run typecheck*": allow
+    "pnpm run check*": allow
+    "cargo test*": allow
+    "cargo check*": allow
+    "cargo build*": allow
+    "cargo clippy*": allow
+    "cargo fmt*": allow
+    "go test*": allow
+    "go build*": allow
+    "go vet*": allow
+    "go fmt*": allow
+    "go tool cover*": allow
+    "uv test*": allow
+    "uv run pytest*": allow
+    "uv run ruff*": allow
+    "uv run mypy*": allow
+    "uv run pyright*": allow
+    "just --list*": allow
+    "just test*": allow
+    "just check*": allow
+    "just build*": allow
+    "just lint*": allow
+    "just typecheck*": allow
+    "just coverage*": allow
+    "make test*": allow
+    "make check*": allow
+    "make build*": allow
+    "make lint*": allow
     "git status*": allow
-    "git log*": allow
     "git diff*": allow
+    "git log*": allow
     "git show*": allow
     "git grep*": allow
-    "git branch*": allow
-    "git tag*": allow
     "git ls-files*": allow
+    "git ls-tree*": allow
     "git rev-parse*": allow
+    "git merge-base*": allow
     "git shortlog*": allow
-    "hunk *": allow
-    "make *": allow
-    "just *": allow
-    "uv run *": allow
-    "uv test *": allow
+    "git blame*": allow
+    "git describe*": allow
+    "git rev-parse*": allow
+    "git merge-base*": allow
+    "git cat-file*": allow
+    "git ls-remote*": allow
+    "git for-each-ref*": allow
+    "git name-rev*": allow
+    "git reflog*": allow
+    "git remote -v*": allow
+    "git remote get-url*": allow
+    "git branch --show-current*": allow
+    "git branch --list*": allow
+    "git tag --list*": allow
+    "git tag -l*": allow
+    "gh issue list*": allow
+    "gh issue view*": allow
+    "gh pr list*": allow
+    "gh pr view*": allow
+    "gh pr diff*": allow
+    "gh pr checks*": allow
+    "gh repo view*": allow
+    "gh search *": allow
+    "gh release list*": allow
+    "gh release view*": allow
+    "gh run list*": allow
+    "gh run view*": allow
+    "gh workflow view*": allow
+    "gh api --method GET *": allow
+    "gh api -X GET *": allow
+    "git add*": deny
+    "git commit*": deny
+    "git push*": deny
+    "git pull*": deny
+    "git fetch*": deny
+    "git checkout*": deny
+    "git switch*": deny
+    "git reset*": deny
+    "git restore*": deny
+    "git clean*": deny
+    "git merge*": deny
+    "git rebase*": deny
+    "git cherry-pick*": deny
+    "git revert*": deny
+    "git stash*": deny
+    "git rm*": deny
+    "git mv*": deny
+    "git tag -d*": deny
+    "git tag --delete*": deny
+    "git branch -d*": deny
+    "git branch -D*": deny
+    "git update-ref*": deny
+    "git apply*": deny
+    "git am*": deny
+    "hunk*": allow
 ---
 
 <agent_identity>

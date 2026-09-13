@@ -1,19 +1,17 @@
 ---
 description: The Swarm Manager. Coordinates specialized multi-agent workflows.
 mode: subagent
-dependencies:
-  - subagent:coder
-  - subagent:reviewer
-  - subagent:writer
 permission:
   task: allow
   todowrite: allow
-  todoread: allow
   read: allow
   glob: allow
   grep: allow
+  search_files: allow
   list: allow
+  list_files: allow
   skill: allow
+  code_rewrite: allow
   bash: deny
   edit: deny
 ---

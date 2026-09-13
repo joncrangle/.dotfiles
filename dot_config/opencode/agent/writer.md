@@ -6,16 +6,22 @@ permission:
   task: allow
   read: allow
   edit: allow
+  webfetch: allow
   degoog_search: allow
   websearch: allow
   grep: allow
+  search_files: allow
   list: allow
+  list_files: allow
   glob: allow
   skill: allow
   todowrite: allow
-  todoread: allow
+  external_directory: allow
   bash:
     "*": deny
+    "sg*": allow
+    "ast-grep*": allow
+    "hunk*": allow
 ---
 
 <agent*identity>
