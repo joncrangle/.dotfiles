@@ -20,6 +20,29 @@ permission:
   external_directory: allow
   bash:
     "*": ask
+    "echo*": allow
+    "printf*": allow
+    "true*": allow
+    "pwd*": allow
+    "cd*": allow
+    "which*": allow
+    "command -*": allow
+    "date*": allow
+    "sleep*": allow
+    "head *": allow
+    "tail *": allow
+    "tr *": allow
+    "wc*": allow
+    "sort*": allow
+    "uniq*": allow
+    "cut*": allow
+    "column*": allow
+    "jq*": allow
+    "yq*": allow
+    "ls*": allow
+    "eza*": allow
+    "test *": allow
+    "rtk*": allow
     "npm test*": allow
     "npm run test*": allow
     "npm run build*": allow
