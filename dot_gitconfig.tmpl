@@ -78,11 +78,14 @@
 
 {{ $gh := lookPath "gh" -}}
 {{ if $gh }}
+{{ if eq .chezmoi.os "windows" -}}
+{{ $gh = replace "\\" "/" $gh -}}
+{{ end -}}
 [credential "https://github.com"]
-    helper =
-    helper = !{{ printf "%q" $gh }} auth git-credential
+helper =
+helper = !{{ printf "%q" $gh }} auth git-credential
 [credential "https://gist.github.com"]
-    helper =
-    helper = !{{ printf "%q" $gh }} auth git-credential
+helper =
+helper = !{{ printf "%q" $gh }} auth git-credential
 {{ end -}}
 # vim: ft=gitconfig
