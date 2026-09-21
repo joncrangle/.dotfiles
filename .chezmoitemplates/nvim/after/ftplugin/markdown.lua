@@ -27,4 +27,9 @@ if has_mini_surround then
     },
   }
 end
+
+-- Word wrapping
+vim.opt_local.wrap = true
+vim.opt_local.linebreak = true
+vim.opt_local.breakindent = true
 -- vim: ts=2 sts=2 sw=2 et

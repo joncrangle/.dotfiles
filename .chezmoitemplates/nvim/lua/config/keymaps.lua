@@ -53,4 +53,11 @@ vim.keymap.set('n', '<leader>th', toggle_harper_ls, {
 vim.keymap.set('n', '<leader>tD', function()
   vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 end, { desc = '[T]oggle [D]iagnostics' })
+
+-- Toggle word wrap
+vim.keymap.set('n', '<leader>tw', function()
+  vim.wo.wrap = not vim.wo.wrap
+end, {
+  desc = '[T]oggle word [w]rap',
+})
 -- vim: ts=2 sts=2 sw=2 et
