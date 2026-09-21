@@ -17,6 +17,12 @@ SAVEHIST=10000
 LISTMAX=1000
 COREPACK_ENABLE_AUTO_PIN=0
 
+{{ if eq .chezmoi.os "darwin" -}}
+# brew first so mise shims win (mise must activate last)
+[[ -f /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
+. "$HOME/.config/.local/share/../bin/env"
+{{- end }}
+
 if [[ -f "$HOME/.config/mise/gh_public.json" ]]; then
   export MISE_GITHUB_TOKEN=$(jq -r '.github_token' "$HOME/.config/mise/gh_public.json")
 fi
@@ -33,10 +39,6 @@ if [[ "$SSH_AUTH_SOCK" == "$HOME/.local/share/wezterm/agent."* &&
   unset SSH_AUTH_SOCK
 fi
 
-{{ if eq .chezmoi.os "darwin" -}}
-[[ -f /opt/homebrew/bin/brew ]] && eval "$(/opt/homebrew/bin/brew shellenv)"
-. "$HOME/.config/.local/share/../bin/env"
-{{- end -}}
 {{ if eq .chezmoi.os "linux" -}}
 source "/usr/share/zsh-antidote/antidote.zsh"
 {{- else }}
