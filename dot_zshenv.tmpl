@@ -91,12 +91,12 @@ path=(
     $HOME/bin(N-/)
     $MISE_DIR/shims(N-/)
     $PNPM_HOME
+    $HOME/.config/.local/share/pnpm/bin(N-/)
     {{ if eq .chezmoi.os "darwin" -}}
     $HOMEBREW_DIR/bin(N-/)
     {{- end -}}
     {{- if eq .chezmoi.os "linux" -}}
     /usr/bin(N-/)
-    $HOME/.config/.local/share/pnpm/bin(N-/)
     $HOME/.config/hypr/scripts(N-/)
     {{ end }}
     $path
