@@ -268,7 +268,7 @@ return {
       local function active_content()
         local ft = vim.bo.filetype
         if vim.tbl_contains(disabled_filetypes, ft) then
-          return ''
+          return '%#Normal#'
         end
 
         local title, meta = get_special_statusline()
@@ -310,6 +310,9 @@ return {
       end
 
       local function inactive_content()
+        if vim.tbl_contains(disabled_filetypes, vim.bo.filetype) then
+          return '%#Normal#'
+        end
         return statusline.combine_groups {
           { hl = 'MiniStatuslineInactive', strings = { section_filepath() } },
         }
@@ -360,7 +363,46 @@ return {
       setup_statusline_hl()
       vim.api.nvim_create_autocmd('ColorScheme', { callback = setup_statusline_hl })
 
-      vim.o.laststatus = 3
+      if vim.bo.filetype ~= 'snacks_dashboard' then
+        vim.o.laststatus = 3
+      end
+
+      local dashboard_statusline_group = vim.api.nvim_create_augroup('dashboard-statusline', { clear = true })
+      vim.api.nvim_create_autocmd('FileType', {
+        group = dashboard_statusline_group,
+        pattern = 'snacks_dashboard',
+        callback = function(ev)
+          vim.b[ev.buf].ministatusline_disable = true
+          vim.o.laststatus = 0
+        end,
+      })
+      vim.api.nvim_create_autocmd('BufEnter', {
+        group = dashboard_statusline_group,
+        pattern = '*',
+        callback = function(ev)
+          if vim.bo[ev.buf].filetype == 'snacks_dashboard' then
+            vim.b[ev.buf].ministatusline_disable = true
+            vim.o.laststatus = 0
+          end
+        end,
+      })
+      vim.api.nvim_create_autocmd('User', {
+        group = dashboard_statusline_group,
+        pattern = 'SnacksDashboardOpened',
+        callback = function(ev)
+          vim.b[ev.buf].ministatusline_disable = true
+          vim.o.laststatus = 0
+        end,
+      })
+      vim.api.nvim_create_autocmd('BufLeave', {
+        group = dashboard_statusline_group,
+        pattern = '*',
+        callback = function(ev)
+          if vim.bo[ev.buf].filetype == 'snacks_dashboard' then
+            vim.o.laststatus = 3
+          end
+        end,
+      })
     end,
     keys = {
       { '<leader>go', '<cmd>lua MiniDiff.toggle_overlay(0)<cr>', { desc = 'Toggle [G]it mini.diff [O]verlay' } },

@@ -86,12 +86,24 @@ return {
       },
       { 'toppair/peek.nvim', ft = 'markdown', build = 'deno task --quiet build:fast' },
       {
-        'https://git.barrettruth.com/barrettruth/live-server.nvim',
+        'brianhuster/live-preview.nvim',
         ft = 'html',
-        cmd = { 'LiveServerStart', 'LiveServerStop' },
+        cmd = { 'LivePreview' },
+        config = function()
+          require('livepreview.config').set { address = '0.0.0.0' }
+        end,
       },
     },
-    opts = {},
+    config = function()
+      local omni_preview = require 'omni-preview'
+      omni_preview.setup()
+      table.insert(omni_preview.previews, {
+        name = 'live-preview',
+        trig = 'html',
+        start = 'LivePreview start',
+        stop = 'LivePreview close',
+      })
+    end,
     keys = {
       {
         '<leader>tp',

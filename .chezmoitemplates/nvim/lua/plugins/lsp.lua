@@ -4,12 +4,30 @@ return {
     event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
       { 'mason-org/mason.nvim', cmd = { 'Mason' }, opts = {} },
-      { 'mason-org/mason-lspconfig.nvim', opts = {} },
+      { 'mason-org/mason-lspconfig.nvim', opts = { automatic_enable = false } },
       'WhoIsSethDaniel/mason-tool-installer.nvim',
       { 'b0o/schemastore.nvim', lazy = true, opts = nil },
       'SmiteshP/nvim-navic',
     },
     config = function()
+      vim.api.nvim_create_autocmd('BufWinEnter', {
+        group = vim.api.nvim_create_augroup('lsp-floating-preview-setup', { clear = true }),
+        callback = function(args)
+          if vim.bo[args.buf].buftype ~= 'nofile' then
+            return
+          end
+          local wins = vim.fn.win_findbuf(args.buf)
+          for _, win in ipairs(wins) do
+            if vim.api.nvim_win_is_valid(win) and vim.api.nvim_win_get_config(win).relative ~= '' then
+              vim.wo[win].scrolloff = 0
+              vim.wo[win].sidescrolloff = 0
+              vim.keymap.set('n', '<Esc>', '<cmd>close<CR>', { buffer = args.buf, silent = true, nowait = true })
+              vim.keymap.set('n', 'q', '<cmd>close<CR>', { buffer = args.buf, silent = true, nowait = true })
+            end
+          end
+        end,
+      })
+
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
         callback = function(event)
@@ -17,6 +35,11 @@ return {
             mode = mode or 'n'
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
+
+          map('K', vim.lsp.buf.hover, 'Hover Documentation')
+          map('<C-k>', function()
+            vim.lsp.buf.signature_help { border = 'rounded' }
+          end, 'Signature Help', { 'n', 'i' })
           map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
           map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
           map('ge', '<cmd>lua vim.diagnostic.open_float()<CR>', 'Open [E]rror in Float')

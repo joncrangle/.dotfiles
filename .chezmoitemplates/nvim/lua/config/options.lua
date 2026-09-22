@@ -3,6 +3,9 @@ vim.o.relativenumber = true
 vim.o.mouse = 'a'
 vim.g.loaded_matchit = 1
 vim.o.showmode = false
+vim.o.ruler = false
+vim.o.cmdheight = 0
+vim.o.report = 9999
 vim.o.termguicolors = true
 vim.o.laststatus = 3 -- Global statusline
 vim.o.wrap = false -- Don't wrap lines
@@ -14,6 +17,79 @@ vim.o.shada = "'100,<50,s10,:1000,/100,@100,h" -- Limit ShaDa file (for startup)
 
 require 'custom.tabline'
 require('custom.my_todo').setup()
+require('custom.hover').setup()
+require('custom.cmdline').setup()
+
+-- TODO(compat): neotest-golang plenary.scandir shim (remove once neotest-golang migrates to vim.fs)
+local function fallback_scandir()
+  return {
+    scan_dir = function(folderpath, opts)
+      opts = opts or {}
+      local root = vim.fs.normalize(vim.fn.fnamemodify(folderpath, ':p'))
+      local pattern = opts.search_pattern
+      local results = {}
+      local ignored = {}
+      local use_gitignore = opts.respect_gitignore and vim.fn.executable 'git' == 1
+
+      local function is_ignored(path)
+        if not use_gitignore then
+          return false
+        end
+        if ignored[path] ~= nil then
+          return ignored[path]
+        end
+
+        local relative = vim.fs.relpath(root, path)
+        if not relative then
+          return false
+        end
+        local result = vim.system({ 'git', '-C', root, 'check-ignore', '--quiet', '--no-index', '--', relative }):wait()
+        ignored[path] = result.code == 0
+        return ignored[path]
+      end
+
+      local function scan(dir)
+        local handle = vim.uv.fs_scandir(dir)
+        if not handle then
+          return
+        end
+        while true do
+          local name, type = vim.uv.fs_scandir_next(handle)
+          if not name then
+            break
+          end
+          if name ~= '.git' and name ~= 'node_modules' then
+            local full_path = vim.fs.joinpath(dir, name)
+            if not is_ignored(full_path) then
+              if type == 'directory' then
+                if opts.add_dirs and (not pattern or name:match(pattern)) then
+                  table.insert(results, full_path)
+                end
+                scan(full_path)
+              elseif type == 'file' and (not pattern or name:match(pattern)) then
+                table.insert(results, full_path)
+              end
+            end
+          end
+        end
+      end
+
+      scan(root)
+      return results
+    end,
+  }
+end
+
+local plenary_scandir_shim
+plenary_scandir_shim = function()
+  -- Let a real Plenary module win if a later-loaded plugin provides one.
+  local shim = package.preload['plenary.scandir']
+  package.preload['plenary.scandir'] = nil
+  local ok, scandir = pcall(require, 'plenary.scandir')
+  package.preload['plenary.scandir'] = shim
+  return ok and scandir or fallback_scandir()
+end
+package.preload['plenary.scandir'] = plenary_scandir_shim
 
 -- Sync clipboard between OS and Neovim.
 -- Function to set OSC 52 clipboard
@@ -115,13 +191,28 @@ vim.o.shiftround = true
 vim.o.expandtab = true
 vim.o.breakindent = true
 
--- Don't highlight search results, but highlight incremental search
---  See `:help hlsearch`
+-- Keep search matches visible while entering `/` or `?`. Normal-mode <Esc>
+-- still clears the current highlighting through the keymap in keymaps.lua.
 vim.o.incsearch = true
+vim.o.hlsearch = true
+
+vim.api.nvim_create_autocmd('CmdlineEnter', {
+  pattern = { '/', '?' },
+  callback = function()
+    if vim.o.hlsearch and vim.v.hlsearch == 0 then
+      -- `:nohlsearch` and the `shada` h flag can leave v:hlsearch at zero while
+      -- &hlsearch remains enabled. Re-enable it on search entry.
+      vim.v.hlsearch = 1
+    end
+  end,
+})
 
 -- Set diagnostic configuration
 vim.diagnostic.config {
   severity_sort = true,
+  float = {
+    border = 'rounded',
+  },
   signs = vim.g.have_nerd_font and {
     text = {
       [vim.diagnostic.severity.ERROR] = '󰅚 ',

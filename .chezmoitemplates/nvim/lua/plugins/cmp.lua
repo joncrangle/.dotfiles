@@ -2,9 +2,10 @@ return {
   ---@module 'blink.cmp'
   {
     'saghen/blink.cmp',
-    version = '1.*',
+    version = '*',
     event = { 'InsertEnter', 'CmdlineEnter' },
     dependencies = {
+      'saghen/blink.lib',
       'rafamadriz/friendly-snippets',
       'moyiz/blink-emoji.nvim',
       'fang2hou/blink-copilot',
@@ -12,6 +13,7 @@ return {
     opts_extend = { 'sources.default' },
     ---@type blink.cmp.Config
     opts = {
+      fuzzy = { implementation = 'prefer_rust' },
       appearance = { nerd_font_variant = 'mono' },
       cmdline = {
         completion = {

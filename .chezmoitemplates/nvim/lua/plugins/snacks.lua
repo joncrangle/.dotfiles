@@ -91,7 +91,15 @@ return {
       input = {},
       ---@type snacks.lazygit.Config|{}
       lazygit = { configure = false },
-      notifier = {},
+      notifier = {
+        filter = function(notif)
+          local msg = notif.msg or ''
+          if msg:find('No information available', 1, true) or msg:find('No hunks to go to', 1, true) then
+            return false
+          end
+          return true
+        end,
+      },
       ---@type snacks.picker.Config
       picker = {
         sources = {
@@ -117,9 +125,9 @@ return {
       { '<leader>gb',       function() Snacks.git.blame_line() end,                                                 desc = 'Git Blame Line' },
       { '<leader>gB',       function() Snacks.gitbrowse() end,                                                      desc = 'Git Browse' },
       { '<leader>gf',       function() Snacks.lazygit.log_file() end,                                               desc = 'Lazygit Current File History' },
-      { "<leader>gi",       function() Snacks.picker.gh_issue() end,                                                desc = "GitHub Issues (open)" },
+      { '<leader>gi',       function() Snacks.picker.gh_issue() end,                                                desc = 'GitHub Issues (open)' },
       { '<leader>gl',       function() Snacks.lazygit.log() end,                                                    desc = 'Lazygit Log (cwd)' },
-      { "<leader>gp",       function() Snacks.picker.gh_pr() end,                                                   desc = "GitHub Pull Requests (open)" },
+      { '<leader>gp',       function() Snacks.picker.gh_pr() end,                                                   desc = 'GitHub Pull Requests (open)' },
       { ']]',               function() Snacks.words.jump(vim.v.count1) end,                                         desc = 'Next Reference' },
       { '[[',               function() Snacks.words.jump(-vim.v.count1) end,                                        desc = 'Prev Reference' },
       { '<leader>.',        function() Snacks.scratch() end,                                                        desc = 'Toggle Scratch Buffer' },
@@ -145,7 +153,7 @@ return {
       { '<leader>sm',       function() Snacks.picker.man() end,                                                     desc = '[S]earch [M]an Pages' },
       { '<leader>sn',       function() Snacks.picker.files({cwd = vim.fn.stdpath('config')}) end,                   desc = '[S]earch [N]eovim files' },
       { '<leader>sR',       function() Snacks.picker.resume() end,                                                  desc = '[S]earch [R]esume' },
-      { "<leader>ss",       function() Snacks.scratch.select() end,                                                 desc = "[S]earch [S]cratch Buffer" },
+      { '<leader>ss',       function() Snacks.scratch.select() end,                                                 desc = '[S]earch [S]cratch Buffer' },
       { '<leader>st',       function() search_todos() end,                                                          desc = '[S]earch [T]odo Comments' },
       { '<leader>sT',       function() search_todos({ 'TODO', 'FIX', 'FIXME', 'BUG' }) end,                         desc = 'Narrowly [S]earch [T]odos' },
       { '<leader>su',       function() Snacks.picker.undo() end,                                                    desc = '[S]earch [U]ndo history' },
@@ -159,6 +167,7 @@ return {
       { 'gI',               function() Snacks.picker.lsp_implementations() end,                                     desc = '[G]oto [I]mplementation' },
       { '<leader>D',        function() Snacks.picker.lsp_type_definitions() end,                                    desc = 'Type [D]efinition' },
       { '<leader>ds',       function() Snacks.picker.lsp_symbols() end,                                             desc = '[D]ocument [S]ymbols' },
+      { '<leader>n',        function() Snacks.notifier.show_history() end,                                          desc = '[N]otification History' },
     },
   },
 }

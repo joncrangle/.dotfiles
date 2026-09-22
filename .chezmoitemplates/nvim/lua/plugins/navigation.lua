@@ -1,5 +1,43 @@
 return {
-  { 'serhez/bento.nvim', event = { 'BufReadPost', 'BufNewFile' }, opts = {} },
+  {
+    'serhez/bento.nvim',
+    event = { 'BufReadPost', 'BufNewFile' },
+    config = function(_, opts)
+      require('bento').setup(opts)
+      local bento_api = require 'bento.api'
+      bento_api.register_expand_key ';'
+      bento_api.register_last_buffer_key ';'
+      bento_api.register_collapse_key '<Esc>'
+      bento_api.register_prev_page_key '['
+      bento_api.register_next_page_key ']'
+      bento_api.register_action('open', {
+        key = '<CR>',
+        action = bento_api.actions.open,
+        hl = 'DiagnosticVirtualTextHint',
+      })
+      bento_api.register_action('delete', {
+        key = '<BS>',
+        action = bento_api.actions.delete,
+        hl = 'DiagnosticVirtualTextError',
+      })
+      bento_api.register_action('vsplit', {
+        key = '|',
+        action = bento_api.actions.vsplit,
+        hl = 'DiagnosticVirtualTextInfo',
+      })
+      bento_api.register_action('split', {
+        key = '_',
+        action = bento_api.actions.split,
+        hl = 'DiagnosticVirtualTextInfo',
+      })
+      bento_api.register_action('lock', {
+        key = '*',
+        action = bento_api.actions.lock,
+        hl = 'DiagnosticVirtualTextWarn',
+      })
+      bento_api.set_default_action 'open'
+    end,
+  },
   {
     'folke/flash.nvim',
     event = 'VeryLazy',
