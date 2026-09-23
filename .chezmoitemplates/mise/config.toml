@@ -133,3 +133,8 @@ locked = false
 npm.package_manager = "bun"
 python.uv_venv_auto = true
 idiomatic_version_file_enable_tools = ["python", "rust"]
+cargo.binstall_quickinstall = true
+{{- if eq .chezmoi.os "windows" }}
+windows_default_inline_shell_args = "pwsh -Command"
+windows_default_file_shell_args = "pwsh -File"
+{{- end }}

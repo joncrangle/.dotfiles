@@ -19,7 +19,7 @@ $isAdmin = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::A
 if ($isAdmin)
 {
     Write-Host ":: Running as Administrator." -ForegroundColor Cyan
-    
+
     if ((Get-ExecutionPolicy) -ne 'Bypass')
     {
         Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force -ErrorAction SilentlyContinue
@@ -28,11 +28,13 @@ if ($isAdmin)
 {
     Write-Host ":: Not running as Administrator." -ForegroundColor Yellow
     Write-Host ":: Attempting to request Admin privileges..." -ForegroundColor Gray
-    
+
     try
     {
         # Relaunch as Admin with Bypass policy
-        Start-Process PowerShell -Verb RunAs -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$($MyInvocation.MyCommand.Path)`"" -ErrorAction Stop
+        Start-Process (Get-Process -Id $PID).Path `
+            -Verb RunAs `
+            -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$($MyInvocation.MyCommand.Path)`""
         exit
     } catch
     {
@@ -42,7 +44,29 @@ if ($isAdmin)
 }
 
 # ------------------------------------------------------
-# 2. WINGET (System Apps)
+# 2. MISE ENVIRONMENT
+# ------------------------------------------------------
+
+$MiseInstallsDir = 'C:\.mise'
+
+# mise reads MISE_INSTALLS_DIR at startup, so set both the
+# persistent user variable and the current process variable.
+[Environment]::SetEnvironmentVariable(
+    'MISE_INSTALLS_DIR',
+    $MiseInstallsDir,
+    'User'
+)
+$env:MISE_INSTALLS_DIR = $MiseInstallsDir
+
+if (-not (Test-Path $MiseInstallsDir))
+{
+    New-Item -ItemType Directory -Path $MiseInstallsDir -Force | Out-Null
+}
+
+Write-Host ":: Mise installs -> $MiseInstallsDir" -ForegroundColor Gray
+
+# ------------------------------------------------------
+# 3. WINGET (System Apps)
 # ------------------------------------------------------
 Write-Host ":: Checking System Apps..." -ForegroundColor Green
 
@@ -69,7 +93,7 @@ try
 }
 
 # ------------------------------------------------------
-# 3. SCOOP (Package Manager)
+# 4. SCOOP (Package Manager)
 # ------------------------------------------------------
 if (-not (Test-Path "$env:USERPROFILE\scoop"))
 {
@@ -88,7 +112,7 @@ scoop bucket add nerd-fonts
 scoop update
 
 # ------------------------------------------------------
-# 4. BOOTSTRAP DEPENDENCIES
+# 5. BOOTSTRAP DEPENDENCIES
 # ------------------------------------------------------
 # We need these immediately for the script to function
 $bootstrapApps = @("mise", "innounp-unicode", "psfzf", "psreadline", "terminal-icons")
@@ -104,7 +128,7 @@ foreach ($app in $bootstrapApps)
 }
 
 # ------------------------------------------------------
-# 5. INSTALL MISE
+# 6. INSTALL MISE
 # ------------------------------------------------------
 if (-not (Get-Command mise -ErrorAction SilentlyContinue))
 {
@@ -116,10 +140,10 @@ if (-not (Get-Command mise -ErrorAction SilentlyContinue))
 # Critical: Allows us to use 'mise use' and access installed tools immediately
 $env:MISE_YES = 1
 Invoke-Expression "$(mise activate pwsh)"
-mise use -g age@latest chezmoi@latest github-cli@latest
+mise use -g age@latest bun@latest cargo-binstall@latest chezmoi@latest github-cli@latest uv@latest
 
 # ------------------------------------------------------
-# 6. DOTFILES (Chezmoi)
+# 7. DOTFILES (Chezmoi)
 # ------------------------------------------------------
 Write-Host ":: Migrating dotfiles..." -ForegroundColor Green
 Read-Host ":: Please put key.txt in ~/.config/. Press Enter to continue"
@@ -135,7 +159,7 @@ if (-not (Test-Path "$env:USERPROFILE\.local\share\chezmoi"))
 }
 
 # ------------------------------------------------------
-# 7. INSTALL PACKAGES
+# 8. INSTALL PACKAGES
 # ------------------------------------------------------
 
 # SYSTEM / GUI TOOLS (Scoop)
@@ -144,7 +168,7 @@ $scoopApps = @(
     "gzip", "imagemagick", "IosevkaTerm-NF", "JetBrainsMono-NF", "localsend", "lua", "luarocks", "make", "Maple-Mono",
     "Meslo-NF", "mingw-winlibs", "obsidian", "podman", "poppler", "python", "rustup-msvc", "sqlite", "topgrade", "unar",
     "unzip", "vlc", "vcredist2022", "wezterm-nightly", "win32yank", "wget", "zebar", "zed", "zoom"
-) 
+)
 
 Write-Host ":: Installing System Apps via Scoop..." -ForegroundColor Green
 scoop install $scoopApps
@@ -156,7 +180,7 @@ mise install --yes
 npm config set script-shell "pwsh.exe"
 
 # ------------------------------------------------------
-# 8. CONFIGURATION & TWEAKS
+# 9. CONFIGURATION & TWEAKS
 # ------------------------------------------------------
 
 # --- IDENTITY PROMPT ---
@@ -176,7 +200,7 @@ if (gum confirm "Generate new SSH key for GitHub?")
 {
     $sshDir = "$env:USERPROFILE\.ssh"
     if (-not (Test-Path $sshDir))
-    { New-Item -Type Directory $sshDir -Force 
+    { New-Item -Type Directory $sshDir -Force
     }
     ssh-keygen -t ed25519 -C "$GitEmail" -f "$sshDir\id_ed25519"
 }
@@ -195,7 +219,7 @@ $fontDest = "$env:LOCALAPPDATA\Microsoft\Windows\Fonts"
 if (Test-Path $fontSource)
 {
     if (-not (Test-Path $fontDest))
-    { New-Item -Type Directory $fontDest -Force 
+    { New-Item -Type Directory $fontDest -Force
     }
     Get-ChildItem $fontSource -Include *.ttf,*.otf -Recurse | ForEach-Object {
         $destFile = Join-Path $fontDest $_.Name
@@ -219,10 +243,10 @@ if (Test-Path $wtSource)
 # Yazi / Bat / JJ Config
 # (Assuming Mise installed them, we just configure)
 if (Get-Command bat -ErrorAction SilentlyContinue)
-{ bat cache --build 
+{ bat cache --build
 }
 if (Get-Command ya -ErrorAction SilentlyContinue)
-{ ya pkg install; ya pkg update 
+{ ya pkg install; ya pkg update
 }
 if (Get-Command jj -ErrorAction SilentlyContinue)
 {
@@ -248,9 +272,9 @@ if (Get-Command rustup -ErrorAction SilentlyContinue)
 
 # Python Registry Fix (PEP 514)
 # This allows external tools to find the Mise-installed Python
-$pyReg = "$env:USERPROFILE\scoop\apps\python\current\install-pep-514.reg" 
+$pyReg = "$env:USERPROFILE\scoop\apps\python\current\install-pep-514.reg"
 if (Test-Path $pyReg)
-{ reg import $pyReg 
+{ reg import $pyReg
 }
 
 # Startup Shortcuts
@@ -291,20 +315,20 @@ $btopConfigDir = "$env:USERPROFILE\scoop\persist\btop"
 $btopThemesDir = "$btopConfigDir\themes"
 
 if (!(Test-Path $btopConfigDir))
-{ New-Item -Path $btopConfigDir -ItemType Directory -Force | Out-Null 
+{ New-Item -Path $btopConfigDir -ItemType Directory -Force | Out-Null
 }
 if (!(Test-Path $btopThemesDir))
-{ New-Item -Path $btopThemesDir -ItemType Directory -Force | Out-Null 
+{ New-Item -Path $btopThemesDir -ItemType Directory -Force | Out-Null
 }
 
 $srcBtop = "$env:USERPROFILE\.config\btop\btop.conf"
 $srcTheme = "$env:USERPROFILE\.config\btop\themes\catppuccin_mocha.theme"
 
 if (Test-Path $srcBtop)
-{ Copy-Item $srcBtop "$btopConfigDir\btop.conf" -Force 
+{ Copy-Item $srcBtop "$btopConfigDir\btop.conf" -Force
 }
 if (Test-Path $srcTheme)
-{ Copy-Item $srcTheme "$btopThemesDir\catppuccin_mocha.theme" -Force 
+{ Copy-Item $srcTheme "$btopThemesDir\catppuccin_mocha.theme" -Force
 }
 
 # Zen Browser Config
@@ -318,17 +342,17 @@ if (Test-Path $zenConfig)
     {
         # Extract Path from profiles.ini (simple regex for the first Path= entry)
         $profileRel = Select-String -Path "$zenAppData\profiles.ini" -Pattern "^Path=(.*)" | Select-Object -First 1
-        
+
         if ($profileRel)
         {
             # Convert forward slashes to backslashes for Windows path
             $relPath = $profileRel.Matches.Groups[1].Value.Replace("/", "\")
             $chromeDir = Join-Path $zenAppData "$relPath\chrome"
-            
+
             if (-not (Test-Path $chromeDir))
-            { New-Item -ItemType Directory -Path $chromeDir -Force | Out-Null 
+            { New-Item -ItemType Directory -Path $chromeDir -Force | Out-Null
             }
-            
+
             Copy-Item "$zenConfig\*" "$chromeDir\" -Recurse -Force
             Write-Host "   Applied Zen Styles to $chromeDir" -ForegroundColor Gray
         }
@@ -339,7 +363,7 @@ if (Test-Path $zenConfig)
 }
 
 # ------------------------------------------------------
-# 9. ENVIRONMENT VARIABLES
+# 10. ENVIRONMENT VARIABLES
 # ------------------------------------------------------
 Write-Host ":: Configuring Environment Variables..." -ForegroundColor Green
 
@@ -347,7 +371,6 @@ Write-Host ":: Configuring Environment Variables..." -ForegroundColor Green
 $ScoopGitBin = "$env:USERPROFILE\scoop\apps\git\current\bin"
 $GitFileExe  = "$env:USERPROFILE\scoop\apps\git\current\usr\bin\file.exe"
 $UserBin   = "$env:USERPROFILE\bin"
-$MiseShims = "$env:LOCALAPPDATA\mise\shims"
 
 if (Test-Path $ScoopGitBin)
 {
@@ -369,23 +392,20 @@ if (Test-Path $ScoopGitBin)
 }
 
 if (-not (Test-Path $UserBin))
-{ New-Item -ItemType Directory -Path $UserBin -Force | Out-Null 
-}
-if (-not (Test-Path $MiseShims))
-{ New-Item -ItemType Directory -Path $MiseShims -Force | Out-Null 
+{ New-Item -ItemType Directory -Path $UserBin -Force | Out-Null
 }
 
 $UserPath = [Environment]::GetEnvironmentVariable("Path", "User")
-if ($UserPath -notlike "*$UserBin*" -or $UserPath -notlike "*$MiseShims*")
+if ($UserPath -notlike "*$UserBin*")
 {
     # Deduplicate and format cleanly before setting persistent registry key
-    $NewPath = ("$UserBin;$MiseShims;$UserPath" -split ';' | Where-Object { $_ } | Select-Object -Unique) -join ';'
+    $NewPath = ("$UserBin;$UserPath" -split ';' | Where-Object { $_ } | Select-Object -Unique) -join ';'
     [Environment]::SetEnvironmentVariable("Path", $NewPath, "User")
-    Write-Host "    Added ~\bin and mise shims to User PATH" -ForegroundColor Gray
+    Write-Host "    Added ~\bin to User PATH" -ForegroundColor Gray
 }
 
 # ------------------------------------------------------
-# 10. POST-INSTALL CONFIGS
+# 11. POST-INSTALL CONFIGS
 # ------------------------------------------------------
 
 # WinUtil Tweaks
@@ -396,9 +416,8 @@ if (Test-Path ".\WinUtilTweaks.ps1")
 }
 
 # ------------------------------------------------------
-# 11. FINISH
+# 12. FINISH
 # ------------------------------------------------------
-. $PROFILE
 Write-Host ":: Setup Complete!" -ForegroundColor Green
 if (gum confirm "Restart computer now?")
 {
