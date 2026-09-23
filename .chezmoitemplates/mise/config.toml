@@ -76,6 +76,7 @@ zoxide = "latest"
 "cargo:bacon-ls" = "latest"
 "cargo:cargo-cache" = "latest"
 "cargo:cargo-update" = "latest"
+"cargo:forgejo-cli" = "latest"
 "cargo:shellharden" = "latest"
 "cargo:tlrc" = "latest"
 {{ if ne .chezmoi.os "darwin" -}}
