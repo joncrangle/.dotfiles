@@ -2,7 +2,7 @@ hl.on('hyprland.start', function()
   hl.exec_cmd '~/.config/hypr/scripts/xdg.sh'
   hl.exec_cmd '/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1'
   hl.exec_cmd 'systemctl --user enable ssh-agent.service'
-  hl.exec_cmd 'qs -c noctalia-shell'
+  hl.exec_cmd 'noctalia'
 
   -- Lock screen after everything starts
   hl.exec_cmd '~/.config/hypr/scripts/startup.sh'

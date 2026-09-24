@@ -63,17 +63,16 @@ hl.define_submap('resize', function()
 end)
 
 -- Actions
-bind(combo(mainMod, CTRL), 'Q', 'qs -c noctalia-shell ipc call sessionMenu toggle') -- Toggle power menu
-bind(mainMod, 'APOSTROPHE', 'qs -c noctalia-shell ipc call controlCenter toggle') -- Toggle control center
-bind(mainMod, 'SLASH', 'qs -c noctalia-shell ipc call settings toggle') -- Toggle settings menu
+bind(combo(mainMod, CTRL), 'Q', 'noctalia msg panel-toggle session') -- Toggle power menu
+bind(mainMod, 'APOSTROPHE', 'noctalia msg panel-toggle control-center') -- Toggle control center
+bind(mainMod, 'SLASH', 'noctalia msg settings-toggle') -- Toggle settings menu
 bind(mainMod, 'SPACE', 'vicinae toggle') -- Toggle launcher
 bind(combo(mainMod, SHIFT), 'R', 'hyprctl reload') -- Reload hyprland config
 bind('', 'Print', 'grimblast copysave screen') -- Screenshot
 bind(SHIFT, 'Print', 'grimblast copysave area') -- Screenshot an area
 bind(mainMod, 'Print', 'grimblast copysave window') -- Screenshot a window
-bind(combo(mainMod, CTRL), 'L', 'qs -c noctalia-shell ipc call lockScreen lock') -- Lock screen
-bind(combo(mainMod, SHIFT), 'N', 'qs -c noctalia-shell ipc call notifications toggleHistory') -- Open notification history
-bind(mainMod, 'R', 'qs -c noctalia-shell ipc call screenRecorder toggle') -- Toggle screen recording
+bind(combo(mainMod, CTRL), 'L', 'noctalia msg panel-toggle session') -- Lock screen
+bind(combo(mainMod, SHIFT), 'N', 'noctalia msg panel-toggle control-center notifications') -- Open notification history
 
 -- Workspaces
 for i = 1, 10 do
@@ -97,4 +96,3 @@ bind('', 'XF86AudioNext', 'playerctl next') -- Audio next
 bind('', 'XF86AudioPrev', 'playerctl previous') -- Audio previous
 bind('', 'XF86AudioMicMute', 'pactl set-source-mute @DEFAULT_SOURCE@ toggle') -- Toggle microphone
 bind('', 'XF86Calculator', 'qalculate-gtk') -- Open calculator
-bind('', 'XF86Launch4', 'qs -c noctalia-shell ipc call screenRecorder toggle') -- Toggle screen recording
