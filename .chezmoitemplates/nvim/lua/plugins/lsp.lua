@@ -37,7 +37,7 @@ return {
           end
 
           map('K', vim.lsp.buf.hover, 'Hover Documentation')
-          map('<C-k>', function()
+          map('<C-s>', function()
             vim.lsp.buf.signature_help { border = 'rounded' }
           end, 'Signature Help', { 'n', 'i' })
           map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
