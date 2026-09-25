@@ -28,7 +28,7 @@ echo "noctalia process found at $(date)" >>"$LOG"
 
 # Wait for Noctalia IPC to respond, then lock
 COUNT=0
-until noctalia ipc lock >>"$LOG" 2>&1 || [ "$COUNT" -ge 25 ]; do
+until noctalia msg session lock >>"$LOG" 2>&1 || [ "$COUNT" -ge 25 ]; do
     sleep 0.5
     COUNT=$((COUNT + 1))
 done
