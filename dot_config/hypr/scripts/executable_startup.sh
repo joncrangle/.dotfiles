@@ -1,44 +1,46 @@
 #!/bin/sh
 #  __  ______  ___  ____  ______
 # (( \ | || | // \\ || \\ | || |
-#  \\    ||   ||=|| ||_//   ||  
-# \_))   ||   || || || \\   ||  
+#  \\    ||   ||=|| ||_//   ||
+# \_))   ||   || || || \\   ||
 
 LOG="/tmp/hypr-autolock.log"
-echo "Starting autolock at $(date)" > "$LOG"
+echo "Starting autolock at $(date)" >"$LOG"
 
 # Wait for Hyprland
-until hyprctl monitors &>/dev/null; do
+until hyprctl monitors >/dev/null 2>&1; do
     sleep 0.2
 done
-echo "Hyprland ready at $(date)" >> "$LOG"
+echo "Hyprland ready at $(date)" >>"$LOG"
 
-# Wait for noctalia-shell instance (10 seconds max)
+# Wait for noctalia process to be running (10s max)
 COUNT=0
-until qs list -c noctalia-shell 2>/dev/null | grep -q "Instance" || [ "$COUNT" -ge 50 ]; do
+until pgrep -x noctalia >/dev/null || [ "$COUNT" -ge 50 ]; do
     sleep 0.2
     COUNT=$((COUNT + 1))
 done
 
 if [ "$COUNT" -ge 50 ]; then
-    echo "ERROR: noctalia-shell not found after 10 seconds" >> "$LOG"
-    qs list --all >> "$LOG" 2>&1
+    echo "ERROR: noctalia process not found after 10 seconds" >>"$LOG"
     exit 1
 fi
+echo "noctalia process found at $(date)" >>"$LOG"
 
-echo "noctalia-shell found at $(date)" >> "$LOG"
-
-# Give IPC time to initialize, then lock (12.5 seconds max)
-sleep 2
+# Wait for Noctalia IPC to respond, then lock
 COUNT=0
-until qs -c noctalia-shell ipc call lockScreen lock 2>> "$LOG" || [ "$COUNT" -ge 25 ]; do
+until noctalia ipc lock >>"$LOG" 2>&1 || [ "$COUNT" -ge 25 ]; do
     sleep 0.5
     COUNT=$((COUNT + 1))
 done
 
 if [ "$COUNT" -ge 25 ]; then
-    echo "ERROR: Failed to lock after 25 attempts" >> "$LOG"
+    echo "ERROR: Failed to lock via noctalia IPC after 25 attempts" >>"$LOG"
+    # Fallback to hyprlock or loginctl lock-session if configured
+    if command -v hyprlock >/dev/null 2>&1; then
+        echo "Falling back to hyprlock..." >>"$LOG"
+        exec hyprlock
+    fi
     exit 1
 fi
 
-echo "Lock successful at $(date)" >> "$LOG"
+echo "Lock successful at $(date)" >>"$LOG"
