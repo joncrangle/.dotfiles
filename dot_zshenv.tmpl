@@ -75,6 +75,8 @@ export SKIM_ALT_C_OPTS="--ansi --preview 'eza --tree --color=always --icons auto
 {{ if eq .chezmoi.os "linux" }}
 export SKIM_CTRL_R_OPTS="--ansi --tiebreak=index --with-nth=4.. \
 --bind 'ctrl-y:execute-silent(echo {4..} | wl-copy)+abort'"
+
+export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
 {{- else -}}
 export SKIM_CTRL_R_OPTS="--tiebreak=index --with-nth=4.. \
 --bind 'ctrl-y:execute-silent(echo {4..} | pbcopy)+abort'"

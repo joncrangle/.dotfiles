@@ -317,6 +317,14 @@ else
 	log_success "SSH key already exists at ~/.ssh/id_ed25519."
 fi
 
+log_info "Enabling OpenSSH user socket..."
+if [ "$DRY_RUN" = false ]; then
+	systemctl --user enable --now ssh-agent.socket
+	log_success "OpenSSH user socket active."
+else
+	echo "[DRY-RUN] Would enable systemctl --user ssh-agent.socket"
+fi
+
 # --- GIT & AUTH ---
 
 log_info "Updating Git Global Config..."
