@@ -66,7 +66,10 @@ export default Plugin.define({
       if (typeof command !== "string" || !command) return
 
       const rewritten = await rewrite(command)
-      if (rewritten) args.command = rewritten
+      if (rewritten) {
+        args.command = rewritten
+        console.log(`[rtk] rewrote: ${command} -> ${rewritten}`)
+      }
     })
   },
 })

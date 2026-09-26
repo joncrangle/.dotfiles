@@ -1,14 +1,16 @@
 import { Plugin } from "@opencode/plugin"
-import { spawn, execFile } from "node:child_process"
-import { promisify } from "node:util"
-
-const execFileAsync = promisify(execFile)
+import { spawn } from "node:child_process"
 
 // =============================================================================
 // Custom tools ported from the V1 `tool()` API to V2 tool transforms.
 //
 // Each tool declares `options.permission` so agents can still target it by name
-// (e.g. `{action: "search_files", resource: "*", effect: "deny"}`).
+// (e.g. `{action: "code_rewrite", resource: "*", effect: "deny"}`).
+//
+// Each also sets `options.codemode: false`. Without it, a plugin-registered tool
+// gets folded into the Code Mode catalog and is reachable only through the
+// `execute` indirection, which models tend to skip. Built-in tools stay
+// direct/top-level; `codemode: false` opts these into the same treatment.
 // =============================================================================
 
 function spawnText(
@@ -31,7 +33,7 @@ function spawnText(
 // -----------------------------------------------------------------------------
 
 const REWRITE_AGENTS = new Set(["coder", "swarm"])
-const PREVIEW_AGENTS = new Set(["researcher", "reviewer", "explore"])
+const PREVIEW_AGENTS = new Set(["researcher", "reviewer", "orchestrator", "explore"])
 
 const astgrepPath = Bun.which("ast-grep")
 
@@ -105,151 +107,6 @@ async function codeRewrite(
 }
 
 // -----------------------------------------------------------------------------
-// search_files
-// -----------------------------------------------------------------------------
-
-const AST_PATTERN_AGENTS = new Set(["coder", "researcher", "reviewer"])
-const SEARCH_REWRITE_AGENTS = new Set(["coder"])
-
-async function searchFiles(
-  input: {
-    query: string
-    path?: string
-    caseSensitive?: boolean
-    fileType?: string
-    rewrite?: string
-  },
-  ctx: { agent: string; progress: (u: Record<string, unknown>) => Promise<void>; signal?: AbortSignal },
-): Promise<string> {
-  const { query, path = ".", caseSensitive = false, fileType, rewrite } = input
-  const agent = ctx.agent
-  const isAstPattern = query.includes("$")
-
-  if (rewrite !== undefined && !SEARCH_REWRITE_AGENTS.has(agent)) {
-    await ctx.progress({ title: `[DENIED] Rewrite by ${agent}` })
-    return "Permission Denied: Only the @coder agent is authorized to perform code rewrites."
-  }
-
-  if (isAstPattern && !AST_PATTERN_AGENTS.has(agent)) {
-    await ctx.progress({ title: `[DENIED] AST search by ${agent}` })
-    return `Access Denied: Agent '${agent}' is not authorized to use AST patterns.\nAllowed agents: ${[...AST_PATTERN_AGENTS].join(", ")}`
-  }
-
-  await ctx.progress({ title: `Search by ${agent}` })
-
-  let cmd: string[]
-
-  if (rewrite !== undefined) {
-    if (!Bun.which("sg")) {
-      return "Rewrite Error: ast-grep (sg) is not installed or not in PATH. Install with: npm i -g @ast-grep/cli"
-    }
-    cmd = ["sg", "run", "--pattern", query, "--rewrite", rewrite, "--update-all"]
-    if (fileType) cmd.push("-l", fileType)
-    cmd.push(path)
-  } else if (Bun.which("sg") && (caseSensitive || isAstPattern || fileType)) {
-    cmd = ["sg", "-p", query]
-    if (fileType) cmd.push("-l", fileType)
-    cmd.push(path)
-  } else if (Bun.which("rg")) {
-    cmd = ["rg", "--line-number", "--column", "--no-heading", "--color=never"]
-    if (!caseSensitive) cmd.push("--ignore-case")
-    if (fileType) cmd.push("--type", fileType)
-    cmd.push(query, path)
-  } else if (Bun.which("grep")) {
-    cmd = ["grep", "-rn"]
-    if (!caseSensitive) cmd.push("-i")
-    cmd.push(query, path)
-  } else {
-    cmd = ["findstr", "/N", "/S"]
-    if (!caseSensitive) cmd.push("/I")
-    cmd.push(query, path === "." ? "*.*" : path)
-  }
-
-  const { stdout, stderr } = await spawnText(cmd, ctx.signal)
-  const output = (stdout + stderr).trim()
-  const lines = output.split("\n")
-
-  if (lines.length > 100) {
-    return `${lines.slice(0, 100).join("\n")}\n... (and ${lines.length - 100} more lines)`
-  }
-
-  if (rewrite === undefined) {
-    return lines.length > 0 && lines[0] !== "" ? output : "No matches found."
-  }
-  return lines.length > 0 && lines[0] !== "" ? output : "Rewrite complete. No matches found or files already updated."
-}
-
-// -----------------------------------------------------------------------------
-// list_files
-// -----------------------------------------------------------------------------
-
-const RESTRICTED_PATHS = [".env", "secrets", ".ssh", "credentials", ".aws", "private"]
-const ELEVATED_AGENTS = new Set(["coder", "git", "swarm"])
-
-function isRestrictedPath(path: string): boolean {
-  const normalized = path.toLowerCase()
-  return RESTRICTED_PATHS.some((p) => normalized.includes(p) || normalized.endsWith(p))
-}
-
-async function listFiles(
-  input: { path?: string; style?: "simple" | "long" | "all" | "tree" },
-  ctx: { agent: string; progress: (u: Record<string, unknown>) => Promise<void> },
-): Promise<string> {
-  const { path = ".", style = "simple" } = input
-  const agent = ctx.agent
-
-  if (isRestrictedPath(path) && !ELEVATED_AGENTS.has(agent)) {
-    await ctx.progress({ title: `[DENIED] List ${path} by ${agent}` })
-    return `Access Denied: Agent '${agent}' cannot list restricted path '${path}'.\nElevated agents: ${[...ELEVATED_AGENTS].join(", ")}`
-  }
-
-  await ctx.progress({ title: `List ${path} by ${agent}` })
-
-  const run = async (argv: string[]) => {
-    try {
-      return await execFileAsync(argv[0]!, argv.slice(1), { maxBuffer: 10 * 1024 * 1024 })
-    } catch (e: any) {
-      return { stdout: "", stderr: e?.stderr?.toString() ?? e?.message ?? "error" }
-    }
-  }
-
-  if (Bun.which("eza")) {
-    const flags: string[] = []
-    if (style === "long") flags.push("-l", "--git")
-    if (style === "all") flags.push("-l", "-a", "--git")
-    if (style === "tree") flags.push("-T", "--level=2")
-    const r = await run(["eza", ...flags, "--color=never", "--group-directories-first", path])
-    return r.stdout || r.stderr
-  }
-
-  if (Bun.which("ls")) {
-    if (style === "tree") {
-      if (Bun.which("tree")) {
-        const r = await run(["tree", "-L", "2", path])
-        return r.stdout || r.stderr
-      }
-      const r = await run(["ls", "-R", path])
-      return r.stdout || r.stderr
-    }
-    const flags: string[] = []
-    if (style === "long") flags.push("-lh")
-    if (style === "all") flags.push("-lah")
-    const r = await run(["ls", ...flags, path])
-    return r.stdout || r.stderr
-  }
-
-  if (style === "tree") {
-    const r = await run(["tree", "/F", "/A", path])
-    return r.stdout || r.stderr
-  }
-  const flags: string[] = []
-  if (style === "simple") flags.push("/B")
-  if (style === "all") flags.push("/A")
-  const r = await run(["dir", ...flags, path])
-  return r.stdout || r.stderr
-}
-
-// -----------------------------------------------------------------------------
 // degoog_search
 // -----------------------------------------------------------------------------
 
@@ -298,6 +155,53 @@ const DEGOOG_CATEGORIES = [
   "map", "music", "files", "social media",
 ] as const
 
+// Structural stand-in for the plugin context's websearch domain. Kept inline so
+// this file does not depend on internal SDK types.
+type WebsearchDomain = {
+  query: (input: { query: string; providerID?: string }) => Promise<{
+    data: {
+      providerID: string
+      results: { url: string; title?: string; content?: string }[]
+    }
+  }>
+}
+
+type DegoogSearchCtx = {
+  signal?: AbortSignal
+  websearch: WebsearchDomain
+}
+
+type DegoogResult = {
+  title?: string
+  url?: string
+  content: string
+  engine?: string
+  score?: number
+}
+
+// Runs the built-in websearch and reshapes it into the same JSON shape degoog
+// returns, so the model's contract never changes. Never throws: failures come
+// back as an `error` alongside an empty result set.
+async function websearchFallback(
+  query: string,
+  limit: number,
+  websearch: WebsearchDomain,
+): Promise<{ results: DegoogResult[]; error?: string }> {
+  try {
+    const response = await websearch.query({ query })
+    const results = response.data.results.map((r) => ({
+      title: r.title,
+      url: r.url,
+      content: r.content ?? "",
+      engine: `websearch:${response.data.providerID}`,
+    }))
+    if (results.length === 0) return { results, error: "websearch returned no results." }
+    return { results: results.slice(0, limit) }
+  } catch (error: unknown) {
+    return { results: [], error: error instanceof Error ? error.message : String(error) }
+  }
+}
+
 async function degoogSearch(
   input: {
     query: string
@@ -305,14 +209,18 @@ async function degoogSearch(
     time_range?: "day" | "week" | "month" | "year"
     limit?: number
   },
-  ctx: { progress: (u: Record<string, unknown>) => Promise<void>; signal?: AbortSignal },
+  ctx: DegoogSearchCtx,
 ): Promise<string> {
   const { query, category = "general", time_range, limit = 10 } = input
 
-  await ctx.progress({ title: `Degoog Search: ${query}` })
-
   if (!(await checkHealth(ctx.signal))) {
-    return JSON.stringify({ error: `Degoog instance at ${INSTANCE_URL} is unreachable.` })
+    const fallback = await websearchFallback(query, limit, ctx.websearch)
+    if (fallback.error) {
+      return JSON.stringify({
+        error: `Degoog instance at ${INSTANCE_URL} is unreachable and the built-in websearch fallback failed: ${fallback.error}`,
+      })
+    }
+    return JSON.stringify(fallback.results)
   }
 
   const url = new URL(`${INSTANCE_URL}/api/search`)
@@ -347,6 +255,16 @@ async function degoogSearch(
       }))
       .slice(0, limit)
 
+    if (results.length === 0) {
+      const fallback = await websearchFallback(query, limit, ctx.websearch)
+      if (fallback.error) {
+        return JSON.stringify({
+          error: `Degoog search for "${query}" returned no results and the built-in websearch fallback failed: ${fallback.error}`,
+        })
+      }
+      return JSON.stringify(fallback.results)
+    }
+
     return JSON.stringify(results)
   } catch (error: unknown) {
     clearTimeout(timeoutId)
@@ -356,7 +274,14 @@ async function degoogSearch(
           ? `Search timed out after ${SEARCH_TIMEOUT_MS / 1000} seconds.`
           : error.message
         : String(error)
-    return JSON.stringify({ error: errorMessage })
+
+    const fallback = await websearchFallback(query, limit, ctx.websearch)
+    if (fallback.error) {
+      return JSON.stringify({
+        error: `Degoog search failed (${errorMessage}) and the built-in websearch fallback failed: ${fallback.error}`,
+      })
+    }
+    return JSON.stringify(fallback.results)
   } finally {
     ctx.signal?.removeEventListener("abort", onAbort)
   }
@@ -375,7 +300,7 @@ export default Plugin.define({
         description: astgrepPath
           ? "Rewrite code patterns using ast-grep. Uses AST-based matching for precise transformations. Only 'coder' and 'swarm' agents can apply changes; others get preview only."
           : "ast-grep CLI is not installed. Install it first to use this tool.",
-        options: { permission: "code_rewrite" },
+        options: { permission: "code_rewrite", codemode: false },
         input: {
           type: "object",
           properties: {
@@ -394,57 +319,10 @@ export default Plugin.define({
       })
 
       editor.add({
-        name: "search_files",
-        description:
-          "Smart search tool. Finds code patterns using the fastest available utility (sg, rg, grep, or findstr).",
-        options: { permission: "search_files" },
-        input: {
-          type: "object",
-          properties: {
-            query: { type: "string", description: "The string or regex pattern to search for." },
-            path: { type: "string", description: "Directory or file to search (default: current directory)." },
-            caseSensitive: { type: "boolean", description: "Force case sensitivity (default: false)." },
-            fileType: { type: "string", description: "Limit to file types: 'ts', 'py', 'go', 'js', 'rs', etc." },
-            rewrite: {
-              type: "string",
-              description: "Replacement pattern for ast-grep rewrite (e.g., 'console.log($MSG)' -> '$MSG'). Only @coder agent is authorized.",
-            },
-          },
-          required: ["query"],
-          additionalProperties: false,
-        },
-        async execute(input, context) {
-          return { content: await searchFiles(input as Parameters<typeof searchFiles>[0], context) }
-        },
-      })
-
-      editor.add({
-        name: "list_files",
-        description:
-          "List files and directories. Uses 'eza' (modern ls) if available, falling back to 'ls' or Windows 'dir'.",
-        options: { permission: "list_files" },
-        input: {
-          type: "object",
-          properties: {
-            path: { type: "string", description: "The directory to list (default: current directory)." },
-            style: {
-              type: "string",
-              enum: ["simple", "long", "all", "tree"],
-              description: "Output style: 'simple' (names only), 'long' (permissions/size), 'all' (includes hidden files), 'tree' (hierarchical view). Default: 'simple'.",
-            },
-          },
-          additionalProperties: false,
-        },
-        async execute(input, context) {
-          return { content: await listFiles(input as Parameters<typeof listFiles>[0], context) }
-        },
-      })
-
-      editor.add({
         name: "degoog_search",
         description:
-          "Search the web using Degoog search aggregator with enhanced filtering and timeout control.",
-        options: { permission: "degoog_search" },
+          "Search the web using a self-hosted search engine the user controls, so queries stay private and are not shared with a third party. This is the PREFERRED tool for all web search in this setup: use it INSTEAD of the built-in `websearch`. If the private instance is unreachable or returns nothing, it transparently falls back to the built-in `websearch` and returns results in the same shape, so never call `websearch` yourself.",
+        options: { permission: "degoog_search", codemode: false },
         input: {
           type: "object",
           properties: {
@@ -457,7 +335,12 @@ export default Plugin.define({
           additionalProperties: false,
         },
         async execute(input, context) {
-          return { content: await degoogSearch(input as Parameters<typeof degoogSearch>[0], context) }
+          return {
+            content: await degoogSearch(input as Parameters<typeof degoogSearch>[0], {
+              signal: context.signal,
+              websearch: ctx.websearch,
+            }),
+          }
         },
       })
     })
