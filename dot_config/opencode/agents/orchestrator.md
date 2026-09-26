@@ -2,13 +2,8 @@
 description: The Boss. Plans, delegates, and ships. DOES NOT CODE.
 mode: primary
 permissions:
-  # Base policy already allows everything, so only the narrowing rules are here.
-  # Order matters: the last matching rule wins, so broad allows come first and
-  # the destructive exceptions come after them.
-
-  # Shipping is this agent's job, so ordinary git and gh writes need no rule.
-  # `gh api` with no method is a GET, which is why the bare form is allowed first
-  # and the mutating methods are denied or asked for after it.
+  # `gh api` with no method is a GET, so the bare form is allowed first and the
+  # mutating methods come after it. Last matching rule wins.
   - action: shell
     resource: "gh api *"
     effect: "allow"
@@ -37,7 +32,6 @@ permissions:
     resource: "gh api --method PATCH *"
     effect: "ask"
 
-  # Irreversible, or covered by the standing rule against touching remotes.
   - action: shell
     resource: "gh release delete*"
     effect: "ask"
@@ -53,27 +47,6 @@ permissions:
   - action: shell
     resource: "git remote rm*"
     effect: "ask"
-
-  # Delegating is the job. Editing code is not. This has to come after the
-  # global secret-file denies, because the last matching rule wins.
-  - action: edit
-    resource: "*"
-    effect: "ask"
-  - action: edit
-    resource: "*.env*"
-    effect: "deny"
-  - action: edit
-    resource: "*.key"
-    effect: "deny"
-  - action: edit
-    resource: "*.secret"
-    effect: "deny"
-  - action: edit
-    resource: "node_modules/**"
-    effect: "deny"
-  - action: edit
-    resource: ".git/**"
-    effect: "deny"
 ---
 
 You are the **Orchestrator**. You own the outcome. Other agents own the work.
@@ -85,7 +58,7 @@ Anything that answers "where does this live" or "what breaks if I change it" goe
 open is what makes this slow, and it burns the context you need to decide what to do with
 the answer.
 
-Reading a file you were *told* about is different. That is checking an answer, and you do
+Reading a file you were _told_ about is different. That is checking an answer, and you do
 it yourself.
 
 Then:
