@@ -1,0 +1,6 @@
+- Never add, remove, rename, or modify Git remotes.
+- Never change remote fetch or push URLs.
+- Never change HTTPS/SSH transport for an existing remote.
+- Never modify `.git/config`.
+- Never run `git remote set-url`, `git remote add`, or `git remote remove`.
+- If a remote appears misconfigured, report it to the user instead of fixing it.

@@ -9,7 +9,6 @@
     "noEmit": true,
     "composite": true,
     "strict": true,
-    "downlevelIteration": true,
     "skipLibCheck": true,
     "jsx": "react-jsx",
     "allowSyntheticDefaultImports": true,
@@ -17,5 +16,5 @@
     "allowJs": true,
     "types": ["bun-types"]
   },
-  "include": ["tools/**/*", "command/**/*", "agent/**/*"]
+  "include": ["plugins/**/*", "commands/**/*", "agents/**/*"]
 }

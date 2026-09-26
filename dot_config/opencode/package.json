@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@opencode/plugin": "2.0.18"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  }
+}

@@ -1,60 +1,86 @@
 {
-	"$schema": "https://opencode.ai/config.json",
-	"provider": {
-		"mlx": {
-			"npm": "@ai-sdk/openai-compatible",
-			"name": "MLX",
-			"options": {
-				"baseURL": "http://127.0.0.1:8081/v1",
-			},
-			"models": {
-				"Ornith-1.5-9B-MLX-4bit": {
-					"name": "Ornith 1.5 9B (local)",
-				},
-				"gemma-4-e4b-it-4bit": {
-					"name": "Gemma 4 E4B (local)",
-				},
-			},
-		},
-	},
-	"enabled_providers": [
-		"google",
-		"openai",
-		"opencode",
-		"openrouter",
-		"mlx"
-	],
-	"share": "manual",
-	"lsp": true,
-	"permission": {
-		"doom_loop": "ask",
-	},
-	"autoupdate": false,
-	"agent": {
-		"explore": {
-			"disable": true,
-		},
-		"general": {
-			"disable": true,
-		},
-	},
-	"plugin": [],
-	"mcp": {
-		"websearch": {
-			"type": "remote",
-			"url": "https://mcp.exa.ai/mcp",
-			"enabled": false,
-		},
-		"playwriter": {
-			"type": "local",
-			"command": [
-				"bunx",
-				"playwriter@latest"
-			],
-			"enabled": false,
-		},
-	},
-	"references": {
-		"effect": "Effect-TS/effect",
-	},
+  "$schema": "https://opencode.ai/config.json",
+  "update": "disable",
+  "share": "manual",
+  "default_agent": "orchestrator",
+  "providers": {
+    "mlx": {
+      "name": "MLX",
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "http://127.0.0.1:8081/v1",
+      },
+      "models": {
+        "Ornith-1.5-9B-MLX-4bit": {
+          "name": "Ornith 1.5 9B (local)",
+        },
+        "gemma-4-e4b-it-4bit": {
+          "name": "Gemma 4 E4B (local)",
+        },
+      },
+    },
+  },
+  "experimental": {
+    "policies": [
+      { "action": "provider.use", "resource": "*", "effect": "deny" },
+      { "action": "provider.use", "resource": "google", "effect": "allow" },
+      { "action": "provider.use", "resource": "openai", "effect": "allow" },
+      { "action": "provider.use", "resource": "opencode", "effect": "allow" },
+      { "action": "provider.use", "resource": "openrouter", "effect": "allow" },
+      { "action": "provider.use", "resource": "mlx", "effect": "allow" },
+    ],
+  },
+  "permissions": [
+    { "action": "shell", "resource": "sudo *", "effect": "deny" },
+    { "action": "shell", "resource": "* sudo *", "effect": "deny" },
+    { "action": "shell", "resource": "doas *", "effect": "deny" },
+    { "action": "shell", "resource": "mkfs*", "effect": "deny" },
+    { "action": "shell", "resource": "> /dev/*", "effect": "deny" },
+    { "action": "shell", "resource": "rm -rf *", "effect": "ask" },
+    { "action": "shell", "resource": "rm -fr *", "effect": "ask" },
+    { "action": "shell", "resource": "rm -rf /", "effect": "deny" },
+    { "action": "shell", "resource": "rm -fr /", "effect": "deny" },
+    { "action": "shell", "resource": "* rm -rf /*", "effect": "deny" },
+    { "action": "shell", "resource": "* rm -fr /*", "effect": "deny" },
+    { "action": "shell", "resource": "dd *", "effect": "ask" },
+    { "action": "shell", "resource": "gh repo delete*", "effect": "deny" },
+    { "action": "shell", "resource": "gh api -X DELETE *", "effect": "deny" },
+    { "action": "shell", "resource": "gh api --method DELETE *", "effect": "deny" },
+    { "action": "shell", "resource": "* push -f*", "effect": "deny" },
+    { "action": "shell", "resource": "* push --force*", "effect": "deny" },
+    { "action": "shell", "resource": "* push * -f*", "effect": "deny" },
+    { "action": "shell", "resource": "* push * --force*", "effect": "deny" },
+    { "action": "shell", "resource": "* push * +*", "effect": "deny" },
+    { "action": "shell", "resource": "git reset --hard*", "effect": "deny" },
+    { "action": "shell", "resource": "git reset * --hard*", "effect": "deny" },
+    { "action": "shell", "resource": "git clean*", "effect": "deny" },
+    { "action": "shell", "resource": "git filter-branch*", "effect": "deny" },
+    { "action": "edit", "resource": "*.env*", "effect": "deny" },
+    { "action": "edit", "resource": "*.key", "effect": "deny" },
+    { "action": "edit", "resource": "*.secret", "effect": "deny" },
+    { "action": "edit", "resource": "node_modules/**", "effect": "deny" },
+    { "action": "edit", "resource": ".git/**", "effect": "deny" },
+  ],
+  "agents": {
+    "explore": { "disabled": true },
+    "general": { "disabled": true },
+  },
+  "plugins": [],
+  "mcp": {
+    "servers": {
+      "websearch": {
+        "type": "remote",
+        "url": "https://mcp.exa.ai/mcp",
+        "disabled": true,
+      },
+      "playwriter": {
+        "type": "local",
+        "command": ["bunx", "playwriter@latest"],
+        "disabled": true,
+      },
+    },
+  },
+  "references": {
+    "effect": "Effect-TS/effect",
+  },
 }
