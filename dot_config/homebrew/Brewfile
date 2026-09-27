@@ -4,14 +4,22 @@
 #  | ' \/ _ \ '  \/ -_) '_ \ '_/ -_) V  V /
 #  |_||_\___/_|_|_\___|_.__/_| \___|\_/\_/
 
-tap "felixkratz/formulae"
-tap "homebrew-ffmpeg/ffmpeg"
+tap "felixkratz/formulae", trusted: {
+  formulae: ["borders", "sketchybar", "svim"]
+}
+tap "homebrew-ffmpeg/ffmpeg", trusted: {
+  formula: "ffmpeg"
+}
 tap "homebrew/bundle"
 tap "homebrew/services"
-tap "jundot/omlx", "https://github.com/jundot/omlx"
-tap "nikitabobko/tap"
-tap "osx-cross/avr"
-tap "tw93/tap"
+tap "jundot/omlx", "https://github.com/jundot/omlx", trusted: {
+  formula: "omlx"
+}
+tap "nikitabobko/tap", trusted: true
+tap "osx-cross/avr", trusted: {
+  formula: "avr-gcc@9"
+}
+tap "tw93/tap", trusted: true
 brew "antidote"
 brew "autoconf"
 brew "avrdude"
