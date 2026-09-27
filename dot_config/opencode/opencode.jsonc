@@ -68,15 +68,9 @@
   "plugins": [],
   "mcp": {
     "servers": {
-      "websearch": {
-        "type": "remote",
-        "url": "https://mcp.exa.ai/mcp",
-        "disabled": true,
-      },
       "playwriter": {
         "type": "local",
         "command": ["bunx", "playwriter@latest"],
-        "disabled": true,
       },
     },
   },
