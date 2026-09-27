@@ -217,7 +217,7 @@
         "command": [
           "bunx",
           "playwriter@latest"
-        ],
+        ]
       },
     },
   },
