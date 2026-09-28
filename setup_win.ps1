@@ -362,6 +362,11 @@ if (Test-Path $zenConfig)
     }
 }
 
+if (Get-Command bunx -ErrorAction SilentlyContinue)
+{
+    bunx --bun skills@latest add mattpocock/skills --global --agent '*' --skill '*' --yes
+}
+
 # ------------------------------------------------------
 # 10. ENVIRONMENT VARIABLES
 # ------------------------------------------------------
