@@ -2,8 +2,6 @@ import { Plugin } from "@opencode/plugin";
 import { spawn } from "node:child_process";
 
 // =============================================================================
-// Custom tools ported from the V1 `tool()` API to V2 tool transforms.
-//
 // Each tool declares `options.permission` so agents can still target it by name
 // (e.g. `{action: "code_rewrite", resource: "*", effect: "deny"}`).
 //
@@ -18,7 +16,11 @@ function spawnText(
   signal?: AbortSignal,
 ): Promise<{ stdout: string; stderr: string; code: number }> {
   return new Promise((resolve) => {
-    const child = spawn(cmd[0]!, cmd.slice(1), { signal });
+    // On Windows, .cmd/.bat/.ps1 shims (npm/bun globals) require shell:true.
+    // Real .exe binaries work with shell:false. Detect by extension.
+    const bin = cmd[0]!;
+    const shell = process.platform === "win32" && /\.(cmd|bat|ps1)$/i.test(bin);
+    const child = spawn(bin, cmd.slice(1), { signal, shell, windowsHide: true });
     let stdout = "";
     let stderr = "";
     child.stdout?.on("data", (d) => (stdout += d));
@@ -41,7 +43,32 @@ function spawnText(
 const REWRITE_AGENTS = new Set(["coder", "swarm"]);
 const PREVIEW_AGENTS = new Set(["researcher", "reviewer", "orchestrator", "explore"]);
 
-const astgrepPath = Bun.which("ast-grep");
+// Bun.which is only available under the Bun runtime (opencode host).
+// A bare `Bun.which` reference throws ReferenceError under Node (typecheck,
+// tests), killing the whole module import since this is top-level.
+// Resolve lazily + guard via globalThis so import never fails.
+function getBunWhich(): ((bin: string) => string | null) | undefined {
+  const g = globalThis as { Bun?: { which?: (bin: string) => string | null } };
+  return typeof g.Bun?.which === "function" ? g.Bun.which.bind(g.Bun) : undefined;
+}
+
+let cachedAstGrepPath: string | null | undefined;
+function getAstGrepPath(): string | null {
+  if (cachedAstGrepPath !== undefined) return cachedAstGrepPath;
+  const which = getBunWhich();
+  if (which) {
+    try {
+      cachedAstGrepPath = which("ast-grep");
+      return cachedAstGrepPath;
+    } catch {
+      // fall through to PATH fallback
+    }
+  }
+  // No Bun runtime (e.g. tsc --noEmit). Assume on PATH; spawn will fail
+  // gracefully with a clear error message instead of a ReferenceError.
+  cachedAstGrepPath = "ast-grep";
+  return cachedAstGrepPath;
+}
 
 async function codeRewrite(
   input: {
@@ -60,7 +87,8 @@ async function codeRewrite(
   const { pattern, replacement, path = ".", lang, dryRun = true } = input;
   const agent = ctx.agent;
 
-  if (!astgrepPath) {
+  const astGrepBin = getAstGrepPath();
+  if (!astGrepBin) {
     return "Error: ast-grep is not installed. Install with: cargo install ast-grep";
   }
 
@@ -81,7 +109,7 @@ async function codeRewrite(
     });
   }
 
-  const cmd = ["ast-grep", "--pattern", pattern, "--rewrite", replacement];
+  const cmd = [astGrepBin, "--pattern", pattern, "--rewrite", replacement];
   if (lang) cmd.push("--lang", lang);
   cmd.push(path);
 
@@ -323,10 +351,11 @@ async function degoogSearch(
 export default Plugin.define({
   id: "custom-tools",
   async setup(ctx) {
+    const astGrepAvailable = !!getAstGrepPath();
     await ctx.tool.transform((editor) => {
       editor.add({
         name: "code_rewrite",
-        description: astgrepPath
+        description: astGrepAvailable
           ? "Rewrite code patterns using ast-grep. Uses AST-based matching for precise transformations. Only 'coder' and 'swarm' agents can apply changes; others get preview only."
           : "ast-grep CLI is not installed. Install it first to use this tool.",
         options: { permission: "code_rewrite", codemode: false },
