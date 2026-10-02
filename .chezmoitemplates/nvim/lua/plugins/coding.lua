@@ -151,7 +151,7 @@ return {
     end,
   },
   {
-    'mistweaverco/kulala.nvim',
+    'dont-be-evil-company/kulala.nvim',
     ft = { 'http', 'rest' },
     init = function()
       vim.treesitter.language.register('kulala_http', 'http')
