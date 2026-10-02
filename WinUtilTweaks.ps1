@@ -64,8 +64,14 @@ function Set-WinUtilService
     )
     try
     {
-        # Check if the service exists
-        $service = Get-Service -Name $Name -ErrorAction Stop
+        # Get-Service throws ServiceCommandException for a missing service, and there
+        # is no ServiceNotFoundException type to catch, so probe without throwing.
+        $service = Get-Service -Name $Name -ErrorAction SilentlyContinue
+        if ($null -eq $service)
+        {
+            Write-Warning "Service $Name was not found"
+            return
+        }
 
         # Service exists, proceed with changing properties
         if ($service.StartType -ne $StartupType)
@@ -76,9 +82,6 @@ function Set-WinUtilService
         {
             Write-Host "  - Service '$Name' is already set to '$StartupType'" -ForegroundColor Gray
         }
-    } catch [System.ServiceProcess.ServiceNotFoundException]
-    {
-        Write-Warning "Service $Name was not found"
     } catch
     {
         Write-Warning "Unable to set $Name due to unhandled exception"
@@ -172,13 +175,18 @@ function Invoke-WinUtilSetServicesManual
 
     $servicesData = Get-Content -Path $jsonPath | ConvertFrom-Json
 
-    # An explicit list restricts the changes to those services. Without one, apply
-    # every entry in the json, which is what Invoke-All relies on.
+    # The json lists some services under more than one casing (AudioSrv/Audiosrv,
+    # MpsSvc/mpssvc, SNMPTRAP/SNMPTrap). Where-Object -eq is case-insensitive, so
+    # match on the exact string and take the first hit to avoid a joined name.
     $targets = if ($Services) { $Services } else { @($servicesData.service.Name) }
 
     foreach ($name in $targets)
     {
-        $entry = $servicesData.service | Where-Object { $_.Name -eq $name }
+        $entry = $servicesData.service | Where-Object { $_.Name -ceq $name } | Select-Object -First 1
+        if (-not $entry)
+        {
+            $entry = $servicesData.service | Where-Object { $_.Name -eq $name } | Select-Object -First 1
+        }
         if (-not $entry)
         {
             Write-Warning "Service $name not listed in WinUtilTweaks.json, skipping."
