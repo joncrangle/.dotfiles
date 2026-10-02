@@ -121,14 +121,16 @@ iwr -useb https://raw.githubusercontent.com/joncrangle/.dotfiles/main/setup_win.
 > Some useful PowerToys settings that can be configured:
 >
 > 1. File Explorer add-ons for previews
-> 2. Enable Keyboard Manager and remap `Ctrl` + `F` to `F4` within `olk` (Outlook)
->    Remap `Ctrl` + `Shift` + `O` and `Ctrl` + `Shift` + `M` to camera and microphone toggle buttons in `ms-teams`
->    Remap `Down` and `Up` to `Ctrl` + `N` and `Ctrl` + `P` for `powertoys.powerlauncher`
+> 2. Enable Keyboard Manager. The remaps are already configured in `AppData/Local/Microsoft/PowerToys/Keyboard Manager/default.json`:
+>    `Ctrl` + `F` sends `F4` within `olk` (Outlook)
+>    `Ctrl` + `A` toggles the microphone and `Ctrl` + `V` toggles the camera within `ms-teams`
+>    `Down` and `Up` send `Ctrl` + `N` and `Ctrl` + `P` for `powertoys.powerlauncher`
+>    `Win` + `G` sends the play/pause media key globally
 > 3. Enable Paste as Plain Text
 > 4. Enable PowerToys Command Palette (optional)
 > 5. Enable Quick Accent for a desired language (e.g. French or Spanish)
 >
-> Within Taskbar Settings, automatically hide the taskbar in Desktop mode.
+> `WinUtilTweaks.ps1` sets several registry tweaks on install, including showing file extensions, dark mode, NumLock on start, disabling the Game Bar, and disabling PowerShell telemetry. See `Show-AvailableFunctions` in that script for the full list.
 
 ## 📱 Termux (Android)
 

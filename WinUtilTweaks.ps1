@@ -43,7 +43,16 @@ function Set-RegistryValueSafe
     {
         New-Item -Path $Path -Force | Out-Null
     }
-    Set-ItemProperty -Path $Path -Name $Name -Value $Value -Type $Type -Force
+    # Set-ItemProperty has no -Type parameter, so it can only change the value of
+    # an existing property. Create the property with the right type when missing.
+    if ($null -eq (Get-ItemProperty -Path $Path -Name $Name -ErrorAction SilentlyContinue))
+    {
+        New-ItemProperty -Path $Path -Name $Name -Value $Value -PropertyType $Type -Force | Out-Null
+    }
+    else
+    {
+        Set-ItemProperty -Path $Path -Name $Name -Value $Value -Force
+    }
     Write-Host "  ✓ Set $Path\$Name = $Value" -ForegroundColor Green
 }
 
@@ -101,14 +110,14 @@ function Invoke-WinUtilHiddenFiles
 {
     Write-Host "Enabling Hidden Files visibility..." -ForegroundColor Cyan
     Set-RegistryValueSafe -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "Hidden" -Value 1 -Type "DWord"
-    Write-Host "Hidden files enabled successfully!" -ForegroundColor Green
+    Write-Host "Hidden file visibility enabled successfully!" -ForegroundColor Green
 }
 
 function Invoke-WinUtilShowExt
 {
     Write-Host "Showing file extensions..." -ForegroundColor Cyan
     Set-RegistryValueSafe -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "HideFileExt" -Value 0 -Type "DWord"
-    Write-Host "File extensions enabled successfully!" -ForegroundColor Green
+    Write-Host "File extensions shown successfully!" -ForegroundColor Green
 }
 
 function Invoke-WinUtilDarkMode
@@ -125,7 +134,7 @@ function Invoke-WinUtilDisableGameBar
     Write-Host "Disabling Xbox Gaming Overlay..." -ForegroundColor Cyan
     Stop-Process -Name GameBarFTServer -Force -Confirm:$false -ErrorAction SilentlyContinue
     Set-RegistryValueSafe -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\GameDVR" -Name "AppCaptureEnabled" -Value 0 -Type "DWord"
-    Write-Host "PowerShell telemetry disabled successfully!" -ForegroundColor Green
+    Write-Host "Xbox Gaming Overlay disabled successfully!" -ForegroundColor Green
 }
 
 function Invoke-WinUtilDisablePSTelemetry
@@ -149,6 +158,9 @@ function Invoke-WinUtilEnableEndTask
 
 function Invoke-WinUtilSetServicesManual
 {
+    param (
+        [string[]]$Services
+    )
     Write-Host "Setting services based on WinUtilTweaks.json..." -ForegroundColor Cyan
     $jsonPath = Join-Path $PSScriptRoot "WinUtilTweaks.json"
 
@@ -159,10 +171,20 @@ function Invoke-WinUtilSetServicesManual
     }
 
     $servicesData = Get-Content -Path $jsonPath | ConvertFrom-Json
-    
-    foreach ($service in $servicesData.service)
+
+    # An explicit list restricts the changes to those services. Without one, apply
+    # every entry in the json, which is what Invoke-All relies on.
+    $targets = if ($Services) { $Services } else { @($servicesData.service.Name) }
+
+    foreach ($name in $targets)
     {
-        Set-WinUtilService -Name $service.Name -StartupType $service.StartupType
+        $entry = $servicesData.service | Where-Object { $_.Name -eq $name }
+        if (-not $entry)
+        {
+            Write-Warning "Service $name not listed in WinUtilTweaks.json, skipping."
+            continue
+        }
+        Set-WinUtilService -Name $entry.Name -StartupType $entry.StartupType
     }
     Write-Host "Finished setting services." -ForegroundColor Green
 }
@@ -202,7 +224,9 @@ function Show-AvailableFunctions
 if ($args.Count -gt 0)
 {
     $FunctionName = $args[0]
-    $Parameters = $args[1..($args.Count-1)]
+    # With a single argument, $args[1..0] would reverse into $args[0], passing the
+    # function name back to itself. Start from index 1 only when there is one.
+    $Parameters = if ($args.Count -gt 1) { $args[1..($args.Count-1)] } else { @() }
 } else
 {
     $FunctionName = ""
@@ -241,7 +265,7 @@ if ($Parameters.Count -gt 0)
         & $FunctionName -Services $serviceList
     } else
     {
-        & $FunctionName $Parameters
+        & $FunctionName @Parameters
     }
 } else
 {
