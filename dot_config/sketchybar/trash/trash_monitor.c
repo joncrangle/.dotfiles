@@ -1,207 +1,570 @@
+#include "sketchybar.h"
+
 #include <CoreServices/CoreServices.h>
 #include <dirent.h>
 #include <dispatch/dispatch.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <limits.h>
 #include <signal.h>
 #include <stdarg.h>
+#include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/file.h>
+#include <sys/stat.h>
 #include <unistd.h>
 
-// --- Global State ---
+#define LOCK_FILE "/tmp/trash_monitor.lock"
+#define SKETCHYBAR_NAME "sketchybar"
+#define FSEVENT_LATENCY 1.0
+
+/* -------------------------------------------------------------------------- */
+/* Global state                                                               */
+/* -------------------------------------------------------------------------- */
+
 static bool g_is_foreground = false;
-static FSEventStreamRef g_stream =
-    NULL; // Global reference to the stream for cleanup
-static int g_last_trash_count = -1; // Stores the last known count
-static int g_lock_fd = -1;          // Lock file descriptor
-static const char *LOCK_FILE = "/tmp/trash_monitor.lock";
+static bool g_shutting_down = false;
+static bool g_stream_started = false;
 
-// --- Single Instance Lock ---
-static bool acquire_lock(void) {
-  g_lock_fd = open(LOCK_FILE, O_CREAT | O_RDWR, 0644);
-  if (g_lock_fd < 0)
-    return false;
+static FSEventStreamRef g_stream = NULL;
+static int g_last_trash_count = -1;
+static int g_lock_fd = -1;
 
-  if (flock(g_lock_fd, LOCK_EX | LOCK_NB) < 0) {
-    close(g_lock_fd);
-    g_lock_fd = -1;
-    return false;
-  }
+/*
+ * Keeping references to these sources alive for the lifetime of the process
+ * is intentional.
+ */
+static dispatch_source_t g_sigint_source = NULL;
+static dispatch_source_t g_sigterm_source = NULL;
 
-  ftruncate(g_lock_fd, 0);
-  dprintf(g_lock_fd, "%d\n", getpid());
-  return true;
-}
+/* -------------------------------------------------------------------------- */
+/* Logging                                                                    */
+/* -------------------------------------------------------------------------- */
 
-static void release_lock(void) {
-  if (g_lock_fd >= 0) {
-    flock(g_lock_fd, LOCK_UN);
-    close(g_lock_fd);
-    unlink(LOCK_FILE);
-    g_lock_fd = -1;
-  }
-}
-
-// --- Conditional Logging ---
-void log_to_terminal(const char *format, ...) {
-  if (!g_is_foreground)
+static void log_to_terminal(const char *format, ...) {
+  if (!g_is_foreground) {
     return;
+  }
+
   va_list args;
   va_start(args, format);
   vprintf(format, args);
   va_end(args);
+
   fflush(stdout);
 }
 
-int get_trash_count() {
-  int count = 0;
-  const char *home_path = getenv("HOME");
-  if (!home_path)
-    return 0;
+/* -------------------------------------------------------------------------- */
+/* Single-instance lock                                                       */
+/* -------------------------------------------------------------------------- */
 
-  char trash_path[1024];
-  snprintf(trash_path, sizeof(trash_path), "%s/.Trash", home_path);
+enum lock_result {
+  LOCK_RESULT_ERROR = -1,
+  LOCK_RESULT_BUSY = 0,
+  LOCK_RESULT_ACQUIRED = 1,
+};
 
-  DIR *dir = opendir(trash_path);
-  if (dir == NULL)
-    return 0;
+static enum lock_result acquire_lock(void) {
+  g_lock_fd = open(LOCK_FILE, O_CREAT | O_RDWR | O_CLOEXEC | O_NOFOLLOW, 0600);
 
-  struct dirent *entry;
-  while ((entry = readdir(dir)) != NULL) {
-    if (strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0 &&
-        strcmp(entry->d_name, ".DS_Store") != 0) {
-      count++;
-    }
+  if (g_lock_fd < 0) {
+    return LOCK_RESULT_ERROR;
   }
-  closedir(dir);
-  return count;
+
+  struct stat st;
+  if (fstat(g_lock_fd, &st) < 0 || !S_ISREG(st.st_mode) ||
+      st.st_uid != geteuid()) {
+    int saved_errno = errno != 0 ? errno : EPERM;
+
+    close(g_lock_fd);
+    g_lock_fd = -1;
+
+    errno = saved_errno;
+    return LOCK_RESULT_ERROR;
+  }
+
+  /*
+   * Older versions created the lock file as 0644. Tighten an existing file
+   * to the permissions used by this version.
+   */
+  if (fchmod(g_lock_fd, 0600) < 0) {
+    int saved_errno = errno;
+
+    close(g_lock_fd);
+    g_lock_fd = -1;
+
+    errno = saved_errno;
+    return LOCK_RESULT_ERROR;
+  }
+
+  for (;;) {
+    if (flock(g_lock_fd, LOCK_EX | LOCK_NB) == 0) {
+      break;
+    }
+
+    if (errno == EINTR) {
+      continue;
+    }
+
+    if (errno == EWOULDBLOCK || errno == EAGAIN) {
+      close(g_lock_fd);
+      g_lock_fd = -1;
+      return LOCK_RESULT_BUSY;
+    }
+
+    int saved_errno = errno;
+
+    close(g_lock_fd);
+    g_lock_fd = -1;
+
+    errno = saved_errno;
+    return LOCK_RESULT_ERROR;
+  }
+
+  /*
+   * The PID is informational only. flock() provides the actual singleton
+   * guarantee.
+   */
+  if (ftruncate(g_lock_fd, 0) == 0) {
+    (void)dprintf(g_lock_fd, "%d\n", getpid());
+  }
+
+  return LOCK_RESULT_ACQUIRED;
 }
 
-void update_sketchybar_trash() {
-  int count = get_trash_count();
-
-  // Only update if the count has changed
-  if (count == g_last_trash_count) {
-    log_to_terminal("Trash count unchanged (%d), skipping update.\n", count);
+static void release_lock(void) {
+  if (g_lock_fd < 0) {
     return;
   }
 
-  g_last_trash_count = count; // Update the last known count
+  /*
+   * Do not unlink the lock file. Closing the descriptor releases the flock.
+   * Unlinking after unlocking introduces an inode race that can allow two
+   * monitor instances to coexist.
+   */
+  close(g_lock_fd);
+  g_lock_fd = -1;
+}
 
-  char command[512];
-  const char *sketchybar_path = "/opt/homebrew/bin/sketchybar";
-  snprintf(command, sizeof(command),
-           "'%s' --trigger trash_change TRASH_COUNT=%d", sketchybar_path,
-           count);
+/* -------------------------------------------------------------------------- */
+/* Trash path/count                                                           */
+/* -------------------------------------------------------------------------- */
 
-  log_to_terminal("Executing command: %s\n", command);
-  int result = system(command);
+static bool get_trash_path(char *buffer, size_t size) {
+  const char *home = getenv("HOME");
 
-  if (result != 0) {
-    log_to_terminal("Command may have failed with exit code %d\n", result);
+  if (home == NULL || home[0] == '\0') {
+    errno = ENOENT;
+    return false;
+  }
+
+  int length = snprintf(buffer, size, "%s/.Trash", home);
+
+  if (length < 0) {
+    return false;
+  }
+
+  if ((size_t)length >= size) {
+    errno = ENAMETOOLONG;
+    return false;
+  }
+
+  return true;
+}
+
+static int get_trash_count(void) {
+  char trash_path[PATH_MAX];
+
+  if (!get_trash_path(trash_path, sizeof(trash_path))) {
+    return -1;
+  }
+
+  DIR *dir = opendir(trash_path);
+  if (dir == NULL) {
+    return -1;
+  }
+
+  int count = 0;
+  int saved_errno = 0;
+
+  errno = 0;
+
+  for (;;) {
+    struct dirent *entry = readdir(dir);
+
+    if (entry == NULL) {
+      saved_errno = errno;
+      break;
+    }
+
+    if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0 ||
+        strcmp(entry->d_name, ".DS_Store") == 0) {
+      continue;
+    }
+
+    if (count == INT_MAX) {
+      saved_errno = EOVERFLOW;
+      break;
+    }
+
+    count++;
+  }
+
+  if (closedir(dir) < 0 && saved_errno == 0) {
+    saved_errno = errno;
+  }
+
+  if (saved_errno != 0) {
+    errno = saved_errno;
+    return -1;
+  }
+
+  return count;
+}
+
+/* -------------------------------------------------------------------------- */
+/* SketchyBar notification                                                    */
+/* -------------------------------------------------------------------------- */
+
+static enum sketchybar_send_status trigger_trash_change(int count) {
+  char command[128];
+
+  int length = snprintf(command, sizeof(command),
+                        "--trigger trash_change TRASH_COUNT=%d", count);
+
+  if (length < 0 || (size_t)length >= sizeof(command)) {
+    return SKETCHYBAR_SEND_FAILED;
+  }
+
+  return sketchybar_send(command, SKETCHYBAR_NAME, NULL);
+}
+
+static bool update_sketchybar_trash(bool force) {
+  int count = get_trash_count();
+
+  if (count < 0) {
+    int saved_errno = errno;
+
+    log_to_terminal("Failed to read Trash: %s\n", strerror(saved_errno));
+
+    errno = saved_errno;
+    return false;
+  }
+
+  if (!force && count == g_last_trash_count) {
+    log_to_terminal("Trash count unchanged (%d), skipping update.\n", count);
+    return true;
+  }
+
+  log_to_terminal("Updating Trash count: %d\n", count);
+
+  enum sketchybar_send_status status = trigger_trash_change(count);
+
+  if (status == SKETCHYBAR_SEND_FAILED) {
+    /*
+     * Do not change g_last_trash_count. A later FSEvent can retry the same
+     * value after SketchyBar becomes reachable again.
+     */
+    log_to_terminal(
+        "Failed to deliver Trash update to SketchyBar; will retry on a "
+        "future event.\n");
+
+    return false;
+  }
+
+  /*
+   * SENT_NO_ACK still means the Mach send itself succeeded. Retrying merely
+   * because the response timed out could trigger the same SketchyBar event
+   * twice, so treat it as delivered.
+   */
+  if (status == SKETCHYBAR_SENT_NO_ACK) {
+    log_to_terminal(
+        "Trash update sent to SketchyBar, but no acknowledgement was "
+        "received.\n");
   } else {
-    log_to_terminal("Command executed.\n");
+    log_to_terminal("Trash update acknowledged by SketchyBar.\n");
   }
+
+  g_last_trash_count = count;
+  return true;
 }
 
-void fsevents_callback(ConstFSEventStreamRef streamRef,
-                       void *clientCallBackInfo, size_t numEvents,
-                       void *eventPaths,
-                       const FSEventStreamEventFlags eventFlags[],
-                       const FSEventStreamEventId eventIds[]) {
-  (void)streamRef;
-  (void)clientCallBackInfo;
-  (void)numEvents;
-  (void)eventPaths;
-  (void)eventFlags;
-  (void)eventIds;
+/* -------------------------------------------------------------------------- */
+/* FSEvents                                                                   */
+/* -------------------------------------------------------------------------- */
+
+static void fsevents_callback(ConstFSEventStreamRef stream_ref,
+                              void *client_callback_info, size_t num_events,
+                              void *event_paths,
+                              const FSEventStreamEventFlags event_flags[],
+                              const FSEventStreamEventId event_ids[]) {
+  (void)stream_ref;
+  (void)client_callback_info;
+  (void)num_events;
+  (void)event_paths;
+  (void)event_flags;
+  (void)event_ids;
+
   log_to_terminal(
-      "FSEvents callback triggered. Checking for trash changes...\n");
-  update_sketchybar_trash();
+      "FSEvents callback triggered. Checking for Trash changes...\n");
+
+  (void)update_sketchybar_trash(false);
 }
 
-void signal_handler(int signum) {
-  log_to_terminal("\nSignal %d received, shutting down...\n", signum);
-  if (g_stream) {
-    FSEventStreamStop(g_stream);
-    FSEventStreamInvalidate(g_stream);
-    FSEventStreamRelease(g_stream);
+static void destroy_stream(void) {
+  if (g_stream == NULL) {
+    return;
   }
+
+  if (g_stream_started) {
+    FSEventStreamStop(g_stream);
+    g_stream_started = false;
+  }
+
+  FSEventStreamInvalidate(g_stream);
+  FSEventStreamRelease(g_stream);
+  g_stream = NULL;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Process cleanup                                                            */
+/* -------------------------------------------------------------------------- */
+
+static void process_cleanup(void) {
+  destroy_stream();
+  cleanup_sketchybar();
   release_lock();
+}
+
+/* -------------------------------------------------------------------------- */
+/* Signal handling                                                            */
+/* -------------------------------------------------------------------------- */
+
+/*
+ * This is invoked by libdispatch on the main queue, rather than as a POSIX
+ * async signal handler. It is therefore safe to use stdio, CoreFoundation,
+ * FSEvents and the SketchyBar IPC cleanup code here.
+ */
+static void shutdown_monitor(int signum) {
+  if (g_shutting_down) {
+    return;
+  }
+
+  g_shutting_down = true;
+
+  log_to_terminal("\nSignal %d received, shutting down...\n", signum);
+
+  /*
+   * exit() runs process_cleanup() via atexit().
+   */
   exit(0);
 }
 
-int main(int argc, char **argv) {
-  // If called with '--count', it prints the number of items and exits.
-  if (argc > 1 && strcmp(argv[1], "--count") == 0) {
-    printf("%d", get_trash_count());
-    return 0;
+static void signal_dispatch_handler(void *context) {
+  int signum = (int)(intptr_t)context;
+  shutdown_monitor(signum);
+}
+
+static bool setup_signal_sources(void) {
+  /*
+   * Dispatch signal sources require the corresponding POSIX signals to be
+   * ignored so that normal signal delivery does not terminate the process.
+   */
+  if (signal(SIGINT, SIG_IGN) == SIG_ERR) {
+    return false;
   }
 
-  if (!acquire_lock()) {
-    return 0;
+  if (signal(SIGTERM, SIG_IGN) == SIG_ERR) {
+    return false;
   }
 
-  g_is_foreground = isatty(STDOUT_FILENO);
+  g_sigint_source = dispatch_source_create(DISPATCH_SOURCE_TYPE_SIGNAL, SIGINT,
+                                           0, dispatch_get_main_queue());
 
-  signal(SIGINT, signal_handler);  // Catch CTRL+C
-  signal(SIGTERM, signal_handler); // Catch kill command
-
-  log_to_terminal("Trash monitor starting up...\n");
-
-  const char *home_path = getenv("HOME");
-  if (!home_path) {
-    log_to_terminal("FATAL: HOME environment variable not set.\n");
-    return 1;
+  if (g_sigint_source == NULL) {
+    return false;
   }
 
-  char trash_path[1024];
-  snprintf(trash_path, sizeof(trash_path), "%s/.Trash", home_path);
+  dispatch_set_context(g_sigint_source, (void *)(intptr_t)SIGINT);
+  dispatch_source_set_event_handler_f(g_sigint_source, signal_dispatch_handler);
 
-  CFStringRef path_to_watch = CFStringCreateWithCString(
-      kCFAllocatorDefault, trash_path, kCFStringEncodingUTF8);
-  if (!path_to_watch) {
-    log_to_terminal("FATAL: Could not create CFString for path.\n");
-    return 1;
+  g_sigterm_source = dispatch_source_create(
+      DISPATCH_SOURCE_TYPE_SIGNAL, SIGTERM, 0, dispatch_get_main_queue());
+
+  if (g_sigterm_source == NULL) {
+    return false;
   }
 
-  CFArrayRef pathsToWatch = CFArrayCreate(NULL, (const void **)&path_to_watch,
-                                          1, &kCFTypeArrayCallBacks);
+  dispatch_set_context(g_sigterm_source, (void *)(intptr_t)SIGTERM);
+  dispatch_source_set_event_handler_f(g_sigterm_source,
+                                      signal_dispatch_handler);
+
+  dispatch_resume(g_sigint_source);
+  dispatch_resume(g_sigterm_source);
+
+  return true;
+}
+
+/* -------------------------------------------------------------------------- */
+/* FSEvent stream setup                                                       */
+/* -------------------------------------------------------------------------- */
+
+static bool setup_fsevents(const char *trash_path) {
+  CFStringRef path_to_watch = CFStringCreateWithFileSystemRepresentation(
+      kCFAllocatorDefault, trash_path);
+
+  if (path_to_watch == NULL) {
+    return false;
+  }
+
+  const void *values[] = {
+      path_to_watch,
+  };
+
+  CFArrayRef paths_to_watch =
+      CFArrayCreate(kCFAllocatorDefault, values, 1, &kCFTypeArrayCallBacks);
+
   CFRelease(path_to_watch);
 
-  if (!pathsToWatch) {
-    log_to_terminal("FATAL: Could not create CFArray for paths.\n");
-    return 1;
+  if (paths_to_watch == NULL) {
+    return false;
   }
 
-  FSEventStreamContext context = {0, NULL, NULL, NULL, NULL};
-  g_stream = FSEventStreamCreate( // Assign to global stream
-      kCFAllocatorDefault, fsevents_callback, &context, pathsToWatch,
-      kFSEventStreamEventIdSinceNow, 1.0, kFSEventStreamCreateFlagFileEvents);
+  FSEventStreamContext context = {
+      .version = 0,
+      .info = NULL,
+      .retain = NULL,
+      .release = NULL,
+      .copyDescription = NULL,
+  };
 
-  CFRelease(pathsToWatch);
+  g_stream = FSEventStreamCreate(
+      kCFAllocatorDefault, fsevents_callback, &context, paths_to_watch,
+      kFSEventStreamEventIdSinceNow, FSEVENT_LATENCY,
+      kFSEventStreamCreateFlagFileEvents | kFSEventStreamCreateFlagWatchRoot);
 
-  if (!g_stream) {
-    log_to_terminal("FATAL: Failed to create FSEventStream.\n");
-    return 1;
+  CFRelease(paths_to_watch);
+
+  if (g_stream == NULL) {
+    return false;
   }
 
   FSEventStreamSetDispatchQueue(g_stream, dispatch_get_main_queue());
+
   if (!FSEventStreamStart(g_stream)) {
-    log_to_terminal("FATAL: Failed to start FSEventStream.\n");
     FSEventStreamInvalidate(g_stream);
     FSEventStreamRelease(g_stream);
+    g_stream = NULL;
+    return false;
+  }
+
+  g_stream_started = true;
+  return true;
+}
+
+/* -------------------------------------------------------------------------- */
+/* CLI                                                                        */
+/* -------------------------------------------------------------------------- */
+
+static void usage(const char *program) {
+  fprintf(stderr,
+          "Usage:\n"
+          "  %s          monitor Trash and notify SketchyBar\n"
+          "  %s --count  print current Trash item count\n",
+          program, program);
+}
+
+/* -------------------------------------------------------------------------- */
+/* Main                                                                       */
+/* -------------------------------------------------------------------------- */
+
+int main(int argc, char **argv) {
+  g_is_foreground = isatty(STDOUT_FILENO);
+
+  if (argc == 2 && strcmp(argv[1], "--count") == 0) {
+    int count = get_trash_count();
+
+    if (count < 0) {
+      fprintf(stderr, "Failed to read Trash: %s\n", strerror(errno));
+      return 1;
+    }
+
+    /*
+     * Preserve the previous interface: print only the integer, with no
+     * trailing newline.
+     */
+    printf("%d", count);
+    return 0;
+  }
+
+  if (argc != 1) {
+    usage(argv[0]);
     return 1;
   }
 
-  log_to_terminal("Monitoring trash directory: %s\n", trash_path);
+  enum lock_result lock_result = acquire_lock();
 
-  update_sketchybar_trash();
+  if (lock_result == LOCK_RESULT_BUSY) {
+    /*
+     * A monitor is already running. This commonly happens when SketchyBar is
+     * reloaded and launches the helper again.
+     *
+     * Resend the current count before exiting so the newly started/reloaded
+     * SketchyBar does not have to wait for the next filesystem event to learn
+     * the current Trash state.
+     */
+    (void)update_sketchybar_trash(true);
+    cleanup_sketchybar();
+    return 0;
+  }
+
+  if (lock_result == LOCK_RESULT_ERROR) {
+    if (g_is_foreground) {
+      fprintf(stderr, "Failed to acquire monitor lock: %s\n", strerror(errno));
+    }
+
+    return 1;
+  }
+
+  if (atexit(process_cleanup) != 0) {
+    release_lock();
+    return 1;
+  }
+
+  log_to_terminal("Trash monitor starting up...\n");
+
+  char trash_path[PATH_MAX];
+
+  if (!get_trash_path(trash_path, sizeof(trash_path))) {
+    if (g_is_foreground) {
+      fprintf(stderr, "Failed to determine Trash path: %s\n", strerror(errno));
+    }
+
+    return 1;
+  }
+
+  if (!setup_signal_sources()) {
+    log_to_terminal("FATAL: Failed to configure signal handling.\n");
+    return 1;
+  }
+
+  if (!setup_fsevents(trash_path)) {
+    log_to_terminal("FATAL: Failed to create/start FSEventStream.\n");
+    return 1;
+  }
+
+  log_to_terminal("Monitoring Trash directory: %s\n", trash_path);
+
+  /*
+   * Always synchronize SketchyBar once on startup.
+   */
+  (void)update_sketchybar_trash(true);
+
   dispatch_main();
 
-  // Unreachable
+  /* dispatch_main() never returns. */
   return 0;
 }

@@ -1,9 +1,6 @@
 local colors = require 'colors'
 local settings = require 'settings'
 
--- Execute the trash_monitor binary which provides the count of items in the trash
-sbar.exec '$CONFIG_DIR/trash/trash_monitor &'
-
 local ICON_TRASH_EMPTY = ''
 local ICON_TRASH_FULL = ''
 
@@ -24,17 +21,21 @@ local trash = sbar.add('item', 'trash', {
 })
 
 local function update_trash(env)
-  -- Read the count from the TRASH_COUNT variable sent by trash_monitor
   local count = tonumber(env.TRASH_COUNT)
 
+  if not count then
+    return
+  end
+
   if count == 0 then
-    -- Trash is empty
     trash:set {
       icon = {
         string = ICON_TRASH_EMPTY,
         color = colors.overlay0,
       },
-      label = { drawing = false },
+      label = {
+        drawing = false,
+      },
     }
   else
     trash:set {
@@ -51,20 +52,20 @@ local function update_trash(env)
   end
 end
 
+-- Subscribe before starting the monitor so its initial trash_change event
+-- cannot be missed.
 trash:subscribe('trash_change', update_trash)
 
--- Add a click event to open the trash folder
 trash:subscribe('mouse.clicked', function()
   sbar.exec 'open ~/.Trash'
 end)
 
--- Get the initial state on load/reload
-local function get_initial_state()
-  sbar.exec('$CONFIG_DIR/trash/trash_monitor --count', function(count)
-    if count then
-      update_trash { TRASH_COUNT = count }
-    end
-  end)
-end
-
-get_initial_state()
+-- Start the trash monitor.
+--
+-- On first launch, it becomes the persistent monitor and immediately sends the
+-- current trash count.
+--
+-- On a SketchyBar reload, if the monitor is already running, this invocation
+-- detects the existing instance, sends the current count to the newly reloaded
+-- SketchyBar, and exits.
+sbar.exec '$CONFIG_DIR/trash/trash_monitor &'

@@ -2,16 +2,17 @@ default:
     @just --list
 
 build-menus:
-    clang -std=c99 -Wall -Wextra -O2 \
+    clang -std=c17 -Wall -Wextra -Wpedantic -O2 \
         -framework ApplicationServices \
         -framework Carbon \
         menus/menus.c -o menus/menus
     codesign -s - menus/menus
 
 build-trash:
-    clang -Wall -Wextra -O2 \
+    clang -std=c17 -Wall -Wextra -Wpedantic -O2 \
         -framework CoreServices \
         trash/trash_monitor.c \
+        trash/sketchybar.c \
         -o trash/trash_monitor
 
 build-stats:
