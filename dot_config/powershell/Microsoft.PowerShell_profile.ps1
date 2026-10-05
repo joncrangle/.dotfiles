@@ -244,6 +244,7 @@ Set-Alias lzd  lazydocker -Force
 Set-Alias tg   topgrade   -Force
 Set-Alias cm   chezmoi    -Force
 Set-Alias wez  wezterm    -Force
+Set-Alias oc   opencode   -Force
 
 Set-Alias c Clear-Host -Force
 Set-Alias weather wx -Force
@@ -344,11 +345,6 @@ function gd
 filter grep ($pattern)
 {
     $_ | Select-String -Pattern $pattern
-}
-
-function oc
-{
-    opencode2 --agent orchestrator $args
 }
 
 function prip
