@@ -2,7 +2,6 @@ return {
   ---@module 'blink.cmp'
   {
     'saghen/blink.cmp',
-    version = '*',
     event = { 'InsertEnter', 'CmdlineEnter' },
     dependencies = {
       'saghen/blink.lib',
@@ -10,15 +9,19 @@ return {
       'moyiz/blink-emoji.nvim',
       'fang2hou/blink-copilot',
     },
+    build = function()
+      ---@diagnostic disable-next-line: undefined-field
+      require('blink.cmp').build():pwait()
+    end,
     opts_extend = { 'sources.default' },
     ---@type blink.cmp.Config
     opts = {
-      fuzzy = { implementation = 'prefer_rust' },
+      fuzzy = { implementation = 'rust' },
       appearance = { nerd_font_variant = 'mono' },
       cmdline = {
         completion = {
           menu = {
-            auto_show = function()
+            auto_show = function(_)
               return vim.fn.getcmdtype() == ':'
             end,
           },
@@ -27,16 +30,10 @@ return {
       },
       completion = {
         accept = { auto_brackets = { enabled = true } },
-        menu = {
-          border = 'rounded',
-          draw = { treesitter = { 'lsp' } },
-        },
+        menu = { draw = { treesitter = { 'lsp' } } },
         documentation = {
           auto_show = true,
           auto_show_delay_ms = 200,
-          window = {
-            border = 'rounded',
-          },
         },
         ghost_text = { enabled = true },
         trigger = {
@@ -44,12 +41,7 @@ return {
           show_in_snippet = false,
         },
       },
-      signature = {
-        enabled = true,
-        window = {
-          border = 'rounded',
-        },
-      },
+      signature = { enabled = true },
       sources = {
         default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot' },
         per_filetype = {
@@ -68,7 +60,6 @@ return {
       keymap = {
         preset = 'super-tab',
         ['<Tab>'] = {
-          'snippet_forward',
           function(cmp)
             if cmp.snippet_active() then
               return cmp.accept()
@@ -76,8 +67,10 @@ return {
               return cmp.select_and_accept()
             end
           end,
+          'snippet_forward',
           'fallback',
         },
+        ['<S-Tab>'] = { 'snippet_backward', 'fallback' },
       },
     },
   },
