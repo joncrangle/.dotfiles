@@ -18,57 +18,32 @@ function Test-Cmd
     return [bool](Get-Command $Name -ErrorAction SilentlyContinue)
 }
 
-function Set-AliasIfExists
-{
-    param(
-        [Parameter(Mandatory)] [string]$Alias,
-        [Parameter(Mandatory)] [string]$Command
-    )
-    if (Get-Command $Command -ErrorAction SilentlyContinue)
-    {
-        if (Test-Path "Alias:\$Alias")
-        {
-            Remove-Item "Alias:\$Alias" -Force -ErrorAction SilentlyContinue
-        }
-        Set-Alias -Name $Alias -Value $Command -Scope Global -Force
-    }
-}
-
-function CleanPath 
-{
-    if ($env:Path) 
-    {
-        # Split, filter out empty elements, select unique entries, and join cleanly
-        $Cleaned = ($env:Path -split ';' | Where-Object { $_ -and (Test-Path $_) } | Select-Object -Unique) -join ';'
-        $env:Path = $Cleaned
-    }
-}
-
 # ------------------------------------------------------
-# 1. MODULES (SAFE LOAD)
+# 1. MODULES
 # ------------------------------------------------------
 
-CleanPath
-
-if ($IsInteractive -and (Get-Module -ListAvailable PSReadLine))
+if ($IsInteractive)
 {
-    Import-Module PSReadLine
+    Import-Module PSReadLine -ErrorAction SilentlyContinue
 }
 
 if ($IsPwsh)
 {
-    (& mise activate pwsh Out-String) | Invoke-Expression
+    (& mise activate pwsh | Out-String) | Invoke-Expression
 
-    if ((Get-Module -ListAvailable Terminal-Icons) -and (Get-Command Import-PowerShellDataFile -ErrorAction SilentlyContinue))
-    {
-        Import-Module Terminal-Icons -ErrorAction SilentlyContinue
-    }
+    Import-Module PSFzf -ErrorAction SilentlyContinue
 
-    if (Get-Module -ListAvailable PSFzf)
+    if (Get-Module PSFzf)
     {
-        Import-Module PSFzf
-        Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
-        Set-PsFzfOption -EnableAliasFuzzyCompletion -EnableProviderFuzzyCompletion -EnableCommandFuzzyCompletion
+        Set-PsFzfOption `
+            -PSReadlineChordProvider 'Ctrl+t' `
+            -PSReadlineChordReverseHistory 'Ctrl+r'
+
+        Set-PsFzfOption `
+            -EnableAliasFuzzyCompletion `
+            -EnableProviderFuzzyCompletion `
+            -EnableCommandFuzzyCompletion
+
         Set-PSReadLineKeyHandler -Key Tab -ScriptBlock {
             Invoke-FzfTabCompletion
         }
@@ -84,79 +59,129 @@ if ($IsPwsh)
 # 2. TOOL COMPLETIONS
 # ------------------------------------------------------
 
-if ($IsPwsh -and $IsInteractive)
+$CompletionDir = Join-Path $HOME '.cache\pwsh\completions'
+
+if (-not (Test-Path $CompletionDir))
 {
-    # ast-grep
-    if (Test-Cmd ast-grep)
+    New-Item -ItemType Directory -Path $CompletionDir -Force | Out-Null
+}
+
+function Update-PwshCompletions
+{
+    $completionDir = Join-Path $HOME '.cache\pwsh\completions'
+
+    if (-not (Test-Path $completionDir))
     {
-        ast-grep completions powershell | Out-String | Invoke-Expression
+        New-Item -ItemType Directory -Path $completionDir -Force | Out-Null
     }
 
-    # deno
-    if (Test-Cmd deno)
-    {
-        deno completions powershell | Out-String | Invoke-Expression
-    }
+    $generators = @(
+        @{
+            Name = 'ast-grep'
+            Command = 'ast-grep'
+            Generate = { ast-grep completions powershell }
+        }
+        @{
+            Name = 'deno'
+            Command = 'deno'
+            Generate = { deno completions powershell }
+        }
+        @{
+            Name = 'gh'
+            Command = 'gh'
+            Generate = { gh completion -s powershell }
+        }
+        @{
+            Name = 'jj'
+            Command = 'jj'
+            Generate = { jj util completion power-shell }
+        }
+        @{
+            Name = 'just'
+            Command = 'just'
+            Generate = { just --completions powershell }
+        }
+        @{
+            Name = 'pnpm'
+            Command = 'pnpm'
+            Generate = { pnpm completion pwsh }
+        }
+        @{
+            Name = 'rg'
+            Command = 'rg'
+            Generate = { rg --generate complete-powershell }
+        }
+        @{
+            Name = 'rustup'
+            Command = 'rustup'
+            Generate = { rustup completions powershell }
+        }
+        @{
+            Name = 'teams-green'
+            Command = 'teams-green'
+            Generate = { teams-green completion powershell }
+        }
+        @{
+            Name = 'uv'
+            Command = 'uv'
+            Generate = { uv generate-shell-completion powershell }
+        }
+        @{
+            Name = 'xh'
+            Command = 'xh'
+            Generate = { xh --generate complete-powershell }
+        }
+        @{
+            Name = 'yq'
+            Command = 'yq'
+            Generate = { yq completion powershell }
+        }
+    )
 
-    # GitHub CLI
-    if (Test-Cmd gh)
+    foreach ($item in $generators)
     {
-        gh completion -s powershell | Out-String | Invoke-Expression
-    }
+        if (-not (Test-Cmd $item.Command))
+        {
+            Write-Host "Skipping $($item.Name): command not found" -ForegroundColor DarkGray
+            continue
+        }
 
-    # jj
-    if (Test-Cmd jj)
-    {
-        jj util completion power-shell | Out-String | Invoke-Expression
-    }
+        $path = Join-Path $completionDir "$($item.Name).ps1"
+        $generator = $item.Generate
 
-    # just
-    if (Test-Cmd just)
-    {
-        just --completions powershell | Out-String | Invoke-Expression
-    }
+        try
+        {
+            $content = & $generator | Out-String
+            $exitCode = $LASTEXITCODE
 
-    # pnpm
-    if (Test-Cmd pnpm)
-    {
-        pnpm completion pwsh | Out-String | Invoke-Expression
-    }
+            if ($exitCode -eq 0 -and -not [string]::IsNullOrWhiteSpace($content))
+            {
+                [IO.File]::WriteAllText(
+                    $path,
+                    $content,
+                    [Text.UTF8Encoding]::new($false)
+                )
 
-    # rg
-    if (Test-Cmd rg)
-    {
-        rg --generate complete-powershell | Out-String | Invoke-Expression
+                Write-Host "Cached $($item.Name)" -ForegroundColor Green
+            }
+            else
+            {
+                Write-Warning "Failed to generate completions for $($item.Name)"
+            }
+        }
+        catch
+        {
+            Write-Warning "Failed to generate completions for $($item.Name): $_"
+        }
     }
+}
 
-    # rustup
-    if (Test-Cmd rustup)
-    {
-        rustup completions powershell | Out-String | Invoke-Expression
-    }
-
-    # teams-green
-    if (Test-Cmd teams-green)
-    {
-        teams-green completion powershell | Out-String | Invoke-Expression
-    }
-
-    # uv
-    if (Test-Cmd uv)
-    {
-        uv generate-shell-completion powershell | Out-String | Invoke-Expression
-    }
-
-    # xh
-    if (Test-Cmd xh)
-    {
-        xh --generate complete-powershell | Out-String | Invoke-Expression
-    }
-
-    # yq
-    if (Test-Cmd yq)
-    {
-        yq completion powershell | Out-String | Invoke-Expression
-    }
+if ($IsInteractive)
+{
+    Get-ChildItem $CompletionDir -Filter '*.ps1' -File -ErrorAction SilentlyContinue |
+        ForEach-Object {
+            . $_.FullName
+        }
 }
 
 # ------------------------------------------------------
@@ -206,26 +231,25 @@ $env:FZF_CTRL_R_OPTS="--bind 'ctrl-y:execute-silent(echo {} | win32yank -i)+abor
 # ------------------------------------------------------
 
 # Editors
-Set-AliasIfExists vim nvim
-Set-AliasIfExists vi  nvim
-Set-AliasIfExists v   nvim
+Set-Alias vim nvim -Force
+Set-Alias vi  nvim -Force
+Set-Alias v   nvim -Force
 
 # Core replacements
-Set-AliasIfExists cat bat
-Set-AliasIfExists lazy lazygit
-Set-AliasIfExists lg lazygit
-Set-AliasIfExists lzg lazygit
-Set-AliasIfExists lzd lazydocker
-Set-AliasIfExists tg topgrade
-Set-AliasIfExists oc opencode2
-Set-AliasIfExists cm chezmoi
-Set-AliasIfExists wez wezterm
+Set-Alias cat  bat        -Force
+Set-Alias lazy lazygit    -Force
+Set-Alias lg   lazygit    -Force
+Set-Alias lzg  lazygit    -Force
+Set-Alias lzd  lazydocker -Force
+Set-Alias tg   topgrade   -Force
+Set-Alias cm   chezmoi    -Force
+Set-Alias wez  wezterm    -Force
 
 Set-Alias c Clear-Host -Force
-Set-Alias weather wx
+Set-Alias weather wx -Force
 
 # zoxide replaces cd
-if (Test-Cmd z)
+if (Get-Command z -CommandType Function -ErrorAction SilentlyContinue)
 {
     Remove-Item Alias:cd -Force -ErrorAction SilentlyContinue
     Set-Alias cd z -Option AllScope -Force
@@ -570,4 +594,3 @@ if ($IsPwsh -and (Test-Cmd starship))
     Invoke-Expression (&starship init powershell)
     Enable-TransientPrompt
 }
-# vim: ft=ps1

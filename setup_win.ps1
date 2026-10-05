@@ -420,6 +420,15 @@ if (Test-Path ".\WinUtilTweaks.ps1")
     .\WinUtilTweaks.ps1 Invoke-All
 }
 
+Write-Host ":: Generating PowerShell completions..." -ForegroundColor Green
+
+pwsh -NoLogo -Command "Update-PwshCompletions"
+
+if ($LASTEXITCODE -ne 0)
+{
+    Write-Warning ":: Failed to generate PowerShell completion cache."
+}
+
 # ------------------------------------------------------
 # 12. FINISH
 # ------------------------------------------------------
