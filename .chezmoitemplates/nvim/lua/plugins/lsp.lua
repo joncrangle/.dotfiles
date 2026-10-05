@@ -37,9 +37,7 @@ return {
           end
 
           map('K', vim.lsp.buf.hover, 'Hover Documentation')
-          map('<C-s>', function()
-            vim.lsp.buf.signature_help { border = 'rounded' }
-          end, 'Signature Help', { 'n', 'i' })
+          map('<C-s>', vim.lsp.buf.signature_help, 'Signature Help', { 'n', 'i' })
           map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
           map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
           map('ge', '<cmd>lua vim.diagnostic.open_float()<CR>', 'Open [E]rror in Float')

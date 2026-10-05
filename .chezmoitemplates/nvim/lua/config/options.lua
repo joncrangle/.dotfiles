@@ -210,9 +210,6 @@ vim.api.nvim_create_autocmd('CmdlineEnter', {
 -- Set diagnostic configuration
 vim.diagnostic.config {
   severity_sort = true,
-  float = {
-    border = 'rounded',
-  },
   signs = vim.g.have_nerd_font and {
     text = {
       [vim.diagnostic.severity.ERROR] = '󰅚 ',
