@@ -128,7 +128,8 @@ config.font_rules = {
 -- Sessions
 local is_windows = wezterm.target_triple:find 'windows'
 local separator = is_windows and '\\' or '/'
-local age_binary = is_windows and (wezterm.home_dir .. [[\AppData\Local\mise\shims\age.exe]]) or (wezterm.home_dir .. '/.config/.local/share/mise/shims/age')
+local age_binary = is_windows and (wezterm.home_dir .. [[\AppData\Local\mise\shims\age.exe]])
+  or (wezterm.home_dir .. '/.config/.local/share/mise/installs/age/latest/age/age')
 plugins.resurrect.state_manager.set_encryption {
   enable = true,
   method = age_binary,
@@ -159,16 +160,22 @@ end
 
 local resurrect_event_listeners = {
   'resurrect.error',
-  'resurrect.state_manager.save_state.finished',
+  'resurrect.file_io.write_state.finished',
+  'resurrect.state_manager.delete_state.finished',
+  'resurrect.workspace_state.restore_workspace.finished',
+  'resurrect.window_state.restore_window.finished',
+  'resurrect.tab_state.restore_tab.finished',
 }
 local is_periodic_save = false
-wezterm.on('resurrect.state_manager.periodic_save', function()
+wezterm.on('resurrect.state_manager.periodic_save.start', function()
   is_periodic_save = true
+end)
+wezterm.on('resurrect.state_manager.periodic_save.finished', function()
+  is_periodic_save = false
 end)
 for _, event in ipairs(resurrect_event_listeners) do
   wezterm.on(event, function(...)
-    if event == 'resurrect.save_state.finished' and is_periodic_save then
-      is_periodic_save = false
+    if event == 'resurrect.file_io.write_state.finished' and is_periodic_save then
       return
     end
     local args = { ... }
@@ -176,7 +183,10 @@ for _, event in ipairs(resurrect_event_listeners) do
     for _, v in ipairs(args) do
       msg = msg .. ' ' .. tostring(v)
     end
-    wezterm.gui.gui_windows()[1]:toast_notification('Wezterm - resurrect', msg, nil, 4000)
+    local window = wezterm.gui.gui_windows()[1]
+    if window then
+      window:toast_notification('Wezterm - resurrect', msg, nil, 4000)
+    end
   end)
 end
 
