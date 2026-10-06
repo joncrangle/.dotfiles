@@ -67,7 +67,7 @@ git:
   skipHookPrefix: WIP
   autoFetch: true
   autoRefresh: true
-  branchLogCmd: git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium "{{branchName}}" --
+  branchLogCmd: git log --graph --color=always --abbrev-commit --decorate --date=relative --pretty=medium "{{ "{{branchName}}" }}" --
   overrideGpg: false
   disableForcePushing: false
   commitPrefixes: {}
@@ -230,7 +230,7 @@ customCommands:
     command: "gh browse"
     context: "files"
   - key: "b"
-    command: 'gh browse "{{.SelectedLocalCommit.Sha}}"'
+    command: 'gh browse "{{ "{{.SelectedLocalCommit.Sha}}" }}"'
     context: "commits"
   - key: "<c+p>"
     context: "localBranches"
@@ -239,7 +239,7 @@ customCommands:
       - type: "confirm"
         title: "Force Push"
         body: "Are you sure you want to force push to ALL origin remotes? This will overwrite remote history."
-    command: "git push --force origin {{.SelectedLocalBranch.Name}}"
+    command: 'git push --force origin {{"{{.SelectedLocalBranch.Name}}"}}'
     loadingText: "Force pushing to all remotes..."
     output: "terminal"
   - key: "<c+p>"
@@ -249,7 +249,7 @@ customCommands:
       - type: "confirm"
         title: "Force Push"
         body: "Are you sure you want to force push to ALL origin remotes? This will overwrite remote history."
-    command: "git push --force origin {{.CheckedOutBranch.Name}}"
+    command: 'git push --force origin {{"{{.CheckedOutBranch.Name}}"}}'
     loadingText: "Force pushing to all remotes..."
     output: "terminal"
   - key: "<c+p>"
@@ -259,7 +259,7 @@ customCommands:
       - type: "confirm"
         title: "Force Push"
         body: "Are you sure you want to force push to ALL origin remotes? This will overwrite remote history."
-    command: "git push --force origin {{.CheckedOutBranch.Name}}"
+    command: 'git push --force origin {{"{{.CheckedOutBranch.Name}}"}}'
     loadingText: "Force pushing to all remotes..."
     output: "terminal"
 services: {}
