@@ -7,10 +7,9 @@ jeffreytse/zsh-vi-mode
 
 belak/zsh-utils path:history
 belak/zsh-utils path:utility
-belak/zsh-utils path:completion
 
-zdharma-continuum/fast-syntax-highlighting kind:defer
-
-zsh-users/zsh-autosuggestions kind:defer
 zsh-users/zsh-history-substring-search
+# Load after compinit, before plugins that wrap completion widgets.
 aloxaf/fzf-tab kind:defer
+zsh-users/zsh-autosuggestions kind:defer
+zdharma-continuum/fast-syntax-highlighting kind:defer

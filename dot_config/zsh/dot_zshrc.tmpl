@@ -39,6 +39,32 @@ if [[ "$SSH_AUTH_SOCK" == "$HOME/.local/share/wezterm/agent."* &&
   unset SSH_AUTH_SOCK
 fi
 
+# Set completion paths before any plugin can initialize compinit.
+typeset -U fpath
+fpath=(
+  "$ZDOTDIR/completions"
+  {{ if eq .chezmoi.os "darwin" -}}
+  "$HOMEBREW_DIR/share/zsh/site-functions"
+  {{ end -}}
+  $fpath
+)
+export ZSH_COMPDUMP="$ZDOTDIR/.zcompdump"
+
+# Initialize vi-mode before other plugins add ZLE hooks, so its widget wrappers
+# do not wrap and then re-enter add-zle-hook-widget's dispatcher.
+function zvm_config() {
+  ZVM_VI_SURROUND_BINDKEY=s-prefix
+  ZVM_VI_HIGHLIGHT_FOREGROUND='#cdd6f4'
+  ZVM_VI_HIGHLIGHT_BACKGROUND='#45475a'
+  ZVM_VI_HIGHLIGHT_EXTRASTYLE=bold
+  ZVM_INIT_MODE=sourcing
+  ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT
+  ZVM_INSERT_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BEAM
+  ZVM_NORMAL_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BLOCK
+  ZVM_VISUAL_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BLOCK
+  ZVM_VISUAL_LINE_MODE_CURSOR=$ZVM_CURSOR_BLINKING_BLOCK
+}
+
 {{ if eq .chezmoi.os "linux" -}}
 source "/usr/share/zsh-antidote/antidote.zsh"
 {{- else }}
@@ -46,21 +72,19 @@ source "$HOMEBREW_DIR/opt/antidote/share/antidote/antidote.zsh"
 {{- end }}
 antidote load
 
-typeset -U fpath
-fpath=($ZDOTDIR/completions $HOMEBREW_DIR/share/zsh/site-functions $fpath)
-export ZSH_COMPDUMP="$ZDOTDIR/.zcompdump"
+# Zephyr queues plugin compdefs; this call initializes completion once.
 autoload -Uz compinit
 if [[ -n $ZSH_COMPDUMP(#qN.m-1) ]]; then
   compinit -i -C -d "$ZSH_COMPDUMP"
 else
-  compinit -i -d "$ZSH_COMPDUMP"
+  compinit -i -d "$ZSH_COMPDUMP" && touch "$ZSH_COMPDUMP"
 fi
 
 # Zsh completion
 zstyle ':completion:*' group-name ''
-zstyle ':completion:*' menu select
+zstyle ':completion:*' menu no
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*:descriptions' format ' %F{cyan}%d%f'
+zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':completion:*:messages' format ' %F{yellow}%d%f'
 zstyle ':completion:*:warnings' format ' %F{red}%d%f'
 
@@ -85,70 +109,31 @@ bindkey -M vicmd ":" undefined-key
 
 eval "$(starship init zsh)"
 
-set-long-prompt() {
-  PROMPT="$(starship prompt)"
-}
-
-set-short-prompt() {
-  PROMPT="$(starship module character)"
-  RPROMPT=$'%{\e[999C\e[8D%}%F{8}%*%f '
-}
-
-precmd_functions+=(set-long-prompt)
-
 function transient-line-finish() {
-  set-short-prompt
-  zle .reset-prompt 2>/dev/null
-  RPROMPT=""
-}
-zle -N transient-line-finish
+  [[ -n "$BUFFER" && "$CONTEXT" == start ]] || return 0
 
-function zvm_config() {
-  ZVM_VI_SURROUND_BINDKEY=s-prefix
-  ZVM_VI_HIGHLIGHT_FOREGROUND=#cdd6f4
-  ZVM_VI_HIGHLIGHT_BACKGROUND=#45475a
-  ZVM_VI_HIGHLIGHT_EXTRASTYLE=bold
-  ZVM_INIT_MODE=sourcing
-}
-
-function zvm_after_select_vi_mode() {
-  case $ZVM_MODE in
-  $ZVM_MODE_NORMAL)
-    STARSHIP_KEYMAP=vicmd
-    echo -ne "\e[1 q" # Block
-    ;;
-  $ZVM_MODE_INSERT)
-    STARSHIP_KEYMAP=viins
-    echo -ne "\e[5 q" # Beam
-    ;;
-  $ZVM_MODE_VISUAL | $ZVM_MODE_VISUAL_LINE)
-    STARSHIP_KEYMAP=vicmd
-    echo -ne "\e[1 q" # Block
-    ;;
-  esac
+  # Local prompt variables shorten this finished line, then restore Starship's
+  # definitions for the next prompt and for subsequent vi-mode redraws.
+  local PROMPT="$(starship module character \
+    --status="${STARSHIP_CMD_STATUS:-0}" --keymap="${KEYMAP:-viins}")"
+  local RPROMPT='%F{8}%*%f '
   zle .reset-prompt
 }
+zle -N transient-line-finish
+autoload -Uz add-zle-hook-widget
+add-zle-hook-widget line-finish transient-line-finish
 
-zvm_after_init_commands+=(
-  'zle -N zle-line-finish transient-line-finish'
-  'zvm_bindkey viins "^Y" autosuggest-accept'
+zvm_bindkey viins '^Y' autosuggest-accept
 
-  'if [[ ! -f "$HOME/.config/zsh/lib/sk_init.zsh" ]]; then
-     if [[ -f "$HOME/.config/zsh/update_completions.zsh" ]]; then
-       source "$HOME/.config/zsh/update_completions.zsh"
-     fi
-   else
-     source "$HOME/.config/zsh/lib/sk_init.zsh"
-   fi'
-
-  'zle -N sk-history-widget __sk_history__'
-
-  'function zle-line-init() {
-    zle -K viins
-    echo -ne "\e[5 q"
-  }
-  zle -N zle-line-init'
-)
+# Skim's generated bindings restore ZLE options and require a terminal.
+if [[ -t 0 ]]; then
+  if [[ ! -f "$ZDOTDIR/lib/sk_init.zsh" && -f "$ZDOTDIR/update_completions.zsh" ]]; then
+    "$ZDOTDIR/update_completions.zsh"
+  fi
+  if [[ -f "$ZDOTDIR/lib/sk_init.zsh" ]]; then
+    source "$ZDOTDIR/lib/sk_init.zsh"
+  fi
+fi
 
 [[ -f "$ZDOTDIR/options.zsh" ]] && source "$ZDOTDIR/options.zsh"
 [[ -f "$ZDOTDIR/aliases.zsh" ]] && source "$ZDOTDIR/aliases.zsh"

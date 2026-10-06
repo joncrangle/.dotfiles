@@ -265,62 +265,85 @@ pass() {
 
 # Interactive Port Killer
 prip() {
-	local sig selection pids
+	local sig selection listeners
+	local -a pids
 	sig="${1:-15}"
 
 	if command -v ss >/dev/null 2>&1; then
-		# Linux: Port(1) Process(2) PID(3)
-		selection=$(ss -tulpn | grep LISTEN | awk '{split($7,a,","); print $5, a[1], a[2]}' | sed 's/.*:\([0-9]*\)/\1/; s/users:(("//; s/pid=//' | sk \
-			--multi \
-			--ansi \
-			--layout=reverse \
-			--nth=1,2 \
-			--header="[Port-Kill: ss] Search: Port or Process" \
-			--preview "echo {3} | xargs -I{} ps -p {} -o pid,ppid,user,stat,start,time,command" \
-			--preview-window="down:40%")
-
-		pids=$(echo "$selection" | awk '{print $3}' | sort -u)
+		# One row per TCP listener owner: Port(1) Process(2) PID(3).
+		listeners=$(ss -H -ltnp | awk '
+			{
+				port = $4
+				sub(/^.*:/, "", port)
+				owners = $0
+				while (match(owners, /\("[^"]+",pid=[0-9]+/)) {
+					owner = substr(owners, RSTART, RLENGTH)
+					split(owner, fields, /",pid=/)
+					sub(/^\("/, "", fields[1])
+					printf "%s\t%s\t%s\n", port, fields[1], fields[2]
+					owners = substr(owners, RSTART + RLENGTH)
+				}
+			}')
 	else
 		# macOS: Port(1) Process(2) PID(3)
-		selection=$(lsof -iTCP -sTCP:LISTEN -P -n | awk 'NR>1 {print $9, $1, $2}' | sed 's/.*://' | sk \
-			--multi \
-			--ansi \
-			--layout=reverse \
-			--nth=1,2 \
-			--header="[Port-Kill: lsof] Search: Port or Process" \
-			--preview "ps -p {3} -o pid,ppid,user,stat,start,time,command" \
-			--preview-window="down:40%")
-
-		pids=$(echo "$selection" | awk '{print $3}' | sort -u)
+		listeners=$(lsof -iTCP -sTCP:LISTEN -P -n | awk 'NR>1 {
+			port = $9
+			sub(/^.*:/, "", port)
+			printf "%s\t%s\t%s\n", port, $1, $2
+		}')
 	fi
 
-	[[ -z "$pids" ]] && return
+	[[ -n "$listeners" ]] || return 0
+	selection=$(print -r -- "$listeners" | sort -u | sk \
+		--multi \
+		--ansi \
+		--layout=reverse \
+		--delimiter='\t' \
+		--nth=1,2 \
+		--selector='▌' \
+		--multi-selector='█ ' \
+		--highlight-line \
+		--border=rounded \
+		--color=catppuccin-mocha,cursor:#cba6f7,selected:#b4befe,border:#6c7086,current_match:#89b4fa \
+		--bind 'tab:toggle+down,shift-tab:toggle+up' \
+		--header="Ports | SIG$sig | Tab/Shift-Tab: select | Enter: kill | Esc: cancel" \
+		--preview 'ps -p {3} -o pid,ppid,user,stat,start,time,command' \
+		--preview-window="down:40%") || return 0
+	pids=( ${(f)"$(print -r -- "$selection" | awk -F '\t' '$3 ~ /^[0-9]+$/ && $3 > 0 {print $3}' | sort -u)"} )
+	(( $#pids )) || return 0
 
-	echo "Killing PID(s): $pids"
-	echo "$pids" | xargs kill -"$sig"
+	print -r -- "Killing with SIG$sig: ${pids[*]}"
+	kill -s "$sig" -- "${pids[@]}"
 }
 
 # Interactive Process Killer
 rip() {
-	local sig pids
+	local sig selection
+	local -a pids
 	sig="${1:-15}"
 
-	pids=$(sk -i -c "ps -Ao pid,comm | grep -i '{q}'" \
+	# Filter a stable snapshot so selections survive changes to the query.
+	selection=$(ps -Ao pid=,comm= | sed 's/^[[:space:]]*//' | sk \
 		--ansi \
 		--multi \
 		--layout=reverse \
 		--delimiter='[[:space:]]+' \
-		--nth=2 \
+		--nth=2.. \
+		--selector='▌' \
+		--multi-selector='█ ' \
+		--highlight-line \
+		--border=rounded \
+		--color=catppuccin-mocha,cursor:#cba6f7,selected:#b4befe,border:#6c7086,current_match:#89b4fa \
 		--tiebreak=begin,length \
-		--header="[Kill] SIG$sig | Enter: Kill | Query: {q}" \
-		--preview "ps -p {1} -o pid,ppid,user,stat,start,time,command" \
-		--preview-window="down:40%" |
-		awk '{print $1}')
+		--bind 'tab:toggle+down,shift-tab:toggle+up' \
+		--header="Processes | SIG$sig | Tab/Shift-Tab: select | Enter: kill | Esc: cancel" \
+		--preview 'ps -p {1} -o pid,ppid,user,stat,start,time,command' \
+		--preview-window="down:40%") || return 0
+	pids=( ${(f)"$(print -r -- "$selection" | awk '$1 ~ /^[0-9]+$/ && $1 > 0 {print $1}' | sort -u)"} )
+	(( $#pids )) || return 0
 
-	[[ -z "$pids" ]] && return
-
-	echo "Killing with SIG$sig: $pids"
-	echo "$pids" | xargs kill -"$sig"
+	print -r -- "Killing with SIG$sig: ${pids[*]}"
+	kill -s "$sig" -- "${pids[@]}"
 }
 
 # Sudo intercept for editors to use sudoedit instead
