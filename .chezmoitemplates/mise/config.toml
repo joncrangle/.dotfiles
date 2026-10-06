@@ -124,7 +124,9 @@ zoxide = "latest"
 "npm:yaml-language-server" = "latest"
 "pipx:qmk" = { version = "latest" }
 "pipx:sqlfluff" = { version = "latest" }
-"pipx:sqlit-tui" = { version = "latest", extras = "mariadb,postgres,turso" }
+"pipx:sqlit-tui" = { version = "latest", extras = [
+  "mariadb,postgres,turso",
+], uvx_args = "--python 3.13", pipx_args = "--python 3.13" }
 "pipx:ty" = { version = "latest" }
 
 [settings]
