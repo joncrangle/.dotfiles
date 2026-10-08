@@ -53,23 +53,28 @@ return {
     },
   },
   {
-    'mrjones2014/smart-splits.nvim',
+    'smart-splits-nvim/smart-splits.nvim',
+    version = '^3.0.0',
     lazy = false,
-    keys = function()
-      local smart_splits = require 'smart-splits'
-      -- stylua: ignore
-      local keys = {
-        { '<A-h>', smart_splits.resize_left,       { desc = 'Resize split left' } },
-        { '<A-j>', smart_splits.resize_down,       { desc = 'Resize split down' } },
-        { '<A-k>', smart_splits.resize_up,         { desc = 'Resize split up' } },
-        { '<A-l>', smart_splits.resize_right,      { desc = 'Resize split right' } },
-        { '<C-h>', smart_splits.move_cursor_left,  { desc = 'Move to left split' } },
-        { '<C-j>', smart_splits.move_cursor_down,  { desc = 'Move to below split' } },
-        { '<C-k>', smart_splits.move_cursor_up,    { desc = 'Move to above split' } },
-        { '<C-l>', smart_splits.move_cursor_right, { desc = 'Move to right split' } },
-      }
-      return keys
-    end,
+    dependencies = {
+      { 'smart-splits-nvim/backend-wezterm', main = 'smart-splits-backend-wezterm', opts = {} },
+      { 'smart-splits-nvim/backend-ghostty', main = 'smart-splits-backend-ghostty', opts = {} },
+    },
+    opts = {
+      mux = { backend = { 'smart-splits-backend-wezterm', 'smart-splits-backend-ghostty' } },
+      move = { at_edge = 'stop' },
+    },
+    -- stylua: ignore
+    keys = {
+      { '<A-h>', function() require('smart-splits').resize_left() end,        desc = 'Resize split left' },
+      { '<A-j>', function() require('smart-splits').resize_down() end,        desc = 'Resize split down' },
+      { '<A-k>', function() require('smart-splits').resize_up() end,          desc = 'Resize split up' },
+      { '<A-l>', function() require('smart-splits').resize_right() end,       desc = 'Resize split right' },
+      { '<C-h>', function() require('smart-splits').move_cursor_left() end,   desc = 'Move to left split' },
+      { '<C-j>', function() require('smart-splits').move_cursor_down() end,   desc = 'Move to below split' },
+      { '<C-k>', function() require('smart-splits').move_cursor_up() end,     desc = 'Move to above split' },
+      { '<C-l>', function() require('smart-splits').move_cursor_right() end,  desc = 'Move to right split' },
+    },
   },
   {
     'folke/persistence.nvim',

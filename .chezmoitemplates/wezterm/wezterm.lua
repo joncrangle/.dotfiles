@@ -18,7 +18,7 @@ local plugins = {
   ---@type SWS
   workspace_switcher = wezterm.plugin.require 'https://github.com/MLFlexer/smart_workspace_switcher.wezterm',
   ---@type SmartSplitsWezterm
-  smart_splits = wezterm.plugin.require 'https://github.com/mrjones2014/smart-splits.nvim',
+  smart_splits = wezterm.plugin.require 'https://github.com/smart-splits-nvim/backend-wezterm',
   smart_ssh = wezterm.plugin.require 'https://github.com/DavidRR-F/smart_ssh.wezterm',
 }
 
