@@ -93,7 +93,7 @@ zoxide = "latest"
 "go:google.golang.org/grpc/cmd/protoc-gen-go-grpc" = "latest"
 {{- if eq .chezmoi.os "darwin" }}
 "github:joncrangle/podapple" = "latest"
-"pipx:mlx-lm" = "latest"
+"pipx:mlx-lm" = { version = "latest", uvx_args = "--python 3.14" }
 {{- end }}
 {{- if eq .chezmoi.os "windows" }}
 "go:github.com/joncrangle/teams-green" = "latest"
@@ -125,6 +125,7 @@ zoxide = "latest"
 "npm:typescript" = "latest"
 "npm:vscode-langservers-extracted" = "latest"
 "npm:yaml-language-server" = "latest"
+"pipx:esp-idf-monitor" = { version = "latest" }
 "pipx:qmk" = { version = "latest" }
 "pipx:sqlfluff" = { version = "latest" }
 "pipx:sqlit-tui" = { version = "latest", extras = [
