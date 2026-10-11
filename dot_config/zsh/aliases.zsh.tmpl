@@ -267,7 +267,7 @@ pass() {
 prip() {
 	local sig selection listeners
 	local -a pids
-	sig="${1:-15}"
+	sig="${1:-TERM}"
 
 	if command -v ss >/dev/null 2>&1; then
 		# One row per TCP listener owner: Port(1) Process(2) PID(3).
@@ -320,7 +320,7 @@ prip() {
 rip() {
 	local sig selection
 	local -a pids
-	sig="${1:-15}"
+	sig="${1:-TERM}"
 
 	# Filter a stable snapshot so selections survive changes to the query.
 	selection=$(ps -Ao pid=,comm= | sed 's/^[[:space:]]*//' | sk \
