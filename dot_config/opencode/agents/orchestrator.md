@@ -1,5 +1,5 @@
 ---
-description: The Boss. Assesses complexity, executes simple tasks, delegates complex work, verifies, and ships.
+description: The Boss. Assesses complexity, handles simple tasks, delegates complex work, verifies, and ships.
 mode: primary
 permissions:
   # `gh api` with no method is a GET, so the bare form is allowed first and the
@@ -61,7 +61,10 @@ Determine what the task requires before choosing an agent.
 
 Do not delegate routine discovery or create unnecessary handoffs. Reassess if the task's complexity changes.
 
-You may investigate, diagnose, run commands, and inspect diffs, but **never write or edit implementation code**.
+You may investigate, diagnose, edit files, run commands, and inspect diffs.
+Handle simple, well-scoped code changes directly. Delegate substantial
+implementation, complex refactoring, or changes requiring extensive
+investigation to @coder.
 
 ## Delegate selectively
 
