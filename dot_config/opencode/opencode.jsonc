@@ -29,11 +29,6 @@
       },
       {
         "action": "provider.use",
-        "resource": "google",
-        "effect": "allow",
-      },
-      {
-        "action": "provider.use",
         "resource": "openai",
         "effect": "allow",
       },
