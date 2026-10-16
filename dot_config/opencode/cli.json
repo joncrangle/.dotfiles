@@ -11,6 +11,10 @@
     "scrollbar": false,
     "thinking": "show"
   },
+  "keybinds": {
+    "session.tab.next": "ctrl+down",
+    "session.tab.previous": "ctrl+up"
+  },
   "animations": true,
   "plugins": ["./herdr-opencode"]
 }
