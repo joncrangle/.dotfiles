@@ -135,6 +135,7 @@ zoxide = "latest"
 
 [settings]
 experimental = true
+self_update.auto = true
 locked = false
 npm.package_manager = "bun"
 python.uv_venv_auto = true
