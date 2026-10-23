@@ -128,16 +128,6 @@ return {
           },
         },
         clangd = {},
-        denols = {
-          root_markers = { 'deno.json', 'deno.jsonc' },
-          settings = {
-            init_options = {
-              enable = true,
-              lint = true,
-              unstable = true,
-            },
-          },
-        },
         dockerls = {
           cmd = { 'docker-langserver', '--stdio' },
         },
