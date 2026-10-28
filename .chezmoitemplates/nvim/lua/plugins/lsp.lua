@@ -248,6 +248,7 @@ return {
         mdx_analyzer = {
           cmd = { 'mdx-language-server', '--stdio' },
         },
+        mise = {},
         oxfmt = {},
         oxlint = {},
         ruff = {},
