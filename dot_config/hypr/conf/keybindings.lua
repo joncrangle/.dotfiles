@@ -73,6 +73,8 @@ bind(SHIFT, 'Print', 'grimblast copysave area') -- Screenshot an area
 bind(mainMod, 'Print', 'grimblast copysave window') -- Screenshot a window
 bind(combo(mainMod, CTRL), 'L', 'noctalia msg panel-toggle session') -- Lock screen
 bind(combo(mainMod, SHIFT), 'N', 'noctalia msg panel-toggle control-center notifications') -- Open notification history
+bind('CTRL', 'SPACE', hl.dsp.global 'anomaly.hex:dictation-ALT-space') -- Dictate
+bind('', 'F10', hl.dsp.global 'anomaly.hex:paste-last-CTRL-SHIFT-v') -- Paste
 
 -- Workspaces
 for i = 1, 10 do

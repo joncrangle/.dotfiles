@@ -473,6 +473,7 @@ aur_packages=(
 	"dropbox"
 	"grimblast-git"
 	"helium-browser-bin"
+	"hex-bin"
 	"localsend-bin"
 	"maplemono-ttf"
 	"noctalia"

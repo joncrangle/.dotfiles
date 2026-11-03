@@ -11,7 +11,7 @@
 {
    "$schema": "https://vicinae.com/schemas/config.json",
    "global_shortcuts": {
-      "toggle": "control+SPACE"
+      "toggle": ""
    },
    "theme": {
       "dark": {
