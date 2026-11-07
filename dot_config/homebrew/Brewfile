@@ -4,6 +4,7 @@
 #  | ' \/ _ \ '  \/ -_) '_ \ '_/ -_) V  V /
 #  |_||_\___/_|_|_\___|_.__/_| \___|\_/\_/
 
+tap "anomalyco/tap"
 tap "felixkratz/formulae", trusted: {
   formulae: ["borders", "sketchybar", "svim"]
 }
@@ -68,7 +69,6 @@ cask "betterdisplay"
 cask "bruno"
 cask "chatgpt"
 cask "dbeaver-community"
-cask "fluidvoice"
 cask "font-fontawesome"
 cask "font-iosevka-term-nerd-font"
 cask "font-jetbrains-mono-nerd-font"
@@ -79,6 +79,7 @@ cask "font-source-sans-3"
 cask "font-symbols-only-nerd-font"
 cask "git-credential-manager"
 cask "helium-browser"
+cask "hex", trusted: true
 cask "iina"
 cask "linearmouse"
 cask "localsend"
