@@ -122,11 +122,6 @@ return {
           },
         },
         bashls = {},
-        copilot = {
-          cmd_env = {
-            NODE_OPTIONS = '--experimental-sqlite',
-          },
-        },
         clangd = {},
         dockerls = {
           cmd = { 'docker-langserver', '--stdio' },

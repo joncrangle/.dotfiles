@@ -7,7 +7,6 @@ return {
       'saghen/blink.lib',
       'rafamadriz/friendly-snippets',
       'moyiz/blink-emoji.nvim',
-      'fang2hou/blink-copilot',
     },
     build = function()
       ---@diagnostic disable-next-line: undefined-field
@@ -30,6 +29,7 @@ return {
       },
       completion = {
         accept = { auto_brackets = { enabled = true } },
+        ---@diagnostic disable-next-line: missing-fields
         menu = { draw = { treesitter = { 'lsp' } } },
         documentation = {
           auto_show = true,
@@ -43,7 +43,7 @@ return {
       },
       signature = { enabled = true },
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot' },
+        default = { 'lsp', 'path', 'snippets', 'buffer' },
         per_filetype = {
           lua = { inherit_defaults = true, 'lazydev' },
           markdown = { inherit_defaults = true, 'emoji' },
@@ -54,7 +54,6 @@ return {
           dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink', score_offset = 3 },
           emoji = { name = 'Emoji', module = 'blink-emoji', score_offset = 3 },
           lazydev = { name = 'LazyDev', module = 'lazydev.integrations.blink', score_offset = 100 },
-          copilot = { name = 'Copilot', module = 'blink-copilot', score_offset = 100, async = true },
         },
       },
       keymap = {
