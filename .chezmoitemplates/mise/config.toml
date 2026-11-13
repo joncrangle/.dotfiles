@@ -40,6 +40,7 @@ pnpm = "latest"
 protobuf = "latest"
 python = "latest"
 ripgrep = "latest"
+ruby = "latest"
 ruff = "latest"
 {{ if ne .chezmoi.os "windows" -}}
 lua = "latest"
@@ -91,7 +92,6 @@ zoxide = "latest"
 "go:google.golang.org/protobuf/cmd/protoc-gen-go" = "latest"
 "go:google.golang.org/grpc/cmd/protoc-gen-go-grpc" = "latest"
 {{- if eq .chezmoi.os "darwin" }}
-"github:joncrangle/podapple" = "latest"
 "pipx:mlx-lm" = { version = "latest", uvx_args = "--python 3.14" }
 {{- end }}
 {{- if eq .chezmoi.os "windows" }}
@@ -131,6 +131,9 @@ zoxide = "latest"
   "mariadb,postgres,turso",
 ], uvx_args = "--python 3.13", pipx_args = "--python 3.13" }
 "pipx:ty" = { version = "latest" }
+
+[bootstrap.packages]
+"brew-cask:joncrangle/tap/castoff" = { os = ["macos"] }
 
 [settings]
 experimental = true
