@@ -437,6 +437,7 @@ repo_packages=(
 	"qalculate-gtk"
 	"qt6-multimedia-ffmpeg"
 	"qt6-wayland"
+	"rsync"
 	"slurp"
 	"smartmontools"
 	"system-config-printer"
