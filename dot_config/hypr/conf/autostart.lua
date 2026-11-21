@@ -21,6 +21,7 @@ hl.on('hyprland.start', function()
   hl.exec_cmd 'dropbox'
   hl.exec_cmd 'wl-paste --type text --watch cliphist store'
   hl.exec_cmd 'wl-paste --type image --watch cliphist store'
+  hl.exec_cmd 'udiskie --automount --notify'
 
   -- 6. Workspace applications
   hl.exec_cmd '[workspace 1 silent] wezterm'

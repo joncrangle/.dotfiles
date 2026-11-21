@@ -448,6 +448,7 @@ repo_packages=(
 	"ttf-jetbrains-mono-nerd"
 	"tumbler"
 	"udiskie"
+	"udisks2"
 	"unarchiver"
 	"upower"
 	"usbutils"
