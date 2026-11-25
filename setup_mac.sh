@@ -475,7 +475,6 @@ section "Agent Configuration"
 if command -v herdr >/dev/null 2>&1; then
   log_info "Installing Herdr integrations..."
 
-  run_cmd herdr integration install antigravity-cli
   run_cmd herdr integration install opencode
   run_cmd herdr integration install pi
 elif [[ "$DRY_RUN" == true ]]; then
@@ -484,27 +483,21 @@ else
   log_warning "Herdr is not installed. Skipping integrations."
 fi
 
-# --- MATT POCOCK SKILLS ---
+# --- AGENT SKILLS ---
 
 section "Agent Skills"
 
-log_info "Installing Matt Pocock skills globally..."
+log_info "Symlink agent skills..."
 
 if [[ "$DRY_RUN" == true ]]; then
-  echo "[DRY-RUN] Would install all Matt Pocock skills to all supported agents"
+  echo "[DRY-RUN] Would Symlink agent skills"
 else
-  if ! command -v bunx >/dev/null 2>&1; then
-    log_warning "Bun is not available."
-    exit 1
-  fi
+  mkdir -p ~/.agents/skills
+  mkdir -p ~/.claude
+  rm -rf ~/.claude/skills
+  ln -s ~/.agents/skills ~/.claude/skills
 
-  bunx --bun skills@latest add mattpocock/skills \
-    --global \
-    --agent '*' \
-    --skill '*' \
-    --yes
-
-  log_success "Matt Pocock skills installed."
+  log_success "Agent skills symlinked"
 fi
 
 # --- MACOS PREFERENCES ---
